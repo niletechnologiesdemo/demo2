@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veye — Get Started</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Nunito+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --brand-green: #8DC412;
+    --brand-green-dark: #79A50E;
+    --brand-green-soft: #E9F4D0;
+    --olive-dark: #2E4A1A;
+    --olive-medium: #4D7A2E;
+    --olive-heading: #1F3F12;
+    --cream-bg: #FBF6E8;
+    --cream-warm: #F8F1DC;
+    --body-text: #3F4A33;
+    --body-text-light: #6B7A5C;
+    --muted: #9AA28E;
+    --white: #FFFFFF;
+    --border-soft: rgba(46,74,26,0.10);
+  }
+
+  html, body { height: 100%; }
+  body {
+    font-family: 'Nunito Sans', sans-serif;
+    color: var(--body-text);
+    background: var(--cream-warm);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Top brand strip */
+  .top-strip {
+    height: 6px;
+    background: var(--brand-green);
+  }
+
+  /* ============================================== */
+  /* PHASE WRAPPER                                  */
+  /* ============================================== */
+  .phase { display: none; }
+  .phase.active {
+    display: block;
+    animation: phaseIn 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  @keyframes phaseIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============================================== */
+  /* PHASE 1 — QUIZ                                 */
+  /* ============================================== */
+  .quiz-stage {
+    position: relative;
+    min-height: calc(100vh - 6px);
+    padding: 28px 56px 40px;
+    overflow: hidden;
+    background: var(--cream-warm);
+  }
+
+  /* Soft warm ellipse highlight behind the quiz content (Ellipse 3479) */
+  .quiz-ellipse {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 920px;
+    height: 920px;
+    background-image: url('ellipse-highlight.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.95;
+  }
+  /* Hexagon watermark — uses the brand-approved watermark png */
+  .hex-watermark {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 720px;
+    height: 720px;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.85;
+    background-image: url('veye-watermark.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+
+  /* Quiz top bar: logo + progress + counter */
+  .quiz-top {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 44px;
+  }
+  .quiz-logo img { height: 36px; width: auto; display: block; }
+  .quiz-back {
+    background: transparent;
+    border: none;
+    color: var(--olive-heading);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+  }
+  .quiz-back:hover { background: rgba(46,74,26,0.06); }
+  .quiz-back:disabled { opacity: 0.35; cursor: not-allowed; }
+  .quiz-back svg { width: 20px; height: 20px; }
+
+  /* Numbered progress bar — matches progress-bar.png reference */
+  .quiz-progress {
+    position: relative;
+    flex: 1;
+    max-width: 460px;
+    height: 26px;
+    border-radius: 50px;
+    background: #FFFFFF;
+    border: 1.5px solid var(--olive-heading);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .quiz-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    background: linear-gradient(90deg, #C0E36C 0%, #8DC412 100%);
+    transition: width 0.45s cubic-bezier(.4,.2,.2,1);
+    border-radius: 0 50px 50px 0;
+  }
+  .quiz-progress-fill::after {
+    /* highlight sheen */
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 60%);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+  .quiz-progress-marks {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 14px;
+  }
+  .quiz-seg {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--olive-heading);
+    letter-spacing: 0.3px;
+    transition: color 0.25s ease, opacity 0.25s ease;
+    opacity: 0.85;
+  }
+  .quiz-seg.upcoming { opacity: 0.55; }
+  .quiz-seg.filled { color: var(--olive-heading); opacity: 1; }
+  .quiz-counter {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--olive-heading);
+    min-width: 42px;
+    text-align: right;
+  }
+
+  /* Question stage */
+  .quiz-body {
+    position: relative;
+    z-index: 2;
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 16px;
+  }
+  .quiz-question {
+    font-family: 'Lora', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--olive-heading);
+    letter-spacing: -0.2px;
+    line-height: 1.25;
+    margin-bottom: 24px;
+  }
+  .quiz-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: 0 auto 28px;
+  }
+  .quiz-opt-yn {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  .quiz-opt {
+    background: white;
+    border: 1.5px solid var(--border-soft);
+    border-radius: 8px;
+    padding: 12px 40px 12px 20px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--olive-heading);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    box-shadow: 0 1px 2px rgba(31,63,18,0.04);
+    flex: 1;
+  }
+  .quiz-opt::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    border-radius: 4px;
+    border: 1.5px solid rgba(46,74,26,0.25);
+    background: white;
+    transition: all 0.22s ease;
+  }
+  .quiz-opt.yn::after { display: none; }
+  .quiz-opt.yn { min-width: 120px; flex: 0 0 120px; padding: 12px 22px; }
+  .quiz-opt:hover {
+    border-color: var(--brand-green);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(141,196,18,0.16);
+  }
+  .quiz-opt.selected {
+    background: var(--brand-green);
+    color: white;
+    border-color: var(--brand-green);
+    box-shadow: 0 6px 14px rgba(141,196,18,0.32);
+  }
+  .quiz-opt.selected::after {
+    background: white;
+    border-color: white;
+  }
+  .quiz-opt.selected::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    width: 4px;
+    height: 8px;
+    border: solid var(--brand-green);
+    border-width: 0 2px 2px 0;
+    transform: translateY(-65%) rotate(45deg);
+  }
+
+  .quiz-num-input {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 28px;
+    padding: 13px 20px;
+    background: white;
+    border: 1.5px solid var(--border-soft);
+    border-radius: 8px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    color: var(--body-text);
+    text-align: center;
+    display: block;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .quiz-num-input:focus {
+    outline: none;
+    border-color: var(--brand-green);
+    box-shadow: 0 0 0 4px rgba(141,196,18,0.18);
+  }
+
+  .quiz-controls {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+  .btn-lime, .btn-dark {
+    padding: 14px 44px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    min-width: 180px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+  .btn-lime {
+    background: var(--brand-green);
+    color: white;
+  }
+  .btn-lime:hover:not(:disabled) {
+    background: var(--brand-green-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(141,196,18,0.30);
+  }
+  .btn-dark {
+    background: var(--olive-heading);
+    color: white;
+  }
+  .btn-dark:hover:not(:disabled) {
+    background: var(--olive-medium);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(31,63,18,0.22);
+  }
+  .btn-lime:disabled, .btn-dark:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  /* ============================================== */
+  /* PHASE 2 — GET STARTED (signup form)            */
+  /* ============================================== */
+  .signup-shell {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 6px);
+    position: relative;
+  }
+  .signup-image {
+    background-image: url('signup-bowl.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 360px;
+    position: relative;
+  }
+  .nutrition-strip-left {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 56px;
+    background: rgba(141,196,18,0.08);
+    border-right: 1px solid rgba(141,196,18,0.20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    padding: 40px 0;
+  }
+  .nutrition-strip-left img {
+    max-height: 80%;
+    width: auto;
+    display: block;
+  }
+  .signup-side {
+    background: var(--cream-bg);
+    padding: 56px 80px 56px 64px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .nutrition-strip-right {
+    position: absolute;
+    top: 0; right: 0;
+    height: 100%;
+    width: 56px;
+    background: rgba(141,196,18,0.08);
+    border-left: 1px solid rgba(141,196,18,0.20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+  }
+  .nutrition-strip-right img {
+    max-height: 80%;
+    width: auto;
+    display: block;
+  }
+  .signup-logo {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-bottom: 32px;
+  }
+  .signup-logo img { height: 38px; width: auto; display: block; }
+  .signup-title {
+    font-family: 'Lora', serif;
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--olive-heading);
+    line-height: 1.05;
+    letter-spacing: -0.4px;
+    margin-bottom: 6px;
+  }
+  .signup-sub {
+    font-size: 15px;
+    color: var(--body-text);
+    margin-bottom: 24px;
+  }
+  .signup-form { max-width: 440px; }
+  .signup-field { margin-bottom: 14px; }
+  .signup-input {
+    width: 100%;
+    padding: 14px 18px;
+    background: white;
+    border: 1.5px solid var(--border-soft);
+    border-radius: 8px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    color: var(--body-text);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .signup-input::placeholder { color: var(--muted); }
+  .signup-input:focus {
+    outline: none;
+    border-color: var(--brand-green);
+    box-shadow: 0 0 0 4px rgba(141,196,18,0.12);
+  }
+  .signup-input.error { border-color: #D55E4A; box-shadow: 0 0 0 4px rgba(213,94,74,0.10); }
+  .signup-pw-wrap { position: relative; }
+  .signup-pw-eye {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--body-text-light);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+  }
+  .signup-pw-eye svg { width: 18px; height: 18px; }
+  .signup-pw-eye:hover { color: var(--olive-heading); }
+  .signup-remember {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13.5px;
+    color: var(--body-text);
+    cursor: pointer;
+    user-select: none;
+    margin: 6px 0 12px;
+  }
+  .signup-remember input { display: none; }
+  .signup-remember .check {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid var(--olive-heading);
+    background: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  .signup-remember input:checked + .check {
+    background: var(--olive-heading);
+    border-color: var(--olive-heading);
+  }
+  .signup-remember input:checked + .check::after {
+    content: '';
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    margin-bottom: 1px;
+  }
+  .signup-terms {
+    font-size: 12px;
+    color: var(--body-text-light);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .signup-terms a {
+    color: var(--olive-heading);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 600;
+  }
+  .signup-terms a:hover { color: var(--olive-medium); }
+  .signup-submit {
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--olive-heading);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    margin-bottom: 22px;
+  }
+  .signup-submit:hover {
+    background: var(--olive-medium);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(31,63,18,0.22);
+  }
+  .signup-privacy {
+    font-size: 12px;
+    color: var(--body-text-light);
+    line-height: 1.6;
+    max-width: 440px;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(40px);
+    background: var(--olive-heading);
+    color: white;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 700;
+    box-shadow: 0 14px 28px rgba(31,63,18,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 100;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .quiz-stage { padding: 20px 22px 32px; }
+    .hex-watermark { width: 520px; height: 520px; }
+    .quiz-top { flex-wrap: wrap; margin-bottom: 36px; gap: 16px; }
+    .quiz-progress { order: 3; flex-basis: 100%; }
+    .quiz-question { font-size: 24px; margin-bottom: 28px; }
+    .quiz-opt-yn { flex-direction: column; gap: 10px; }
+    .quiz-opt.yn { flex: 1; }
+    .signup-shell { grid-template-columns: 1fr; }
+    .signup-image { min-height: 240px; }
+    .signup-side { padding: 36px 28px 56px 28px; }
+    .signup-title { font-size: 32px; }
+    .nutrition-strip-left, .nutrition-strip-right { display: none; }
+    .btn-lime, .btn-dark { min-width: 140px; padding: 14px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-strip"></div>
+
+<!-- ============================================== -->
+<!-- PHASE 1: QUIZ                                   -->
+<!-- ============================================== -->
+<section class="phase active" id="phaseQuiz">
+  <div class="quiz-stage">
+
+    <!-- Soft warm Ellipse highlight + hex watermark on top -->
+    <div class="quiz-ellipse" aria-hidden="true"></div>
+    <div class="hex-watermark" aria-hidden="true"></div>
+
+    <!-- Top bar -->
+    <header class="quiz-top">
+      <a href="index.html" class="quiz-logo" aria-label="Veye home">
+        <img src="logo.png" alt="Veye"/>
+      </a>
+      <button class="quiz-back" id="quizBack" type="button" aria-label="Back">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="10,3 5,8 10,13"/></svg>
+      </button>
+      <div class="quiz-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="quiz-progress-fill" id="quizProgressFill"></div>
+        <div class="quiz-progress-marks" id="quizProgress"></div>
+      </div>
+      <span class="quiz-counter" id="quizCounter">1/11</span>
+    </header>
+
+    <!-- Question body -->
+    <div class="quiz-body">
+      <h2 class="quiz-question" id="quizQuestion">Question</h2>
+      <div id="quizOptionsHost"></div>
+      <div class="quiz-controls">
+        <button class="btn-lime" id="quizPrev" type="button" disabled>Previous</button>
+        <button class="btn-dark" id="quizNext" type="button" disabled>Next</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- PHASE 2: GET STARTED SIGNUP                     -->
+<!-- ============================================== -->
+<section class="phase" id="phaseSignup">
+  <div class="signup-shell">
+    <aside class="signup-image" aria-hidden="true">
+      <div class="nutrition-strip-left"><img src="nutrition-reimagined.png" alt="Nutrition Reimagined"/></div>
+    </aside>
+
+    <main class="signup-side">
+      <a href="index.html" class="signup-logo" aria-label="Veye home">
+        <img src="logo.png" alt="Veye"/>
+      </a>
+
+      <h1 class="signup-title">Get Started</h1>
+      <p class="signup-sub">Welcome to a healthier you!</p>
+
+      <form class="signup-form" id="signupForm" novalidate>
+        <div class="signup-field">
+          <input class="signup-input" id="su_first" type="text" placeholder="Enter your first name" autocomplete="given-name" required/>
+        </div>
+        <div class="signup-field">
+          <input class="signup-input" id="su_last" type="text" placeholder="Enter your last name" autocomplete="family-name" required/>
+        </div>
+        <div class="signup-field">
+          <input class="signup-input" id="su_email" type="email" placeholder="Enter your email" autocomplete="email" required/>
+        </div>
+        <div class="signup-field signup-pw-wrap">
+          <input class="signup-input" id="su_pw" type="password" placeholder="Enter your password" autocomplete="new-password" minlength="8" required/>
+          <button type="button" class="signup-pw-eye" data-target="su_pw" aria-label="Toggle password visibility">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3 L 21 21"/><path d="M10.5 6.2 C 11 6.07, 11.5 6, 12 6 C 17 6, 21 9, 23 13"/><path d="M6.7 7.5 C 4.7 8.7, 2.9 10.6, 1 13 C 3 17, 7 20, 12 20 C 13.6 20, 15.2 19.7, 16.7 19"/><path d="M9 12.5 C 9.5 14, 10.6 15, 12 15"/></svg>
+          </button>
+        </div>
+        <div class="signup-field signup-pw-wrap">
+          <input class="signup-input" id="su_pw2" type="password" placeholder="Confirm your password" autocomplete="new-password" minlength="8" required/>
+          <button type="button" class="signup-pw-eye" data-target="su_pw2" aria-label="Toggle password visibility">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3 L 21 21"/><path d="M10.5 6.2 C 11 6.07, 11.5 6, 12 6 C 17 6, 21 9, 23 13"/><path d="M6.7 7.5 C 4.7 8.7, 2.9 10.6, 1 13 C 3 17, 7 20, 12 20 C 13.6 20, 15.2 19.7, 16.7 19"/><path d="M9 12.5 C 9.5 14, 10.6 15, 12 15"/></svg>
+          </button>
+        </div>
+
+        <label class="signup-remember">
+          <input type="checkbox" id="su_remember" checked/>
+          <span class="check"></span>
+          Remember me
+        </label>
+
+        <p class="signup-terms">
+          By signing in to Veye, you're agreeing to our <a href="#">Terms and Conditions</a>, and <a href="#">Privacy Policy</a>.
+        </p>
+
+        <button type="submit" class="signup-submit">Sign Up</button>
+
+        <p class="signup-privacy">
+          We take your privacy very seriously. Your data is completely private and encrypted with bank-level security. We do not share your data with third parties and we do not send spam.
+        </p>
+      </form>
+
+      <div class="nutrition-strip-right" aria-hidden="true"><img src="nutrition-reimagined.png" alt="Nutrition Reimagined"/></div>
+    </main>
+  </div>
+</section>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ====================== HEALTH NUMBER QUESTIONS + SCORING ======================
+  // (same engine as dashboard.html — keeps the result reproducible)
+  const HEALTH_QUIZ_QUESTIONS = [
+    { type: 'multi', title: 'What are your goals?',
+      options: [
+        { label: 'Manage Current Chronic Diseases', value: 'manage' },
+        { label: 'Prevent Future Disease',          value: 'prevent' },
+        { label: 'Live a Healthier Lifestyle',      value: 'lifestyle' },
+        { label: 'Better Mental Focus',             value: 'focus' },
+        { label: 'Lose Body Fat',                   value: 'lose-fat' },
+        { label: 'Other',                           value: 'other' } ],
+      score: () => 0 },
+    { type: 'multi', title: 'Have you tried other plans?',
+      options: [
+        { label: 'Weight Watchers',        value: 'ww',      points: 0.5 },
+        { label: 'Noom',                   value: 'noom',    points: 0.5 },
+        { label: 'Jenny Craig',            value: 'jc',      points: 0.5 },
+        { label: 'The Mediterranean Diet', value: 'med',     points: 0.5 },
+        { label: 'DASH',                   value: 'dash',    points: 0.5 },
+        { label: 'ATKINS',                 value: 'atkins',  points: 1.5 },
+        { label: 'Keto',                   value: 'keto',    points: 1.5 },
+        { label: 'Intermittent Fasting',   value: 'if',      points: 0.5 },
+        { label: 'Fasting',                value: 'fasting', points: 0.5 },
+        { label: 'No other plans',         value: 'none',    points: 0 },
+        { label: 'Other',                  value: 'other',   points: 0.5 } ],
+      score: function(sel) {
+        if (!Array.isArray(sel)) return 0;
+        if (sel.includes('none')) return 0;
+        return sel.reduce((s,v) => s + (this.options.find(o => o.value===v)?.points || 0), 0);
+      } },
+    { type: 'single', title: 'Select your activity level',
+      options: [
+        { label: 'None',                                   value: 'none',     points: 1 },
+        { label: 'Light (I work, I walk some)',            value: 'light',    points: 0 },
+        { label: 'Moderate (I exercise 1-3 times a week)', value: 'moderate', points: -1 },
+        { label: 'Heavy (I exercise 3x+ times per week)',  value: 'heavy',    points: -1 } ],
+      score: function(v){ return this.options.find(o=>o.value===v)?.points || 0; } },
+    { type: 'yn', title: 'Do you meditate?',
+      options: [{label:'Yes', value:'yes', points: 0},{label:'No', value:'no', points: 0.5}],
+      score: function(v){ return this.options.find(o=>o.value===v)?.points || 0; } },
+    { type: 'yn', title: 'Are you tired or have poor mental focus during the day?',
+      options: [{label:'Yes', value:'yes', points: 1.5},{label:'No', value:'no', points: 0}],
+      score: function(v){ return this.options.find(o=>o.value===v)?.points || 0; } },
+    { type: 'yn', title: 'Do you gain weight quickly?',
+      options: [{label:'Yes', value:'yes', points: 1},{label:'No', value:'no', points: 0}],
+      score: function(v){ return this.options.find(o=>o.value===v)?.points || 0; } },
+    { type: 'yn', title: 'Is most of your excess weight (if any) around your abdomen?',
+      options: [{label:'Yes', value:'yes', points: 0.5},{label:'No', value:'no', points: 0}],
+      score: function(v){ return this.options.find(o=>o.value===v)?.points || 0; } },
+    { type: 'yn', title: 'Do you feel you get enough sleep?',
+      options: [{label:'Yes', value:'yes', points: 0},{label:'No', value:'no', points: 1.5}],
+      score: function(v){ return this.options.find(o=>o.value===v)?.points || 0; } },
+    { type: 'yn', title: 'Do you sleep well?',
+      options: [{label:'Yes', value:'yes', points: 0},{label:'No', value:'no', points: 1.5}],
+      score: function(v){ return this.options.find(o=>o.value===v)?.points || 0; } },
+    { type: 'numeric', title: 'How many hours do you sleep per night?',
+      placeholder: 'Enter a number…',
+      score: function(v){ const n=parseFloat(v); if(isNaN(n)) return 0; if(n<5||n>9) return 1; return 0; } },
+    { type: 'single', title: 'What is your dietary preference?',
+      options: [
+        { label: 'Vegetarian',                          value: 'vegetarian' },
+        { label: 'Vegan',                               value: 'vegan' },
+        { label: 'Raw food',                            value: 'raw' },
+        { label: 'Fish and no meat',                    value: 'fish' },
+        { label: 'Fish/Chicken/Turkey and no red meat', value: 'no-red' },
+        { label: 'Gluten free',                         value: 'gf' },
+        { label: 'Dairy free',                          value: 'df' },
+        { label: 'No preference',                       value: 'none' },
+        { label: 'Other',                               value: 'other' } ],
+      score: () => 0 }
+  ];
+
+  function computeHealthNumber(answers) {
+    let t = 0;
+    HEALTH_QUIZ_QUESTIONS.forEach((q, i) => {
+      const a = answers[i];
+      if (a === null || a === undefined || a === '') return;
+      t += q.score(a) || 0;
+    });
+    return Math.max(0, Math.min(10, t));
+  }
+  function interpretHealthNumber(number, answers) {
+    const LIFESTYLE = [2, 3, 7, 8, 9];
+    const FOOD      = [1, 4, 5, 6];
+    let L=0, F=0;
+    LIFESTYLE.forEach(i => { const a=answers[i]; if(a!=null&&a!=='') L += Math.max(0, HEALTH_QUIZ_QUESTIONS[i].score(a) || 0); });
+    FOOD.forEach(i => { const a=answers[i]; if(a!=null&&a!=='') F += Math.max(0, HEALTH_QUIZ_QUESTIONS[i].score(a) || 0); });
+    let cat = (L===0&&F===0)?'mixed':(L>0&&F===0)?'lifestyle':(F>0&&L===0)?'food':(L>=F*1.5)?'lifestyle':(F>=L*1.5)?'food':'mixed';
+
+    let bucket, status, desc, epa, poly, polyNote;
+    if (number <= 1)        { status='Good Health';                    desc='You are in good health — join and learn more about optimizing your health.'; bucket='good'; }
+    else if (number <= 3.5) { status='Relatively Good Health';         desc=(cat==='lifestyle'?'Some lifestyle changes will help you optimize your health.':cat==='food'?'Some changes to your dietary program will help.':'Some lifestyle and dietary adjustments will help.'); bucket='good'; }
+    else if (number <= 6)   { bucket='moderate'; if (cat==='lifestyle'){status='Lifestyle Putting Health at Risk'; desc='Some aspects of your lifestyle are putting your health at risk.'} else if (cat==='food'){status='Food Choices Putting Health at Risk'; desc='Your food choices are putting your health at risk.'} else {status='Moderately Good Health'; desc='Incorporating better food choices and some lifestyle changes will help.'} }
+    else                    { status='Sign of Insulin Resistance';     desc='This number suggests insulin resistance. The Veye program can help.'; bucket='significant'; }
+    if (number <= 3.5)    { epa='2.5g'; poly='500mg';  polyNote='helps reduce oxidative stress'; }
+    else if (number <= 6) { epa='5g';   poly='1000mg'; polyNote='helps reduce inflammation'; }
+    else                  { epa='7.5g'; poly='1500mg'; polyNote='helps reduce the rate of aging and increases mitochondrial synthesis'; }
+    return { number, status, desc, epa, poly, polyNote, bucket, category: cat };
+  }
+
+  // ====================== QUIZ STATE ======================
+  let answers = new Array(HEALTH_QUIZ_QUESTIONS.length).fill(null);
+  let step = 0;
+  const TOTAL = HEALTH_QUIZ_QUESTIONS.length;  // 11 questions
+
+  function renderQuiz() {
+    const q = HEALTH_QUIZ_QUESTIONS[step];
+    document.getElementById('quizQuestion').textContent = q.title;
+    const host = document.getElementById('quizOptionsHost');
+    const ans  = answers[step];
+
+    if (q.type === 'numeric') {
+      host.innerHTML = `<input class="quiz-num-input" id="quizNumInp" type="text" inputmode="decimal" placeholder="${q.placeholder || ''}" value="${ans ?? ''}"/>`;
+      const inp = document.getElementById('quizNumInp');
+      inp.addEventListener('input', () => { answers[step] = inp.value.trim(); updateControls(); });
+      setTimeout(() => inp.focus(), 80);
+    } else if (q.type === 'yn') {
+      // Yes/No side-by-side
+      const cls = 'quiz-opt-yn';
+      host.innerHTML = `<div class="${cls}">${q.options.map(o => {
+        const sel = (ans === o.value);
+        return `<button class="quiz-opt yn${sel ? ' selected' : ''}" data-value="${o.value}" type="button">${o.label}</button>`;
+      }).join('')}</div>`;
+      wireOptionButtons(host, false);
+    } else {
+      const isMulti = q.type === 'multi';
+      host.innerHTML = `<div class="quiz-opts">${q.options.map(o => {
+        const sel = isMulti ? (Array.isArray(ans) && ans.includes(o.value)) : (ans === o.value);
+        return `<button class="quiz-opt${sel ? ' selected' : ''}" data-value="${o.value}" type="button">${o.label}</button>`;
+      }).join('')}</div>`;
+      wireOptionButtons(host, isMulti);
+    }
+
+    renderProgress();
+    document.getElementById('quizPrev').disabled = step === 0;
+    document.getElementById('quizNext').textContent = step === TOTAL - 1 ? 'Finish' : 'Next';
+    updateControls();
+  }
+
+  function wireOptionButtons(host, isMulti) {
+    host.querySelectorAll('.quiz-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const v = btn.dataset.value;
+        if (isMulti) {
+          let curr = Array.isArray(answers[step]) ? [...answers[step]] : [];
+          if (v === 'none') curr = curr.includes('none') ? [] : ['none'];
+          else {
+            curr = curr.filter(x => x !== 'none');
+            if (curr.includes(v)) curr = curr.filter(x => x !== v);
+            else curr.push(v);
+          }
+          answers[step] = curr;
+        } else {
+          answers[step] = v;
+        }
+        renderQuiz();
+      });
+    });
+  }
+
+  function renderProgress() {
+    const bar = document.getElementById('quizProgress');
+    const fill = document.getElementById('quizProgressFill');
+    let html = '';
+    for (let i = 0; i < TOTAL; i++) {
+      const filled = i <= step;
+      const upcoming = i > step;
+      const cls = filled ? 'filled' : (upcoming ? 'upcoming' : '');
+      html += `<span class="quiz-seg ${cls}">${i + 1}</span>`;
+    }
+    bar.innerHTML = html;
+    // Fill width covers up to and including the current step
+    const pct = ((step + 1) / TOTAL) * 100;
+    if (fill) fill.style.width = pct + '%';
+    const wrap = bar.parentElement;
+    if (wrap) wrap.setAttribute('aria-valuenow', String(Math.round(pct)));
+    document.getElementById('quizCounter').textContent = `${step + 1}/${TOTAL}`;
+  }
+
+  function updateControls() {
+    const q = HEALTH_QUIZ_QUESTIONS[step];
+    const a = answers[step];
+    let ok = false;
+    if (q.type === 'numeric')    ok = !!a && !isNaN(parseFloat(a));
+    else if (q.type === 'multi') ok = Array.isArray(a) && a.length > 0;
+    else                          ok = !!a;
+    document.getElementById('quizNext').disabled = !ok;
+  }
+
+  document.getElementById('quizPrev').addEventListener('click', () => {
+    if (step > 0) { step--; renderQuiz(); }
+  });
+  document.getElementById('quizBack').addEventListener('click', () => {
+    if (step > 0) { step--; renderQuiz(); }
+    else window.location.href = 'index.html';
+  });
+  document.getElementById('quizNext').addEventListener('click', () => {
+    if (step < TOTAL - 1) { step++; renderQuiz(); }
+    else finishQuiz();
+  });
+
+  function finishQuiz() {
+    const number = computeHealthNumber(answers);
+    const result = interpretHealthNumber(number, answers);
+    window._quizResult = { number, result };
+    document.getElementById('phaseQuiz').classList.remove('active');
+    document.getElementById('phaseSignup').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => document.getElementById('su_first').focus(), 200);
+  }
+
+  // ====================== SIGNUP ======================
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._tm);
+    t._tm = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  // password toggles
+  document.querySelectorAll('.signup-pw-eye').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const t = document.getElementById(btn.dataset.target);
+      t.type = t.type === 'password' ? 'text' : 'password';
+    });
+  });
+
+  document.getElementById('signupForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const first = document.getElementById('su_first').value.trim();
+    const last  = document.getElementById('su_last').value.trim();
+    const email = document.getElementById('su_email').value.trim();
+    const pw    = document.getElementById('su_pw').value;
+    const pw2   = document.getElementById('su_pw2').value;
+
+    if (!first) { showToast('Please enter your first name.'); return; }
+    if (!last)  { showToast('Please enter your last name.');  return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Please enter a valid email.'); return; }
+    if (pw.length < 8) { showToast('Password must be at least 8 characters.'); return; }
+    if (pw !== pw2)    { showToast('Passwords do not match.'); return; }
+
+    const name = `${first} ${last}`.trim();
+    localStorage.setItem('veye_user', JSON.stringify({
+      name, firstName: first, lastName: last, email,
+      signedUpAt: new Date().toISOString()
+    }));
+    const r = window._quizResult;
+    if (r) {
+      localStorage.setItem('veye_health_quiz', JSON.stringify({
+        answers, result: r.result, email,
+        updated: new Date().toISOString()
+      }));
+    }
+    showToast('Welcome to Veye! Loading your dashboard…');
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 700);
+  });
+
+  // ====================== INIT ======================
+  renderQuiz();
+</script>
+
+</body>
+</html>
