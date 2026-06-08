@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Manual Lay-By · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="breadcrumb"><a href="laybys.html">Lay-By Agreements</a> <span>/</span> <span>Manual Lay-By</span></div>
+
+      <div class="page-toolbar" style="margin-top:6px">
+        <div class="toolbar-left">
+          <h2 style="margin:0;font-size:20px;color:var(--ink-900)">Create a manual lay-by</h2>
+          <span style="font-size:13px;color:var(--ink-500)">Use this when a customer is starting a lay-by over phone, email, or in person</span>
+        </div>
+        <div class="toolbar-right">
+          <a href="laybys.html" class="btn btn-ghost">Cancel</a>
+          <button class="btn btn-ghost">Save Draft</button>
+          <button class="btn btn-primary">Create &amp; Send to Customer</button>
+        </div>
+      </div>
+
+      <div class="alert alert-info" style="margin-top:18px">
+        <div class="alert-icon">ℹ</div>
+        <div class="alert-body">
+          <div class="alert-title">Manual lay-by — admin-initiated</div>
+          <div class="alert-text">A confirmation email will be sent to the customer with the agreement summary and a secure link to pay the deposit. The lay-by is only activated once the deposit is received.</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px;grid-template-columns:1fr 380px">
+
+        <div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">1 · Customer</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field" style="grid-column:1/-1"><label class="field-label">Find existing customer</label>
+                <div class="filters" style="background:transparent;border:1px solid var(--ink-200);border-radius:7px;padding:0 12px;height:38px;border-bottom:1px solid var(--ink-200)">
+                  <div class="search" style="flex:1;background:transparent;border:0;height:36px">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input type="text" placeholder="Search by name, email, phone or customer ID…">
+                  </div>
+                </div>
+                <div class="field-hint">Or fill in the fields below to create a new customer</div>
+              </div>
+              <div class="field"><label class="field-label">First name *</label><input class="input"></div>
+              <div class="field"><label class="field-label">Last name *</label><input class="input"></div>
+              <div class="field"><label class="field-label">Email *</label><input class="input" type="email"></div>
+              <div class="field"><label class="field-label">Phone</label><input class="input" placeholder="+61"></div>
+              <div class="field" style="grid-column:1/-1"><label class="field-label">Address</label><input class="input" placeholder="Street, suburb, state, postcode"></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">2 · Product</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field" style="grid-column:1/-1"><label class="field-label">Find product *</label>
+                <div class="filters" style="background:transparent;border:1px solid var(--ink-200);border-radius:7px;padding:0 12px;height:38px">
+                  <div class="search" style="flex:1;background:transparent;border:0;height:36px">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input type="text" placeholder="Search products by name, SKU, or merchant…">
+                  </div>
+                </div>
+              </div>
+              <div class="field"><label class="field-label">Merchant *</label>
+                <select class="select"><option>— Select merchant —</option><option>TechZone Australia</option><option>HomeStyle Co.</option><option>AudioMax</option><option>GadgetHub</option></select>
+              </div>
+              <div class="field"><label class="field-label">Product *</label>
+                <select class="select"><option>— Select product —</option><option>Samsung Galaxy S25 Ultra 512GB</option><option>iPhone 16 Pro 256GB</option><option>MacBook Air M4 13"</option></select>
+              </div>
+              <div class="field"><label class="field-label">Variant</label><select class="select"><option>Titanium Black</option></select></div>
+              <div class="field"><label class="field-label">Quantity</label><input class="input" value="1"></div>
+              <div class="field" style="grid-column:1/-1"><label class="field-label">Notes (internal)</label><textarea class="input" rows="2" placeholder="Why this lay-by was set up manually, or any special arrangements"></textarea></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">3 · Lay-By Plan</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field"><label class="field-label">Total order value *</label><div class="input-row"><span class="input-prefix">$</span><input class="input" value="1,899.00"></div></div>
+              <div class="field"><label class="field-label">Deposit %</label><div class="input-row"><input class="input" value="20"><span class="input-suffix">%</span></div></div>
+              <div class="field"><label class="field-label">Frequency</label><select class="select"><option>Weekly</option><option>Fortnightly</option><option>Monthly</option></select></div>
+              <div class="field"><label class="field-label">Term length</label><select class="select"><option>32 weeks</option><option>24 weeks</option><option>16 weeks</option><option>12 weeks</option><option>52 weeks</option></select></div>
+              <div class="field"><label class="field-label">First instalment date</label><input type="date" class="select" value="2026-05-11"></div>
+              <div class="field"><label class="field-label">Auto-charge</label><select class="select"><option>Yes — charge customer's saved card</option><option>No — manual collection</option></select></div>
+            </div>
+            <div class="layby-preview">
+              <div class="layby-preview-row"><span>Order total</span><b>$1,899.00</b></div>
+              <div class="layby-preview-row"><span>Deposit (20%)</span><b>$379.80</b></div>
+              <div class="layby-preview-row"><span>Remaining</span><b>$1,519.20</b></div>
+              <div class="layby-preview-row"><span>32 weekly instalments of</span><b>$47.47</b></div>
+              <div class="layby-preview-row layby-preview-foot"><span>Total payable</span><b style="color:var(--success-700)">$1,899.00 — zero interest</b></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">4 · Confirmation Email</h3></div>
+            <div class="form-grid">
+              <div class="field" style="grid-column:1/-1"><label class="field-label">Email to customer</label><textarea class="input" rows="3">Hi {{first_name}}, here's your new lay-by agreement summary. Click below to pay the $379.80 deposit and activate. Thanks for choosing LayBys.com.</textarea></div>
+            </div>
+            <div style="margin-top:8px;font-size:12.5px;color:var(--ink-500)">Email is sent automatically once you click "Create &amp; Send to Customer"</div>
+          </div>
+
+        </div>
+
+        <aside class="side-col">
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Steps</h3></div>
+            <ul class="tl">
+              <li class="tl-item"><div class="tl-dot tl-dot-info"></div><div class="tl-body"><div class="tl-title">Customer details</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">Product &amp; merchant</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">Lay-by plan</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">Confirmation email</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">Customer pays deposit</div><div class="tl-sub">Lay-by activates only after deposit received</div></div></li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Compliance Reminder</h3></div>
+            <p style="font-size:13px;color:var(--ink-600);line-height:1.55;margin:0">Manual lay-bys still require KYC and a valid payment method on file before activation. The customer will be prompted for this when they click the deposit link.</p>
+          </div>
+
+        </aside>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('laybys','Manual Lay-By','Create a new lay-by on behalf of a customer');</script>
+</body>
+</html>

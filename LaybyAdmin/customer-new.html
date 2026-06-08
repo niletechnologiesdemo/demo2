@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Add Customer · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="breadcrumb"><a href="customers.html">Customers</a> <span>/</span> <span>Add Customer</span></div>
+
+      <div class="page-toolbar" style="margin-top:6px">
+        <div class="toolbar-left">
+          <h2 style="margin:0;font-size:20px;color:var(--ink-900)">Add a new customer</h2>
+          <span style="font-size:13px;color:var(--ink-500)">Manually create a customer profile and send them a welcome email with KYC instructions</span>
+        </div>
+        <div class="toolbar-right">
+          <a href="customers.html" class="btn btn-ghost">Cancel</a>
+          <button class="btn btn-ghost">Save Draft</button>
+          <button class="btn btn-primary">Create &amp; Send Welcome</button>
+        </div>
+      </div>
+
+      <div class="alert alert-info" style="margin-top:18px">
+        <div class="alert-icon">i</div>
+        <div class="alert-body">
+          <div class="alert-title">Customer KYC required before lay-by</div>
+          <div class="alert-text">A welcome email with a secure KYC link will be sent to this customer. They must complete identity verification before any lay-by can be activated.</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px;grid-template-columns:1fr 380px">
+
+        <div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Personal Information</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field"><label class="field-label">First name *</label><input class="input"></div>
+              <div class="field"><label class="field-label">Last name *</label><input class="input"></div>
+              <div class="field"><label class="field-label">Email *</label><input class="input" type="email" placeholder="customer@example.com"></div>
+              <div class="field"><label class="field-label">Phone *</label><input class="input" placeholder="+61 4XX XXX XXX"></div>
+              <div class="field"><label class="field-label">Date of birth</label><input type="date" class="select"></div>
+              <div class="field"><label class="field-label">Preferred name</label><input class="input"></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Address</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field" style="grid-column:1/-1"><label class="field-label">Street address</label><input class="input"></div>
+              <div class="field"><label class="field-label">Suburb</label><input class="input"></div>
+              <div class="field"><label class="field-label">Postcode</label><input class="input"></div>
+              <div class="field"><label class="field-label">State *</label>
+                <select class="select"><option>Select state…</option><option>NSW</option><option>VIC</option><option>QLD</option><option>WA</option><option>SA</option><option>TAS</option><option>ACT</option><option>NT</option></select>
+              </div>
+              <div class="field"><label class="field-label">Country</label>
+                <select class="select"><option>Australia</option></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Account Settings</h3></div>
+            <div class="setting-row">
+              <div><div class="setting-name">Marketing opt-in</div><div class="setting-sub">Newsletter and promotional emails</div></div>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <div><div class="setting-name">Send welcome email immediately</div><div class="setting-sub">Triggers KYC verification flow</div></div>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <div><div class="setting-name">Two-factor authentication</div><div class="setting-sub">Recommend SMS-based 2FA at signup</div></div>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Internal Note (optional)</h3></div>
+            <div class="form-grid">
+              <div class="field" style="grid-column:1/-1"><textarea class="input" rows="3" placeholder="Why this customer is being created manually, or any special context for the team"></textarea></div>
+            </div>
+          </div>
+
+        </div>
+
+        <aside class="side-col">
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Onboarding Steps</h3></div>
+            <ul class="tl">
+              <li class="tl-item"><div class="tl-dot tl-dot-info"></div><div class="tl-body"><div class="tl-title">Create profile</div><div class="tl-sub">This step</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">Welcome email sent</div><div class="tl-sub">Including KYC link</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">Customer completes KYC</div><div class="tl-sub">Document.AI verification</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">Account active</div><div class="tl-sub">Can start lay-bys</div></div></li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Privacy</h3></div>
+            <p style="font-size:13px;color:var(--m3-on-surface-variant);line-height:1.55">Customer data is stored encrypted at rest and protected per Australian Privacy Principles (APP 11). The customer will be notified of their right to access, correct or delete their data.</p>
+          </div>
+
+        </aside>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('customers','Add Customer','Manually create a customer profile');</script>
+</body>
+</html>

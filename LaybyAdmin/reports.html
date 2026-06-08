@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Reports · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="page-toolbar">
+        <div class="toolbar-left">
+          <select class="select"><option>Last 90 days</option><option>Last 30 days</option><option>This quarter</option><option>This year</option><option>Custom range…</option></select>
+          <select class="select"><option>All merchants</option><option>TechZone Australia</option><option>HomeStyle Co.</option><option>AudioMax</option></select>
+          <select class="select"><option>All categories</option><option>Technology</option><option>Apparel</option><option>Household</option></select>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-ghost">Schedule</button>
+          <button class="btn btn-ghost">Export PDF</button>
+          <button class="btn btn-primary">Export CSV</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid" style="margin-top:24px">
+        <div class="kpi"><div class="kpi-label">Gross Volume</div><div class="kpi-value">$3.84M</div><div class="kpi-delta up">▲ 24.6% YoY</div></div>
+        <div class="kpi"><div class="kpi-label">Active Lay-Bys</div><div class="kpi-value">3,914</div><div class="kpi-delta up">▲ 8.2% MoM</div></div>
+        <div class="kpi"><div class="kpi-label">Completion Rate</div><div class="kpi-value">94.1%</div><div class="kpi-delta up">▲ 1.4pp YoY</div></div>
+        <div class="kpi"><div class="kpi-label">Default Rate</div><div class="kpi-value">2.3%</div><div class="kpi-delta down">▼ 0.6pp YoY</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Volume Trend — Last 12 Months</h3>
+            <p class="card-sub">Monthly gross merchandise value across all merchants</p>
+          </div>
+          <div class="card-actions">
+            <div class="legend"><span class="legend-dot" style="background:var(--navy-700)"></span>Volume</div>
+            <div class="legend"><span class="legend-dot" style="background:var(--gold-500)"></span>Active lay-bys</div>
+          </div>
+        </div>
+        <div class="chart-bars" style="height:240px">
+          <div class="bar" style="height:42%"><span class="bar-val">$248K</span><span class="bar-label">May 25</span></div>
+          <div class="bar" style="height:46%"><span class="bar-val">$272K</span><span class="bar-label">Jun</span></div>
+          <div class="bar" style="height:51%"><span class="bar-val">$301K</span><span class="bar-label">Jul</span></div>
+          <div class="bar" style="height:48%"><span class="bar-val">$284K</span><span class="bar-label">Aug</span></div>
+          <div class="bar" style="height:54%"><span class="bar-val">$320K</span><span class="bar-label">Sep</span></div>
+          <div class="bar" style="height:58%"><span class="bar-val">$342K</span><span class="bar-label">Oct</span></div>
+          <div class="bar" style="height:74%"><span class="bar-val">$438K</span><span class="bar-label">Nov</span></div>
+          <div class="bar" style="height:88%"><span class="bar-val">$524K</span><span class="bar-label">Dec</span></div>
+          <div class="bar" style="height:62%"><span class="bar-val">$368K</span><span class="bar-label">Jan</span></div>
+          <div class="bar" style="height:67%"><span class="bar-val">$398K</span><span class="bar-label">Feb</span></div>
+          <div class="bar" style="height:74%"><span class="bar-val">$440K</span><span class="bar-label">Mar</span></div>
+          <div class="bar" style="height:81%"><span class="bar-val">$482K</span><span class="bar-label">Apr</span></div>
+          <div class="bar bar-current" style="height:84%"><span class="bar-val">$502K</span><span class="bar-label">May</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:24px">
+        <div class="card">
+          <div class="card-head"><h3 class="card-title">Volume by Category</h3></div>
+          <div class="reason-row"><div class="reason-name">Technology</div><div class="reason-bar"><div class="reason-fill" style="width:38%;background:var(--navy-700)"></div></div><div class="reason-val">$1.46M</div></div>
+          <div class="reason-row"><div class="reason-name">Household</div><div class="reason-bar"><div class="reason-fill" style="width:22%;background:var(--navy-600)"></div></div><div class="reason-val">$844K</div></div>
+          <div class="reason-row"><div class="reason-name">Clothing & Apparel</div><div class="reason-bar"><div class="reason-fill" style="width:14%;background:var(--gold-500)"></div></div><div class="reason-val">$538K</div></div>
+          <div class="reason-row"><div class="reason-name">Sporting Goods</div><div class="reason-bar"><div class="reason-fill" style="width:11%;background:var(--gold-400)"></div></div><div class="reason-val">$422K</div></div>
+          <div class="reason-row"><div class="reason-name">Travel & Stays</div><div class="reason-bar"><div class="reason-fill" style="width:8%;background:var(--info-500)"></div></div><div class="reason-val">$307K</div></div>
+          <div class="reason-row"><div class="reason-name">Health & Beauty</div><div class="reason-bar"><div class="reason-fill" style="width:7%;background:var(--success-500)"></div></div><div class="reason-val">$269K</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3 class="card-title">Customer Segments — Volume Share</h3></div>
+          <div class="donut-wrap">
+            <svg viewBox="0 0 42 42" class="donut">
+              <circle cx="21" cy="21" r="15.915" fill="none" stroke="var(--ink-200)" stroke-width="3"></circle>
+              <circle cx="21" cy="21" r="15.915" fill="none" stroke="var(--navy-700)" stroke-width="3" stroke-dasharray="48 52" stroke-dashoffset="25"></circle>
+              <circle cx="21" cy="21" r="15.915" fill="none" stroke="var(--gold-500)" stroke-width="3" stroke-dasharray="28 72" stroke-dashoffset="-23"></circle>
+              <circle cx="21" cy="21" r="15.915" fill="none" stroke="var(--info-500)" stroke-width="3" stroke-dasharray="16 84" stroke-dashoffset="-51"></circle>
+              <circle cx="21" cy="21" r="15.915" fill="none" stroke="var(--success-500)" stroke-width="3" stroke-dasharray="8 92" stroke-dashoffset="-67"></circle>
+            </svg>
+            <div class="donut-center"><div class="donut-value">$3.84M</div><div class="donut-label">Total volume</div></div>
+          </div>
+          <div class="donut-legend">
+            <div class="donut-leg-row"><span class="donut-dot" style="background:var(--navy-700)"></span>Returning customers <span class="donut-leg-val">48%</span></div>
+            <div class="donut-leg-row"><span class="donut-dot" style="background:var(--gold-500)"></span>New customers <span class="donut-leg-val">28%</span></div>
+            <div class="donut-leg-row"><span class="donut-dot" style="background:var(--info-500)"></span>VIP / Gold tier <span class="donut-leg-val">16%</span></div>
+            <div class="donut-leg-row"><span class="donut-dot" style="background:var(--success-500)"></span>Won-back lapsed <span class="donut-leg-val">8%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Merchant Performance — Top 10</h3>
+            <p class="card-sub">Last 90 days · ranked by gross volume</p>
+          </div>
+          <div class="card-actions"><a href="merchants.html" class="link">View all merchants →</a></div>
+        </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>#</th><th>Merchant</th><th>Volume</th><th>Lay-Bys</th><th>Avg Order</th><th>Completion</th><th>Default</th><th>Trend</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>TechZone Australia</td><td>$684K</td><td>1,142</td><td>$599</td><td>96.1%</td><td>1.8%</td><td><span style="color:var(--success-700)">▲ 18%</span></td></tr>
+              <tr><td>2</td><td>HomeStyle Co.</td><td>$418K</td><td>892</td><td>$469</td><td>94.8%</td><td>2.1%</td><td><span style="color:var(--success-700)">▲ 12%</span></td></tr>
+              <tr><td>3</td><td>AudioMax</td><td>$324K</td><td>704</td><td>$460</td><td>95.2%</td><td>1.9%</td><td><span style="color:var(--success-700)">▲ 9%</span></td></tr>
+              <tr><td>4</td><td>GadgetHub</td><td>$298K</td><td>612</td><td>$487</td><td>93.4%</td><td>2.6%</td><td><span style="color:var(--success-700)">▲ 6%</span></td></tr>
+              <tr><td>5</td><td>StyleVault</td><td>$214K</td><td>1,488</td><td>$144</td><td>92.1%</td><td>3.1%</td><td><span style="color:var(--success-700)">▲ 22%</span></td></tr>
+              <tr><td>6</td><td>FitGear AU</td><td>$188K</td><td>584</td><td>$322</td><td>94.4%</td><td>2.4%</td><td><span style="color:var(--success-700)">▲ 11%</span></td></tr>
+              <tr><td>7</td><td>UrbanEdge</td><td>$162K</td><td>941</td><td>$172</td><td>91.8%</td><td>3.4%</td><td><span style="color:var(--ink-500)">↔ 2%</span></td></tr>
+              <tr><td>8</td><td>CycleWorks</td><td>$148K</td><td>112</td><td>$1,321</td><td>96.4%</td><td>1.2%</td><td><span style="color:var(--success-700)">▲ 14%</span></td></tr>
+              <tr><td>9</td><td>BeautyBox AU</td><td>$94K</td><td>682</td><td>$138</td><td>93.2%</td><td>2.8%</td><td><span style="color:var(--success-700)">▲ 8%</span></td></tr>
+              <tr><td>10</td><td>OutdoorBase</td><td>$87K</td><td>284</td><td>$306</td><td>93.6%</td><td>2.5%</td><td><span style="color:var(--danger-700)">▼ 4%</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="card-head"><h3 class="card-title">Saved & Scheduled Reports</h3><div class="card-actions"><button class="btn btn-primary">+ Build Report</button></div></div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Name</th><th>Description</th><th>Schedule</th><th>Recipients</th><th>Last Run</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><a href="report-detail.html" class="link">Monthly board pack</a></td><td>Volume, completion, defaults, top merchants</td><td>1st of month, 08:00</td><td>greg@laybys.com</td><td>Sat 01 May</td><td><a href="report-detail.html" class="link">Run now</a></td></tr>
+              <tr><td><a href="report-detail.html" class="link">Weekly merchant scorecards</a></td><td>Per-merchant performance summary</td><td>Mondays 09:00</td><td>42 merchants</td><td>Mon 28 Apr</td><td><a href="report-detail.html" class="link">Run now</a></td></tr>
+              <tr><td><a href="report-detail.html" class="link">Daily exception summary</a></td><td>Open exceptions & SLA breaches</td><td>Daily 07:30</td><td>ops@laybys.com</td><td>Today 07:30</td><td><a href="report-detail.html" class="link">Run now</a></td></tr>
+              <tr><td><a href="report-detail.html" class="link">Quarterly ASIC reporting</a></td><td>Default rates, hardship cases, complaint log</td><td>Quarterly</td><td>compliance@laybys.com</td><td>01 Apr 2026</td><td><a href="report-detail.html" class="link">Run now</a></td></tr>
+              <tr><td><a href="report-detail.html" class="link">Tax invoice reconciliation</a></td><td>Per-merchant GST and payout reconciliation</td><td>Monthly EOM</td><td>finance@laybys.com</td><td>30 Apr 2026</td><td><a href="report-detail.html" class="link">Run now</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('reports','Reports','Volume, completion, defaults and merchant scorecards');</script>
+</body>
+</html>

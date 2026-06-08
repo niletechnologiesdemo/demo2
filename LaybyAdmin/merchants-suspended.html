@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Suspended Merchants · Merchants · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Merchants</h1>
+          <p class="page-sub">Merchants temporarily prevented from accepting new lay-bys</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Export CSV</button>
+          <a href="merchant-new.html" class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>Invite Merchant</a>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Total Merchants</div><div class="kpi-value">42</div><div class="kpi-meta">+5 this quarter</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Active</div><div class="kpi-value">38</div><div class="kpi-meta">90% of merchant base</div></div>
+        <div class="kpi kpi-warn"><div class="kpi-label">Pending Review</div><div class="kpi-value">3</div><div class="kpi-meta">Avg approval 1.4 days</div></div>
+        <div class="kpi"><div class="kpi-label">Avg GMV / merchant</div><div class="kpi-value">$28.5k</div><div class="kpi-meta">Last 30 days</div></div>
+      </div>
+
+      <div class="tabs">
+        <a class="tab" href="merchants.html">All <span class="count">42</span></a>
+        <a class="tab" href="merchants-active.html">Active <span class="count">38</span></a>
+        <a class="tab" href="merchants-pending.html">Pending <span class="count">3</span></a>
+        <a class="tab active" href="merchants-suspended.html">Suspended <span class="count">1</span></a>
+      </div>
+
+      
+      <div class="alert alert-danger" style="margin:14px 0 0">
+        <div class="alert-icon">!</div>
+        <div class="alert-body">
+          <div class="alert-title">1 merchant currently suspended</div>
+          <div class="alert-text">Suspended merchants cannot accept new lay-bys. Existing lay-bys continue normally. Suspension is reviewed every 7 days.</div>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:14px">
+        <table class="data">
+          <thead><tr><th>Merchant</th><th>ABN</th><th>Suspended</th><th>Days</th><th>Reason</th><th>Status</th><th></th></tr></thead>
+          <tbody><tr>
+              <td><div class="user-cell"><div class="avatar">QM</div><div><div class="user-name">QuickMart Online</div><div class="user-sub">General · Sydney NSW</div></div></div></td>
+              <td><span class="cell-muted mono">88 412 660 901</span></td>
+              <td>14 Apr 2026</td>
+              <td>21 days</td>
+              <td><span class="cell-muted">Customer dispute rate above 5% threshold</span></td>
+              <td><span class="pill pill-overdue">Suspended</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-ghost btn-sm">Review Case</a></td>
+            </tr></tbody>
+        </table>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('merchants','Merchants','Suspended Merchants');</script>
+</body>
+</html>

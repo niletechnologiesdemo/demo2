@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>At-Risk Customers · Customers · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Customers</h1>
+          <p class="page-sub">87 customers with active issues · proactive outreach by Customer Care</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Export CSV</button>
+          <button class="btn btn-ghost">Bulk Action</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Total Customers</div><div class="kpi-value">18,427</div><div class="kpi-delta up">▲ 612 this month</div></div>
+        <div class="kpi"><div class="kpi-label">Active Lay-Bys</div><div class="kpi-value">3,914</div><div class="kpi-delta up">▲ 8.2% MoM</div></div>
+        <div class="kpi"><div class="kpi-label">New (last 30d)</div><div class="kpi-value">612</div><div class="kpi-delta up">▲ 14% vs prev</div></div>
+        <div class="kpi"><div class="kpi-label">KYC Verified</div><div class="kpi-value">96.8%</div><div class="kpi-delta">↔ stable</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="tabs">
+          <a class="tab" href="customers.html">All <span class="tab-count">18,427</span></a>
+          <a class="tab" href="customers-active.html">Active <span class="tab-count">3,914</span></a>
+          <a class="tab active" href="customers-atrisk.html">At Risk <span class="tab-count">87</span></a>
+          <a class="tab" href="customers-suspended.html">Suspended <span class="tab-count">12</span></a>
+          <a class="tab" href="customers-kyc.html">KYC Pending <span class="tab-count">41</span></a>
+        </div>
+
+        
+        <div class="alert alert-warn" style="margin:0">
+          <div class="alert-icon">!</div>
+          <div class="alert-body">
+            <div class="alert-title">87 customers flagged as at risk</div>
+            <div class="alert-text">These customers have at least one failed payment in the last 14 days, missed a payment reminder, or have a trust score below the threshold. Customer Care will reach out before any action.</div>
+          </div>
+        </div>
+        <div class="filters">
+          <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Search at-risk customers…"></div>
+          <select class="select"><option>All risk types</option><option>Failed payments</option><option>Card issues</option><option>Trust score drop</option></select>
+          <select class="select"><option>All assigned</option><option>Marcus Chen</option><option>Sophie Park</option><option>Unassigned</option></select>
+        </div>
+        <div class="table-wrap" style="border:0;border-radius:0;box-shadow:none">
+          <table class="data">
+            <thead><tr><th>Customer</th><th>Risk reason</th><th>Trust score</th><th>Last failure</th><th>Status</th><th></th></tr></thead>
+            <tbody><tr>
+              <td><div class="user-cell"><div class="avatar">JM</div><div><div class="user-name">Jordan Miller</div><div class="user-sub">jordan.m@gmail.com</div></div></div></td>
+              <td><span class="cell-muted">3 failed instalments · 8 days</span></td>
+              <td><span style="color:var(--m3-error)">B-</span></td>
+              <td>Today 14:18</td>
+              <td><span class="pill pill-pending">At Risk</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Reach Out</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">MD</div><div><div class="user-name">Mia Davies</div><div class="user-sub">mia.d@bigpond.net.au</div></div></div></td>
+              <td><span class="cell-muted">2 failed instalments · 3 days</span></td>
+              <td><span style="color:var(--m3-warning)">B+</span></td>
+              <td>Today 13:52</td>
+              <td><span class="pill pill-pending">At Risk</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Reach Out</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">TH</div><div><div class="user-name">Thomas Harris</div><div class="user-sub">thomas.h@outlook.com</div></div></div></td>
+              <td><span class="cell-muted">2 failed instalments · 5 days</span></td>
+              <td><span style="color:var(--m3-warning)">B</span></td>
+              <td>Today 12:14</td>
+              <td><span class="pill pill-pending">At Risk</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Reach Out</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">RW</div><div><div class="user-name">Rachel White</div><div class="user-sub">rachel.w@gmail.com</div></div></div></td>
+              <td><span class="cell-muted">Card expired · 1 missed</span></td>
+              <td><span style="color:var(--m3-warning)">A-</span></td>
+              <td>Today 10:42</td>
+              <td><span class="pill pill-pending">At Risk</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Send Update Link</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">PB</div><div><div class="user-name">Patrick Brown</div><div class="user-sub">patrick.b@bigpond.net.au</div></div></div></td>
+              <td><span class="cell-muted">Lost / stolen card</span></td>
+              <td><span style="color:var(--m3-error)">B-</span></td>
+              <td>Yesterday 22:08</td>
+              <td><span class="pill pill-pending">At Risk</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Pause Lay-By</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">JF</div><div><div class="user-name">Jenny Fox</div><div class="user-sub">jenny.f@outlook.com</div></div></div></td>
+              <td><span class="cell-muted">1 failed instalment</span></td>
+              <td><span style="color:var(--m3-warning)">B+</span></td>
+              <td>Yesterday 18:22</td>
+              <td><span class="pill pill-pending">At Risk</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Reach Out</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">CG</div><div><div class="user-name">Connor Green</div><div class="user-sub">connor.g@gmail.com</div></div></div></td>
+              <td><span class="cell-muted">Bank auth failed · review</span></td>
+              <td><span style="color:var(--m3-warning)">A-</span></td>
+              <td>Yesterday 14:14</td>
+              <td><span class="pill pill-pending">At Risk</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Reach Out</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">LB</div><div><div class="user-name">Lara Black</div><div class="user-sub">lara.b@iinet.net.au</div></div></div></td>
+              <td><span class="cell-muted">2 reminders ignored</span></td>
+              <td><span style="color:var(--m3-warning)">B</span></td>
+              <td>2 days ago</td>
+              <td><span class="pill pill-pending">At Risk</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Reach Out</a></td>
+            </tr></tbody>
+          </table>
+        </div>
+        <div class="pager"><div class="pager-info">Showing 8 of 87 at risk</div><div class="pager-ctrls"><button class="btn btn-sm">‹</button><button class="btn btn-sm active">1</button><button class="btn btn-sm">2</button><button class="btn btn-sm">…</button><button class="btn btn-sm">11</button><button class="btn btn-sm">›</button></div></div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('customers','Customers','At-Risk Customers');</script>
+</body>
+</html>

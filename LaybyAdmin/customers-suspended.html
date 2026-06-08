@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Suspended Customers · Customers · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Customers</h1>
+          <p class="page-sub">Customers prevented from new lay-bys · under review</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Export CSV</button>
+          <button class="btn btn-ghost">Bulk Action</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Total Customers</div><div class="kpi-value">18,427</div><div class="kpi-delta up">▲ 612 this month</div></div>
+        <div class="kpi"><div class="kpi-label">Active Lay-Bys</div><div class="kpi-value">3,914</div><div class="kpi-delta up">▲ 8.2% MoM</div></div>
+        <div class="kpi"><div class="kpi-label">New (last 30d)</div><div class="kpi-value">612</div><div class="kpi-delta up">▲ 14% vs prev</div></div>
+        <div class="kpi"><div class="kpi-label">KYC Verified</div><div class="kpi-value">96.8%</div><div class="kpi-delta">↔ stable</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="tabs">
+          <a class="tab" href="customers.html">All <span class="tab-count">18,427</span></a>
+          <a class="tab" href="customers-active.html">Active <span class="tab-count">3,914</span></a>
+          <a class="tab" href="customers-atrisk.html">At Risk <span class="tab-count">87</span></a>
+          <a class="tab active" href="customers-suspended.html">Suspended <span class="tab-count">12</span></a>
+          <a class="tab" href="customers-kyc.html">KYC Pending <span class="tab-count">41</span></a>
+        </div>
+
+        
+        <div class="alert alert-danger" style="margin:0">
+          <div class="alert-icon">!</div>
+          <div class="alert-body">
+            <div class="alert-title">12 customers suspended</div>
+            <div class="alert-text">Suspended customers cannot create new lay-bys. Existing lay-bys are paused or cancelled per policy. Most suspensions are reviewed within 14 days.</div>
+          </div>
+        </div>
+        <div class="table-wrap" style="border:0;border-radius:0;box-shadow:none">
+          <table class="data">
+            <thead><tr><th>Customer</th><th>Reason</th><th>Suspended</th><th>Status</th><th></th></tr></thead>
+            <tbody><tr>
+              <td><div class="user-cell"><div class="avatar">DG</div><div><div class="user-name">Daniel Green</div><div class="user-sub">d.green@gmail.com</div></div></div></td>
+              <td><span class="cell-muted">Multiple chargebacks · 4 in 60 days</span></td>
+              <td>12 Apr 2026</td>
+              <td><span class="pill pill-overdue">Suspended</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Review</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">LP</div><div><div class="user-name">Lara Page</div><div class="user-sub">lara.p@outlook.com</div></div></div></td>
+              <td><span class="cell-muted">Failed KYC re-verification (twice)</span></td>
+              <td>8 Apr 2026</td>
+              <td><span class="pill pill-overdue">Suspended</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Review</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">MK</div><div><div class="user-name">Marcus King</div><div class="user-sub">m.king@bigpond.net.au</div></div></div></td>
+              <td><span class="cell-muted">PEP screening match · pending review</span></td>
+              <td>2 Apr 2026</td>
+              <td><span class="pill pill-overdue">Suspended</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Review</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">SC</div><div><div class="user-name">Sara Cole</div><div class="user-sub">s.cole@iinet.net.au</div></div></div></td>
+              <td><span class="cell-muted">5 failed lay-bys with refund disputes</span></td>
+              <td>28 Mar 2026</td>
+              <td><span class="pill pill-overdue">Suspended</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Review</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">JT</div><div><div class="user-name">Jamie Taylor</div><div class="user-sub">jamie.t@gmail.com</div></div></div></td>
+              <td><span class="cell-muted">Account suspected of fraud</span></td>
+              <td>22 Mar 2026</td>
+              <td><span class="pill pill-overdue">Suspended</span></td>
+              <td><a href="customer-detail.html" class="btn btn-ghost btn-sm">Review</a></td>
+            </tr></tbody>
+          </table>
+        </div>
+        <div class="pager"><div class="pager-info">Showing 5 of 12 suspended</div><div class="pager-ctrls"><button class="btn btn-sm">‹</button><button class="btn btn-sm active">1</button><button class="btn btn-sm">2</button><button class="btn btn-sm">›</button></div></div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('customers','Customers','Suspended Customers');</script>
+</body>
+</html>

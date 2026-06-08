@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Merchant Application · Palm Republic · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+<style>
+/* Page-scoped — MD3 expressive */
+.app-hero{
+  background:
+    radial-gradient(circle at 88% 8%, rgba(240,191,65,.18) 0%, transparent 45%),
+    radial-gradient(circle at 8% 95%, rgba(157,92,223,.15) 0%, transparent 45%),
+    linear-gradient(135deg, var(--p-20) 0%, var(--p-30) 50%, var(--p-40) 100%);
+  color:#fff;
+  border-radius:var(--r-xl);
+  padding:0;overflow:hidden;
+  margin-bottom:18px;
+  box-shadow:var(--elev-3);
+  position:relative;
+}
+.app-hero-inner{padding:28px 32px 24px;position:relative;z-index:1}
+.app-brand-row{display:flex;align-items:flex-start;gap:20px}
+.app-mark{
+  width:72px;height:72px;border-radius:18px;
+  background:linear-gradient(135deg, #f0bf41 0%, #d4a425 100%);
+  color:#3f2e00;
+  display:grid;place-items:center;
+  font-family:var(--font-display);
+  font-weight:700;font-size:26px;letter-spacing:-1px;
+  flex:none;
+  box-shadow:0 6px 16px rgba(212,164,37,.4), inset 0 1px 0 rgba(255,255,255,.4);
+}
+.app-brand-info{flex:1;min-width:0}
+.app-brand-head{display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.app-brand-name{
+  font-family:var(--font-display);
+  font-size:28px;font-weight:500;letter-spacing:-.6px;
+  margin:0;line-height:1.15;color:#fff;
+}
+.app-brand-status{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;border-radius:99px;
+  background:linear-gradient(135deg, #ffdf99, #f0bf41);
+  color:#3f2e00;
+  font-size:11.5px;font-weight:600;letter-spacing:.4px;
+  text-transform:uppercase;
+}
+.app-brand-status::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:#3f2e00;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.app-brand-tag{
+  font-size:14.5px;color:rgba(255,255,255,.82);
+  margin:0 0 16px;line-height:1.55;letter-spacing:.1px;
+  max-width:680px;
+}
+.app-brand-meta{display:flex;flex-wrap:wrap;gap:8px}
+.app-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:99px;
+  color:rgba(255,255,255,.95);
+  font-size:12.5px;letter-spacing:.1px;
+  backdrop-filter:blur(8px);
+}
+
+.app-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(255,255,255,.12);
+  background:rgba(0,0,0,.18);
+  position:relative;z-index:1;
+}
+@media(max-width:680px){.app-stats{grid-template-columns:repeat(2,1fr)}}
+.app-stat{padding:18px 24px;border-right:1px solid rgba(255,255,255,.08)}
+.app-stat:last-child{border-right:0}
+.app-stat-label{
+  font-size:10.5px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.7px;
+  color:rgba(255,255,255,.65);margin-bottom:6px;
+}
+.app-stat-value{
+  font-family:var(--font-display);
+  font-size:24px;font-weight:500;color:#fff;
+  letter-spacing:-.5px;line-height:1.15;
+  font-variant-numeric:tabular-nums;
+}
+.app-stat-meta{
+  font-size:12px;color:rgba(255,255,255,.6);
+  margin-top:3px;letter-spacing:.1px;
+}
+.app-stat-meta.good{color:#92f7c1}
+
+.app-decide{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:18px 22px;
+  background:linear-gradient(135deg, var(--warn-95) 0%, var(--s-95) 100%);
+  border:1px solid var(--s-90);
+  border-radius:var(--r-lg);
+  margin-bottom:18px;
+  flex-wrap:wrap;
+  box-shadow:var(--elev-1);
+}
+.app-decide-l{display:flex;align-items:center;gap:14px;min-width:200px;flex:1}
+.app-decide-icon{
+  width:44px;height:44px;border-radius:50%;flex:none;
+  background:linear-gradient(135deg, var(--s-70), var(--s-50));
+  color:#fff;
+  display:grid;place-items:center;
+  box-shadow:0 4px 10px rgba(180,137,0,.4);
+}
+.app-decide-text b{
+  display:block;font-family:var(--font-display);
+  font-size:16px;font-weight:500;color:var(--s-10);
+  letter-spacing:0;margin-bottom:2px;
+}
+.app-decide-text span{
+  display:block;font-size:13px;color:var(--s-30);letter-spacing:.1px;
+}
+.app-decide-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+.app-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px}
+@media(max-width:1100px){.app-grid{grid-template-columns:1fr}}
+
+.app-scores{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+@media(max-width:880px){.app-scores{grid-template-columns:repeat(2,1fr)}}
+.app-score{
+  background:var(--surface);
+  border:1px solid var(--outline-variant);
+  border-radius:var(--r-lg);
+  padding:18px 20px;
+  position:relative;overflow:hidden;
+  transition:all .2s var(--easing);
+}
+.app-score:hover{transform:translateY(-2px);box-shadow:var(--elev-2)}
+.app-score::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+}
+.app-score-1::before{background:linear-gradient(90deg, var(--p-50), var(--p-40))}
+.app-score-2::before{background:linear-gradient(90deg, var(--success-40), var(--success-30))}
+.app-score-3::before{background:linear-gradient(90deg, var(--warn-40), var(--s-70))}
+.app-score-4::before{background:linear-gradient(90deg, var(--t-50), var(--t-40))}
+.app-score-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.app-score-label{
+  font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.6px;
+  color:var(--on-surface-variant);
+}
+.app-score-emoji{font-size:18px}
+.app-score-val{
+  font-family:var(--font-display);
+  font-size:32px;font-weight:500;color:var(--on-surface);
+  letter-spacing:-.7px;line-height:1;
+  display:flex;align-items:baseline;gap:4px;
+}
+.app-score-val small{font-size:14px;color:var(--on-surface-variant);font-weight:400}
+.app-score-meta{font-size:12.5px;color:var(--on-surface-variant);margin-top:7px;letter-spacing:.1px;line-height:1.4}
+.app-score-meta.warn{color:var(--warn-30);font-weight:500}
+
+.app-screen-row{
+  display:grid;grid-template-columns:32px 1fr auto;
+  gap:14px;align-items:flex-start;
+  padding:14px 22px;
+  border-bottom:1px solid var(--outline-variant);
+}
+.app-screen-row:last-child{border-bottom:0}
+.app-screen-icon{
+  width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;flex:none;
+  font-size:13px;font-weight:700;color:#fff;
+  margin-top:1px;
+  box-shadow:0 2px 4px rgba(0,0,0,.1);
+}
+.app-screen-icon.pass{background:linear-gradient(135deg, var(--success-40), var(--success-30))}
+.app-screen-icon.warn{background:linear-gradient(135deg, var(--warn-40), var(--s-70))}
+.app-screen-body b{
+  display:block;font-size:14px;font-weight:500;
+  color:var(--on-surface);letter-spacing:0;
+}
+.app-screen-body span{
+  display:block;font-size:12.5px;color:var(--on-surface-variant);
+  margin-top:3px;letter-spacing:.1px;line-height:1.5;
+}
+
+.app-why{
+  background:linear-gradient(135deg, var(--success-95) 0%, #f0fde6 100%);
+  border:1px solid var(--success-90);
+  border-radius:var(--r);
+  padding:20px 22px;
+  margin:0 22px 18px;
+}
+.app-why p{
+  margin:0;font-size:14px;color:var(--success-10);
+  line-height:1.65;letter-spacing:.1px;
+}
+.app-why p b{color:var(--success-10);font-weight:600}
+.app-why-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.app-why-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;
+  background:rgba(255,255,255,.7);
+  border:1px solid var(--success-90);
+  border-radius:99px;
+  font-size:12px;color:var(--success-10);font-weight:500;letter-spacing:.1px;
+}
+.app-why-tag::before{content:'✓';color:var(--success-40);font-weight:700}
+
+.app-meter-num{
+  font-family:var(--font-display);
+  font-size:48px;font-weight:500;
+  color:var(--success-30);letter-spacing:-1.5px;line-height:1;
+  display:flex;align-items:baseline;gap:6px;
+}
+.app-meter-num small{font-size:20px;color:var(--on-surface-variant);font-weight:400;letter-spacing:0}
+.app-meter-bar{
+  height:10px;border-radius:99px;
+  background:linear-gradient(90deg, var(--error-90) 0%, var(--warn-90) 50%, var(--success-90) 100%);
+  position:relative;margin:18px 0 8px;
+}
+.app-meter-marker{
+  position:absolute;top:-4px;
+  width:18px;height:18px;border-radius:50%;
+  background:#fff;
+  border:3px solid var(--success-40);
+  box-shadow:var(--elev-2);
+  transform:translateX(-50%);
+}
+.app-meter-scale{
+  display:flex;justify-content:space-between;
+  font-size:11px;color:var(--on-surface-variant);
+  letter-spacing:.5px;text-transform:uppercase;font-weight:600;
+}
+.app-vote{
+  display:flex;align-items:center;gap:10px;
+  padding:13px 16px;margin-top:16px;
+  background:linear-gradient(135deg, var(--success-95), #f0fde6);
+  border:1px solid var(--success-90);
+  border-radius:var(--r);
+  font-size:13px;color:var(--success-10);letter-spacing:.1px;
+}
+.app-vote svg{flex:none;color:var(--success-40)}
+.app-vote b{font-weight:600}
+</style>
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="breadcrumb"><a href="merchants.html">Merchants</a> <span>/</span> <a href="merchants-pending.html">Pending Applications</a> <span>/</span> <span>Palm Republic</span></div>
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Merchant application</h1>
+          <p class="page-sub">APP-2026-00118 · submitted 03 May 2026 · 1 day in queue</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost btn-sm">View website ↗</button>
+          <a href="merchants-pending.html" class="btn btn-sm">Back to queue</a>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <div class="app-hero">
+        <div class="app-hero-inner">
+          <div class="app-brand-row">
+            <div class="app-mark">PR</div>
+            <div class="app-brand-info">
+              <div class="app-brand-head">
+                <h2 class="app-brand-name">Palm Republic</h2>
+                <span class="app-brand-status">Pending review</span>
+              </div>
+              <p class="app-brand-tag">Small-batch resort wear from Byron Bay. Founded 2018 by Olivia Tran. Sells through Shopify and a flagship pop-up at The Mercato. Average order value sits around $190 — squarely in the lay-by sweet spot.</p>
+              <div class="app-brand-meta">
+                <span class="app-chip">📍 Byron Bay NSW</span>
+                <span class="app-chip">👜 Resort wear</span>
+                <span class="app-chip">🆔 ABN 81 412 089 220</span>
+                <span class="app-chip">🛍 Shopify + Pop-up</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="app-stats">
+          <div class="app-stat">
+            <div class="app-stat-label">Annual GMV</div>
+            <div class="app-stat-value">$240k</div>
+            <div class="app-stat-meta">FY24/25 trading</div>
+          </div>
+          <div class="app-stat">
+            <div class="app-stat-label">Avg order value</div>
+            <div class="app-stat-value">$190</div>
+            <div class="app-stat-meta good">↑ Ideal for lay-by</div>
+          </div>
+          <div class="app-stat">
+            <div class="app-stat-label">Years trading</div>
+            <div class="app-stat-value">6 yrs</div>
+            <div class="app-stat-meta">Since June 2018</div>
+          </div>
+          <div class="app-stat">
+            <div class="app-stat-label">Chargeback rate</div>
+            <div class="app-stat-value">0.0%</div>
+            <div class="app-stat-meta good">↓ Below 1.2% industry</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DECISION -->
+      <div class="app-decide">
+        <div class="app-decide-l">
+          <div class="app-decide-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <div class="app-decide-text">
+            <b>Ready for your decision</b>
+            <span>4 of 5 auto-checks passed · 1 document pending · 4 of 4 reviewers recommend approval</span>
+          </div>
+        </div>
+        <div class="app-decide-actions">
+          <button class="btn btn-danger">Decline</button>
+          <button class="btn">Request info</button>
+          <button class="btn btn-success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Approve application
+          </button>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs" style="margin-bottom:18px">
+        <a class="tab active" href="merchant-application.html">Overview</a>
+        <a class="tab" href="merchant-app-business.html">Business details</a>
+        <a class="tab" href="merchant-app-banking.html">Banking &amp; tax</a>
+        <a class="tab" href="merchant-app-compliance.html">Compliance</a>
+        <a class="tab" href="merchant-app-documents.html">Documents</a>
+        <a class="tab" href="merchant-app-notes.html">Notes &amp; history</a>
+      </div>
+
+      <div class="app-grid">
+        <div>
+          <!-- 4 score pillars -->
+          <div class="app-scores">
+            <div class="app-score app-score-1">
+              <div class="app-score-head">
+                <div class="app-score-label">Identity</div>
+                <div class="app-score-emoji">🆔</div>
+              </div>
+              <div class="app-score-val">100<small>/100</small></div>
+              <div class="app-score-meta">ABN, ACN &amp; Director ID verified</div>
+            </div>
+            <div class="app-score app-score-2">
+              <div class="app-score-head">
+                <div class="app-score-label">Compliance</div>
+                <div class="app-score-emoji">⚖️</div>
+              </div>
+              <div class="app-score-val">94<small>/100</small></div>
+              <div class="app-score-meta">AML, sanctions, ASIC clear</div>
+            </div>
+            <div class="app-score app-score-3">
+              <div class="app-score-head">
+                <div class="app-score-label">Documents</div>
+                <div class="app-score-emoji">📄</div>
+              </div>
+              <div class="app-score-val">5<small>/6</small></div>
+              <div class="app-score-meta warn">Trust letter outstanding</div>
+            </div>
+            <div class="app-score app-score-4">
+              <div class="app-score-head">
+                <div class="app-score-label">Business health</div>
+                <div class="app-score-emoji">📈</div>
+              </div>
+              <div class="app-score-val">92<small>/100</small></div>
+              <div class="app-score-meta">6-yr history, low risk</div>
+            </div>
+          </div>
+
+          <!-- Auto-screening -->
+          <div class="card">
+            <div class="card-head">
+              <h3 class="card-title">Auto-screening results</h3>
+              <span style="font-size:12px;color:var(--on-surface-variant);letter-spacing:.1px">Run 03 May, 13:42 AEST</span>
+            </div>
+            <div class="app-screen-row">
+              <div class="app-screen-icon pass">✓</div>
+              <div class="app-screen-body">
+                <b>ABN active and valid</b>
+                <span>Verified via Australian Business Register · Active since 14 June 2018 · No cancellations or holds</span>
+              </div>
+              <span class="pill pill-active">Pass</span>
+            </div>
+            <div class="app-screen-row">
+              <div class="app-screen-icon pass">✓</div>
+              <div class="app-screen-body">
+                <b>Director ID verified</b>
+                <span>Olivia Tran · NSW Driver Licence matched · Document.AI confidence 99.4%</span>
+              </div>
+              <span class="pill pill-active">Pass</span>
+            </div>
+            <div class="app-screen-row">
+              <div class="app-screen-icon pass">✓</div>
+              <div class="app-screen-body">
+                <b>PEP &amp; sanctions screening</b>
+                <span>No matches against Refinitiv World-Check · No adverse media in last 24 months</span>
+              </div>
+              <span class="pill pill-active">Pass</span>
+            </div>
+            <div class="app-screen-row">
+              <div class="app-screen-icon pass">✓</div>
+              <div class="app-screen-body">
+                <b>No ASIC enforcement on record</b>
+                <span>No complaints, insolvency notices, or director disqualifications</span>
+              </div>
+              <span class="pill pill-active">Pass</span>
+            </div>
+            <div class="app-screen-row">
+              <div class="app-screen-icon warn">!</div>
+              <div class="app-screen-body">
+                <b>Trust account confirmation letter</b>
+                <span>Required document not yet uploaded · Email reminder sent to olivia@palmrepublic.com.au on 04 May</span>
+              </div>
+              <span class="pill pill-pending">Pending</span>
+            </div>
+          </div>
+
+          <!-- Why fit -->
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Why Palm Republic fits LayBys</h3></div>
+            <div class="app-why">
+              <p>Average order value of <b>$190</b> sits right in the lay-by sweet spot — most customers buying resort wear at this price point would benefit from spreading payments across 8–12 weeks. The brand has <b>24,820 Instagram followers</b> and a <b>4.8 / 5 Google rating</b> across 142 reviews, so demand is established. With 6 years of trading history, low refund rate (2.4% vs 4.1% industry average), and zero chargebacks in the last 18 months, operational risk is low. Olivia is keen to launch within 30 days for the spring campaign.</p>
+              <div class="app-why-tags">
+                <span class="app-why-tag">AOV in sweet spot</span>
+                <span class="app-why-tag">Strong social proof</span>
+                <span class="app-why-tag">0 chargebacks 18mo</span>
+                <span class="app-why-tag">Spring campaign tie-in</span>
+                <span class="app-why-tag">Owner-operator</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDE RAIL -->
+        <aside class="side-col">
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Risk score</h3></div>
+            <div class="card-body" style="padding-bottom:14px">
+              <div class="app-meter-num">94<small>/100</small></div>
+              <div style="font-size:13px;color:var(--on-surface-variant);margin-top:4px;letter-spacing:.1px">Low risk · standard tier</div>
+              <div class="app-meter-bar">
+                <div class="app-meter-marker" style="left:94%"></div>
+              </div>
+              <div class="app-meter-scale">
+                <span>High</span><span>Medium</span><span>Low</span>
+              </div>
+              <div class="app-vote">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span><b>4 of 4</b> reviewers recommend approval</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Team consensus</h3></div>
+            <div class="kv"><span>Greg Rogers · Owner</span><span class="pill pill-active">Approve</span></div>
+            <div class="kv"><span>Jen Darby · Operations</span><span class="pill pill-active">Approve</span></div>
+            <div class="kv"><span>Sophie Park · Compliance</span><span class="pill pill-active">Approve</span></div>
+            <div class="kv"><span>Marcus Chen · Care</span><span class="pill pill-active">Approve</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Proposed terms</h3></div>
+            <div class="kv"><span>Commission</span><b>5.0%</b></div>
+            <div class="kv"><span>Setup fee</span><b>$50 one-time</b></div>
+            <div class="kv"><span>Payout</span><b>Weekly · Tuesdays</b></div>
+            <div class="kv"><span>Settlement</span><b>Westpac ··8421</b></div>
+            <div class="kv"><span>Tier</span><b>Standard</b></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Application</h3></div>
+            <div class="kv"><span>ID</span><b class="mono">APP-2026-00118</b></div>
+            <div class="kv"><span>Submitted</span><b>03 May 2026</b></div>
+            <div class="kv"><span>In queue</span><b>1 day</b></div>
+            <div class="kv"><span>Reviewers</span><b>4 people</b></div>
+            <div class="kv"><span>Last activity</span><b>Today, 11:18</b></div>
+            <div class="kv"><span>Website</span><a href="#" class="link">palmrepublic.com.au ↗</a></div>
+          </div>
+        </aside>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('merchants','Merchant application','Palm Republic · pending review');</script>
+</body>
+</html>

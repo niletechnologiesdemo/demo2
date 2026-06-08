@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lay-By Rules · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Lay-By Rules</h1>
+          <p class="page-sub">Configure platform-wide defaults for deposits, instalments, fees, cancellations, and ASIC compliance.</p>
+        </div>
+        <div class="filter-row">
+          <a href="audit-log.html" class="btn btn-ghost">Change History</a>
+          <button class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+
+      <div class="alert alert-info" style="margin-top:18px">
+        <div class="alert-icon">ℹ</div>
+        <div class="alert-body">
+          <div class="alert-title">Platform-wide defaults</div>
+          <div class="alert-text">These are the global rules applied to every new lay-by. Merchants can override deposit % and frequency within the bounds you set below. Changes take effect for new agreements only — existing agreements keep their original terms.</div>
+        </div>
+      </div>
+
+      <div class="tabs" style="margin-top:20px">
+        <a class="tab active" href="rules.html">Deposits &amp; Terms</a>
+        <a class="tab" href="rules-frequency.html">Frequency</a>
+        <a class="tab" href="rules-fees.html">Fees &amp; Penalties</a>
+        <a class="tab" href="rules-cancellation.html">Cancellation</a>
+        <a class="tab" href="rules-eligibility.html">Eligibility</a>
+        <a class="tab" href="rules-compliance.html">Compliance</a>
+      </div>
+
+      <div class="grid-2" style="margin-top:24px">
+        <div>
+
+          <div class="card">
+            <div class="card-head">
+              <div>
+                <h3 class="card-title">Deposit Rules</h3>
+                <p class="card-sub">Minimum payment due upfront before goods are reserved</p>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label class="field-label">Default deposit %</label>
+                <div class="input-row"><input type="number" class="input" value="20"><span class="input-suffix">%</span></div>
+                <div class="field-hint">Applied to all categories unless overridden below</div>
+              </div>
+              <div class="field">
+                <label class="field-label">Minimum deposit %</label>
+                <div class="input-row"><input type="number" class="input" value="10"><span class="input-suffix">%</span></div>
+                <div class="field-hint">Merchants cannot set below this</div>
+              </div>
+              <div class="field">
+                <label class="field-label">Maximum deposit %</label>
+                <div class="input-row"><input type="number" class="input" value="50"><span class="input-suffix">%</span></div>
+                <div class="field-hint">Cap to keep instalments meaningful</div>
+              </div>
+              <div class="field">
+                <label class="field-label">Minimum order value</label>
+                <div class="input-row"><span class="input-prefix">$</span><input type="number" class="input" value="50"></div>
+                <div class="field-hint">Below this, lay-by is not offered</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <h4 class="sub-title">Per-Category Overrides</h4>
+            <div class="table-wrap">
+              <table class="table table-tight">
+                <thead><tr><th>Category</th><th>Deposit %</th><th>Min order</th><th>Max value</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td>Technology</td><td>20%</td><td>$100</td><td>$5,000</td><td><a href="category-detail.html" class="link">Edit</a></td></tr>
+                  <tr><td>Clothing & Apparel</td><td>15%</td><td>$50</td><td>$2,000</td><td><a href="category-detail.html" class="link">Edit</a></td></tr>
+                  <tr><td>Health & Beauty</td><td>20%</td><td>$50</td><td>$1,500</td><td><a href="category-detail.html" class="link">Edit</a></td></tr>
+                  <tr><td>Household</td><td>20%</td><td>$80</td><td>$4,000</td><td><a href="category-detail.html" class="link">Edit</a></td></tr>
+                  <tr><td>Sporting Goods</td><td>25%</td><td>$80</td><td>$3,500</td><td><a href="category-detail.html" class="link">Edit</a></td></tr>
+                  <tr><td>Travel & Stays</td><td>30%</td><td>$200</td><td>$8,000</td><td><a href="category-detail.html" class="link">Edit</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head">
+              <div>
+                <h3 class="card-title">Term Length</h3>
+                <p class="card-sub">How long a customer has to complete payments</p>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label class="field-label">Minimum term</label>
+                <div class="input-row"><input type="number" class="input" value="4"><span class="input-suffix">weeks</span></div>
+              </div>
+              <div class="field">
+                <label class="field-label">Maximum term</label>
+                <div class="input-row"><input type="number" class="input" value="52"><span class="input-suffix">weeks</span></div>
+              </div>
+              <div class="field">
+                <label class="field-label">Default suggestion</label>
+                <select class="select"><option>Match merchant default</option><option>12 weeks</option><option>24 weeks</option><option>32 weeks</option><option>52 weeks</option></select>
+              </div>
+              <div class="field">
+                <label class="field-label">Auto-extend on hardship</label>
+                <select class="select"><option>Up to 4 weeks (admin approval)</option><option>Up to 8 weeks</option><option>Disabled</option></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head">
+              <div>
+                <h3 class="card-title">Frequency Options</h3>
+                <p class="card-sub">Customer-selectable cadence</p>
+              </div>
+            </div>
+            <div class="toggle-row"><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label><div><div class="toggle-name">Weekly</div><div class="toggle-sub">Default · Most popular (62% of agreements)</div></div></div>
+            <div class="toggle-row"><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label><div><div class="toggle-name">Fortnightly</div><div class="toggle-sub">31% of agreements · Aligns with most pay cycles</div></div></div>
+            <div class="toggle-row"><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label><div><div class="toggle-name">Monthly</div><div class="toggle-sub">7% of agreements · For larger order values</div></div></div>
+            <div class="toggle-row"><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label><div><div class="toggle-name">Custom (admin override)</div><div class="toggle-sub">Disabled — enable to allow case-by-case schedules</div></div></div>
+          </div>
+
+        </div>
+
+        <aside class="side-col">
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Status</h3></div>
+            <div class="kv"><span>Last updated</span><b>Mon 04 May 2026</b></div>
+            <div class="kv"><span>Updated by</span><b>Greg Rogers</b></div>
+            <div class="kv"><span>Active version</span><b>v3.4.2</b></div>
+            <div class="kv"><span>Affects</span><b>All new agreements</b></div>
+            <div style="margin-top:12px"><a href="audit-log.html" class="link">View change history →</a></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Impact Preview</h3></div>
+            <p style="font-size:13px;color:var(--ink-600);margin:0 0 12px">Based on the last 30 days of agreements, your current settings would have produced:</p>
+            <div class="kv"><span>Avg deposit</span><b>$284.50 (19.4%)</b></div>
+            <div class="kv"><span>Avg term</span><b>22.6 weeks</b></div>
+            <div class="kv"><span>Eligible orders</span><b>96.8%</b></div>
+            <div class="kv"><span>Excluded (under min)</span><b>121 (3.2%)</b></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Compliance Notes</h3></div>
+            <p style="font-size:13px;color:var(--ink-700);margin:0 0 8px"><strong>ASIC RG 209</strong></p>
+            <p style="font-size:13px;color:var(--ink-600);margin:0 0 12px">Lay-by agreements are exempt from credit licensing where no fees or interest apply and goods are reserved until paid in full.</p>
+            <p style="font-size:13px;color:var(--ink-700);margin:0 0 8px"><strong>ACL Schedule 1</strong></p>
+            <p style="font-size:13px;color:var(--ink-600);margin:0">Termination charges must not exceed reasonable cost. Currently set to $0 to maintain "zero interest, zero fees" promise.</p>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <button class="btn btn-primary btn-block">Save Changes</button>
+            <button class="btn btn-ghost btn-block" style="margin-top:8px">Discard</button>
+            <button class="btn btn-ghost btn-block" style="margin-top:8px">Preview as Customer</button>
+          </div>
+        </aside>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('rules','Lay-By Rules','Deposits, frequency, terms and platform defaults');</script>
+</body>
+</html>

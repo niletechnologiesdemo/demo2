@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Overdue Lay-Bys · Exceptions · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Exceptions</h1>
+          <p class="page-sub">3 lay-bys with stalled instalments — escalated to Customer Care</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Configure Auto-Triage</button>
+          <button class="btn btn-primary">Bulk Resolve</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi kpi-warn"><div class="kpi-label">Open Exceptions</div><div class="kpi-value">7</div><div class="kpi-meta">3 P1 · 4 P2</div></div>
+        <div class="kpi"><div class="kpi-label">Resolved Today</div><div class="kpi-value">12</div><div class="kpi-delta up">▲ vs avg 8</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Avg Resolution Time</div><div class="kpi-value">14m</div><div class="kpi-meta">Below 30m target</div></div>
+        <div class="kpi"><div class="kpi-label">Auto-Resolved (24h)</div><div class="kpi-value">28</div><div class="kpi-meta">Smart-retry recovered</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="tabs">
+          <a class="tab" href="exceptions.html">All Open <span class="tab-count">7</span></a>
+          <a class="tab active" href="exceptions-overdue.html">Overdue Lay-Bys <span class="tab-count">3</span></a>
+          <a class="tab" href="exceptions-failed.html">Failed Payments <span class="tab-count">4</span></a>
+          <a class="tab" href="exceptions-disputes.html">Disputes <span class="tab-count">0</span></a>
+          <a class="tab" href="exceptions-resolved.html">Resolved (30d) <span class="tab-count">142</span></a>
+        </div>
+
+        
+        <div class="exceptions-list">
+          <div class="exception-row exception-danger">
+            <div class="exception-pri"><span class="pill pill-danger">P1</span></div>
+            <div class="exception-main">
+              <div class="exception-head"><span class="mono">EX-2026-04412</span><span class="dot-sep">·</span><span class="exception-type">Overdue Lay-By</span></div>
+              <div class="exception-title">Lay-by LB-2026-00712 has 3 failed instalments — auto-retry exhausted</div>
+              <div class="exception-meta"><span>Jordan Miller</span><span class="dot-sep">·</span><span>Sydney NSW</span><span class="dot-sep">·</span><span>8 days overdue</span><span class="dot-sep">·</span><span>Assigned to Marcus Chen</span></div>
+            </div>
+            <div class="exception-actions">
+              <a href="exception-detail.html" class="btn btn-ghost btn-sm">View</a>
+              <button class="btn btn-primary btn-sm">Resolve</button>
+            </div>
+          </div>
+          <div class="exception-row exception-warn">
+            <div class="exception-pri"><span class="pill pill-warn">P2</span></div>
+            <div class="exception-main">
+              <div class="exception-head"><span class="mono">EX-2026-04408</span><span class="dot-sep">·</span><span class="exception-type">Overdue Lay-By</span></div>
+              <div class="exception-title">Lay-by LB-2026-00684 has 2 failed instalments — final retry tomorrow</div>
+              <div class="exception-meta"><span>Mia Davies</span><span class="dot-sep">·</span><span>Melbourne VIC</span><span class="dot-sep">·</span><span>3 days overdue</span><span class="dot-sep">·</span><span>Assigned to Marcus Chen</span></div>
+            </div>
+            <div class="exception-actions">
+              <a href="exception-detail.html" class="btn btn-ghost btn-sm">View</a>
+              <button class="btn btn-primary btn-sm">Resolve</button>
+            </div>
+          </div>
+          <div class="exception-row exception-warn">
+            <div class="exception-pri"><span class="pill pill-warn">P2</span></div>
+            <div class="exception-main">
+              <div class="exception-head"><span class="mono">EX-2026-04401</span><span class="dot-sep">·</span><span class="exception-type">Overdue Lay-By</span></div>
+              <div class="exception-title">Lay-by LB-2026-00658 has 2 failed instalments — at risk</div>
+              <div class="exception-meta"><span>Thomas Harris</span><span class="dot-sep">·</span><span>Brisbane QLD</span><span class="dot-sep">·</span><span>5 days overdue</span><span class="dot-sep">·</span><span>Assigned to Sophie Park</span></div>
+            </div>
+            <div class="exception-actions">
+              <a href="exception-detail.html" class="btn btn-ghost btn-sm">View</a>
+              <button class="btn btn-primary btn-sm">Resolve</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('exceptions','Exceptions','Overdue Lay-Bys');</script>
+</body>
+</html>

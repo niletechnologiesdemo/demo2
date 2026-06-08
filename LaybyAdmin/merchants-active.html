@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Active Merchants · Merchants · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Merchants</h1>
+          <p class="page-sub">38 merchants live on the platform · all KYB-verified</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Export CSV</button>
+          <a href="merchant-new.html" class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>Invite Merchant</a>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Total Merchants</div><div class="kpi-value">42</div><div class="kpi-meta">+5 this quarter</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Active</div><div class="kpi-value">38</div><div class="kpi-meta">90% of merchant base</div></div>
+        <div class="kpi kpi-warn"><div class="kpi-label">Pending Review</div><div class="kpi-value">3</div><div class="kpi-meta">Avg approval 1.4 days</div></div>
+        <div class="kpi"><div class="kpi-label">Avg GMV / merchant</div><div class="kpi-value">$28.5k</div><div class="kpi-meta">Last 30 days</div></div>
+      </div>
+
+      <div class="tabs">
+        <a class="tab" href="merchants.html">All <span class="count">42</span></a>
+        <a class="tab active" href="merchants-active.html">Active <span class="count">38</span></a>
+        <a class="tab" href="merchants-pending.html">Pending <span class="count">3</span></a>
+        <a class="tab" href="merchants-suspended.html">Suspended <span class="count">1</span></a>
+      </div>
+
+      
+      <div class="table-wrap" style="margin-top:14px">
+        <div class="table-toolbar">
+          <div class="topbar-search" style="flex:1;max-width:340px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" placeholder="Search by name, ABN, or location…" />
+          </div>
+          <select class="select select-sm"><option>All locations</option><option>NSW</option><option>VIC</option><option>QLD</option><option>WA</option><option>SA</option></select>
+          <select class="select select-sm"><option>Sort: GMV (high)</option><option>Sort: Newest</option><option>Sort: Most products</option></select>
+        </div>
+        <table class="data">
+          <thead><tr>
+            <th>Merchant</th><th>ABN</th><th>Products</th><th>Active LB</th><th>GMV (30d)</th><th>Joined</th><th>Status</th><th></th>
+          </tr></thead>
+          <tbody><tr>
+              <td><div class="user-cell"><div class="avatar">TZ</div><div><div class="user-name">TechZone Australia</div><div class="user-sub">Sydney NSW · Tier 1</div></div></div></td>
+              <td><span class="cell-muted mono">47 612 938 401</span></td>
+              <td>184</td>
+              <td class="cell-strong">62</td>
+              <td class="cell-amount">$112,840</td>
+              <td>Jan 2024</td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">AM</div><div><div class="user-name">AudioMax</div><div class="user-sub">Melbourne VIC</div></div></div></td>
+              <td><span class="cell-muted mono">94 102 887 220</span></td>
+              <td>76</td>
+              <td class="cell-strong">48</td>
+              <td class="cell-amount">$38,420</td>
+              <td>Feb 2024</td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">GH</div><div><div class="user-name">GadgetHub</div><div class="user-sub">Brisbane QLD</div></div></div></td>
+              <td><span class="cell-muted mono">38 624 119 802</span></td>
+              <td>62</td>
+              <td class="cell-strong">34</td>
+              <td class="cell-amount">$31,250</td>
+              <td>Mar 2024</td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">HS</div><div><div class="user-name">HomeStyle Co.</div><div class="user-sub">Perth WA</div></div></div></td>
+              <td><span class="cell-muted mono">74 488 220 945</span></td>
+              <td>142</td>
+              <td class="cell-strong">28</td>
+              <td class="cell-amount">$84,180</td>
+              <td>Jan 2024</td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">SV</div><div><div class="user-name">StyleVault</div><div class="user-sub">Adelaide SA</div></div></div></td>
+              <td><span class="cell-muted mono">52 398 660 174</span></td>
+              <td>98</td>
+              <td class="cell-strong">22</td>
+              <td class="cell-amount">$24,720</td>
+              <td>Apr 2024</td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">FG</div><div><div class="user-name">FitGear AU</div><div class="user-sub">Melbourne VIC</div></div></div></td>
+              <td><span class="cell-muted mono">21 884 220 561</span></td>
+              <td>64</td>
+              <td class="cell-strong">18</td>
+              <td class="cell-amount">$18,940</td>
+              <td>May 2024</td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">UE</div><div><div class="user-name">UrbanEdge</div><div class="user-sub">Sydney NSW</div></div></div></td>
+              <td><span class="cell-muted mono">63 552 089 412</span></td>
+              <td>48</td>
+              <td class="cell-strong">14</td>
+              <td class="cell-amount">$14,820</td>
+              <td>Jul 2024</td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">CW</div><div><div class="user-name">CycleWorks</div><div class="user-sub">Hobart TAS</div></div></div></td>
+              <td><span class="cell-muted mono">88 209 415 663</span></td>
+              <td>32</td>
+              <td class="cell-strong">8</td>
+              <td class="cell-amount">$8,640</td>
+              <td>Sep 2024</td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">BB</div><div><div class="user-name">BeautyBox AU</div><div class="user-sub">Sydney NSW</div></div></div></td>
+              <td><span class="cell-muted mono">12 668 941 220</span></td>
+              <td>86</td>
+              <td class="cell-strong">12</td>
+              <td class="cell-amount">$5,420</td>
+              <td>Oct 2024</td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">OB</div><div><div class="user-name">OutdoorBase</div><div class="user-sub">Cairns QLD</div></div></div></td>
+              <td><span class="cell-muted mono">49 884 117 220</span></td>
+              <td>28</td>
+              <td class="cell-strong">6</td>
+              <td class="cell-amount">$4,180</td>
+              <td>Jan 2025</td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="merchant-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr></tbody>
+        </table>
+        <div class="pager">
+          <div class="pager-info">Showing 10 of 38 active</div>
+          <div class="pager-ctrls"><button class="btn btn-sm">‹</button><button class="btn btn-sm active">1</button><button class="btn btn-sm">2</button><button class="btn btn-sm">3</button><button class="btn btn-sm">4</button><button class="btn btn-sm">›</button></div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('merchants','Merchants','Active Merchants');</script>
+</body>
+</html>

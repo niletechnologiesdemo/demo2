@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Transaction · TX-9F8A2C-0451 · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="breadcrumb"><a href="payments.html">Payments</a> <span>/</span> <span>TX-9F8A2C-0451</span></div>
+
+      <div class="entity-head">
+        <div class="entity-head-main">
+          <div class="avatar avatar-xl">✓</div>
+          <div>
+            <h2 class="entity-title">$47.47 paid <span class="pill pill-active">Successful</span></h2>
+            <p class="entity-sub"><span class="mono">TX-9F8A2C-0451</span> · Instalment 11 of 32 · <a href="layby-detail.html" class="link">LB-2026-00891</a></p>
+            <div class="entity-meta">
+              <span>Mon 04 May 2026 · 14:42:08 AEST</span>
+              <span>·</span>
+              <span>Stripe charge ch_3PxxxxxxYZ</span>
+              <span>·</span>
+              <span>Settled T+1 (Tue 05 May)</span>
+            </div>
+          </div>
+        </div>
+        <div class="entity-head-actions">
+          <button class="btn btn-ghost">Download Receipt</button>
+          <button class="btn btn-ghost">View in Stripe</button>
+          <button class="btn btn-ghost btn-danger">Refund</button>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Transaction Breakdown</h3></div>
+            <div class="layby-preview">
+              <div class="layby-preview-row"><span>Amount charged</span><b>$47.47</b></div>
+              <div class="layby-preview-row"><span>Stripe processing fee (1.7% + $0.30)</span><b>−$1.11</b></div>
+              <div class="layby-preview-row"><span>LayBys.com platform fee (5%)</span><b>−$2.37</b></div>
+              <div class="layby-preview-row"><span>Net to merchant escrow</span><b>$43.99</b></div>
+              <div class="layby-preview-row layby-preview-foot"><span>Releases to merchant on</span><b>Order completion (week 32)</b></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Processing Timeline</h3></div>
+            <ul class="tl">
+              <li class="tl-item"><div class="tl-dot tl-dot-success"></div><div class="tl-body"><div class="tl-title">Settled to merchant escrow</div><div class="tl-sub">Tue 05 May 03:14 · Stripe webhook charge.succeeded · payout pending order completion</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-success"></div><div class="tl-body"><div class="tl-title">Charge confirmed</div><div class="tl-sub">Mon 04 May 14:42:09 · Visa response code 00 · 142ms latency</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-info"></div><div class="tl-body"><div class="tl-title">3DS authentication completed</div><div class="tl-sub">Mon 04 May 14:42:08 · Frictionless · Visa Secure</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-info"></div><div class="tl-body"><div class="tl-title">Charge initiated</div><div class="tl-sub">Mon 04 May 14:42:07 · Scheduled cron run · idempotency key idmp_lb891_w11</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-info"></div><div class="tl-body"><div class="tl-title">Reminder sent</div><div class="tl-sub">Fri 01 May 09:00 · Email + SMS · 3-day reminder template</div></div></li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Risk & Fraud Signals</h3></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">CVC check</div><div class="health-stat">Match (M)</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">AVS — Postcode</div><div class="health-stat">Match (Y)</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">3DS authentication</div><div class="health-stat">Authenticated (frictionless)</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Stripe Radar score</div><div class="health-stat">12 / 100 (very low)</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">IP reputation</div><div class="health-stat">Clean · NSW residential</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Velocity check</div><div class="health-stat">Within normal pattern</div></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Raw Gateway Response</h3></div>
+            <div class="code-area">{
+  "id": "ch_3PxxxxxxYZ",
+  "object": "charge",
+  "amount": 4747,
+  "currency": "aud",
+  "captured": true,
+  "paid": true,
+  "status": "succeeded",
+  "outcome": {
+    "network_status": "approved_by_network",
+    "reason": null,
+    "risk_level": "normal",
+    "risk_score": 12,
+    "seller_message": "Payment complete.",
+    "type": "authorized"
+  },
+  "payment_method_details": {
+    "card": {
+      "brand": "visa",
+      "last4": "4421",
+      "exp_month": 9,
+      "exp_year": 2028,
+      "checks": {"cvc_check":"pass","address_postal_code_check":"pass"},
+      "three_d_secure": {"authenticated":true,"version":"2.2.0"}
+    }
+  },
+  "metadata": {
+    "agreement_id":"LB-2026-00891",
+    "instalment":"11/32",
+    "customer_id":"CU-2024-08124"
+  }
+}</div>
+          </div>
+
+        </div>
+
+        <aside class="side-col">
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Customer</h3></div>
+            <div class="user-cell" style="padding:4px 0 14px"><div class="avatar">SM</div><div><div class="user-name">Sarah Mitchell</div><div class="user-sub">CU-2024-08124</div></div></div>
+            <div class="kv"><span>Email</span><b>sarah.m@gmail.com</b></div>
+            <div class="kv"><span>Phone</span><b>+61 412 894 220</b></div>
+            <div class="kv"><span>Trust score</span><b style="color:var(--success-700)">A+</b></div>
+            <div style="margin-top:12px"><a href="customer-detail.html" class="link">View profile →</a></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Payment Method</h3></div>
+            <div class="payment-method">
+              <div class="pm-icon pm-visa">VISA</div>
+              <div><div class="pm-name">Visa ending 4421</div><div class="pm-sub">Expires 09/2028 · NSW issued</div></div>
+            </div>
+            <div class="kv" style="margin-top:8px"><span>Funding</span><b>Credit</b></div>
+            <div class="kv"><span>Issuer</span><b>Commonwealth Bank</b></div>
+            <div class="kv"><span>Country</span><b>Australia</b></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Lay-By</h3></div>
+            <div class="kv"><span>Agreement</span><b><a href="layby-detail.html" class="link mono">LB-2026-00891</a></b></div>
+            <div class="kv"><span>Product</span><b>Galaxy S25 Ultra</b></div>
+            <div class="kv"><span>Merchant</span><b><a href="merchant-detail.html" class="link">TechZone Australia</a></b></div>
+            <div class="kv"><span>Instalment</span><b>11 of 32</b></div>
+            <div class="kv"><span>Total paid so far</span><b>$902.74</b></div>
+            <div class="kv"><span>Remaining</span><b>$996.26</b></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Actions</h3></div>
+            <button class="btn btn-ghost btn-block">Send Receipt</button>
+            <button class="btn btn-ghost btn-block" style="margin-top:8px">Download Invoice</button>
+            <button class="btn btn-ghost btn-block btn-danger" style="margin-top:8px">Issue Refund</button>
+          </div>
+
+        </aside>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('payments','Transaction','TX-9F8A2C-0451 · $47.47 · Successful');</script>
+</body>
+</html>

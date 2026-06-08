@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Payments · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Payments</h1>
+          <p class="page-sub">Live transaction stream, merchant payouts, refunds and gateway health across Stripe, NAB, BPAY and PayID.</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Reconcile</button>
+          <button class="btn btn-ghost">Export Ledger</button>
+          <button class="btn btn-primary">Issue Refund</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Today's Volume</div><div class="kpi-value">$48,294</div><div class="kpi-delta up">▲ 12% vs avg</div></div>
+        <div class="kpi"><div class="kpi-label">Success Rate (24h)</div><div class="kpi-value">98.4%</div><div class="kpi-delta up">▲ 0.3pp</div></div>
+        <div class="kpi"><div class="kpi-label">Failed Payments</div><div class="kpi-value">14</div><div class="kpi-delta down">▼ 6 vs yesterday</div></div>
+        <div class="kpi"><div class="kpi-label">Pending Retries</div><div class="kpi-value">4</div><div class="kpi-delta">Auto-retry tonight</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Payment Volume — Last 14 Days</h3>
+            <p class="card-sub">Daily collection across all merchants</p>
+          </div>
+          <div class="card-actions">
+            <select class="select"><option>Last 14 days</option><option>Last 30 days</option><option>Last 90 days</option></select>
+          </div>
+        </div>
+        <div class="chart-bars" style="height:200px">
+          <div class="bar" style="height:62%"><span class="bar-label">21 Apr</span></div>
+          <div class="bar" style="height:71%"><span class="bar-label">22</span></div>
+          <div class="bar" style="height:58%"><span class="bar-label">23</span></div>
+          <div class="bar" style="height:80%"><span class="bar-label">24</span></div>
+          <div class="bar" style="height:74%"><span class="bar-label">25</span></div>
+          <div class="bar" style="height:42%"><span class="bar-label">26</span></div>
+          <div class="bar" style="height:36%"><span class="bar-label">27</span></div>
+          <div class="bar" style="height:88%"><span class="bar-label">28</span></div>
+          <div class="bar" style="height:76%"><span class="bar-label">29</span></div>
+          <div class="bar" style="height:69%"><span class="bar-label">30</span></div>
+          <div class="bar" style="height:84%"><span class="bar-label">01 May</span></div>
+          <div class="bar" style="height:78%"><span class="bar-label">02</span></div>
+          <div class="bar" style="height:48%"><span class="bar-label">03</span></div>
+          <div class="bar bar-current" style="height:92%"><span class="bar-label">Today</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Transaction Log</h3>
+            <p class="card-sub">All card and direct debit movements</p>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-ghost">Export CSV</button>
+            <button class="btn btn-ghost">Reconcile</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Search by transaction ID, agreement or customer…"></div>
+          <select class="select"><option>All gateways</option><option>Stripe</option><option>NAB Direct Debit</option><option>BPAY</option></select>
+          <select class="select"><option>All types</option><option>Deposit</option><option>Instalment</option><option>Final</option><option>Refund</option><option>Payout</option></select>
+          <input type="date" class="select" value="2026-05-04">
+        </div>
+
+        <div class="tabs">
+          <a class="tab active" href="payments.html">All <span class="tab-count">3,841</span></a>
+          <a class="tab" href="payments-successful.html">Successful <span class="tab-count">3,778</span></a>
+          <a class="tab" href="payments-failed.html">Failed <span class="tab-count">14</span></a>
+          <a class="tab" href="payments-retries.html">Retries <span class="tab-count">4</span></a>
+          <a class="tab" href="payments-refunds.html">Refunds <span class="tab-count">9</span></a>
+          <a class="tab" href="payments-payouts.html">Payouts <span class="tab-count">36</span></a>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Time</th><th>Transaction ID</th><th>Type</th><th>Customer / Merchant</th><th>Method</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>14:42</td>
+                <td><a href="transaction-detail.html" class="link mono">TX-9F8A2C-0451</a></td>
+                <td><span class="pill pill-info">Instalment</span></td>
+                <td>Sarah Mitchell → TechZone Australia</td>
+                <td>Visa ··4421</td>
+                <td>$47.47</td>
+                <td><span class="pill pill-active">Success</span></td>
+              </tr>
+              <tr>
+                <td>14:38</td>
+                <td><a href="transaction-detail.html" class="link mono">TX-9F8A2C-0450</a></td>
+                <td><span class="pill pill-info">Instalment</span></td>
+                <td>James Thompson → AudioMax</td>
+                <td>Direct Debit</td>
+                <td>$58.00</td>
+                <td><span class="pill pill-active">Success</span></td>
+              </tr>
+              <tr>
+                <td>14:31</td>
+                <td><a href="transaction-detail.html" class="link mono">TX-9F8A2C-0449</a></td>
+                <td><span class="pill pill-gold">Deposit</span></td>
+                <td>Marcus O'Brien → CycleWorks</td>
+                <td>Mastercard ··2210</td>
+                <td>$329.00</td>
+                <td><span class="pill pill-active">Success</span></td>
+              </tr>
+              <tr>
+                <td>14:24</td>
+                <td><a href="transaction-detail.html" class="link mono">TX-9F8A2C-0448</a></td>
+                <td><span class="pill pill-info">Instalment</span></td>
+                <td>Liam Bennett → StyleVault</td>
+                <td>Visa ··0099</td>
+                <td>$24.50</td>
+                <td><span class="pill pill-overdue">Failed — Insufficient funds</span></td>
+              </tr>
+              <tr>
+                <td>14:18</td>
+                <td><a href="transaction-detail.html" class="link mono">TX-9F8A2C-0447</a></td>
+                <td><span class="pill pill-completed">Final</span></td>
+                <td>Aisha Fernando → BeautyBox AU</td>
+                <td>Visa ··7720</td>
+                <td>$31.85</td>
+                <td><span class="pill pill-active">Success</span></td>
+              </tr>
+              <tr>
+                <td>13:55</td>
+                <td><a href="transaction-detail.html" class="link mono">TX-9F8A2C-0446</a></td>
+                <td><span class="pill pill-cancelled">Payout</span></td>
+                <td>LayBys → TechZone Australia</td>
+                <td>NAB EFT</td>
+                <td>$12,847.20</td>
+                <td><span class="pill pill-active">Settled</span></td>
+              </tr>
+              <tr>
+                <td>13:42</td>
+                <td><a href="transaction-detail.html" class="link mono">TX-9F8A2C-0445</a></td>
+                <td><span class="pill pill-info">Instalment</span></td>
+                <td>Emily Wong → GadgetHub</td>
+                <td>Mastercard ··5511</td>
+                <td>$62.30</td>
+                <td><span class="pill pill-active">Success</span></td>
+              </tr>
+              <tr>
+                <td>13:37</td>
+                <td><a href="transaction-detail.html" class="link mono">TX-9F8A2C-0444</a></td>
+                <td><span class="pill pill-info">Retry</span></td>
+                <td>Chloe Hartman → HomeStyle Co.</td>
+                <td>Visa ··3380</td>
+                <td>$45.00</td>
+                <td><span class="pill pill-pending">Retry scheduled 22:00</span></td>
+              </tr>
+              <tr>
+                <td>13:21</td>
+                <td><a href="transaction-detail.html" class="link mono">TX-9F8A2C-0443</a></td>
+                <td><span class="pill pill-overdue">Refund</span></td>
+                <td>Daniel Kovac ← OutdoorBase</td>
+                <td>Visa ··9912</td>
+                <td>−$189.00</td>
+                <td><span class="pill pill-active">Processed</span></td>
+              </tr>
+              <tr>
+                <td>13:08</td>
+                <td><a href="transaction-detail.html" class="link mono">TX-9F8A2C-0442</a></td>
+                <td><span class="pill pill-info">Instalment</span></td>
+                <td>Priya Raman → FitGear AU</td>
+                <td>Direct Debit</td>
+                <td>$28.75</td>
+                <td><span class="pill pill-active">Success</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pager">
+          <span class="pager-info">Showing 1–10 of 3,841 transactions</span>
+          <div class="pager-ctrls">
+            <button class="btn btn-ghost btn-sm">‹ Prev</button>
+            <button class="btn btn-sm active">1</button>
+            <button class="btn btn-sm">2</button>
+            <button class="btn btn-sm">3</button>
+            <button class="btn btn-ghost btn-sm">Next ›</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:24px">
+        <div class="card">
+          <div class="card-head"><h3 class="card-title">Merchant Payouts — Next 7 Days</h3><a href="payout-detail.html" class="link">All payouts →</a></div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Merchant</th><th>Amount</th><th>Scheduled</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td><a href="payout-detail.html" class="link">TechZone Australia</a></td><td>$12,847.20</td><td>Mon 04 May</td><td><span class="pill pill-active">Settled</span></td></tr>
+                <tr><td><a href="payout-detail.html" class="link">HomeStyle Co.</a></td><td>$8,392.45</td><td>Tue 05 May</td><td><span class="pill pill-pending">Queued</span></td></tr>
+                <tr><td><a href="payout-detail.html" class="link">AudioMax</a></td><td>$4,510.80</td><td>Tue 05 May</td><td><span class="pill pill-pending">Queued</span></td></tr>
+                <tr><td><a href="payout-detail.html" class="link">GadgetHub</a></td><td>$6,224.10</td><td>Wed 06 May</td><td><span class="pill pill-pending">Queued</span></td></tr>
+                <tr><td><a href="payout-detail.html" class="link">StyleVault</a></td><td>$2,894.00</td><td>Wed 06 May</td><td><span class="pill pill-pending">Queued</span></td></tr>
+                <tr><td><a href="payout-detail.html" class="link">FitGear AU</a></td><td>$3,140.50</td><td>Thu 07 May</td><td><span class="pill pill-pending">Queued</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3 class="card-title">Gateway Health</h3><a href="reports.html" class="link">Diagnostics →</a></div>
+          <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Stripe (cards)</div><div class="health-stat">99.7% · 142ms avg</div></div>
+          <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">NAB Direct Debit</div><div class="health-stat">99.9% · settled T+1</div></div>
+          <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">BPAY</div><div class="health-stat">100% · 0 errors 24h</div></div>
+          <div class="health-row"><div class="health-dot health-dot-warn"></div><div class="health-name">PayID</div><div class="health-stat">98.2% · elevated latency</div></div>
+          <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Document.AI (KYC)</div><div class="health-stat">99.4% · 3.1s avg</div></div>
+          <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Twilio (SMS)</div><div class="health-stat">99.9% · 99 sent today</div></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('payments','Payments','Transactions, payouts and gateway health');</script>
+</body>
+</html>

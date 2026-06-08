@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Page not found · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+      <div class="empty-state" style="padding:80px 20px;text-align:center">
+        <div style="font-size:96px;font-weight:800;color:var(--navy-900);margin-bottom:8px;line-height:1">404</div>
+        <h2 style="margin:0 0 8px;font-size:24px;color:var(--ink-900)">We can't find that page</h2>
+        <p style="margin:0 0 28px;color:var(--ink-500);max-width:440px;margin-left:auto;margin-right:auto;line-height:1.55">The page you were looking for might have been renamed, moved, or never existed. Try one of these:</p>
+        <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+          <a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+          <a href="laybys.html" class="btn btn-ghost">Lay-By Agreements</a>
+          <a href="merchants.html" class="btn btn-ghost">Merchants</a>
+          <a href="reports.html" class="btn btn-ghost">Reports</a>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('dashboard','Page not found','404');</script>
+</body>
+</html>

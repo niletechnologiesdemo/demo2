@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Products &amp; Categories · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Products &amp; Categories</h1>
+          <p class="page-sub">Approve new merchant listings, manage the catalogue, and organise marketplace categories.</p>
+        </div>
+        <div class="filter-row">
+          <a href="category-detail.html" class="btn btn-ghost">Manage Categories</a>
+          <a href="product-new.html" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            Add Product
+          </a>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Total Products</div><div class="kpi-value">2,418</div><div class="kpi-meta">Across 7 categories</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Live &amp; Listed</div><div class="kpi-value">2,396</div><div class="kpi-meta">99% of catalogue</div></div>
+        <div class="kpi kpi-warn"><div class="kpi-label">Pending Approval</div><div class="kpi-value">14</div><div class="kpi-meta">From 5 merchants</div></div>
+        <div class="kpi"><div class="kpi-label">Categories</div><div class="kpi-value">7</div><div class="kpi-meta">+ 28 sub-categories</div></div>
+      </div>
+
+      <!-- Two-pane: Categories + Products -->
+      <div style="display:grid;grid-template-columns:280px 1fr;gap:18px">
+
+        <!-- Categories tree -->
+        <div class="card">
+          <div class="card-head" style="padding:14px 16px">
+            <h3>Categories</h3>
+            <button class="btn btn-icon" title="Add">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            </button>
+          </div>
+          <div style="padding:8px 8px 14px">
+            <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--blue-50);border-radius:7px;color:var(--navy-800);font-weight:600;font-size:13px">
+              <span style="flex:1">All products</span>
+              <span class="pill pill-info" style="height:auto;padding:1px 7px">2,418</span>
+            </div>
+            <div style="height:6px"></div>
+            <!-- Cat 1 -->
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800)">
+              <span style="color:var(--ink-400)">▼</span><span style="flex:1">Clothing &amp; Apparel</span><span class="muted text-sm">627</span>
+            </div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Women</span><span>394</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Men</span><span>287</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Kids</span><span>84</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Activewear</span><span>62</span></div>
+            <!-- Cat 2 -->
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800);margin-top:4px">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Health &amp; Beauty</span><span class="muted text-sm">218</span>
+            </div>
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800);margin-top:4px">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Household</span><span class="muted text-sm">315</span>
+            </div>
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800);margin-top:4px">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Sporting Goods</span><span class="muted text-sm">198</span>
+            </div>
+            <a href="category-detail.html" style="text-decoration:none;display:block;padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--navy-800);background:var(--ink-100);margin-top:4px">
+              <span style="color:var(--navy-700)">▼</span><span style="flex:1">Technology</span><span class="muted text-sm" style="color:var(--navy-700);font-weight:700">482</span>
+            </a>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Smartphones</span><span>112</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Laptops &amp; Tablets</span><span>96</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Audio &amp; Headphones</span><span>84</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Wearables</span><span>67</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Gaming</span><span>78</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Smart Home</span><span>45</span></div>
+            <!-- Other cats -->
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800);margin-top:4px">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Travel &amp; Stays</span><span class="muted text-sm">42</span>
+            </div>
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800);margin-top:4px">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Magazine &amp; Discover</span><span class="muted text-sm">36</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products -->
+        <div>
+          <!-- Pending banner -->
+          <div class="card" style="background:linear-gradient(135deg,#fef9e7,#fffaeb);border-color:#fec84b;margin-bottom:14px">
+            <div class="card-body" style="display:flex;align-items:center;gap:14px;padding:14px 18px">
+              <div style="width:34px;height:34px;border-radius:8px;background:var(--gold-500);color:var(--navy-900);display:grid;place-items:center;font-weight:800">!</div>
+              <div style="flex:1">
+                <div style="font-weight:700;color:#7a4d00;font-size:14px">14 products pending approval</div>
+                <div style="color:#7a4d00;font-size:12.5px;margin-top:1px">Review listings from new merchants before publishing to the marketplace.</div>
+              </div>
+              <button class="btn btn-gold btn-sm">Review →</button>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="tabs">
+            <a class="tab active" href="products.html">All in Technology <span class="count">482</span></a>
+            <a class="tab" href="products-pending.html">Pending <span class="count">14</span></a>
+            <a class="tab" href="products-live.html">Live <span class="count">468</span></a>
+            <a class="tab" href="products-out.html">Out of Stock <span class="count">3</span></a>
+            <a class="tab" href="products-hidden.html">Hidden <span class="count">7</span></a>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-toolbar">
+              <div class="topbar-search" style="flex:1;max-width:300px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" placeholder="Search products…" />
+              </div>
+              <select class="select select-sm">
+                <option>All merchants</option>
+                <option>TechZone Australia</option>
+                <option>AudioMax</option>
+                <option>GadgetHub</option>
+              </select>
+              <select class="select select-sm">
+                <option>Sort: Newest</option>
+                <option>Sort: Best selling</option>
+                <option>Sort: Price high to low</option>
+              </select>
+            </div>
+
+            <table class="data">
+              <thead><tr>
+                <th><input type="checkbox" /></th>
+                <th>Product</th>
+                <th>Merchant</th>
+                <th>Sub-Category</th>
+                <th>Price</th>
+                <th>Lay-By Terms</th>
+                <th>Active LB</th>
+                <th>Status</th>
+                <th></th>
+              </tr></thead>
+              <tbody>
+                <!-- Pending first -->
+                <tr style="background:var(--warn-50)">
+                  <td><input type="checkbox"/></td>
+                  <td><div class="cell-thumb"><img src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">DJI Osmo Pocket 3 Creator Kit</div><div class="cell-muted">SKU GH-DJI-OS3-CK</div></div></div></td>
+                  <td>GadgetHub</td>
+                  <td>Smart Home</td>
+                  <td class="cell-amount">$899.00</td>
+                  <td class="cell-muted">$179.80 dep · 24 wks</td>
+                  <td class="cell-muted">—</td>
+                  <td><span class="pill pill-pending">Awaiting</span></td>
+                  <td><div class="cell-actions"><button class="btn btn-gold btn-sm">Approve</button><button class="btn btn-ghost btn-sm">Reject</button></div></td>
+                </tr>
+                <tr style="background:var(--warn-50)">
+                  <td><input type="checkbox"/></td>
+                  <td><div class="cell-thumb"><img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">Bose QuietComfort Ultra Earbuds</div><div class="cell-muted">SKU AM-BOSE-QCU-WHT</div></div></div></td>
+                  <td>AudioMax</td>
+                  <td>Audio &amp; Headphones</td>
+                  <td class="cell-amount">$449.00</td>
+                  <td class="cell-muted">$89.80 dep · 18 wks</td>
+                  <td class="cell-muted">—</td>
+                  <td><span class="pill pill-pending">Awaiting</span></td>
+                  <td><div class="cell-actions"><button class="btn btn-gold btn-sm">Approve</button><button class="btn btn-ghost btn-sm">Reject</button></div></td>
+                </tr>
+                <!-- Live products -->
+                <tr>
+                  <td><input type="checkbox"/></td>
+                  <td><div class="cell-thumb"><img src="https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">Samsung Galaxy S25 Ultra 256GB</div><div class="cell-muted">SKU TZ-SGS25U-256-TG</div></div></div></td>
+                  <td>TechZone Australia</td>
+                  <td>Smartphones</td>
+                  <td class="cell-amount">$1,899.00</td>
+                  <td class="cell-muted">$379.80 dep · 32 wks</td>
+                  <td class="cell-strong tabular">12</td>
+                  <td><span class="pill pill-active">Live</span></td>
+                  <td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"/></td>
+                  <td><div class="cell-thumb"><img src="https://images.pexels.com/photos/303383/pexels-photo-303383.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">MacBook Air M4 15"</div><div class="cell-muted">SKU TZ-MBA-M4-15-512</div></div></div></td>
+                  <td>TechZone Australia</td>
+                  <td>Laptops &amp; Tablets</td>
+                  <td class="cell-amount">$2,199.00</td>
+                  <td class="cell-muted">$439.80 dep · 40 wks</td>
+                  <td class="cell-strong tabular">7</td>
+                  <td><span class="pill pill-active">Live</span></td>
+                  <td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"/></td>
+                  <td><div class="cell-thumb"><img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">Sony WH-1000XM6</div><div class="cell-muted">SKU AM-SONY-XM6-BLK</div></div></div></td>
+                  <td>AudioMax</td>
+                  <td>Audio &amp; Headphones</td>
+                  <td class="cell-amount">$549.00</td>
+                  <td class="cell-muted">$109.80 dep · 18 wks</td>
+                  <td class="cell-strong tabular">23</td>
+                  <td><span class="pill pill-active">Live</span></td>
+                  <td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"/></td>
+                  <td><div class="cell-thumb"><img src="https://images.pexels.com/photos/6976103/pexels-photo-6976103.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">LG 65" OLED C4 Smart TV</div><div class="cell-muted">SKU HS-LG-C4-65</div></div></div></td>
+                  <td>HomeStyle Co.</td>
+                  <td>Smart Home</td>
+                  <td class="cell-amount">$3,299.00</td>
+                  <td class="cell-muted">$659.80 dep · 48 wks</td>
+                  <td class="cell-strong tabular">5</td>
+                  <td><span class="pill pill-active">Live</span></td>
+                  <td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"/></td>
+                  <td><div class="cell-thumb"><img src="https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">PlayStation 5 Pro Bundle</div><div class="cell-muted">SKU GH-PS5P-BNDL</div></div></div></td>
+                  <td>GadgetHub</td>
+                  <td>Gaming</td>
+                  <td class="cell-amount">$949.00</td>
+                  <td class="cell-muted">$189.80 dep · 26 wks</td>
+                  <td class="cell-strong tabular">9</td>
+                  <td><span class="pill pill-active">Live</span></td>
+                  <td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox"/></td>
+                  <td><div class="cell-thumb"><img src="https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">Apple Watch Ultra 3 — Titanium</div><div class="cell-muted">SKU GH-AWU3-TI</div></div></div></td>
+                  <td>GadgetHub</td>
+                  <td>Wearables</td>
+                  <td class="cell-amount">$1,299.00</td>
+                  <td class="cell-muted">$259.80 dep · 28 wks</td>
+                  <td class="cell-strong tabular">8</td>
+                  <td><span class="pill pill-active">Live</span></td>
+                  <td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+                </tr>
+                <tr style="opacity:.7">
+                  <td><input type="checkbox"/></td>
+                  <td><div class="cell-thumb"><img src="https://images.pexels.com/photos/1080721/pexels-photo-1080721.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">Dyson V15 Detect Absolute</div><div class="cell-muted">SKU TZ-DYS-V15D</div></div></div></td>
+                  <td>TechZone Australia</td>
+                  <td>Smart Home</td>
+                  <td class="cell-amount">$1,249.00</td>
+                  <td class="cell-muted">$249.80 dep · 28 wks</td>
+                  <td class="cell-strong tabular">0</td>
+                  <td><span class="pill pill-cancelled">Out of Stock</span></td>
+                  <td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="pagination">
+              <div>Showing <strong>1–9</strong> of <strong>482</strong> in Technology</div>
+              <div class="pager">
+                <button>‹</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>…</button>
+                <button>49</button>
+                <button>›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+<script>LBAdmin.mount('products','Products & Categories','Approve listings and organise the catalogue');</script>
+</body>
+</html>

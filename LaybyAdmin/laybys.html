@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Lay-By Agreements · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Lay-By Agreements</h1>
+          <p class="page-sub">Every lay-by agreement on the platform — across all customers, merchants, and statuses.</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+            Export CSV
+          </button>
+          <a href="layby-new.html" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            Manual Lay-By
+          </a>
+        </div>
+      </div>
+
+      <!-- Stat strip -->
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Total Agreements</div><div class="kpi-value">3,902</div><div class="kpi-meta">Lifetime to date</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Active</div><div class="kpi-value">2,418</div><div class="kpi-meta">Currently in instalment phase</div></div>
+        <div class="kpi kpi-gold"><div class="kpi-label">Completed</div><div class="kpi-value">1,289</div><div class="kpi-meta">Fully paid & fulfilled</div></div>
+        <div class="kpi kpi-danger"><div class="kpi-label">Cancelled</div><div class="kpi-value">195</div><div class="kpi-meta">5% of total — within target</div></div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <a class="tab active" href="laybys.html">All <span class="count">3,902</span></a>
+        <a class="tab" href="laybys-active.html">Active <span class="count">2,418</span></a>
+        <a class="tab" href="laybys-pending.html">Pending Deposit <span class="count">42</span></a>
+        <a class="tab" href="laybys-overdue.html">Overdue <span class="count">3</span></a>
+        <a class="tab" href="laybys-completed.html">Completed <span class="count">1,289</span></a>
+        <a class="tab" href="laybys-cancelled.html">Cancelled <span class="count">195</span></a>
+      </div>
+
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="topbar-search" style="flex:1;max-width:340px">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="text" placeholder="Search by agreement ID, customer, or merchant…" />
+          </div>
+          <select class="select select-sm">
+            <option>All merchants</option>
+            <option>TechZone Australia</option>
+            <option>HomeStyle Co.</option>
+            <option>AudioMax</option>
+            <option>GadgetHub</option>
+            <option>StyleVault</option>
+          </select>
+          <select class="select select-sm">
+            <option>All categories</option>
+            <option>Technology</option>
+            <option>Household</option>
+            <option>Clothing & Apparel</option>
+            <option>Sporting Goods</option>
+          </select>
+          <select class="select select-sm">
+            <option>Last 30 days</option>
+            <option>Last 7 days</option>
+            <option>Last 90 days</option>
+            <option>All time</option>
+          </select>
+          <div class="grow"></div>
+          <button class="btn btn-ghost btn-sm">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+            More filters
+          </button>
+        </div>
+
+        <table class="data">
+          <thead><tr>
+            <th><input type="checkbox" /></th>
+            <th>Agreement</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Merchant</th>
+            <th>Total</th>
+            <th>Progress</th>
+            <th>Next Payment</th>
+            <th>Status</th>
+            <th></th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox"/></td>
+              <td>
+                <a href="layby-detail.html"><span class="cell-id">LB-2026-00891</span></a>
+                <div class="cell-muted">Today · 11:42</div>
+              </td>
+              <td>
+                <div class="cell-thumb"><div class="avatar">SM</div><div><div class="cell-strong">Sarah Mitchell</div><div class="cell-muted">sarah.m@gmail.com</div></div></div>
+              </td>
+              <td>
+                <div class="cell-strong">Samsung Galaxy S25 Ultra</div>
+                <div class="cell-muted">Technology · 256GB</div>
+              </td>
+              <td>TechZone Australia</td>
+              <td class="cell-amount">$1,899.00</td>
+              <td>
+                <div class="cell-strong tabular">$759 / $1,899</div>
+                <div style="height:6px;width:120px;background:var(--ink-100);border-radius:99px;margin-top:6px;overflow:hidden">
+                  <div style="height:100%;width:40%;background:linear-gradient(90deg,var(--navy-600),var(--gold-500));border-radius:99px"></div>
+                </div>
+              </td>
+              <td>
+                <div class="cell-strong tabular">$47.47</div>
+                <div class="cell-muted">11 May 2026</div>
+              </td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="layby-detail.html" class="btn btn-icon" title="View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"/></td>
+              <td><span class="cell-id">LB-2026-00890</span><div class="cell-muted">Today · 10:28</div></td>
+              <td><div class="cell-thumb"><div class="avatar">JO</div><div><div class="cell-strong">James O'Connor</div><div class="cell-muted">james.oc@outlook.com</div></div></div></td>
+              <td><div class="cell-strong">Modular Corner Sofa</div><div class="cell-muted">Household · Charcoal</div></td>
+              <td>HomeStyle Co.</td>
+              <td class="cell-amount">$2,450.00</td>
+              <td>
+                <div class="cell-strong tabular">$490 / $2,450</div>
+                <div style="height:6px;width:120px;background:var(--ink-100);border-radius:99px;margin-top:6px;overflow:hidden">
+                  <div style="height:100%;width:20%;background:linear-gradient(90deg,var(--navy-600),var(--gold-500));border-radius:99px"></div>
+                </div>
+              </td>
+              <td><div class="cell-strong tabular">$51.04</div><div class="cell-muted">11 May 2026</div></td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="layby-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"/></td>
+              <td><span class="cell-id">LB-2026-00889</span><div class="cell-muted">Today · 09:14</div></td>
+              <td><div class="cell-thumb"><div class="avatar">PN</div><div><div class="cell-strong">Priya Nair</div><div class="cell-muted">priya.n@gmail.com</div></div></div></td>
+              <td><div class="cell-strong">Sony WH-1000XM6</div><div class="cell-muted">Technology · Audio</div></td>
+              <td>AudioMax</td>
+              <td class="cell-amount">$549.00</td>
+              <td>
+                <div class="cell-strong tabular">$549 / $549</div>
+                <div style="height:6px;width:120px;background:var(--ink-100);border-radius:99px;margin-top:6px;overflow:hidden">
+                  <div style="height:100%;width:100%;background:var(--success-500);border-radius:99px"></div>
+                </div>
+              </td>
+              <td><div class="cell-muted">—</div><div class="cell-muted">Ready to ship</div></td>
+              <td><span class="pill pill-completed">Completed</span></td>
+              <td><a href="layby-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            <tr style="background:var(--danger-50)">
+              <td><input type="checkbox"/></td>
+              <td><span class="cell-id">LB-2026-00852</span><div class="cell-muted">15 Mar 2026</div></td>
+              <td><div class="cell-thumb"><div class="avatar">EW</div><div><div class="cell-strong">Emma Wilson</div><div class="cell-muted">emma.w@yahoo.com</div></div></div></td>
+              <td><div class="cell-strong">Apple Watch Ultra 3</div><div class="cell-muted">Technology · Titanium</div></td>
+              <td>GadgetHub</td>
+              <td class="cell-amount">$1,299.00</td>
+              <td>
+                <div class="cell-strong tabular">$233 / $1,299</div>
+                <div style="height:6px;width:120px;background:var(--ink-100);border-radius:99px;margin-top:6px;overflow:hidden">
+                  <div style="height:100%;width:18%;background:var(--danger-500);border-radius:99px"></div>
+                </div>
+              </td>
+              <td><div class="cell-strong tabular" style="color:var(--danger-700)">$37.11</div><div style="color:var(--danger-700);font-size:12px;font-weight:600">Overdue · 6 days</div></td>
+              <td><span class="pill pill-overdue">Overdue</span></td>
+              <td><a href="layby-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"/></td>
+              <td><span class="cell-id">LB-2026-00888</span><div class="cell-muted">Yesterday</div></td>
+              <td><div class="cell-thumb"><div class="avatar">LT</div><div><div class="cell-strong">Liam Thompson</div><div class="cell-muted">liam.t@bigpond.com</div></div></div></td>
+              <td><div class="cell-strong">NordicTrack 1750</div><div class="cell-muted">Sporting Goods · Treadmill</div></td>
+              <td>FitGear AU</td>
+              <td class="cell-amount">$3,499.00</td>
+              <td>
+                <div class="cell-strong tabular">$700 / $3,499</div>
+                <div style="height:6px;width:120px;background:var(--ink-100);border-radius:99px;margin-top:6px;overflow:hidden">
+                  <div style="height:100%;width:20%;background:linear-gradient(90deg,var(--navy-600),var(--gold-500));border-radius:99px"></div>
+                </div>
+              </td>
+              <td><div class="cell-strong tabular">$64.97</div><div class="cell-muted">10 May 2026</div></td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="layby-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"/></td>
+              <td><span class="cell-id">LB-2026-00887</span><div class="cell-muted">2 days ago</div></td>
+              <td><div class="cell-thumb"><div class="avatar">OC</div><div><div class="cell-strong">Olivia Chen</div><div class="cell-muted">olivia.chen@me.com</div></div></div></td>
+              <td><div class="cell-strong">Zimmermann Silk Midi</div><div class="cell-muted">Clothing · Ivory · 8</div></td>
+              <td>StyleVault</td>
+              <td class="cell-amount">$895.00</td>
+              <td>
+                <div class="cell-strong tabular">$268 / $895</div>
+                <div style="height:6px;width:120px;background:var(--ink-100);border-radius:99px;margin-top:6px;overflow:hidden">
+                  <div style="height:100%;width:30%;background:linear-gradient(90deg,var(--navy-600),var(--gold-500));border-radius:99px"></div>
+                </div>
+              </td>
+              <td><div class="cell-strong tabular">$29.75</div><div class="cell-muted">10 May 2026</div></td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="layby-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"/></td>
+              <td><span class="cell-id">LB-2026-00886</span><div class="cell-muted">3 days ago</div></td>
+              <td><div class="cell-thumb"><div class="avatar">RK</div><div><div class="cell-strong">Rajesh Kumar</div><div class="cell-muted">rajesh.k@gmail.com</div></div></div></td>
+              <td><div class="cell-strong">PlayStation 5 Pro</div><div class="cell-muted">Technology · Gaming</div></td>
+              <td>GadgetHub</td>
+              <td class="cell-amount">$949.00</td>
+              <td>
+                <div class="cell-strong tabular">$190 / $949</div>
+                <div style="height:6px;width:120px;background:var(--ink-100);border-radius:99px;margin-top:6px;overflow:hidden">
+                  <div style="height:100%;width:20%;background:linear-gradient(90deg,var(--navy-600),var(--gold-500));border-radius:99px"></div>
+                </div>
+              </td>
+              <td><div class="cell-strong tabular">$29.19</div><div class="cell-muted">9 May 2026</div></td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="layby-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"/></td>
+              <td><span class="cell-id">LB-2026-00885</span><div class="cell-muted">3 days ago</div></td>
+              <td><div class="cell-thumb"><div class="avatar">MC</div><div><div class="cell-strong">Mia Carter</div><div class="cell-muted">mia.c@gmail.com</div></div></div></td>
+              <td><div class="cell-strong">Aesop Collector Set</div><div class="cell-muted">Health & Beauty</div></td>
+              <td>BeautyBox AU</td>
+              <td class="cell-amount">$360.00</td>
+              <td>
+                <div class="cell-strong tabular">$72 / $360</div>
+                <div style="height:6px;width:120px;background:var(--ink-100);border-radius:99px;margin-top:6px;overflow:hidden">
+                  <div style="height:100%;width:20%;background:linear-gradient(90deg,var(--navy-600),var(--gold-500));border-radius:99px"></div>
+                </div>
+              </td>
+              <td><div class="cell-strong tabular">$18.00</div><div class="cell-muted">9 May 2026</div></td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="layby-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"/></td>
+              <td><span class="cell-id">LB-2026-00884</span><div class="cell-muted">4 days ago</div></td>
+              <td><div class="cell-thumb"><div class="avatar">DH</div><div><div class="cell-strong">Daniel Harris</div><div class="cell-muted">d.harris@iinet.net.au</div></div></div></td>
+              <td><div class="cell-strong">Giant Defy Advanced 2</div><div class="cell-muted">Sporting Goods · Bike</div></td>
+              <td>CycleWorks</td>
+              <td class="cell-amount">$2,899.00</td>
+              <td>
+                <div class="cell-strong tabular">$580 / $2,899</div>
+                <div style="height:6px;width:120px;background:var(--ink-100);border-radius:99px;margin-top:6px;overflow:hidden">
+                  <div style="height:100%;width:20%;background:linear-gradient(90deg,var(--navy-600),var(--gold-500));border-radius:99px"></div>
+                </div>
+              </td>
+              <td><div class="cell-strong tabular">$52.48</div><div class="cell-muted">8 May 2026</div></td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="layby-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            <tr>
+              <td><input type="checkbox"/></td>
+              <td><span class="cell-id">LB-2026-00883</span><div class="cell-muted">5 days ago</div></td>
+              <td><div class="cell-thumb"><div class="avatar">AK</div><div><div class="cell-strong">Aisha Khan</div><div class="cell-muted">aisha.k@hotmail.com</div></div></div></td>
+              <td><div class="cell-strong">R.M. Williams Boots</div><div class="cell-muted">Clothing · Size 9</div></td>
+              <td>UrbanEdge</td>
+              <td class="cell-amount">$649.00</td>
+              <td>
+                <div class="cell-strong tabular">$130 / $649</div>
+                <div style="height:6px;width:120px;background:var(--ink-100);border-radius:99px;margin-top:6px;overflow:hidden">
+                  <div style="height:100%;width:20%;background:linear-gradient(90deg,var(--navy-600),var(--gold-500));border-radius:99px"></div>
+                </div>
+              </td>
+              <td><div class="cell-strong tabular">$23.45</div><div class="cell-muted">7 May 2026</div></td>
+              <td><span class="pill pill-active">Active</span></td>
+              <td><a href="layby-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pagination">
+          <div>Showing <strong>1–10</strong> of <strong>3,902</strong> agreements</div>
+          <div class="pager">
+            <button>‹</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>…</button>
+            <button>391</button>
+            <button>›</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+<script>LBAdmin.mount('laybys','Lay-By Agreements','All lay-by transactions across the platform');</script>
+</body>
+</html>

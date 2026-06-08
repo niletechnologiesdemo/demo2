@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Legal & Policies · Settings · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Settings</h1>
+          <p class="page-sub">Workspace configuration · platform-wide</p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="grid-template-columns:240px 1fr;margin-top:8px">
+
+        <aside class="settings-nav">
+          <div class="settings-nav-group">
+            <div class="settings-nav-label">PROFILE</div>
+            <a class="settings-nav-link" href="settings.html">Personal info</a>
+            <a class="settings-nav-link" href="settings-security.html">Security</a>
+          </div>
+          <div class="settings-nav-group">
+            <div class="settings-nav-label">PLATFORM</div>
+            <a class="settings-nav-link active" href="settings-legal.html">Legal &amp; policies</a>
+          </div>
+          <div class="settings-nav-group">
+            <div class="settings-nav-label">TEAM</div>
+            <a class="settings-nav-link" href="settings-admin-users.html">Admin users</a>
+            <a class="settings-nav-link" href="settings-roles.html">Roles &amp; permissions</a>
+          </div>
+        </aside>
+
+        <div>
+          <div class="card">
+            <div class="card-head">
+              <div><h3 class="card-title">Customer-Facing Policies</h3><p class="card-sub">Linked from the website footer and lay-by checkout</p></div>
+              <button class="btn btn-primary btn-sm">+ New Policy</button>
+            </div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Terms of Service</div><div class="doc-sub">Last updated 14 Jan 2026 · v3.2 · 8,420 words</div></div><a class="link" href="#">Edit</a></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Privacy Policy</div><div class="doc-sub">Last updated 14 Jan 2026 · v2.8 · APP compliant</div></div><a class="link" href="#">Edit</a></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Lay-By Agreement</div><div class="doc-sub">Last updated 22 Mar 2026 · v4.1 · 4,160 words</div></div><a class="link" href="#">Edit</a></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Cancellation &amp; Refund Policy</div><div class="doc-sub">Last updated 22 Mar 2026 · v2.1</div></div><a class="link" href="#">Edit</a></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Cookie Policy</div><div class="doc-sub">Last updated 14 Jan 2026 · v1.4</div></div><a class="link" href="#">Edit</a></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Acceptable Use Policy</div><div class="doc-sub">Last updated 14 Jan 2026 · v1.2</div></div><a class="link" href="#">Edit</a></div>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Merchant Agreements</h3></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Merchant Services Agreement</div><div class="doc-sub">Last updated 14 Jan 2026 · v5.0 · Counter-signed by 42 of 42</div></div><a class="link" href="#">Edit</a></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Merchant Code of Conduct</div><div class="doc-sub">Last updated 22 Mar 2026 · v2.0</div></div><a class="link" href="#">Edit</a></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Commission &amp; Payout Schedule</div><div class="doc-sub">Last updated 14 Jan 2026 · v3.1</div></div><a class="link" href="#">Edit</a></div>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Compliance Documents</h3></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">AML/CTF Program</div><div class="doc-sub">Internal · Last reviewed 1 Apr 2026 · Annual review due</div></div><a class="link" href="#">Edit</a></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Privacy Impact Assessment</div><div class="doc-sub">Internal · Last completed 14 Jan 2026</div></div><a class="link" href="#">Edit</a></div>
+            <div class="doc-row"><div class="doc-icon">📄</div><div class="doc-body"><div class="doc-name">Information Security Policy</div><div class="doc-sub">Internal · v2.4 · Last updated 8 Mar 2026</div></div><a class="link" href="#">Edit</a></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('settings','Settings','Legal & Policies');</script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Dashboard · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Welcome back, Greg.</h1>
+          <p class="page-sub">Here's what's happening across LayBys.com today — Sat, 4 May 2026.</p>
+        </div>
+        <div class="filter-row">
+          <select class="select">
+            <option>Last 30 days</option>
+            <option>Last 7 days</option>
+            <option>Last 90 days</option>
+            <option>This year</option>
+          </select>
+          <button class="btn btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+            Export
+          </button>
+          <a href="merchant-new.html" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            Add Merchant
+          </a>
+        </div>
+      </div>
+
+      <!-- KPI tiles -->
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-label">Active Lay-Bys</div>
+          <div class="kpi-value">2,418</div>
+          <div class="kpi-meta"><span class="delta up">▲ 12.4%</span> vs last 30 days</div>
+        </div>
+        <div class="kpi kpi-gold">
+          <div class="kpi-label">Gross Lay-By Volume</div>
+          <div class="kpi-value">$1,247,890</div>
+          <div class="kpi-meta"><span class="delta up">▲ 8.6%</span> vs last 30 days</div>
+        </div>
+        <div class="kpi kpi-success">
+          <div class="kpi-label">Payment Success Rate</div>
+          <div class="kpi-value">98.4%</div>
+          <div class="kpi-meta"><span class="delta up">▲ 0.3 pts</span> vs last 30 days</div>
+        </div>
+        <div class="kpi kpi-danger">
+          <div class="kpi-label">Open Exceptions</div>
+          <div class="kpi-value">7</div>
+          <div class="kpi-meta">3 overdue · 4 failed retries · <a href="exceptions.html">Resolve →</a></div>
+        </div>
+      </div>
+
+      <!-- Row: Volume chart + Status donut -->
+      <div class="detail-grid">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Lay-By Volume — Last 12 Weeks</h3>
+              <div class="sub">Deposits + instalments processed each week (USD)</div>
+            </div>
+            <div style="display:flex;gap:14px;align-items:center;font-size:12px">
+              <span style="display:inline-flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:var(--navy-700)"></span>Volume</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-bars">
+              <div class="chart-bar" style="height:34%"><span class="val">$84k</span><span class="lab">W4 Feb</span></div>
+              <div class="chart-bar" style="height:42%"><span class="val">$104k</span><span class="lab">W1 Mar</span></div>
+              <div class="chart-bar" style="height:48%"><span class="val">$118k</span><span class="lab">W2 Mar</span></div>
+              <div class="chart-bar" style="height:55%"><span class="val">$135k</span><span class="lab">W3 Mar</span></div>
+              <div class="chart-bar" style="height:51%"><span class="val">$125k</span><span class="lab">W4 Mar</span></div>
+              <div class="chart-bar" style="height:58%"><span class="val">$143k</span><span class="lab">W1 Apr</span></div>
+              <div class="chart-bar" style="height:63%"><span class="val">$155k</span><span class="lab">W2 Apr</span></div>
+              <div class="chart-bar" style="height:71%"><span class="val">$174k</span><span class="lab">W3 Apr</span></div>
+              <div class="chart-bar" style="height:67%"><span class="val">$165k</span><span class="lab">W4 Apr</span></div>
+              <div class="chart-bar" style="height:78%"><span class="val">$192k</span><span class="lab">W1 May</span></div>
+              <div class="chart-bar" style="height:85%"><span class="val">$210k</span><span class="lab">W2 May</span></div>
+              <div class="chart-bar" style="height:92%"><span class="val">$226k</span><span class="lab">W3 May</span></div>
+            </div>
+            <div style="height:30px"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Lay-By Status Mix</h3>
+          </div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:20px;align-items:center;padding:20px 24px 24px">
+            <div class="donut">
+              <div class="donut-center"><b>2,418</b><span>Active</span></div>
+            </div>
+            <div class="legend" style="width:100%">
+              <div class="legend-row"><span class="sw" style="background:#1a73e8"></span><span class="nm">Active</span><span class="vl">62%</span></div>
+              <div class="legend-row"><span class="sw" style="background:#f4b400"></span><span class="nm">Completed</span><span class="vl">22%</span></div>
+              <div class="legend-row"><span class="sw" style="background:#0f9d58"></span><span class="nm">Pending Deposit</span><span class="vl">11%</span></div>
+              <div class="legend-row"><span class="sw" style="background:#9aa0a6"></span><span class="nm">Cancelled</span><span class="vl">5%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer-lg"></div>
+
+      <!-- Recent activity + Top merchants -->
+      <div class="detail-grid">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Recent Lay-By Activity</h3>
+              <div class="sub">Latest agreements and instalment events</div>
+            </div>
+            <a href="laybys.html" class="btn btn-ghost btn-sm">View all →</a>
+          </div>
+          <table class="data">
+            <thead><tr>
+              <th>Agreement</th><th>Customer</th><th>Merchant</th><th>Amount</th><th>Status</th>
+            </tr></thead>
+            <tbody>
+              <tr>
+                <td><span class="cell-id">LB-2026-00891</span><div class="cell-muted">Just now</div></td>
+                <td>Sarah Mitchell</td>
+                <td>TechZone Australia</td>
+                <td class="cell-amount">$1,899.00</td>
+                <td><span class="pill pill-active">Active</span></td>
+              </tr>
+              <tr>
+                <td><span class="cell-id">LB-2026-00890</span><div class="cell-muted">12 min ago</div></td>
+                <td>James O'Connor</td>
+                <td>HomeStyle Co.</td>
+                <td class="cell-amount">$2,450.00</td>
+                <td><span class="pill pill-active">Active</span></td>
+              </tr>
+              <tr>
+                <td><span class="cell-id">LB-2026-00889</span><div class="cell-muted">28 min ago</div></td>
+                <td>Priya Nair</td>
+                <td>AudioMax</td>
+                <td class="cell-amount">$549.00</td>
+                <td><span class="pill pill-completed">Completed</span></td>
+              </tr>
+              <tr>
+                <td><span class="cell-id">LB-2026-00852</span><div class="cell-muted">1 hr ago</div></td>
+                <td>Emma Wilson</td>
+                <td>GadgetHub</td>
+                <td class="cell-amount">$1,299.00</td>
+                <td><span class="pill pill-overdue">Overdue</span></td>
+              </tr>
+              <tr>
+                <td><span class="cell-id">LB-2026-00888</span><div class="cell-muted">2 hr ago</div></td>
+                <td>Liam Thompson</td>
+                <td>FitGear AU</td>
+                <td class="cell-amount">$3,499.00</td>
+                <td><span class="pill pill-active">Active</span></td>
+              </tr>
+              <tr>
+                <td><span class="cell-id">LB-2026-00887</span><div class="cell-muted">3 hr ago</div></td>
+                <td>Olivia Chen</td>
+                <td>StyleVault</td>
+                <td class="cell-amount">$895.00</td>
+                <td><span class="pill pill-active">Active</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Top Merchants — This Month</h3>
+          </div>
+          <div class="card-body" style="padding:8px 0">
+            <table class="data">
+              <thead><tr><th>Merchant</th><th class="right">Volume</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><div class="cell-thumb"><div class="avatar gold">TZ</div><div><div class="cell-strong">TechZone Australia</div><div class="cell-muted">42 lay-bys</div></div></div></td>
+                  <td class="cell-amount right">$84,290</td>
+                </tr>
+                <tr>
+                  <td><div class="cell-thumb"><div class="avatar">HS</div><div><div class="cell-strong">HomeStyle Co.</div><div class="cell-muted">28 lay-bys</div></div></div></td>
+                  <td class="cell-amount right">$61,540</td>
+                </tr>
+                <tr>
+                  <td><div class="cell-thumb"><div class="avatar">AM</div><div><div class="cell-strong">AudioMax</div><div class="cell-muted">31 lay-bys</div></div></div></td>
+                  <td class="cell-amount right">$48,210</td>
+                </tr>
+                <tr>
+                  <td><div class="cell-thumb"><div class="avatar">GH</div><div><div class="cell-strong">GadgetHub</div><div class="cell-muted">24 lay-bys</div></div></div></td>
+                  <td class="cell-amount right">$39,860</td>
+                </tr>
+                <tr>
+                  <td><div class="cell-thumb"><div class="avatar">SV</div><div><div class="cell-strong">StyleVault</div><div class="cell-muted">19 lay-bys</div></div></div></td>
+                  <td class="cell-amount right">$28,450</td>
+                </tr>
+                <tr>
+                  <td><div class="cell-thumb"><div class="avatar">FG</div><div><div class="cell-strong">FitGear AU</div><div class="cell-muted">11 lay-bys</div></div></div></td>
+                  <td class="cell-amount right">$24,180</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer-lg"></div>
+
+      <!-- Lower row: Pending approvals + Upcoming payouts -->
+      <div class="detail-grid">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3>Awaiting Your Action</h3>
+              <div class="sub">Items that need a decision</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid var(--ink-200);border-radius:9px;background:var(--warn-50)">
+                <div class="avatar gold" style="background:var(--warn-50);color:var(--warn-700);border:1px solid #fec84b">!</div>
+                <div style="flex:1">
+                  <div class="cell-strong">3 merchant applications pending review</div>
+                  <div class="cell-muted">Submitted in the last 7 days</div>
+                </div>
+                <a href="merchants.html" class="btn btn-ghost btn-sm">Review →</a>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid var(--ink-200);border-radius:9px">
+                <div class="avatar">P</div>
+                <div style="flex:1">
+                  <div class="cell-strong">14 products awaiting category approval</div>
+                  <div class="cell-muted">From 5 different merchants</div>
+                </div>
+                <a href="products.html" class="btn btn-ghost btn-sm">Review →</a>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid var(--ink-200);border-radius:9px;background:var(--danger-50)">
+                <div class="avatar" style="background:var(--danger-50);color:var(--danger-700);border:1px solid #fda29b">!</div>
+                <div style="flex:1">
+                  <div class="cell-strong">7 lay-by exceptions need resolution</div>
+                  <div class="cell-muted">3 overdue · 4 with failed retry attempts</div>
+                </div>
+                <a href="exceptions.html" class="btn btn-danger btn-sm">Resolve →</a>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid var(--ink-200);border-radius:9px">
+                <div class="avatar">$</div>
+                <div style="flex:1">
+                  <div class="cell-strong">12 merchant payouts ready to release</div>
+                  <div class="cell-muted">Total $48,210 across completed lay-bys</div>
+                </div>
+                <a href="payments.html" class="btn btn-ghost btn-sm">Review →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Today's Schedule</h3>
+          </div>
+          <div class="card-body">
+            <div class="tl">
+              <div class="tl-item done">
+                <div class="tl-row"><div class="tl-title">Daily instalment batch</div><div class="tl-amt">$28,490</div></div>
+                <div class="tl-meta">412 instalments processed · 06:00 AEST · ✓ Complete</div>
+              </div>
+              <div class="tl-item done">
+                <div class="tl-row"><div class="tl-title">Reminder notifications sent</div><div class="tl-amt">638</div></div>
+                <div class="tl-meta">For instalments due in next 48 hrs · 09:00 AEST</div>
+              </div>
+              <div class="tl-item next">
+                <div class="tl-row"><div class="tl-title">Failed-payment retry sweep</div><div class="tl-amt">14 cards</div></div>
+                <div class="tl-meta">Scheduled for 14:00 AEST · in 3 hr 22 min</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-row"><div class="tl-title">Merchant payout release</div><div class="tl-amt">$48,210</div></div>
+                <div class="tl-meta">12 merchants · 18:00 AEST</div>
+              </div>
+              <div class="tl-item">
+                <div class="tl-row"><div class="tl-title">Weekly newsletter dispatch</div><div class="tl-amt">14,892</div></div>
+                <div class="tl-meta">Customer subscribers · 20:00 AEST</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+<script>LBAdmin.mount("dashboard","Dashboard","Platform overview & today's activity");</script>
+</body>
+</html>

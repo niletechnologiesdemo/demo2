@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Successful Payments · Payments · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Payments</h1>
+          <p class="page-sub">3,778 captured payments — every charge that completed cleanly</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Export CSV</button>
+          <button class="btn btn-primary">Reconcile</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Volume Today</div><div class="kpi-value">$28.4k</div><div class="kpi-meta">Across 142 charges</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Success Rate (24h)</div><div class="kpi-value">98.4%</div><div class="kpi-meta">Industry avg 96.1%</div></div>
+        <div class="kpi kpi-warn"><div class="kpi-label">Failed (24h)</div><div class="kpi-value">14</div><div class="kpi-meta">9 recovered, 5 pending</div></div>
+        <div class="kpi"><div class="kpi-label">Avg Charge</div><div class="kpi-value">$54.18</div><div class="kpi-meta">Across all instalments</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="tabs">
+          <a class="tab" href="payments.html">All <span class="tab-count">3,841</span></a>
+          <a class="tab active" href="payments-successful.html">Successful <span class="tab-count">3,778</span></a>
+          <a class="tab" href="payments-failed.html">Failed <span class="tab-count">14</span></a>
+          <a class="tab" href="payments-retries.html">Retries <span class="tab-count">4</span></a>
+          <a class="tab" href="payments-refunds.html">Refunds <span class="tab-count">9</span></a>
+          <a class="tab" href="payments-payouts.html">Payouts <span class="tab-count">36</span></a>
+        </div>
+
+        
+        <div class="filters">
+          <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Search by transaction ID, customer, or lay-by ID…"></div>
+          <select class="select"><option>Last 7 days</option><option>Today</option><option>Last 24 hours</option><option>Last 30 days</option></select>
+          <select class="select"><option>All methods</option><option>Visa</option><option>Mastercard</option><option>Amex</option><option>Apple Pay</option><option>Google Pay</option></select>
+        </div>
+
+        <div class="table-wrap" style="border:0;border-radius:0;box-shadow:none">
+          <table class="data">
+            <thead><tr>
+              <th>When</th><th>Transaction ID</th><th>Customer</th><th>Lay-By</th>
+              <th>Type</th><th>Method</th><th>Amount</th><th>Status</th><th></th>
+            </tr></thead>
+            <tbody>
+              <tr>
+              <td><div class="cell-strong">Today</div><div class="cell-muted">14:42</div></td>
+              <td><a href="transaction-detail.html"><span class="cell-id mono">TXN-2026-08245</span></a></td>
+              <td><div class="user-cell"><div class="avatar">SM</div><div><div class="user-name">Sarah Mitchell</div></div></div></td>
+              <td><a href="layby-detail.html" class="link mono">LB-2026-00891</a></td>
+              <td>Instalment 4 of 32</td>
+              <td><span class="cell-muted mono">Visa ··4242</span></td>
+              <td class="cell-amount">$47.47</td>
+              <td><span class="pill pill-active">Captured</span></td>
+              <td><a href="transaction-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div><div class="cell-muted">14:38</div></td>
+              <td><a href="transaction-detail.html"><span class="cell-id mono">TXN-2026-08244</span></a></td>
+              <td><div class="user-cell"><div class="avatar">JO</div><div><div class="user-name">James O'Connor</div></div></div></td>
+              <td><a href="layby-detail.html" class="link mono">LB-2026-00882</a></td>
+              <td>Instalment 9 of 32</td>
+              <td><span class="cell-muted mono">Mastercard ··8841</span></td>
+              <td class="cell-amount">$68.72</td>
+              <td><span class="pill pill-active">Captured</span></td>
+              <td><a href="transaction-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div><div class="cell-muted">14:14</div></td>
+              <td><a href="transaction-detail.html"><span class="cell-id mono">TXN-2026-08243</span></a></td>
+              <td><div class="user-cell"><div class="avatar">EW</div><div><div class="user-name">Emma Wilson</div></div></div></td>
+              <td><a href="layby-detail.html" class="link mono">LB-2026-00879</a></td>
+              <td>Instalment 9 of 16</td>
+              <td><span class="cell-muted mono">Visa ··6201</span></td>
+              <td class="cell-amount">$34.31</td>
+              <td><span class="pill pill-active">Captured</span></td>
+              <td><a href="transaction-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div><div class="cell-muted">13:42</div></td>
+              <td><a href="transaction-detail.html"><span class="cell-id mono">TXN-2026-08242</span></a></td>
+              <td><div class="user-cell"><div class="avatar">NK</div><div><div class="user-name">Noah Kelly</div></div></div></td>
+              <td><a href="layby-detail.html" class="link mono">LB-2026-00865</a></td>
+              <td>Instalment 3 of 40</td>
+              <td><span class="cell-muted mono">Apple Pay (Amex)</span></td>
+              <td class="cell-amount">$82.48</td>
+              <td><span class="pill pill-active">Captured</span></td>
+              <td><a href="transaction-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div><div class="cell-muted">12:18</div></td>
+              <td><a href="transaction-detail.html"><span class="cell-id mono">TXN-2026-08241</span></a></td>
+              <td><div class="user-cell"><div class="avatar">CL</div><div><div class="user-name">Chloe Lee</div></div></div></td>
+              <td><a href="layby-detail.html" class="link mono">LB-2026-00862</a></td>
+              <td>Instalment 16 of 25</td>
+              <td><span class="cell-muted mono">Mastercard ··2384</span></td>
+              <td class="cell-amount">$63.96</td>
+              <td><span class="pill pill-active">Captured</span></td>
+              <td><a href="transaction-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div><div class="cell-muted">11:52</div></td>
+              <td><a href="transaction-detail.html"><span class="cell-id mono">TXN-2026-08240</span></a></td>
+              <td><div class="user-cell"><div class="avatar">OS</div><div><div class="user-name">Oliver Smith</div></div></div></td>
+              <td><a href="layby-detail.html" class="link mono">LB-2026-00858</a></td>
+              <td>Instalment 5 of 16</td>
+              <td><span class="cell-muted mono">Visa ··9012</span></td>
+              <td class="cell-amount">$34.31</td>
+              <td><span class="pill pill-active">Captured</span></td>
+              <td><a href="transaction-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div><div class="cell-muted">10:24</div></td>
+              <td><a href="transaction-detail.html"><span class="cell-id mono">TXN-2026-08239</span></a></td>
+              <td><div class="user-cell"><div class="avatar">GN</div><div><div class="user-name">Grace Nguyen</div></div></div></td>
+              <td><a href="layby-detail.html" class="link mono">LB-2026-00854</a></td>
+              <td>Instalment 12 of 24</td>
+              <td><span class="cell-muted mono">Google Pay (Visa)</span></td>
+              <td class="cell-amount">$62.45</td>
+              <td><span class="pill pill-active">Captured</span></td>
+              <td><a href="transaction-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div><div class="cell-muted">09:48</div></td>
+              <td><a href="transaction-detail.html"><span class="cell-id mono">TXN-2026-08238</span></a></td>
+              <td><div class="user-cell"><div class="avatar">AR</div><div><div class="user-name">Aisha Rahman</div></div></div></td>
+              <td><a href="layby-detail.html" class="link mono">LB-2026-00868</a></td>
+              <td>Instalment 7 of 32</td>
+              <td><span class="cell-muted mono">Visa ··0028</span></td>
+              <td class="cell-amount">$67.16</td>
+              <td><span class="pill pill-active">Captured</span></td>
+              <td><a href="transaction-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div><div class="cell-muted">09:12</div></td>
+              <td><a href="transaction-detail.html"><span class="cell-id mono">TXN-2026-08237</span></a></td>
+              <td><div class="user-cell"><div class="avatar">LT</div><div><div class="user-name">Liam Tran</div></div></div></td>
+              <td><a href="layby-detail.html" class="link mono">LB-2026-00874</a></td>
+              <td>Instalment 10 of 24</td>
+              <td><span class="cell-muted mono">Mastercard ··7204</span></td>
+              <td class="cell-amount">$49.96</td>
+              <td><span class="pill pill-active">Captured</span></td>
+              <td><a href="transaction-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div><div class="cell-muted">08:36</div></td>
+              <td><a href="transaction-detail.html"><span class="cell-id mono">TXN-2026-08236</span></a></td>
+              <td><div class="user-cell"><div class="avatar">HW</div><div><div class="user-name">Harry Williams</div></div></div></td>
+              <td><a href="layby-detail.html" class="link mono">LB-2026-00849</a></td>
+              <td>Deposit (20%)</td>
+              <td><span class="cell-muted mono">Visa ··4502</span></td>
+              <td class="cell-amount">$379.80</td>
+              <td><span class="pill pill-active">Captured</span></td>
+              <td><a href="transaction-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pager">
+          <div class="pager-info">Showing 10 of 3,778 successful</div>
+          <div class="pager-ctrls">
+            <button class="btn btn-sm">‹</button>
+            <button class="btn btn-sm active">1</button>
+            <button class="btn btn-sm">2</button>
+            <button class="btn btn-sm">3</button>
+            <button class="btn btn-sm">›</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('payments','Payments','Successful Payments');</script>
+</body>
+</html>

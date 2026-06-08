@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Roles & Permissions · Settings · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Settings</h1>
+          <p class="page-sub">Workspace configuration · platform-wide</p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="grid-template-columns:240px 1fr;margin-top:8px">
+
+        <aside class="settings-nav">
+          <div class="settings-nav-group">
+            <div class="settings-nav-label">PROFILE</div>
+            <a class="settings-nav-link" href="settings.html">Personal info</a>
+            <a class="settings-nav-link" href="settings-security.html">Security</a>
+          </div>
+          <div class="settings-nav-group">
+            <div class="settings-nav-label">PLATFORM</div>
+            <a class="settings-nav-link" href="settings-legal.html">Legal &amp; policies</a>
+          </div>
+          <div class="settings-nav-group">
+            <div class="settings-nav-label">TEAM</div>
+            <a class="settings-nav-link" href="settings-admin-users.html">Admin users</a>
+            <a class="settings-nav-link active" href="settings-roles.html">Roles &amp; permissions</a>
+          </div>
+        </aside>
+
+        <div>
+          <div class="card">
+            <div class="card-head">
+              <div><h3 class="card-title">Roles &amp; Permissions</h3><p class="card-sub">7 roles · 6 admins assigned</p></div>
+              <button class="btn btn-primary btn-sm">+ Custom Role</button>
+            </div>
+            <div class="table-wrap" style="border:0;border-radius:0">
+              <table class="data">
+                <thead><tr><th>Role</th><th>Description</th><th>Users</th><th>Type</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td><b>Owner</b></td><td>Full access · Cannot be deleted</td><td class="cell-strong">2</td><td><span class="pill pill-gold">System</span></td><td><a class="link" href="#">View</a></td></tr>
+                  <tr><td><b>Operations</b></td><td>Manage lay-bys, payments, exceptions</td><td class="cell-strong">1</td><td><span class="pill pill-neutral">Built-in</span></td><td><a class="link" href="#">Edit</a></td></tr>
+                  <tr><td><b>Compliance</b></td><td>KYC review, AML, audit log access</td><td class="cell-strong">1</td><td><span class="pill pill-neutral">Built-in</span></td><td><a class="link" href="#">Edit</a></td></tr>
+                  <tr><td><b>Customer Care</b></td><td>View customers, send messages, no settings</td><td class="cell-strong">1</td><td><span class="pill pill-neutral">Built-in</span></td><td><a class="link" href="#">Edit</a></td></tr>
+                  <tr><td><b>Marketing</b></td><td>Newsletter, content, analytics</td><td class="cell-strong">1</td><td><span class="pill pill-neutral">Built-in</span></td><td><a class="link" href="#">Edit</a></td></tr>
+                  <tr><td><b>Finance</b></td><td>Payouts, reports, tax</td><td class="cell-strong">0</td><td><span class="pill pill-neutral">Built-in</span></td><td><a class="link" href="#">Edit</a></td></tr>
+                  <tr><td><b>Read-only Auditor</b></td><td>View everything · No edits</td><td class="cell-strong">0</td><td><span class="pill pill-info">Custom</span></td><td><a class="link" href="#">Edit</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Operations Role · Permissions</h3></div>
+            <div class="perm-row"><div class="perm-name"><b>Lay-Bys</b><span>View, create, edit, cancel</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="perm-row"><div class="perm-name"><b>Payments</b><span>View, refund, retry failed</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="perm-row"><div class="perm-name"><b>Exceptions</b><span>Triage, assign, resolve</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="perm-row"><div class="perm-name"><b>Merchants</b><span>View only · Cannot approve</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="perm-row"><div class="perm-name"><b>Customers</b><span>View, edit basic info</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="perm-row"><div class="perm-name"><b>Settings</b><span>No access</span></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+            <div class="perm-row"><div class="perm-name"><b>Audit log</b><span>Read-only</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="perm-row"><div class="perm-name"><b>Reports</b><span>View, export</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('settings','Settings','Roles & Permissions');</script>
+</body>
+</html>

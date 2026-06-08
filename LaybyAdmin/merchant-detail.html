@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TechZone Australia · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+
+    <div class="page">
+      <div style="font-size:13px;color:var(--ink-500);margin-bottom:14px">
+        <a href="merchants.html">Merchants</a> <span style="margin:0 6px">›</span> TechZone Australia
+      </div>
+
+      <!-- Merchant header card -->
+      <div class="card" style="margin-bottom:18px">
+        <div class="card-body" style="display:flex;align-items:center;gap:20px">
+          <div class="avatar avatar-lg gold" style="width:72px;height:72px;font-size:24px;border-radius:14px">TZ</div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+              <h2 style="margin:0;font-size:22px;color:var(--navy-900);font-weight:800;letter-spacing:-.4px">TechZone Australia</h2>
+              <span class="pill pill-active">Active</span>
+              <span class="pill pill-info">✓ Verified</span>
+            </div>
+            <div style="color:var(--ink-600);font-size:13.5px">Technology · Joined Feb 2026 · ABN 47 123 456 789 · Byron Bay, NSW</div>
+            <div style="display:flex;gap:24px;margin-top:14px">
+              <div><div style="font-size:11px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.6px;font-weight:600">Active Lay-Bys</div><div style="font-size:18px;font-weight:800;color:var(--navy-900);margin-top:2px">42</div></div>
+              <div><div style="font-size:11px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.6px;font-weight:600">Volume (30d)</div><div style="font-size:18px;font-weight:800;color:var(--navy-900);margin-top:2px">$84,290</div></div>
+              <div><div style="font-size:11px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.6px;font-weight:600">Pending Payout</div><div style="font-size:18px;font-weight:800;color:var(--gold-500);margin-top:2px">$18,420</div></div>
+              <div><div style="font-size:11px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.6px;font-weight:600">Products Listed</div><div style="font-size:18px;font-weight:800;color:var(--navy-900);margin-top:2px">128</div></div>
+              <div><div style="font-size:11px;color:var(--ink-500);text-transform:uppercase;letter-spacing:.6px;font-weight:600">Rating</div><div style="font-size:18px;font-weight:800;color:var(--navy-900);margin-top:2px">★ 4.9</div></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-primary">Release Payout</button>
+            <button class="btn btn-ghost btn-sm">Email Merchant</button>
+            <button class="btn btn-danger btn-sm">Suspend</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab active">Overview</div>
+        <div class="tab">Products <span class="count">128</span></div>
+        <div class="tab">Lay-Bys <span class="count">42</span></div>
+        <div class="tab">Payouts <span class="count">14</span></div>
+        <div class="tab">Settings</div>
+      </div>
+
+      <div class="detail-grid">
+        <div>
+          <!-- Performance chart -->
+          <div class="card">
+            <div class="card-head">
+              <h3>Volume — Last 12 Weeks</h3>
+              <select class="select select-sm"><option>Volume</option><option>Lay-bys count</option><option>Avg ticket</option></select>
+            </div>
+            <div class="card-body">
+              <div class="chart-bars">
+                <div class="chart-bar" style="height:38%"><span class="val">$5.4k</span><span class="lab">W4 Feb</span></div>
+                <div class="chart-bar" style="height:42%"><span class="val">$6.2k</span><span class="lab">W1 Mar</span></div>
+                <div class="chart-bar" style="height:51%"><span class="val">$7.4k</span><span class="lab">W2 Mar</span></div>
+                <div class="chart-bar" style="height:56%"><span class="val">$8.1k</span><span class="lab">W3 Mar</span></div>
+                <div class="chart-bar" style="height:60%"><span class="val">$8.7k</span><span class="lab">W4 Mar</span></div>
+                <div class="chart-bar" style="height:64%"><span class="val">$9.3k</span><span class="lab">W1 Apr</span></div>
+                <div class="chart-bar" style="height:71%"><span class="val">$10.4k</span><span class="lab">W2 Apr</span></div>
+                <div class="chart-bar" style="height:75%"><span class="val">$10.9k</span><span class="lab">W3 Apr</span></div>
+                <div class="chart-bar" style="height:81%"><span class="val">$11.8k</span><span class="lab">W4 Apr</span></div>
+                <div class="chart-bar" style="height:86%"><span class="val">$12.5k</span><span class="lab">W1 May</span></div>
+                <div class="chart-bar" style="height:91%"><span class="val">$13.3k</span><span class="lab">W2 May</span></div>
+                <div class="chart-bar" style="height:95%"><span class="val">$13.9k</span><span class="lab">W3 May</span></div>
+              </div>
+              <div style="height:30px"></div>
+            </div>
+          </div>
+
+          <div class="spacer"></div>
+
+          <!-- Recent lay-bys -->
+          <div class="card">
+            <div class="card-head">
+              <h3>Recent Lay-By Agreements</h3>
+              <a href="laybys.html" class="btn btn-ghost btn-sm">See all 42 →</a>
+            </div>
+            <table class="data">
+              <thead><tr><th>Agreement</th><th>Customer</th><th>Product</th><th>Total</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><span class="cell-id">LB-2026-00891</span></td>
+                  <td>Sarah Mitchell</td>
+                  <td>Samsung Galaxy S25 Ultra</td>
+                  <td class="cell-amount">$1,899.00</td>
+                  <td><span class="pill pill-active">Active</span></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-id">LB-2026-00882</span></td>
+                  <td>Hugh Andrews</td>
+                  <td>MacBook Air M4 15"</td>
+                  <td class="cell-amount">$2,199.00</td>
+                  <td><span class="pill pill-active">Active</span></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-id">LB-2026-00879</span></td>
+                  <td>Tara Reddy</td>
+                  <td>iPad Pro M4 11"</td>
+                  <td class="cell-amount">$1,649.00</td>
+                  <td><span class="pill pill-active">Active</span></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-id">LB-2026-00871</span></td>
+                  <td>Marcus Lee</td>
+                  <td>Samsung Galaxy S25 Ultra</td>
+                  <td class="cell-amount">$1,899.00</td>
+                  <td><span class="pill pill-completed">Completed</span></td>
+                </tr>
+                <tr>
+                  <td><span class="cell-id">LB-2026-00866</span></td>
+                  <td>Rachel Foo</td>
+                  <td>Dyson V15 Detect</td>
+                  <td class="cell-amount">$1,249.00</td>
+                  <td><span class="pill pill-completed">Completed</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <!-- Contact -->
+          <div class="card">
+            <div class="card-head"><h3>Contact &amp; Banking</h3></div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:auto 1fr;gap:10px 14px;font-size:13px;align-items:center">
+                <span class="muted">Trading name</span><span class="bold">TechZone Australia</span>
+                <span class="muted">Legal entity</span><span>TechZone Pty Ltd</span>
+                <span class="muted">ABN</span><span class="tabular">47 123 456 789</span>
+                <span class="muted">Primary contact</span><span>Sam Patel</span>
+                <span class="muted">Email</span><span>orders@techzone.au</span>
+                <span class="muted">Phone</span><span class="tabular">1300 884 002</span>
+                <span class="muted">Address</span><span>14/200 Jonson St, Byron Bay NSW 2481</span>
+                <span class="muted">Bank account</span><span>BSB 062-001 · *** *** 4421</span>
+                <span class="muted">Stripe Connect</span><span><span class="pill pill-active" style="height:auto;padding:1px 8px">Connected</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="spacer"></div>
+
+          <!-- Commercials -->
+          <div class="card">
+            <div class="card-head"><h3>Commercials</h3></div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:auto 1fr;gap:10px 14px;font-size:13px;align-items:center">
+                <span class="muted">Sale commission</span><span class="bold">5% (platform standard)</span>
+                <span class="muted">Setup fee</span><span class="bold">$50 — paid 14 Feb 2026</span>
+                <span class="muted">Payout schedule</span><span>Weekly · Mondays</span>
+                <span class="muted">Lay-by terms</span><span>Inherits platform default</span>
+                <span class="muted">GST registered</span><span>Yes</span>
+              </div>
+              <div style="margin-top:14px">
+                <button class="btn btn-ghost btn-sm" style="width:100%">Override Commercial Terms →</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="spacer"></div>
+
+          <!-- Compliance -->
+          <div class="card">
+            <div class="card-head"><h3>Compliance &amp; Documents</h3></div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:9px">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--ink-50);border-radius:7px;font-size:13px">
+                <span>📄 ABN Verification</span><span class="pill pill-active" style="height:auto;padding:1px 8px">Verified</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--ink-50);border-radius:7px;font-size:13px">
+                <span>📄 Bank Account Verification</span><span class="pill pill-active" style="height:auto;padding:1px 8px">Verified</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--ink-50);border-radius:7px;font-size:13px">
+                <span>📄 Identity Documents</span><span class="pill pill-active" style="height:auto;padding:1px 8px">Verified</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--ink-50);border-radius:7px;font-size:13px">
+                <span>📄 Merchant Agreement</span><span class="pill pill-active" style="height:auto;padding:1px 8px">Signed 12 Feb</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--ink-50);border-radius:7px;font-size:13px">
+                <span>📄 Public Liability</span><span class="pill pill-active" style="height:auto;padding:1px 8px">Valid to Jun 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+<script>LBAdmin.mount('merchants','TechZone Australia','Merchant overview · Active · Verified');</script>
+</body>
+</html>

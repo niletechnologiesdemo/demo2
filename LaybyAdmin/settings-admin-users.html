@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Admin Users · Settings · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Settings</h1>
+          <p class="page-sub">Workspace configuration · platform-wide</p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="grid-template-columns:240px 1fr;margin-top:8px">
+
+        <aside class="settings-nav">
+          <div class="settings-nav-group">
+            <div class="settings-nav-label">PROFILE</div>
+            <a class="settings-nav-link" href="settings.html">Personal info</a>
+            <a class="settings-nav-link" href="settings-security.html">Security</a>
+          </div>
+          <div class="settings-nav-group">
+            <div class="settings-nav-label">PLATFORM</div>
+            <a class="settings-nav-link" href="settings-legal.html">Legal &amp; policies</a>
+          </div>
+          <div class="settings-nav-group">
+            <div class="settings-nav-label">TEAM</div>
+            <a class="settings-nav-link active" href="settings-admin-users.html">Admin users</a>
+            <a class="settings-nav-link" href="settings-roles.html">Roles &amp; permissions</a>
+          </div>
+        </aside>
+
+        <div>
+          <div class="card">
+            <div class="card-head">
+              <div><h3 class="card-title">Admin Users</h3><p class="card-sub">5 admins · 2 owners</p></div>
+              <button class="btn btn-primary btn-sm">+ Invite User</button>
+            </div>
+            <div class="table-wrap" style="border:0;border-radius:0">
+              <table class="data">
+                <thead><tr><th>User</th><th>Role</th><th>Last active</th><th>2FA</th><th>Status</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td><div class="user-cell"><div class="avatar">GR</div><div><div class="user-name">Greg Rogers</div><div class="user-sub">greg@rogersdigital.com.au</div></div></div></td><td><span class="pill pill-gold">Owner</span></td><td>Active now</td><td>✓</td><td><span class="pill pill-active">Active</span></td><td><a href="admin-user-detail.html" class="btn btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                  <tr><td><div class="user-cell"><div class="avatar">JD</div><div><div class="user-name">Jen Darby</div><div class="user-sub">jen@laybys.com</div></div></div></td><td><span class="pill pill-info">Operations</span></td><td>4 min ago</td><td>✓</td><td><span class="pill pill-active">Active</span></td><td><a href="admin-user-detail.html" class="btn btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                  <tr><td><div class="user-cell"><div class="avatar">SP</div><div><div class="user-name">Sophie Park</div><div class="user-sub">sophie@laybys.com</div></div></div></td><td><span class="pill pill-info">Compliance</span></td><td>22 min ago</td><td>✓</td><td><span class="pill pill-active">Active</span></td><td><a href="admin-user-detail.html" class="btn btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                  <tr><td><div class="user-cell"><div class="avatar">MC</div><div><div class="user-name">Marcus Chen</div><div class="user-sub">marcus@laybys.com</div></div></div></td><td><span class="pill pill-info">Customer Care</span></td><td>1 hour ago</td><td>✓</td><td><span class="pill pill-active">Active</span></td><td><a href="admin-user-detail.html" class="btn btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                  <tr><td><div class="user-cell"><div class="avatar">RT</div><div><div class="user-name">Rebecca Tan</div><div class="user-sub">rebecca@laybys.com</div></div></div></td><td><span class="pill pill-gold">Owner</span></td><td>Yesterday</td><td>✓</td><td><span class="pill pill-active">Active</span></td><td><a href="admin-user-detail.html" class="btn btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                  <tr><td><div class="user-cell"><div class="avatar">DM</div><div><div class="user-name">David Meadows</div><div class="user-sub">david@laybys.com</div></div></div></td><td><span class="pill pill-info">Marketing</span></td><td>3 days ago</td><td>✗</td><td><span class="pill pill-pending">Pending invite</span></td><td><a href="admin-user-detail.html" class="btn btn-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('settings','Settings','Admin Users');</script>
+</body>
+</html>

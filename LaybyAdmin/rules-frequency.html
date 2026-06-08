@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Frequency Rules · Lay-By Rules · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Lay-By Rules</h1>
+          <p class="page-sub">How often customers can be charged · default charge day and time</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Discard Changes</button>
+          <button class="btn btn-primary">Save All</button>
+        </div>
+      </div>
+
+      <div class="tabs" style="margin-top:20px">
+        <a class="tab" href="rules.html">Deposits &amp; Terms</a>
+        <a class="tab active" href="rules-frequency.html">Frequency</a>
+        <a class="tab" href="rules-fees.html">Fees &amp; Penalties</a>
+        <a class="tab" href="rules-cancellation.html">Cancellation</a>
+        <a class="tab" href="rules-eligibility.html">Eligibility</a>
+        <a class="tab" href="rules-compliance.html">Compliance</a>
+      </div>
+
+      
+      <div class="grid-2" style="margin-top:24px">
+        <div>
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Default Instalment Frequency</h3></div>
+            <div class="form-grid">
+              <div class="field" style="grid-column:1/-1">
+                <label class="field-label">Default frequency</label>
+                <select class="select"><option>Weekly</option><option>Fortnightly</option><option>Monthly</option></select>
+                <div class="field-hint">Applied to new lay-bys unless the customer chooses otherwise</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Allowed Frequencies</h3></div>
+            <div class="setting-row"><div><div class="setting-name">Weekly</div><div class="setting-sub">7-day cycle · most popular (78% of lay-bys)</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Fortnightly</div><div class="setting-sub">14-day cycle · aligns with most pay cycles</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Monthly</div><div class="setting-sub">28-day cycle · for higher-value items</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Custom (admin only)</div><div class="setting-sub">Allow Customer Care to set bespoke schedules</div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Charge Day Settings</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field"><label class="field-label">Default charge day (weekly)</label><select class="select"><option>Same day customer signed up</option><option>Mondays</option><option>Fridays</option></select></div>
+              <div class="field"><label class="field-label">Charge time</label><select class="select"><option>09:00 AEST</option><option>14:00 AEST</option><option>21:00 AEST</option></select></div>
+              <div class="field"><label class="field-label">Skip weekends</label><select class="select"><option>No — charge any day</option><option>Yes — push to next business day</option></select></div>
+              <div class="field"><label class="field-label">Skip public holidays</label><select class="select"><option>Yes — push to next business day</option><option>No</option></select></div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="side-col">
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Frequency Distribution</h3></div>
+            <div class="reason-row"><div class="reason-name">Weekly</div><div class="reason-bar"><div class="reason-fill" style="width:78%"></div></div><div class="reason-val">78%</div></div>
+            <div class="reason-row"><div class="reason-name">Fortnightly</div><div class="reason-bar"><div class="reason-fill" style="width:18%"></div></div><div class="reason-val">18%</div></div>
+            <div class="reason-row"><div class="reason-name">Monthly</div><div class="reason-bar"><div class="reason-fill" style="width:4%"></div></div><div class="reason-val">4%</div></div>
+          </div>
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Performance by Frequency</h3></div>
+            <div class="kv"><span>Weekly completion</span><b>92%</b></div>
+            <div class="kv"><span>Fortnightly completion</span><b>89%</b></div>
+            <div class="kv"><span>Monthly completion</span><b>84%</b></div>
+            <div class="kv"><span>Best performer</span><b>Weekly</b></div>
+          </div>
+        </aside>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('rules','Lay-By Rules','Frequency Rules');</script>
+</body>
+</html>

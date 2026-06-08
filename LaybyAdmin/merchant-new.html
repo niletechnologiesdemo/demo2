@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Invite Merchant · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="breadcrumb"><a href="merchants.html">Merchants</a> <span>/</span> <span>Invite Merchant</span></div>
+
+      <div class="page-toolbar" style="margin-top:6px">
+        <div class="toolbar-left">
+          <h2 style="margin:0;font-size:20px;color:var(--ink-900)">Invite a new merchant</h2>
+          <span style="font-size:13px;color:var(--ink-500)">Send the merchant a setup link to complete their application</span>
+        </div>
+        <div class="toolbar-right">
+          <a href="merchants.html" class="btn btn-ghost">Cancel</a>
+          <button class="btn btn-ghost">Save Draft</button>
+          <button class="btn btn-primary">Send Invite</button>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px;grid-template-columns:1fr 380px">
+
+        <div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Business Details</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field" style="grid-column:1/-1"><label class="field-label">Trading name *</label><input class="input" placeholder="e.g. Palm Republic"></div>
+              <div class="field"><label class="field-label">Legal entity name</label><input class="input" placeholder="e.g. Palm Republic Pty Ltd"></div>
+              <div class="field"><label class="field-label">ABN</label><input class="input" placeholder="11 digits"></div>
+              <div class="field"><label class="field-label">Industry / category *</label>
+                <select class="select">
+                  <option>Select category…</option>
+                  <option>Clothing &amp; Apparel</option>
+                  <option>Health &amp; Beauty</option>
+                  <option>Household</option>
+                  <option>Sporting Goods</option>
+                  <option>Technology</option>
+                  <option>Travel &amp; Stays</option>
+                </select>
+              </div>
+              <div class="field"><label class="field-label">Website</label><input class="input" placeholder="https://"></div>
+              <div class="field" style="grid-column:1/-1"><label class="field-label">Short description</label><textarea class="input" rows="2" placeholder="One-line description of the business and what they sell"></textarea></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Primary Contact</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field"><label class="field-label">Full name *</label><input class="input"></div>
+              <div class="field"><label class="field-label">Role / title</label><input class="input" placeholder="e.g. Director"></div>
+              <div class="field"><label class="field-label">Email *</label><input class="input" type="email"></div>
+              <div class="field"><label class="field-label">Phone</label><input class="input" placeholder="+61"></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Commercial Terms</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field"><label class="field-label">Commission rate</label><div class="input-row"><input class="input" value="5.0"><span class="input-suffix">%</span></div><div class="field-hint">Standard flat platform commission</div></div>
+              <div class="field"><label class="field-label">Setup fee</label><div class="input-row"><span class="input-prefix">$</span><input class="input" value="50.00"></div><div class="field-hint">One-time onboarding fee</div></div>
+              <div class="field"><label class="field-label">Default deposit %</label><div class="input-row"><input class="input" value="20"><span class="input-suffix">%</span></div></div>
+              <div class="field"><label class="field-label">Payout frequency</label><select class="select"><option>Weekly · Mondays</option><option>Fortnightly</option><option>Monthly</option></select></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Invite Email</h3><div class="card-actions"><span style="font-size:12.5px;color:var(--ink-500)">Sent from hello@laybys.com</span></div></div>
+            <div class="form-grid">
+              <div class="field" style="grid-column:1/-1"><label class="field-label">Subject</label><input class="input" value="Welcome to LayBys.com — let's get you set up"></div>
+              <div class="field" style="grid-column:1/-1"><label class="field-label">Personal message (optional)</label><textarea class="input" rows="4" placeholder="Add a personal note that will appear above the standard onboarding content…"></textarea></div>
+            </div>
+            <div class="alert alert-info" style="margin-top:14px">
+              <div class="alert-icon">ℹ</div>
+              <div class="alert-body">
+                <div class="alert-title">What happens next</div>
+                <div class="alert-text">The merchant receives an email with a unique setup link. They complete business verification, upload documents, connect banking, and submit for approval — typically within 48 hours.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <aside class="side-col">
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Onboarding Steps</h3></div>
+            <ul class="tl">
+              <li class="tl-item"><div class="tl-dot tl-dot-info"></div><div class="tl-body"><div class="tl-title">You send invite</div><div class="tl-sub">This step</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">Merchant accepts &amp; verifies</div><div class="tl-sub">ABN check, director ID, banking</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">You review &amp; approve</div><div class="tl-sub">In Pending Applications</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">Merchant lists products</div><div class="tl-sub">Product approval queue</div></div></li>
+              <li class="tl-item"><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">Live on marketplace</div><div class="tl-sub">First lay-by enabled</div></div></li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Need help?</h3></div>
+            <p style="font-size:13px;color:var(--ink-600);line-height:1.55;margin:0 0 10px">If you'd like to onboard a merchant on a phone call, send them this short form first to capture the basics — we can complete the rest live together.</p>
+            <button class="btn btn-ghost btn-block">Send Pre-Call Form</button>
+          </div>
+
+        </aside>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('merchants','Invite Merchant','Send a new merchant a setup link');</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Eligibility Rules · Lay-By Rules · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Lay-By Rules</h1>
+          <p class="page-sub">Who can use lay-by · age, residency, limits, and product types</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Discard Changes</button>
+          <button class="btn btn-primary">Save All</button>
+        </div>
+      </div>
+
+      <div class="tabs" style="margin-top:20px">
+        <a class="tab" href="rules.html">Deposits &amp; Terms</a>
+        <a class="tab" href="rules-frequency.html">Frequency</a>
+        <a class="tab" href="rules-fees.html">Fees &amp; Penalties</a>
+        <a class="tab" href="rules-cancellation.html">Cancellation</a>
+        <a class="tab active" href="rules-eligibility.html">Eligibility</a>
+        <a class="tab" href="rules-compliance.html">Compliance</a>
+      </div>
+
+      
+      <div class="grid-2" style="margin-top:24px">
+        <div>
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Customer Eligibility</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field"><label class="field-label">Minimum age</label><div class="input-row"><input class="input" value="18"><span class="input-suffix">years</span></div></div>
+              <div class="field"><label class="field-label">Country of residence</label><select class="select"><option>Australia only</option><option>Australia + NZ</option></select></div>
+              <div class="field"><label class="field-label">Australian residency proof</label><select class="select"><option>Required</option><option>Optional</option></select></div>
+              <div class="field"><label class="field-label">Active bank account</label><select class="select"><option>Required</option><option>Not required</option></select></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Lay-By Limits per Customer</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field"><label class="field-label">Max active lay-bys (verified)</label><div class="input-row"><input class="input" value="3"></div></div>
+              <div class="field"><label class="field-label">Max active lay-bys (new customer)</label><div class="input-row"><input class="input" value="1"></div></div>
+              <div class="field"><label class="field-label">Max total outstanding</label><div class="input-row"><span class="input-prefix">$</span><input class="input" value="5000"></div></div>
+              <div class="field"><label class="field-label">Cooldown after cancellation</label><div class="input-row"><input class="input" value="14"><span class="input-suffix">days</span></div></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Trust Score Gates</h3></div>
+            <div class="setting-row"><div><div class="setting-name">Block lay-bys for trust score &lt; C</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Reduce limits for trust score &lt; B</div><div class="setting-sub">Max 1 active lay-by, $1,000 outstanding</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Increase limits for trust score A+</div><div class="setting-sub">Max 5 active lay-bys, $10,000 outstanding</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Product Eligibility</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field"><label class="field-label">Min order value</label><div class="input-row"><span class="input-prefix">$</span><input class="input" value="50"></div></div>
+              <div class="field"><label class="field-label">Max order value</label><div class="input-row"><span class="input-prefix">$</span><input class="input" value="10000"></div></div>
+            </div>
+            <div class="setting-row"><div><div class="setting-name">Allow digital goods</div><div class="setting-sub">Software licences, gift cards</div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Allow services / experiences</div><div class="setting-sub">Travel, accommodation</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Allow alcohol &amp; tobacco</div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+          </div>
+        </div>
+
+        <aside class="side-col">
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Eligibility Funnel (30d)</h3></div>
+            <div class="kv"><span>Sign-ups attempted</span><b>892</b></div>
+            <div class="kv"><span>Met age requirement</span><b>884 (99%)</b></div>
+            <div class="kv"><span>KYC verified</span><b>841 (94%)</b></div>
+            <div class="kv"><span>Trust score passed</span><b>838 (94%)</b></div>
+            <div class="kv"><span>First lay-by completed</span><b>612 (69%)</b></div>
+          </div>
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Recent Rejections</h3></div>
+            <div class="kv"><span>Under 18</span><b>8</b></div>
+            <div class="kv"><span>Outside Australia</span><b>14</b></div>
+            <div class="kv"><span>KYC failed</span><b>22</b></div>
+            <div class="kv"><span>Trust score gate</span><b>3</b></div>
+          </div>
+        </aside>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('rules','Lay-By Rules','Eligibility Rules');</script>
+</body>
+</html>

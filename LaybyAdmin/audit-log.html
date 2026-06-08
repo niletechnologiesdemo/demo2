@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Audit Log · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="breadcrumb"><a href="settings.html">Settings</a> <span>/</span> <span>Audit Log</span></div>
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Audit Log</h1>
+          <p class="page-sub">Tamper-evident record of every admin action across the platform — retained for 7 years per AML/CTF Act.</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Export CSV</button>
+          <button class="btn btn-ghost">Export JSON</button>
+          <button class="btn btn-primary">Generate Report</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid kpi-grid-4">
+        <div class="kpi"><div class="kpi-label">Events Today</div><div class="kpi-value">142</div><div class="kpi-meta">31 by admins · 111 system</div></div>
+        <div class="kpi"><div class="kpi-label">Events (30d)</div><div class="kpi-value">18,492</div><div class="kpi-meta"><span class="delta up">▲ 12%</span> vs prior period</div></div>
+        <div class="kpi"><div class="kpi-label">Active Admins</div><div class="kpi-value">5</div><div class="kpi-meta">Greg, Jen, Marcus, Sophie, Tom</div></div>
+        <div class="kpi kpi-warn"><div class="kpi-label">Sensitive Actions (24h)</div><div class="kpi-value">3</div><div class="kpi-meta">Refund, suspend, rule change</div></div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Admin Activity Log</h3>
+            <p class="card-sub">Tamper-evident record of every admin action · retained for 7 years per AML/CTF Act</p>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-ghost">Export CSV</button>
+            <button class="btn btn-ghost">Export JSON</button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Search by actor, action, entity, or ID…"></div>
+          <select class="select"><option>All admins</option><option>Greg Rogers</option><option>Jen Darby</option><option>Marcus Chen</option><option>Sophie Park</option><option>Tom Nguyen</option><option>System (automated)</option></select>
+          <select class="select"><option>All actions</option><option>Created</option><option>Updated</option><option>Deleted</option><option>Approved</option><option>Login</option><option>Permission change</option></select>
+          <select class="select"><option>All resources</option><option>Lay-By</option><option>Customer</option><option>Merchant</option><option>Product</option><option>Payment</option><option>Settings</option></select>
+          <input type="date" class="select" value="2026-05-04">
+        </div>
+
+        <div class="audit-list">
+          <div class="audit-row"><div class="audit-time"><b>14:42</b><span>Today</span></div><div class="audit-icon audit-icon-info">↻</div><div class="audit-body"><div class="audit-line"><b>System</b> processed instalment payment <span class="mono">TX-9F8A2C-0451</span> for $47.47 on <a href="layby-detail.html" class="link mono">LB-2026-00891</a></div><div class="audit-meta">Cron · Stripe webhook · idempotency idmp_lb891_w11</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>13:55</b><span>Today</span></div><div class="audit-icon audit-icon-success">$</div><div class="audit-body"><div class="audit-line"><b>Greg Rogers</b> approved payout <a href="payout-detail.html" class="link mono">PO-2026-W18-TZA</a> of $12,847.20 to <a href="merchant-detail.html" class="link">TechZone Australia</a></div><div class="audit-meta">IP 203.45.xxx.xxx · Sydney NSW · MacBook Pro · 2FA verified</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>13:21</b><span>Today</span></div><div class="audit-icon audit-icon-warn">↩</div><div class="audit-body"><div class="audit-line"><b>Sophie Park</b> issued refund of $189.00 to <a href="customer-detail.html" class="link">Daniel Kovac</a> on order <span class="mono">LB-2026-03917</span></div><div class="audit-meta">Reason: damaged on arrival · Approved by Greg Rogers</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>11:08</b><span>Today</span></div><div class="audit-icon audit-icon-info">✎</div><div class="audit-body"><div class="audit-line"><b>Greg Rogers</b> updated platform Lay-By Rules — default deposit changed from <code>15%</code> to <code>20%</code></div><div class="audit-meta">Rules version v3.4.1 → v3.4.2 · Affects new agreements only</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>10:32</b><span>Today</span></div><div class="audit-icon audit-icon-success">+</div><div class="audit-body"><div class="audit-line"><b>Jen Darby</b> approved merchant application <a href="merchant-application.html" class="link mono">APP-2026-00112</a> — NovaGlow Beauty</div><div class="audit-meta">Initial onboarding fee $50 invoiced · 5% commission tier · Onboarding email sent</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>09:14</b><span>Today</span></div><div class="audit-icon audit-icon-info">→</div><div class="audit-body"><div class="audit-line"><b>Greg Rogers</b> signed in from new device — Chrome on MacBook Pro (M3)</div><div class="audit-meta">IP 203.45.xxx.xxx · Login alert dispatched · 2FA satisfied via Authenticator app</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>22:00</b><span>Yesterday</span></div><div class="audit-icon audit-icon-warn">↻</div><div class="audit-body"><div class="audit-line"><b>System</b> auto-retried 14 failed payments overnight — 10 succeeded, 4 still pending</div><div class="audit-meta">Cron · Retry pass 3 of 3 · Exceptions auto-opened for remaining 4</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>16:42</b><span>Yesterday</span></div><div class="audit-icon audit-icon-info">✎</div><div class="audit-body"><div class="audit-line"><b>Tom Nguyen</b> scheduled newsletter campaign "Mother's Day picks under $200" for 07 May 09:00</div><div class="audit-meta">Campaign ID CAM-2026-00042 · 14,892 recipients</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>14:18</b><span>Yesterday</span></div><div class="audit-icon audit-icon-info">+</div><div class="audit-body"><div class="audit-line"><b>System</b> auto-approved KYC for new customer <a href="customer-detail.html" class="link">Chloe Hartman</a> (CU-2025-19880)</div><div class="audit-meta">Document.AI score 92/100 · NSW Driver Licence · Auto-approved (above 85 threshold)</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>13:04</b><span>Yesterday</span></div><div class="audit-icon audit-icon-warn">⚠</div><div class="audit-body"><div class="audit-line"><b>Marcus Chen</b> opened exception <a href="exception-detail.html" class="link mono">EX-2026-00041</a> — Lay-by overdue 14 days</div><div class="audit-meta">Auto-escalated to P1 Critical · Assigned to Jen Darby</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>11:42</b><span>Yesterday</span></div><div class="audit-icon audit-icon-success">+</div><div class="audit-body"><div class="audit-line"><b>Jen Darby</b> created merchant <a href="merchant-detail.html" class="link">CoastalSurf NSW</a> with proposed terms (5% / $50 setup)</div><div class="audit-meta">Application APP-2026-00115 · Awaiting documents</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>10:08</b><span>Yesterday</span></div><div class="audit-icon audit-icon-danger">✕</div><div class="audit-body"><div class="audit-line"><b>Greg Rogers</b> suspended customer account <a href="customer-detail.html" class="link">Ravi Krishnan</a> (CU-2024-13344)</div><div class="audit-meta">Reason: 2 consecutive defaults · Manual review · Account flagged for follow-up</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>09:00</b><span>Yesterday</span></div><div class="audit-icon audit-icon-info">↻</div><div class="audit-body"><div class="audit-line"><b>System</b> sent 3,891 instalment reminders (3-day pre-due notification)</div><div class="audit-meta">Email 3,891 · SMS 2,140 · Push 4,012 · Delivery rate 99.6%</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>14:24</b><span>Fri 02 May</span></div><div class="audit-icon audit-icon-info">✎</div><div class="audit-body"><div class="audit-line"><b>Greg Rogers</b> updated commission for <a href="merchant-detail.html" class="link">CycleWorks</a> from <code>5.0%</code> to <code>4.5%</code> (volume tier reached)</div><div class="audit-meta">Effective from next payout cycle (Mon 05 May)</div></div></div>
+          <div class="audit-row"><div class="audit-time"><b>10:42</b><span>Fri 02 May</span></div><div class="audit-icon audit-icon-info">+</div><div class="audit-body"><div class="audit-line"><b>Greg Rogers</b> published Magazine article "How lay-by saves Australian families $1,200 a year vs BNPL"</div><div class="audit-meta">Category: Money & Budgeting · 1,842 words · Indexed by search engines</div></div></div>
+        </div>
+
+        <div class="pager">
+          <span class="pager-info">Showing 15 of 18,492 events</span>
+          <div class="pager-ctrls">
+            <button class="btn btn-ghost btn-sm">‹ Prev</button>
+            <button class="btn btn-sm active">1</button>
+            <button class="btn btn-sm">2</button>
+            <button class="btn btn-sm">3</button>
+            <span style="color:var(--ink-400);padding:0 4px">…</span>
+            <button class="btn btn-sm">1233</button>
+            <button class="btn btn-ghost btn-sm">Next ›</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('settings','Audit Log','Tamper-evident record of all admin actions');</script>
+</body>
+</html>

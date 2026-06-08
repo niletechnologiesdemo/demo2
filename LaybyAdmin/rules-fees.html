@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fees & Penalties · Lay-By Rules · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Lay-By Rules</h1>
+          <p class="page-sub">Customer fees, merchant commission, and recoverable costs</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Discard Changes</button>
+          <button class="btn btn-primary">Save All</button>
+        </div>
+      </div>
+
+      <div class="tabs" style="margin-top:20px">
+        <a class="tab" href="rules.html">Deposits &amp; Terms</a>
+        <a class="tab" href="rules-frequency.html">Frequency</a>
+        <a class="tab active" href="rules-fees.html">Fees &amp; Penalties</a>
+        <a class="tab" href="rules-cancellation.html">Cancellation</a>
+        <a class="tab" href="rules-eligibility.html">Eligibility</a>
+        <a class="tab" href="rules-compliance.html">Compliance</a>
+      </div>
+
+      
+      <div class="alert alert-info" style="margin:24px 0 0">
+        <div class="alert-icon">i</div>
+        <div class="alert-body">
+          <div class="alert-title">Zero-fee promise to customers</div>
+          <div class="alert-text">LayBys.com charges customers no fees, no interest, no penalties — this is the platform\'s defining commitment. Settings below apply to the merchant-side commission and to optional administrative recoveries only.</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px">
+        <div>
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Customer-Facing Fees</h3></div>
+            <div class="setting-row"><div><div class="setting-name">Sign-up fee</div><div class="setting-sub">Charged when customer registers</div></div><div style="display:flex;align-items:center;gap:8px"><span class="cell-amount" style="color:var(--m3-success);font-weight:600">$0.00</span><span class="pill pill-active">Free</span></div></div>
+            <div class="setting-row"><div><div class="setting-name">Account-keeping fee</div><div class="setting-sub">Monthly admin fee</div></div><div style="display:flex;align-items:center;gap:8px"><span class="cell-amount" style="color:var(--m3-success);font-weight:600">$0.00</span><span class="pill pill-active">Free</span></div></div>
+            <div class="setting-row"><div><div class="setting-name">Late payment fee</div><div class="setting-sub">When an instalment fails</div></div><div style="display:flex;align-items:center;gap:8px"><span class="cell-amount" style="color:var(--m3-success);font-weight:600">$0.00</span><span class="pill pill-active">Free</span></div></div>
+            <div class="setting-row"><div><div class="setting-name">Cancellation fee</div><div class="setting-sub">Customer cancels post cooling-off</div></div><div style="display:flex;align-items:center;gap:8px"><span class="cell-amount" style="color:var(--m3-success);font-weight:600">$0.00</span><span class="pill pill-active">Free</span></div></div>
+            <div class="setting-row"><div><div class="setting-name">Interest charged</div><div class="setting-sub">APR on outstanding balance</div></div><div style="display:flex;align-items:center;gap:8px"><span class="cell-amount" style="color:var(--m3-success);font-weight:600">0.00%</span><span class="pill pill-active">Zero Interest</span></div></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Merchant Commission</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field"><label class="field-label">Default commission rate</label><div class="input-row"><input class="input" value="5.0"><span class="input-suffix">%</span></div><div class="field-hint">Applied to merchant\'s sale price</div></div>
+              <div class="field"><label class="field-label">Premium tier rate</label><div class="input-row"><input class="input" value="3.5"><span class="input-suffix">%</span></div><div class="field-hint">For merchants with $100k+ monthly GMV</div></div>
+              <div class="field"><label class="field-label">Setup fee (one-time)</label><div class="input-row"><span class="input-prefix">$</span><input class="input" value="50.00"></div></div>
+              <div class="field"><label class="field-label">GST on commission</label><select class="select"><option>Yes — add 10% GST</option><option>No</option></select></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Recoverable Costs</h3></div>
+            <div class="setting-row"><div><div class="setting-name">Pass through chargeback fee</div><div class="setting-sub">When customer disputes a captured charge</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Recover bank-rejection fee</div><div class="setting-sub">If bank charges $X for failed direct debit</div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+          </div>
+        </div>
+
+        <aside class="side-col">
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Revenue Mix (30d)</h3></div>
+            <div class="kv"><span>Commission</span><b>$32,418</b></div>
+            <div class="kv"><span>Setup fees</span><b>$250</b></div>
+            <div class="kv"><span>Customer fees</span><b style="color:var(--m3-success)">$0</b></div>
+            <div class="kv"><span>Total</span><b>$32,668</b></div>
+          </div>
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Promise to Customers</h3></div>
+            <p>The "zero interest, zero fees" promise is core to the LayBys.com brand. Changing customer-facing fees would require a major customer comms campaign and updated terms.</p>
+          </div>
+        </aside>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('rules','Lay-By Rules','Fees & Penalties');</script>
+</body>
+</html>

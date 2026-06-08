@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Merchant Payouts · Payments · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Payments</h1>
+          <p class="page-sub">36 weekly payouts to merchants · settled every Tuesday after lay-by completion</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Export CSV</button>
+          <button class="btn btn-primary">Reconcile</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Volume Today</div><div class="kpi-value">$28.4k</div><div class="kpi-meta">Across 142 charges</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Success Rate (24h)</div><div class="kpi-value">98.4%</div><div class="kpi-meta">Industry avg 96.1%</div></div>
+        <div class="kpi kpi-warn"><div class="kpi-label">Failed (24h)</div><div class="kpi-value">14</div><div class="kpi-meta">9 recovered, 5 pending</div></div>
+        <div class="kpi"><div class="kpi-label">Avg Charge</div><div class="kpi-value">$54.18</div><div class="kpi-meta">Across all instalments</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="tabs">
+          <a class="tab" href="payments.html">All <span class="tab-count">3,841</span></a>
+          <a class="tab" href="payments-successful.html">Successful <span class="tab-count">3,778</span></a>
+          <a class="tab" href="payments-failed.html">Failed <span class="tab-count">14</span></a>
+          <a class="tab" href="payments-retries.html">Retries <span class="tab-count">4</span></a>
+          <a class="tab" href="payments-refunds.html">Refunds <span class="tab-count">9</span></a>
+          <a class="tab active" href="payments-payouts.html">Payouts <span class="tab-count">36</span></a>
+        </div>
+
+        
+        <div class="filters">
+          <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Search by payout ID or merchant…"></div>
+          <select class="select"><option>All merchants</option><option>TechZone Australia</option><option>AudioMax</option><option>HomeStyle Co.</option></select>
+          <select class="select"><option>Last 30 days</option><option>This week</option><option>Last 7 days</option><option>This month</option></select>
+        </div>
+
+        <div class="table-wrap" style="border:0;border-radius:0;box-shadow:none">
+          <table class="data">
+            <thead><tr>
+              <th>Date</th><th>Payout ID</th><th>Merchant</th><th># Lay-Bys</th>
+              <th>Gross</th><th>Commission</th><th>Net</th><th>Bank</th><th>Status</th><th></th>
+            </tr></thead>
+            <tbody>
+              <tr>
+              <td><div class="cell-strong">Today</div></td>
+              <td><a href="payout-detail.html"><span class="cell-id mono">PYT-2026-W18-001</span></a></td>
+              <td><div class="user-cell"><div class="avatar">TZ</div><div><div class="user-name">TechZone Australia</div></div></div></td>
+              <td>14</td>
+              <td class="cell-amount">$26,892.00</td>
+              <td><span class="cell-muted">-$1,344.60</span></td>
+              <td class="cell-amount">$25,547.40</td>
+              <td><span class="cell-muted mono">Westpac ··6822</span></td>
+              <td><span class="pill pill-active">Paid</span></td>
+              <td><a href="payout-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div></td>
+              <td><a href="payout-detail.html"><span class="cell-id mono">PYT-2026-W18-002</span></a></td>
+              <td><div class="user-cell"><div class="avatar">AM</div><div><div class="user-name">AudioMax</div></div></div></td>
+              <td>8</td>
+              <td class="cell-amount">$4,392.00</td>
+              <td><span class="cell-muted">-$219.60</span></td>
+              <td class="cell-amount">$4,172.40</td>
+              <td><span class="cell-muted mono">NAB ··2814</span></td>
+              <td><span class="pill pill-active">Paid</span></td>
+              <td><a href="payout-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div></td>
+              <td><a href="payout-detail.html"><span class="cell-id mono">PYT-2026-W18-003</span></a></td>
+              <td><div class="user-cell"><div class="avatar">GH</div><div><div class="user-name">GadgetHub</div></div></div></td>
+              <td>6</td>
+              <td class="cell-amount">$7,194.00</td>
+              <td><span class="cell-muted">-$359.70</span></td>
+              <td class="cell-amount">$6,834.30</td>
+              <td><span class="cell-muted mono">CBA ··0428</span></td>
+              <td><span class="pill pill-active">Paid</span></td>
+              <td><a href="payout-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Today</div></td>
+              <td><a href="payout-detail.html"><span class="cell-id mono">PYT-2026-W18-004</span></a></td>
+              <td><div class="user-cell"><div class="avatar">HS</div><div><div class="user-name">HomeStyle Co.</div></div></div></td>
+              <td>3</td>
+              <td class="cell-amount">$9,897.00</td>
+              <td><span class="cell-muted">-$494.85</span></td>
+              <td class="cell-amount">$9,402.15</td>
+              <td><span class="cell-muted mono">Westpac ··1148</span></td>
+              <td><span class="pill pill-active">Paid</span></td>
+              <td><a href="payout-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">1 May</div></td>
+              <td><a href="payout-detail.html"><span class="cell-id mono">PYT-2026-W17-001</span></a></td>
+              <td><div class="user-cell"><div class="avatar">TZ</div><div><div class="user-name">TechZone Australia</div></div></div></td>
+              <td>12</td>
+              <td class="cell-amount">$22,488.00</td>
+              <td><span class="cell-muted">-$1,124.40</span></td>
+              <td class="cell-amount">$21,363.60</td>
+              <td><span class="cell-muted mono">Westpac ··6822</span></td>
+              <td><span class="pill pill-active">Paid</span></td>
+              <td><a href="payout-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">1 May</div></td>
+              <td><a href="payout-detail.html"><span class="cell-id mono">PYT-2026-W17-002</span></a></td>
+              <td><div class="user-cell"><div class="avatar">AM</div><div><div class="user-name">AudioMax</div></div></div></td>
+              <td>9</td>
+              <td class="cell-amount">$4,941.00</td>
+              <td><span class="cell-muted">-$247.05</span></td>
+              <td class="cell-amount">$4,693.95</td>
+              <td><span class="cell-muted mono">NAB ··2814</span></td>
+              <td><span class="pill pill-active">Paid</span></td>
+              <td><a href="payout-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">1 May</div></td>
+              <td><a href="payout-detail.html"><span class="cell-id mono">PYT-2026-W17-003</span></a></td>
+              <td><div class="user-cell"><div class="avatar">SV</div><div><div class="user-name">StyleVault</div></div></div></td>
+              <td>11</td>
+              <td class="cell-amount">$3,388.00</td>
+              <td><span class="cell-muted">-$169.40</span></td>
+              <td class="cell-amount">$3,218.60</td>
+              <td><span class="cell-muted mono">CBA ··2284</span></td>
+              <td><span class="pill pill-active">Paid</span></td>
+              <td><a href="payout-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Tomorrow</div></td>
+              <td><a href="payout-detail.html"><span class="cell-id mono">PYT-2026-W18-005</span></a></td>
+              <td><div class="user-cell"><div class="avatar">FG</div><div><div class="user-name">FitGear AU</div></div></div></td>
+              <td>4</td>
+              <td class="cell-amount">$1,896.00</td>
+              <td><span class="cell-muted">-$94.80</span></td>
+              <td class="cell-amount">$1,801.20</td>
+              <td><span class="cell-muted mono">ANZ ··6614</span></td>
+              <td><span class="pill pill-pending">Scheduled</span></td>
+              <td><a href="payout-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td><div class="cell-strong">Tomorrow</div></td>
+              <td><a href="payout-detail.html"><span class="cell-id mono">PYT-2026-W18-006</span></a></td>
+              <td><div class="user-cell"><div class="avatar">UE</div><div><div class="user-name">UrbanEdge</div></div></div></td>
+              <td>6</td>
+              <td class="cell-amount">$3,114.00</td>
+              <td><span class="cell-muted">-$155.70</span></td>
+              <td class="cell-amount">$2,958.30</td>
+              <td><span class="cell-muted mono">Westpac ··0024</span></td>
+              <td><span class="pill pill-pending">Scheduled</span></td>
+              <td><a href="payout-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pager">
+          <div class="pager-info">Showing 9 of 36 payouts</div>
+          <div class="pager-ctrls"><button class="btn btn-sm">‹</button><button class="btn btn-sm active">1</button><button class="btn btn-sm">2</button><button class="btn btn-sm">3</button><button class="btn btn-sm">4</button><button class="btn btn-sm">›</button></div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('payments','Payments','Merchant Payouts');</script>
+</body>
+</html>

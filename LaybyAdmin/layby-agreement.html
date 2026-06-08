@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Agreement LB-2026-00891 · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+<style>
+.ag-shell{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:22px;align-items:flex-start}
+@media(max-width:1100px){.ag-shell{grid-template-columns:1fr}}
+
+.ag-doc{
+  background:var(--surface);
+  border:1px solid var(--outline-variant);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  box-shadow:var(--elev-2);
+}
+.ag-doc-band{
+  padding:32px 40px;
+  background:
+    radial-gradient(circle at 92% 10%, rgba(240,191,65,.2) 0%, transparent 45%),
+    radial-gradient(circle at 8% 95%, rgba(157,92,223,.15) 0%, transparent 45%),
+    linear-gradient(135deg, var(--p-10) 0%, var(--p-30) 50%, var(--p-40) 100%);
+  color:#fff;
+  position:relative;
+}
+.ag-doc-status{
+  position:absolute;top:24px;right:32px;
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 14px;border-radius:99px;
+  background:linear-gradient(135deg, #92f7c1, var(--success-40));
+  color:var(--success-10);
+  font-size:11.5px;font-weight:700;letter-spacing:.5px;
+  text-transform:uppercase;
+  box-shadow:0 3px 8px rgba(0,109,68,.3);
+}
+.ag-doc-status::before{
+  content:'';width:7px;height:7px;border-radius:50%;
+  background:var(--success-30);
+  animation:agpulse 2s infinite;
+}
+@keyframes agpulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.ag-brand-row{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.ag-brand-mark{
+  width:44px;height:44px;border-radius:12px;
+  background:linear-gradient(135deg, #f0bf41, #d4a425);
+  color:#3f2e00;
+  display:grid;place-items:center;
+  font-family:var(--font-display);
+  font-weight:700;font-size:18px;letter-spacing:-.5px;
+  flex:none;
+  box-shadow:0 4px 10px rgba(212,164,37,.4), inset 0 1px 0 rgba(255,255,255,.4);
+}
+.ag-brand-name{font-family:var(--font-display);font-size:16px;font-weight:600;color:#fff;letter-spacing:-.1px;line-height:1.2}
+.ag-brand-sub{font-size:12px;color:rgba(255,255,255,.65);margin-top:1px;letter-spacing:.2px}
+
+.ag-doc-title{
+  font-family:var(--font-display);
+  font-size:32px;font-weight:500;
+  color:#fff;letter-spacing:-.7px;line-height:1.15;
+  margin:0 0 6px;
+}
+.ag-doc-id{font-size:13px;color:rgba(255,255,255,.75);font-family:var(--font-mono);letter-spacing:.3px}
+
+.ag-doc-meta{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+  margin-top:24px;padding-top:24px;
+  border-top:1px solid rgba(255,255,255,.15);
+}
+@media(max-width:680px){.ag-doc-meta{grid-template-columns:repeat(2,1fr)}}
+.ag-doc-meta-item{font-size:11.5px;color:rgba(255,255,255,.65);letter-spacing:.3px;text-transform:uppercase;font-weight:600}
+.ag-doc-meta-item b{
+  display:block;color:#fff;font-weight:500;font-size:14px;
+  margin-top:4px;letter-spacing:0;
+  font-family:var(--font-display);
+  text-transform:none;
+}
+
+.ag-doc-body{padding:32px 40px}
+@media(max-width:680px){
+  .ag-doc-band{padding:24px 22px}
+  .ag-doc-body{padding:24px 22px}
+  .ag-doc-title{font-size:24px}
+  .ag-doc-status{position:relative;top:0;right:0;margin-bottom:16px}
+}
+
+.ag-section{margin-top:32px}
+.ag-section:first-child{margin-top:0}
+.ag-section-title{
+  font-size:11.5px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.7px;
+  color:var(--primary);
+  margin:0 0 14px;padding-bottom:10px;
+  border-bottom:1px solid var(--outline-variant);
+}
+
+.ag-parties{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+@media(max-width:680px){.ag-parties{grid-template-columns:1fr;gap:20px}}
+.ag-party-label{
+  font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.6px;
+  color:var(--on-surface-variant);margin-bottom:8px;
+}
+.ag-party-name{
+  font-family:var(--font-display);
+  font-size:17px;font-weight:500;color:var(--on-surface);
+  margin-bottom:6px;letter-spacing:-.2px;
+}
+.ag-party-line{font-size:13.5px;color:var(--on-surface-variant);line-height:1.6;letter-spacing:0}
+
+.ag-product{
+  display:flex;gap:16px;align-items:center;
+  padding:16px;
+  background:linear-gradient(135deg, var(--surface-1), var(--surface-2));
+  border:1px solid var(--outline-variant);
+  border-radius:var(--r);
+}
+.ag-product img{
+  width:72px;height:72px;border-radius:10px;object-fit:cover;flex:none;
+  border:1px solid var(--outline-variant);
+  box-shadow:var(--elev-1);
+}
+.ag-product-body{flex:1;min-width:0}
+.ag-product-cat{
+  font-size:11px;text-transform:uppercase;letter-spacing:.6px;font-weight:600;
+  color:var(--on-surface-variant);margin-bottom:3px;
+}
+.ag-product-name{
+  font-family:var(--font-display);
+  font-size:16px;font-weight:500;color:var(--on-surface);
+  margin-bottom:3px;letter-spacing:-.2px;
+}
+.ag-product-meta{font-size:13px;color:var(--on-surface-variant);letter-spacing:0}
+.ag-product-price{
+  font-family:var(--font-display);
+  font-size:22px;font-weight:500;color:var(--on-surface);
+  letter-spacing:-.6px;font-variant-numeric:tabular-nums;
+}
+
+.ag-fin{
+  border:1px solid var(--outline-variant);
+  border-radius:var(--r);overflow:hidden;
+}
+.ag-fin-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:13px 18px;
+  border-bottom:1px solid var(--outline-variant);
+  font-size:13.5px;color:var(--on-surface-variant);letter-spacing:0;
+}
+.ag-fin-row:last-child{border-bottom:0}
+.ag-fin-row b{color:var(--on-surface);font-weight:600;font-variant-numeric:tabular-nums}
+.ag-fin-row.emph{
+  background:linear-gradient(135deg, var(--warn-95), var(--s-95));
+  color:var(--s-30);
+}
+.ag-fin-row.emph b{color:var(--s-10)}
+.ag-fin-row.total{
+  background:var(--primary-container);
+  color:var(--on-primary-container);
+  font-size:14.5px;font-weight:600;
+  border-top:2px solid var(--primary);
+}
+.ag-fin-row.total b{font-size:18px;font-family:var(--font-display)}
+
+.ag-schedule-grid{
+  display:grid;grid-template-columns:repeat(11,1fr);gap:5px;
+}
+@media(max-width:680px){.ag-schedule-grid{grid-template-columns:repeat(8,1fr)}}
+.ag-week{
+  aspect-ratio:1;border-radius:6px;
+  display:grid;place-items:center;
+  font-size:11px;font-weight:600;
+  color:var(--on-surface-variant);
+  background:var(--surface-2);
+  border:1px solid var(--outline-variant);
+  letter-spacing:0;
+}
+.ag-week.paid{
+  background:linear-gradient(135deg, var(--success-95), #c6f2d7);
+  color:var(--success-10);
+  border-color:var(--success-90);
+}
+.ag-week.next{
+  background:linear-gradient(135deg, var(--warn-95), var(--s-90));
+  color:var(--s-10);
+  border-color:var(--s-70);
+  box-shadow:0 0 0 2px rgba(212,164,37,.25);
+  animation:weekpulse 2s infinite;
+}
+@keyframes weekpulse{0%,100%{box-shadow:0 0 0 2px rgba(212,164,37,.25)}50%{box-shadow:0 0 0 4px rgba(212,164,37,.15)}}
+.ag-week.deposit{
+  background:linear-gradient(135deg, var(--p-50), var(--p-40));
+  color:#fff;
+  border-color:var(--p-40);
+}
+
+.ag-pay-method{
+  display:flex;gap:14px;align-items:center;
+  padding:14px 18px;
+  background:linear-gradient(135deg, var(--surface-1), var(--surface-2));
+  border:1px solid var(--outline-variant);
+  border-radius:var(--r);
+}
+.ag-card-mark{
+  width:42px;height:28px;border-radius:5px;
+  background:linear-gradient(135deg, #1a1f71, #0a3d8f);
+  color:#fff;
+  display:grid;place-items:center;
+  font-size:11px;font-weight:700;letter-spacing:.5px;
+  box-shadow:var(--elev-1);
+}
+
+.ag-terms{font-size:14px;line-height:1.65;color:var(--on-surface);counter-reset:agterm;list-style:none;padding:0}
+.ag-terms li{
+  position:relative;padding-left:36px;margin-bottom:14px;counter-increment:agterm;
+  letter-spacing:0;
+}
+.ag-terms li::before{
+  content:counter(agterm);
+  position:absolute;left:0;top:0;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--primary-container);color:var(--on-primary-container);
+  display:grid;place-items:center;
+  font-size:11.5px;font-weight:600;
+}
+.ag-terms b{font-weight:600;color:var(--on-surface)}
+
+.ag-sigs{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:680px){.ag-sigs{grid-template-columns:1fr}}
+.ag-sig{
+  border:1px solid var(--outline-variant);
+  border-radius:var(--r);
+  padding:18px 20px;
+  background:var(--surface);
+}
+.ag-sig-label{
+  font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.6px;
+  color:var(--on-surface-variant);margin-bottom:12px;
+}
+.ag-sig-mark{
+  font-family:'Brush Script MT','Apple Chancery',cursive;
+  font-size:32px;color:var(--primary);
+  line-height:1;padding:12px 0;
+  border-bottom:1px solid var(--outline-variant);
+  margin-bottom:10px;
+}
+.ag-sig-name{font-family:var(--font-display);font-size:14.5px;font-weight:500;color:var(--on-surface);letter-spacing:-.1px}
+.ag-sig-meta{font-size:12px;color:var(--on-surface-variant);margin-top:4px;letter-spacing:.1px;line-height:1.55}
+.ag-sig-verified{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:10px;
+  font-size:11px;font-weight:700;
+  color:var(--success-30);letter-spacing:.4px;
+  text-transform:uppercase;
+}
+
+.ag-fingerprint{
+  margin-top:18px;padding:14px 16px;
+  background:linear-gradient(135deg, var(--surface-1), var(--surface-2));
+  border:1px solid var(--outline-variant);border-radius:var(--r);
+  font-size:12.5px;color:var(--on-surface-variant);line-height:1.6;letter-spacing:.1px;
+}
+.ag-fingerprint b{color:var(--on-surface);font-weight:600}
+</style>
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="breadcrumb"><a href="laybys.html">Lay-By Agreements</a> <span>/</span> <a href="layby-detail.html">LB-2026-00891</a> <span>/</span> <span>Agreement</span></div>
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Agreement document</h1>
+          <p class="page-sub">Signed digital lay-by agreement · legally binding</p>
+        </div>
+        <div class="filter-row">
+          <a href="layby-detail.html" class="btn">Back to lay-by</a>
+          <button class="btn">Email customer</button>
+          <button class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+            Download PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="ag-shell">
+        <div class="ag-doc">
+          <div class="ag-doc-band">
+            <div class="ag-doc-status">Active</div>
+            <div class="ag-brand-row">
+              <div class="ag-brand-mark">L</div>
+              <div>
+                <div class="ag-brand-name">LayBys.com</div>
+                <div class="ag-brand-sub">Own It. Pay Over Time. Zero Interest.</div>
+              </div>
+            </div>
+            <h2 class="ag-doc-title">Lay-By Purchase Agreement</h2>
+            <div class="ag-doc-id">LB-2026-00891</div>
+            <div class="ag-doc-meta">
+              <div class="ag-doc-meta-item">Executed<b>28 Feb 2026, 14:42 AEST</b></div>
+              <div class="ag-doc-meta-item">Effective from<b>28 February 2026</b></div>
+              <div class="ag-doc-meta-item">Expected completion<b>24 October 2026</b></div>
+              <div class="ag-doc-meta-item">Governing law<b>NSW, Australia</b></div>
+            </div>
+          </div>
+
+          <div class="ag-doc-body">
+
+            <div class="ag-section">
+              <h3 class="ag-section-title">Parties</h3>
+              <div class="ag-parties">
+                <div>
+                  <div class="ag-party-label">Customer (the &ldquo;Buyer&rdquo;)</div>
+                  <div class="ag-party-name">Sarah Mitchell</div>
+                  <div class="ag-party-line">
+                    Customer ID CU-2024-08124<br>
+                    sarah.m@gmail.com<br>
+                    +61 4XX XXX 412<br>
+                    42 Lawson Street, Byron Bay NSW 2481
+                  </div>
+                </div>
+                <div>
+                  <div class="ag-party-label">Merchant (the &ldquo;Seller&rdquo;)</div>
+                  <div class="ag-party-name">TechZone Australia Pty Ltd</div>
+                  <div class="ag-party-line">
+                    ABN 47 612 938 401<br>
+                    hello@techzone.com.au<br>
+                    +61 2 8331 4200<br>
+                    Unit 14, 22 Wilson Street, Alexandria NSW
+                  </div>
+                </div>
+              </div>
+              <div class="alert alert-info" style="margin-top:16px">
+                <div class="alert-icon">i</div>
+                <div class="alert-body">
+                  <div class="alert-text"><b>LayBys.com</b> (Rogers Digital Pty Ltd, ABN 63 824 519 720) acts as the platform facilitator. Funds are held in escrow until the lay-by is completed, after which the Seller fulfils the order to the Buyer.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ag-section">
+              <h3 class="ag-section-title">Product reserved</h3>
+              <div class="ag-product">
+                <img src="https://images.pexels.com/photos/47261/pexels-photo-47261.jpeg?auto=compress&amp;w=200" alt="">
+                <div class="ag-product-body">
+                  <div class="ag-product-cat">Technology · Smartphones</div>
+                  <div class="ag-product-name">Samsung Galaxy S25 Ultra 256GB · Titanium Grey</div>
+                  <div class="ag-product-meta">SKU TZ-SGS25U-256-TG · Quantity 1 · Brand new, sealed</div>
+                </div>
+                <div class="ag-product-price">$1,899.00</div>
+              </div>
+            </div>
+
+            <div class="ag-section">
+              <h3 class="ag-section-title">Financial terms</h3>
+              <div class="ag-fin">
+                <div class="ag-fin-row"><span>Product price</span><b>$1,899.00</b></div>
+                <div class="ag-fin-row"><span>Freight (added to final instalment)</span><b>$29.95</b></div>
+                <div class="ag-fin-row emph"><span>Deposit due on signing (20%)</span><b>$379.80</b></div>
+                <div class="ag-fin-row"><span>Number of instalments</span><b>32 weekly</b></div>
+                <div class="ag-fin-row"><span>Instalment amount</span><b>$47.47 / week</b></div>
+                <div class="ag-fin-row"><span>Final instalment (adjustment + freight)</span><b>$77.42</b></div>
+                <div class="ag-fin-row"><span>Interest charged</span><b style="color:var(--success-30)">$0.00</b></div>
+                <div class="ag-fin-row"><span>Fees charged</span><b style="color:var(--success-30)">$0.00</b></div>
+                <div class="ag-fin-row total"><span>Total payable</span><b>$1,928.95</b></div>
+              </div>
+            </div>
+
+            <div class="ag-section">
+              <h3 class="ag-section-title">Payment schedule</h3>
+              <p style="font-size:13px;color:var(--on-surface-variant);margin:0 0 14px;line-height:1.55;letter-spacing:.1px">Each square is one instalment. Green = paid · gold = next due · blue = deposit. Order ships once all 32 are settled.</p>
+              <div class="ag-schedule-grid">
+                <div class="ag-week deposit">D</div>
+                <div class="ag-week paid">1</div>
+                <div class="ag-week paid">2</div>
+                <div class="ag-week paid">3</div>
+                <div class="ag-week paid">4</div>
+                <div class="ag-week next">5</div>
+                <div class="ag-week">6</div>
+                <div class="ag-week">7</div>
+                <div class="ag-week">8</div>
+                <div class="ag-week">9</div>
+                <div class="ag-week">10</div>
+                <div class="ag-week">11</div>
+                <div class="ag-week">12</div>
+                <div class="ag-week">13</div>
+                <div class="ag-week">14</div>
+                <div class="ag-week">15</div>
+                <div class="ag-week">16</div>
+                <div class="ag-week">17</div>
+                <div class="ag-week">18</div>
+                <div class="ag-week">19</div>
+                <div class="ag-week">20</div>
+                <div class="ag-week">21</div>
+                <div class="ag-week">22</div>
+                <div class="ag-week">23</div>
+                <div class="ag-week">24</div>
+                <div class="ag-week">25</div>
+                <div class="ag-week">26</div>
+                <div class="ag-week">27</div>
+                <div class="ag-week">28</div>
+                <div class="ag-week">29</div>
+                <div class="ag-week">30</div>
+                <div class="ag-week">31</div>
+                <div class="ag-week">32</div>
+              </div>
+              <div style="margin-top:14px;font-size:13px"><a href="layby-detail.html" class="link">View detailed schedule →</a></div>
+            </div>
+
+            <div class="ag-section">
+              <h3 class="ag-section-title">Authorised payment method</h3>
+              <div class="ag-pay-method">
+                <div class="ag-card-mark">VISA</div>
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:500;color:var(--on-surface);letter-spacing:0">Visa ending 4242</div>
+                  <div style="font-size:12.5px;color:var(--on-surface-variant);margin-top:2px">Expires 09 / 2028 · Commonwealth Bank · Auto-debit authorised</div>
+                </div>
+                <span class="pill pill-active">On file</span>
+              </div>
+            </div>
+
+            <div class="ag-section">
+              <h3 class="ag-section-title">Terms &amp; conditions</h3>
+              <ol class="ag-terms">
+                <li><b>Reservation, not ownership.</b> The Buyer agrees to purchase the Product through scheduled instalments. The Seller reserves the Product but retains ownership and possession until all instalments are paid in full. The Product will only be dispatched after the final instalment is captured successfully.</li>
+                <li><b>Zero interest, zero fees.</b> No interest, account-keeping fees, or hidden charges apply for the duration of this agreement. The Total Payable amount above is fixed at signing.</li>
+                <li><b>Automated payments.</b> The Buyer authorises LayBys.com to automatically debit the Authorised Payment Method on the scheduled instalment dates. The Buyer will receive a reminder email three (3) days before each instalment.</li>
+                <li><b>Failed payments.</b> If a scheduled instalment fails, LayBys.com will retry the payment up to three (3) times over seven (7) days. The Buyer will be notified of each attempt.</li>
+                <li><b>Cancellation by the Buyer.</b> The Buyer may cancel this agreement at any time. On cancellation, all instalments paid to date (excluding the deposit) will be refunded within five (5) business days. The 20% deposit is forfeited as a restocking and reservation fee.</li>
+                <li><b>Cooling-off period.</b> The Buyer may cancel within 48 hours of signing without forfeiting the deposit.</li>
+                <li><b>Cancellation by LayBys.com.</b> If three (3) consecutive instalments fail, LayBys.com may cancel this agreement on the Buyer&rsquo;s behalf. The Product will be returned to inventory and the Buyer will be refunded per clause 5.</li>
+                <li><b>Stock and substitution.</b> The Seller guarantees the Product is reserved for the Buyer for the duration of this agreement.</li>
+                <li><b>Delivery.</b> Once the final instalment is captured, the Seller will dispatch the Product within three (3) business days. Tracking will be provided via email.</li>
+                <li><b>Returns and warranty.</b> Standard Australian Consumer Law statutory rights apply. The Product carries the Seller&rsquo;s standard 12-month warranty.</li>
+                <li><b>Privacy.</b> Personal data is handled per LayBys.com&rsquo;s Privacy Policy and the Australian Privacy Principles.</li>
+                <li><b>Governing law.</b> This agreement is governed by the laws of New South Wales, Australia.</li>
+              </ol>
+            </div>
+
+            <div class="ag-section">
+              <h3 class="ag-section-title">Electronic signatures</h3>
+              <p style="font-size:13px;color:var(--on-surface-variant);margin:0 0 14px;line-height:1.55;letter-spacing:.1px">By signing, the Buyer acknowledges they have read and agreed to the terms above. Electronic signatures are legally binding under the Electronic Transactions Act 1999 (Cth).</p>
+              <div class="ag-sigs">
+                <div class="ag-sig">
+                  <div class="ag-sig-label">The Buyer</div>
+                  <div class="ag-sig-mark">Sarah Mitchell</div>
+                  <div class="ag-sig-name">Sarah Mitchell</div>
+                  <div class="ag-sig-meta">Signed 28 Feb 2026, 14:42:18 AEST<br>IP 203.45.18.7 · Sydney NSW · Chrome on iOS<br>Verified by KYC: NSW Driver Licence</div>
+                  <div class="ag-sig-verified">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Identity verified
+                  </div>
+                </div>
+                <div class="ag-sig">
+                  <div class="ag-sig-label">For the Merchant</div>
+                  <div class="ag-sig-mark">TechZone Australia</div>
+                  <div class="ag-sig-name">Marcus Tanaka, Operations Director</div>
+                  <div class="ag-sig-meta">Counter-signed automatically per Merchant Services Agreement v5.0<br>28 Feb 2026, 14:42:21 AEST<br>Standing authority since 14 Jan 2024</div>
+                  <div class="ag-sig-verified">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Merchant verified
+                  </div>
+                </div>
+              </div>
+              <div class="ag-fingerprint">
+                <b>Document fingerprint:</b> <span class="mono">SHA-256 a4f2…9c8e</span> · This signed agreement is immutable and stored encrypted at rest.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="side-col">
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Status</h3></div>
+            <div class="kv"><span>Status</span><span class="pill pill-active">Active</span></div>
+            <div class="kv"><span>Progress</span><b>5 of 33</b></div>
+            <div class="kv"><span>Paid to date</span><b>$569.68</b></div>
+            <div class="kv"><span>Outstanding</span><b>$1,359.27</b></div>
+            <div class="kv"><span>Next instalment</span><b>11 May 2026</b></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Document history</h3></div>
+            <div class="card-body" style="padding-top:6px">
+              <div class="tl">
+                <div class="tl-item now">
+                  <div class="tl-body">
+                    <div class="tl-title">Active &amp; in good standing</div>
+                    <div class="tl-meta">Today · LB-2026-00891 v1</div>
+                  </div>
+                </div>
+                <div class="tl-item done">
+                  <div class="tl-body">
+                    <div class="tl-title">Deposit captured</div>
+                    <div class="tl-meta">28 Feb 2026 · $379.80</div>
+                  </div>
+                </div>
+                <div class="tl-item done">
+                  <div class="tl-body">
+                    <div class="tl-title">Both parties signed</div>
+                    <div class="tl-meta">28 Feb 2026, 14:42:21</div>
+                  </div>
+                </div>
+                <div class="tl-item done">
+                  <div class="tl-body">
+                    <div class="tl-title">Buyer signed agreement</div>
+                    <div class="tl-meta">28 Feb 2026, 14:42:18</div>
+                  </div>
+                </div>
+                <div class="tl-item done">
+                  <div class="tl-body">
+                    <div class="tl-title">Agreement generated</div>
+                    <div class="tl-meta">28 Feb 2026, 14:41:58</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Related documents</h3></div>
+            <div class="doc-row">
+              <div class="doc-icon">📄</div>
+              <div class="doc-body">
+                <div class="doc-name">Signed agreement</div>
+                <div class="doc-sub">PDF · 142 KB · this doc</div>
+              </div>
+              <a href="#" class="link" style="font-size:13px">View</a>
+            </div>
+            <div class="doc-row">
+              <div class="doc-icon">📄</div>
+              <div class="doc-body">
+                <div class="doc-name">Tax invoice (deposit)</div>
+                <div class="doc-sub">PDF · 86 KB</div>
+              </div>
+              <a href="#" class="link" style="font-size:13px">View</a>
+            </div>
+            <div class="doc-row">
+              <div class="doc-icon">📄</div>
+              <div class="doc-body">
+                <div class="doc-name">Buyer KYC</div>
+                <div class="doc-sub">28 Feb 2026</div>
+              </div>
+              <a href="kyc-review.html" class="link" style="font-size:13px">View</a>
+            </div>
+            <div class="doc-row">
+              <div class="doc-icon">📄</div>
+              <div class="doc-body">
+                <div class="doc-name">Merchant agreement</div>
+                <div class="doc-sub">v5.0 · referenced</div>
+              </div>
+              <a href="settings-legal.html" class="link" style="font-size:13px">View</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Quick actions</h3></div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:8px">
+              <button class="btn btn-block btn-primary">Download signed PDF</button>
+              <button class="btn btn-block">Email to customer</button>
+              <button class="btn btn-block">Print document</button>
+              <a href="layby-detail.html" class="btn btn-block">Operational view</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('laybys','Agreement document','LB-2026-00891 · Sarah Mitchell');</script>
+</body>
+</html>

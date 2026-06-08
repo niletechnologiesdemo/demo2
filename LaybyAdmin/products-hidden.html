@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Hidden Products · Products · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+
+    <div class="page">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Products &amp; Categories</h1>
+          <p class="page-sub">Approve new merchant listings, manage the catalogue, and organise marketplace categories.</p>
+        </div>
+        <div class="filter-row">
+          <a href="category-detail.html" class="btn btn-ghost">Manage Categories</a>
+          <a href="product-new.html" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            Add Product
+          </a>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Total Products</div><div class="kpi-value">2,418</div><div class="kpi-meta">Across 7 categories</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Live &amp; Listed</div><div class="kpi-value">2,396</div><div class="kpi-meta">99% of catalogue</div></div>
+        <div class="kpi kpi-warn"><div class="kpi-label">Pending Approval</div><div class="kpi-value">14</div><div class="kpi-meta">From 5 merchants</div></div>
+        <div class="kpi"><div class="kpi-label">Categories</div><div class="kpi-value">7</div><div class="kpi-meta">+ 28 sub-categories</div></div>
+      </div>
+
+      <!-- Two-pane: Categories + Products -->
+      <div style="display:grid;grid-template-columns:280px 1fr;gap:18px">
+
+        <!-- Categories tree -->
+        <div class="card">
+          <div class="card-head" style="padding:14px 16px">
+            <h3>Categories</h3>
+            <button class="btn btn-icon" title="Add">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+            </button>
+          </div>
+          <div style="padding:8px 8px 14px">
+            <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--blue-50);border-radius:7px;color:var(--navy-800);font-weight:600;font-size:13px">
+              <span style="flex:1">All products</span>
+              <span class="pill pill-info" style="height:auto;padding:1px 7px">2,418</span>
+            </div>
+            <div style="height:6px"></div>
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800)">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Clothing &amp; Apparel</span><span class="muted text-sm">627</span>
+            </div>
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800);margin-top:4px">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Health &amp; Beauty</span><span class="muted text-sm">218</span>
+            </div>
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800);margin-top:4px">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Household</span><span class="muted text-sm">315</span>
+            </div>
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800);margin-top:4px">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Sporting Goods</span><span class="muted text-sm">198</span>
+            </div>
+            <a href="category-detail.html" style="text-decoration:none;display:block;padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--navy-800);background:var(--ink-100);margin-top:4px">
+              <span style="color:var(--navy-700)">▼</span><span style="flex:1">Technology</span><span class="muted text-sm" style="color:var(--navy-700);font-weight:700">482</span>
+            </a>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Smartphones</span><span>112</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Laptops &amp; Tablets</span><span>96</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Audio &amp; Headphones</span><span>84</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Wearables</span><span>67</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Gaming</span><span>78</span></div>
+            <div style="padding:6px 12px 6px 30px;color:var(--ink-600);font-size:12.5px;display:flex;justify-content:space-between"><span>Smart Home</span><span>45</span></div>
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800);margin-top:4px">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Travel &amp; Stays</span><span class="muted text-sm">42</span>
+            </div>
+            <div style="padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink-800);margin-top:4px">
+              <span style="color:var(--ink-400)">▶</span><span style="flex:1">Magazine &amp; Discover</span><span class="muted text-sm">36</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products -->
+        <div>
+          
+
+          <!-- Tabs -->
+          <div class="tabs">
+            <a class="tab" href="products.html">All in Technology <span class="count">482</span></a>
+            <a class="tab" href="products-pending.html">Pending <span class="count">14</span></a>
+            <a class="tab" href="products-live.html">Live <span class="count">468</span></a>
+            <a class="tab" href="products-out.html">Out of Stock <span class="count">3</span></a>
+            <a class="tab active" href="products-hidden.html">Hidden <span class="count">7</span></a>
+          </div>
+
+          
+          <div class="alert alert-info" style="margin-bottom:14px">
+            <div class="alert-icon">ℹ</div>
+            <div class="alert-body">
+              <div class="alert-title">7 products in Technology are hidden</div>
+              <div class="alert-text">Hidden products are not visible on the marketplace. Use this for seasonal items, products under review, or end-of-line inventory.</div>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-toolbar">
+              <div class="topbar-search" style="flex:1;max-width:300px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" placeholder="Search hidden products…" />
+              </div>
+              <button class="btn btn-ghost btn-sm">Bulk Unhide</button>
+            </div>
+
+            <table class="data">
+              <thead><tr>
+                <th><input type="checkbox" /></th>
+                <th>Product</th><th>Merchant</th><th>Sub-Category</th><th>Price</th>
+                <th>Hidden Since</th><th>Reason</th><th>Status</th><th></th>
+              </tr></thead>
+              <tbody>
+                <tr><td><input type="checkbox"/></td><td><div class="cell-thumb"><img src="https://images.pexels.com/photos/4348404/pexels-photo-4348404.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">Google Pixel 8 Pro 128GB</div><div class="cell-muted">SKU TZ-PX8P-128</div></div></div></td><td>TechZone Australia</td><td>Smartphones</td><td class="cell-amount">$1,099.00</td><td>3 weeks ago</td><td class="cell-muted">End of line</td><td><span class="pill pill-cancelled">Hidden</span></td><td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                <tr><td><input type="checkbox"/></td><td><div class="cell-thumb"><img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">Beats Studio Pro Headphones</div><div class="cell-muted">SKU AM-BSP-RED</div></div></div></td><td>AudioMax</td><td>Audio &amp; Headphones</td><td class="cell-amount">$429.00</td><td>1 month ago</td><td class="cell-muted">Stock low — restocking</td><td><span class="pill pill-cancelled">Hidden</span></td><td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                <tr><td><input type="checkbox"/></td><td><div class="cell-thumb"><img src="https://images.pexels.com/photos/3945683/pexels-photo-3945683.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">PlayStation 5 Slim 825GB</div><div class="cell-muted">SKU GH-PS5S-825</div></div></div></td><td>GadgetHub</td><td>Gaming</td><td class="cell-amount">$799.00</td><td>1 month ago</td><td class="cell-muted">Replaced by Pro version</td><td><span class="pill pill-cancelled">Hidden</span></td><td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                <tr><td><input type="checkbox"/></td><td><div class="cell-thumb"><img src="https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">Samsung Galaxy S24 Ultra 256GB</div><div class="cell-muted">SKU TZ-SGS24U-256</div></div></div></td><td>TechZone Australia</td><td>Smartphones</td><td class="cell-amount">$1,499.00</td><td>2 months ago</td><td class="cell-muted">Replaced by S25</td><td><span class="pill pill-cancelled">Hidden</span></td><td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                <tr><td><input type="checkbox"/></td><td><div class="cell-thumb"><img src="https://images.pexels.com/photos/2773504/pexels-photo-2773504.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">Xbox Series S 512GB</div><div class="cell-muted">SKU GH-XSS-512</div></div></div></td><td>GadgetHub</td><td>Gaming</td><td class="cell-amount">$549.00</td><td>2 months ago</td><td class="cell-muted">Under price review</td><td><span class="pill pill-cancelled">Hidden</span></td><td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                <tr><td><input type="checkbox"/></td><td><div class="cell-thumb"><img src="https://images.pexels.com/photos/303383/pexels-photo-303383.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">MacBook Pro M3 14" 512GB</div><div class="cell-muted">SKU TZ-MBP-M3-14</div></div></div></td><td>TechZone Australia</td><td>Laptops &amp; Tablets</td><td class="cell-amount">$2,599.00</td><td>3 months ago</td><td class="cell-muted">Replaced by M4</td><td><span class="pill pill-cancelled">Hidden</span></td><td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+                <tr><td><input type="checkbox"/></td><td><div class="cell-thumb"><img src="https://images.pexels.com/photos/4126724/pexels-photo-4126724.jpeg?auto=compress&w=100&h=100&fit=crop"/><div><div class="cell-strong">AirPods 3rd Gen Lightning</div><div class="cell-muted">SKU AM-AP3-LIGHT</div></div></div></td><td>AudioMax</td><td>Audio &amp; Headphones</td><td class="cell-amount">$249.00</td><td>4 months ago</td><td class="cell-muted">Discontinued model</td><td><span class="pill pill-cancelled">Hidden</span></td><td><a href="product-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+<script>LBAdmin.mount('products','Products & Categories','Hidden Products · Technology category');</script>
+</body>
+</html>

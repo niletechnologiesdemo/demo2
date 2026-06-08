@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Exception EX-2026-00041 · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="breadcrumb"><a href="exceptions.html">Exceptions</a> <span>/</span> <span>EX-2026-00041</span></div>
+
+      <div class="alert alert-danger" style="margin-bottom:20px">
+        <div class="alert-icon">⚠</div>
+        <div class="alert-body">
+          <div class="alert-title">SLA breach in 4h 12m</div>
+          <div class="alert-text">This is a P1 critical exception. Contact attempts so far: 2 emails, 1 SMS — no response. Recommended next step: phone call.</div>
+        </div>
+        <div class="alert-actions"><button class="btn btn-primary">Call Customer</button></div>
+      </div>
+
+      <div class="entity-head">
+        <div class="entity-head-main">
+          <div class="avatar avatar-xl">⚠</div>
+          <div>
+            <h2 class="entity-title">Lay-by overdue 14 days <span class="pill pill-overdue">P1 · Critical</span></h2>
+            <p class="entity-sub"><span class="mono">EX-2026-00041</span> · Opened Mon 20 Apr 09:00 · 3 missed payments totalling $73.50 · Assigned to Jen Darby</p>
+            <div class="entity-meta">
+              <span>Customer: <a href="customer-detail.html" class="link">Liam Bennett</a></span>
+              <span>·</span>
+              <span>Lay-by: <a href="layby-detail.html" class="link mono">LB-2025-19422</a></span>
+              <span>·</span>
+              <span>Merchant: <a href="merchant-detail.html" class="link">StyleVault</a></span>
+            </div>
+          </div>
+        </div>
+        <div class="entity-head-actions">
+          <button class="btn btn-ghost">Reassign</button>
+          <button class="btn btn-ghost btn-danger">Cancel Lay-By</button>
+          <button class="btn btn-primary">Mark Resolved</button>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">What Happened</h3></div>
+            <div class="layby-preview">
+              <div class="layby-preview-row"><span>Original payment date</span><b>Mon 20 Apr 2026</b></div>
+              <div class="layby-preview-row"><span>Auto-retry 1</span><b>Wed 22 Apr — Failed (insufficient funds)</b></div>
+              <div class="layby-preview-row"><span>Auto-retry 2</span><b>Fri 24 Apr — Failed (insufficient funds)</b></div>
+              <div class="layby-preview-row"><span>Auto-retry 3</span><b>Sun 26 Apr — Failed (insufficient funds)</b></div>
+              <div class="layby-preview-row"><span>Customer contacted</span><b>Mon 27 Apr — Email + SMS, no response</b></div>
+              <div class="layby-preview-row layby-preview-foot"><span>Total in arrears</span><b style="color:var(--danger-700)">$73.50 across 3 instalments</b></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Contact Attempts</h3></div>
+            <ul class="tl">
+              <li class="tl-item"><div class="tl-dot tl-dot-warn"></div><div class="tl-body"><div class="tl-title">SMS sent — final notice (no response)</div><div class="tl-sub">Sat 03 May 09:00 · "Hi Liam, your lay-by is now 14 days overdue. Please reach out today to avoid cancellation."</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-warn"></div><div class="tl-body"><div class="tl-title">Email sent — escalation (delivered, not opened)</div><div class="tl-sub">Wed 30 Apr 09:00 · Subject: "Liam, can we help with your lay-by?"</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-warn"></div><div class="tl-body"><div class="tl-title">Email sent — gentle reminder (delivered, opened)</div><div class="tl-sub">Mon 27 Apr 09:00 · Subject: "Heads up Liam — your $24.50 payment couldn't go through"</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-info"></div><div class="tl-body"><div class="tl-title">Auto-retry exhausted</div><div class="tl-sub">Sun 26 Apr 22:00 · 3 retries failed · exception opened automatically</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-success"></div><div class="tl-body"><div class="tl-title">Last successful payment</div><div class="tl-sub">Mon 13 Apr 14:42 · $24.50 · Visa ··0099 · ok</div></div></li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Resolution Options</h3></div>
+            <div class="resolution-grid">
+              <div class="resolution-card">
+                <div class="resolution-head">
+                  <div class="resolution-icon" style="background:var(--success-50);color:var(--success-700)">↻</div>
+                  <h4>Manual Retry Now</h4>
+                </div>
+                <p class="resolution-text">Attempt all 3 missed instalments now against current card on file. Best if customer has confirmed funds available.</p>
+                <button class="btn btn-primary btn-block">Retry $73.50</button>
+              </div>
+              <div class="resolution-card">
+                <div class="resolution-head">
+                  <div class="resolution-icon" style="background:var(--info-50);color:var(--info-700)">📅</div>
+                  <h4>Hardship Plan</h4>
+                </div>
+                <p class="resolution-text">Pause future instalments for up to 4 weeks and add missed amounts to the end of the schedule. Requires customer agreement.</p>
+                <button class="btn btn-ghost btn-block">Set Up Plan</button>
+              </div>
+              <div class="resolution-card">
+                <div class="resolution-head">
+                  <div class="resolution-icon" style="background:var(--warn-50);color:var(--warn-700)">💳</div>
+                  <h4>Update Card</h4>
+                </div>
+                <p class="resolution-text">Send the customer a secure link to add a new payment method, then retry charges.</p>
+                <button class="btn btn-ghost btn-block">Send Card Link</button>
+              </div>
+              <div class="resolution-card">
+                <div class="resolution-head">
+                  <div class="resolution-icon" style="background:var(--danger-50);color:var(--danger-700)">✕</div>
+                  <h4>Cancel Lay-By</h4>
+                </div>
+                <p class="resolution-text">Refund deposit minus any reasonable charges, release reserved stock back to merchant, close agreement.</p>
+                <button class="btn btn-ghost btn-block btn-danger">Cancel Agreement</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Internal Notes</h3></div>
+            <div class="note-row">
+              <div class="avatar">JD</div>
+              <div class="note-body">
+                <div class="note-head"><b>Jen Darby</b><span>Sat 03 May 09:14</span></div>
+                <div class="note-text">Sent the final notice this morning. If no response by Mon close of business I'll suggest we phone — Liam's been a good customer historically (3 prior lay-bys, all completed) so I'd lean toward hardship rather than cancellation.</div>
+              </div>
+            </div>
+            <div class="note-row">
+              <div class="avatar">JD</div>
+              <div class="note-body">
+                <div class="note-head"><b>Jen Darby</b><span>Wed 30 Apr 16:42</span></div>
+                <div class="note-text">Escalation email opened but no reply. Visa ··0099 has now declined 3 times consecutively — likely card or bank issue rather than intent.</div>
+              </div>
+            </div>
+            <div style="margin-top:12px">
+              <textarea class="input" rows="3" placeholder="Add an internal note…"></textarea>
+              <div style="margin-top:8px;display:flex;justify-content:flex-end"><button class="btn btn-primary btn-sm">Post Note</button></div>
+            </div>
+          </div>
+
+        </div>
+
+        <aside class="side-col">
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Status</h3></div>
+            <div class="kv"><span>Exception ID</span><b><span class="mono">EX-2026-00041</span></b></div>
+            <div class="kv"><span>Priority</span><b><span class="pill pill-overdue">P1 Critical</span></b></div>
+            <div class="kv"><span>Opened</span><b>Mon 20 Apr 09:00</b></div>
+            <div class="kv"><span>Days open</span><b>14 days</b></div>
+            <div class="kv"><span>SLA deadline</span><b style="color:var(--danger-700)">Today 17:00</b></div>
+            <div class="kv"><span>Assigned to</span><b>Jen Darby</b></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Customer Risk</h3></div>
+            <div class="kv"><span>Trust score</span><b style="color:var(--warn-700)">B (was A-)</b></div>
+            <div class="kv"><span>Previous defaults</span><b>0 of 3 prior lay-bys</b></div>
+            <div class="kv"><span>Active lay-bys</span><b>1 (this one)</b></div>
+            <div class="kv"><span>Lifetime value</span><b>$899.00</b></div>
+            <div class="kv"><span>Recommendation</span><b style="color:var(--info-700)">Offer hardship</b></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Quick Contact</h3></div>
+            <div style="font-size:14px;color:var(--ink-700);line-height:1.7">
+              <strong>Liam Bennett</strong><br>
+              l.bennett@icloud.com<br>
+              +61 405 220 814<br>
+              Cremorne VIC 3121
+            </div>
+            <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+              <button class="btn btn-primary btn-block">Call Now</button>
+              <button class="btn btn-ghost btn-block">Send SMS</button>
+              <button class="btn btn-ghost btn-block">Send Email</button>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('exceptions','Exception','EX-2026-00041 · Lay-by overdue 14 days');</script>
+</body>
+</html>

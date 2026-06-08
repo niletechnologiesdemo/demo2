@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Jen Darby · Admin User · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="breadcrumb"><a href="settings.html">Settings</a> <span>/</span> <a href="settings.html">Admin Team</a> <span>/</span> <span>Jen Darby</span></div>
+
+      <div class="entity-head">
+        <div class="entity-head-main">
+          <div class="avatar avatar-xl">JD</div>
+          <div>
+            <h2 class="entity-title">Jen Darby <span class="pill pill-info">Operations</span></h2>
+            <p class="entity-sub">jen@laybys.com · +61 411 822 408 · Joined 12 Feb 2026 · Last active 14 min ago</p>
+            <div class="entity-meta">
+              <span>Sydney NSW</span>
+              <span>·</span>
+              <span>2FA enabled (Authenticator)</span>
+              <span>·</span>
+              <span>3 active sessions</span>
+            </div>
+          </div>
+        </div>
+        <div class="entity-head-actions">
+          <button class="btn btn-ghost">Reset Password</button>
+          <button class="btn btn-ghost btn-danger">Suspend Access</button>
+          <button class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+
+      <div class="tabs" style="margin-top:24px">
+        <a class="tab active">Profile & Role</a>
+        <a class="tab">Permissions</a>
+        <a class="tab">Activity</a>
+        <a class="tab">Devices & Sessions</a>
+      </div>
+
+      <div class="detail-grid">
+        <div>
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Profile</h3></div>
+            <div class="form-grid form-grid-2">
+              <div class="field"><label class="field-label">First name</label><input class="input" value="Jen"></div>
+              <div class="field"><label class="field-label">Last name</label><input class="input" value="Darby"></div>
+              <div class="field"><label class="field-label">Email</label><input class="input" value="jen@laybys.com"></div>
+              <div class="field"><label class="field-label">Mobile</label><input class="input" value="+61 411 822 408"></div>
+              <div class="field"><label class="field-label">Job title</label><input class="input" value="Operations Lead"></div>
+              <div class="field"><label class="field-label">Time zone</label><select class="select"><option>Australia/Sydney (AEST)</option></select></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Role</h3></div>
+            <div class="role-grid">
+              <label class="role-card"><input type="radio" name="role"><div class="role-card-body"><div class="role-name">Owner</div><div class="role-sub">Full access including platform deletion · Only one allowed</div></div></label>
+              <label class="role-card role-card-active"><input type="radio" name="role" checked><div class="role-card-body"><div class="role-name">Operations</div><div class="role-sub">Lay-bys, customers, exceptions, merchants · No financial settings</div></div></label>
+              <label class="role-card"><input type="radio" name="role"><div class="role-card-body"><div class="role-name">Finance</div><div class="role-sub">Payments, payouts, reports, tax · No customer support actions</div></div></label>
+              <label class="role-card"><input type="radio" name="role"><div class="role-card-body"><div class="role-name">Customer Care</div><div class="role-sub">Customers, lay-bys, exceptions · Read-only on financials</div></div></label>
+              <label class="role-card"><input type="radio" name="role"><div class="role-card-body"><div class="role-name">Marketing</div><div class="role-sub">Magazine, Newsletter, Discover, products · No billing or PII export</div></div></label>
+              <label class="role-card"><input type="radio" name="role"><div class="role-card-body"><div class="role-name">Read-only</div><div class="role-sub">View-only access across all sections · No edits</div></div></label>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Permission Overrides</h3><p class="card-sub" style="margin:0">Fine-grained adjustments on top of the role above</p></div>
+            <div class="perm-grid">
+              <div class="perm-row"><div class="perm-name"><b>Lay-By Agreements</b><span>Cancel agreements</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Lay-By Agreements</b><span>Override deposit / terms</span></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Customers</b><span>Force re-KYC</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Customers</b><span>Suspend / delete account</span></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Customers</b><span>Export customer data (PII)</span></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Merchants</b><span>Approve applications</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Merchants</b><span>Set commission rates</span></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Payments</b><span>Issue refunds (up to $500)</span></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Payments</b><span>Approve payouts</span></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Settings</b><span>Modify platform-wide rules</span></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Settings</b><span>Manage admin users</span></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+              <div class="perm-row"><div class="perm-name"><b>Audit Log</b><span>Export full audit log</span></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Recent Activity (last 30 days)</h3><a href="audit-log.html" class="link">Full log →</a></div>
+            <ul class="tl">
+              <li class="tl-item"><div class="tl-dot tl-dot-success"></div><div class="tl-body"><div class="tl-title">Approved merchant application — NovaGlow Beauty</div><div class="tl-sub">Today 10:32 · APP-2026-00112</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-info"></div><div class="tl-body"><div class="tl-title">Created merchant — CoastalSurf NSW</div><div class="tl-sub">Yesterday 11:42 · Awaiting documents</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-warn"></div><div class="tl-body"><div class="tl-title">Resolved exception — EX-2026-00038 (DD dishonour)</div><div class="tl-sub">Fri 02 May · LB-2026-03917 · Customer updated card</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-info"></div><div class="tl-body"><div class="tl-title">Updated customer profile — Sarah Mitchell</div><div class="tl-sub">Wed 30 Apr · Address change to Byron Bay NSW</div></div></li>
+              <li class="tl-item"><div class="tl-dot tl-dot-success"></div><div class="tl-body"><div class="tl-title">Issued refund — $48.50 to Hannah Pope</div><div class="tl-sub">Mon 28 Apr · Within $500 limit · No further approval needed</div></div></li>
+            </ul>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Devices & Sessions</h3></div>
+            <div class="device-row"><div class="device-icon">💻</div><div class="device-body"><div class="device-name">MacBook Pro 14" (M3)</div><div class="device-sub">Chrome · Sydney NSW · Active now</div></div><span class="pill pill-active">Current</span></div>
+            <div class="device-row"><div class="device-icon">📱</div><div class="device-body"><div class="device-name">iPhone 15 Pro</div><div class="device-sub">Safari · Sydney NSW · 4h ago</div></div><button class="btn btn-ghost btn-sm">Sign Out</button></div>
+            <div class="device-row"><div class="device-icon">💻</div><div class="device-body"><div class="device-name">iPad Air (Home)</div><div class="device-sub">Safari · Sydney NSW · Yesterday</div></div><button class="btn btn-ghost btn-sm">Sign Out</button></div>
+          </div>
+
+        </div>
+
+        <aside class="side-col">
+
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Account</h3></div>
+            <div class="kv"><span>User ID</span><b><span class="mono">ADM-0004</span></b></div>
+            <div class="kv"><span>Status</span><b><span class="pill pill-active">Active</span></b></div>
+            <div class="kv"><span>Joined</span><b>12 Feb 2026</b></div>
+            <div class="kv"><span>Last sign-in</span><b>14 min ago</b></div>
+            <div class="kv"><span>Last password change</span><b>15 Mar 2026</b></div>
+            <div class="kv"><span>Failed sign-ins (30d)</span><b>0</b></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Security</h3></div>
+            <div class="setting-row" style="padding-top:0">
+              <div><div class="setting-name">Two-factor</div><div class="setting-sub">Authenticator app · iPhone 15</div></div>
+              <span class="pill pill-active">On</span>
+            </div>
+            <div class="setting-row">
+              <div><div class="setting-name">Backup codes</div><div class="setting-sub">10 unused</div></div>
+              <button class="btn btn-ghost btn-sm">Regenerate</button>
+            </div>
+            <div class="setting-row">
+              <div><div class="setting-name">SSO</div><div class="setting-sub">Google Workspace</div></div>
+              <span class="pill pill-active">Linked</span>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Activity Stats (30d)</h3></div>
+            <div class="kv"><span>Sign-ins</span><b>62</b></div>
+            <div class="kv"><span>Actions logged</span><b>1,402</b></div>
+            <div class="kv"><span>Refunds issued</span><b>14 ($1,842)</b></div>
+            <div class="kv"><span>Exceptions resolved</span><b>38</b></div>
+            <div class="kv"><span>Avg time to resolve</span><b>6h 12m</b></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Danger Zone</h3></div>
+            <button class="btn btn-ghost btn-block">Force Sign Out (all sessions)</button>
+            <button class="btn btn-ghost btn-block" style="margin-top:8px">Reset Password</button>
+            <button class="btn btn-ghost btn-block btn-danger" style="margin-top:8px">Suspend Access</button>
+            <button class="btn btn-ghost btn-block btn-danger" style="margin-top:8px">Remove Admin</button>
+          </div>
+
+        </aside>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('settings','Admin User','Jen Darby · Operations Lead');</script>
+</body>
+</html>

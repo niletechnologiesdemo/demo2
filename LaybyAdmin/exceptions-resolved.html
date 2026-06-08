@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Resolved Exceptions (30 days) · Exceptions · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Exceptions</h1>
+          <p class="page-sub">142 exceptions resolved in the last 30 days · 96% recovered without escalation</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Configure Auto-Triage</button>
+          <button class="btn btn-primary">Bulk Resolve</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi kpi-warn"><div class="kpi-label">Open Exceptions</div><div class="kpi-value">7</div><div class="kpi-meta">3 P1 · 4 P2</div></div>
+        <div class="kpi"><div class="kpi-label">Resolved Today</div><div class="kpi-value">12</div><div class="kpi-delta up">▲ vs avg 8</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Avg Resolution Time</div><div class="kpi-value">14m</div><div class="kpi-meta">Below 30m target</div></div>
+        <div class="kpi"><div class="kpi-label">Auto-Resolved (24h)</div><div class="kpi-value">28</div><div class="kpi-meta">Smart-retry recovered</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="tabs">
+          <a class="tab" href="exceptions.html">All Open <span class="tab-count">7</span></a>
+          <a class="tab" href="exceptions-overdue.html">Overdue Lay-Bys <span class="tab-count">3</span></a>
+          <a class="tab" href="exceptions-failed.html">Failed Payments <span class="tab-count">4</span></a>
+          <a class="tab" href="exceptions-disputes.html">Disputes <span class="tab-count">0</span></a>
+          <a class="tab active" href="exceptions-resolved.html">Resolved (30d) <span class="tab-count">142</span></a>
+        </div>
+
+        
+        <div class="filters">
+          <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Search resolved exceptions…"></div>
+          <select class="select"><option>Last 30 days</option><option>Last 7 days</option><option>Today</option></select>
+          <select class="select"><option>All types</option><option>Failed Payment</option><option>Overdue Lay-By</option><option>KYC Mismatch</option><option>Dispute</option></select>
+          <select class="select"><option>All resolvers</option><option>Marcus Chen</option><option>Sophie Park</option><option>Auto-retry</option></select>
+        </div>
+
+        <div class="table-wrap" style="border:0;border-radius:0;box-shadow:none">
+          <table class="data">
+            <thead><tr><th>Resolved</th><th>ID</th><th>Type</th><th>Issue</th><th>Customer</th><th>Outcome</th><th>Resolver</th><th></th></tr></thead>
+            <tbody><tr>
+              <td>Today</td>
+              <td><a href="exception-detail.html"><span class="cell-id mono">EX-2026-04400</span></a></td>
+              <td><span class="cell-muted">Failed Payment</span></td>
+              <td>Card retry succeeded after card update</td>
+              <td><div class="user-name">Lisa Walker</div></td>
+              <td><span class="pill pill-active">Recovered</span></td>
+              <td>Auto-retry</td>
+              <td><a href="exception-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td>Today</td>
+              <td><a href="exception-detail.html"><span class="cell-id mono">EX-2026-04399</span></a></td>
+              <td><span class="cell-muted">Overdue Lay-By</span></td>
+              <td>Customer paid all overdue instalments</td>
+              <td><div class="user-name">Mark Edwards</div></td>
+              <td><span class="pill pill-active">Caught Up</span></td>
+              <td>Marcus Chen</td>
+              <td><a href="exception-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td>Yesterday</td>
+              <td><a href="exception-detail.html"><span class="cell-id mono">EX-2026-04398</span></a></td>
+              <td><span class="cell-muted">KYC Mismatch</span></td>
+              <td>Document re-verified · second attempt passed</td>
+              <td><div class="user-name">Anna Khan</div></td>
+              <td><span class="pill pill-active">Verified</span></td>
+              <td>Sophie Park</td>
+              <td><a href="exception-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td>Yesterday</td>
+              <td><a href="exception-detail.html"><span class="cell-id mono">EX-2026-04397</span></a></td>
+              <td><span class="cell-muted">Failed Payment</span></td>
+              <td>New card supplied · charge captured</td>
+              <td><div class="user-name">Tom Bailey</div></td>
+              <td><span class="pill pill-active">Recovered</span></td>
+              <td>Marcus Chen</td>
+              <td><a href="exception-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td>Yesterday</td>
+              <td><a href="exception-detail.html"><span class="cell-id mono">EX-2026-04396</span></a></td>
+              <td><span class="cell-muted">Overdue Lay-By</span></td>
+              <td>Lay-by cancelled per customer request · refund issued</td>
+              <td><div class="user-name">Sara Kelly</div></td>
+              <td><span class="pill pill-cancelled">Cancelled</span></td>
+              <td>Marcus Chen</td>
+              <td><a href="exception-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td>2 days ago</td>
+              <td><a href="exception-detail.html"><span class="cell-id mono">EX-2026-04394</span></a></td>
+              <td><span class="cell-muted">Stock Mismatch</span></td>
+              <td>Merchant reconciled inventory · product reserved</td>
+              <td><div class="user-name">Alex Page</div></td>
+              <td><span class="pill pill-active">Resolved</span></td>
+              <td>Jen Darby</td>
+              <td><a href="exception-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td>2 days ago</td>
+              <td><a href="exception-detail.html"><span class="cell-id mono">EX-2026-04392</span></a></td>
+              <td><span class="cell-muted">Failed Payment</span></td>
+              <td>Customer transferred funds · captured manually</td>
+              <td><div class="user-name">Joel Carter</div></td>
+              <td><span class="pill pill-active">Recovered</span></td>
+              <td>Marcus Chen</td>
+              <td><a href="exception-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr>
+<tr>
+              <td>3 days ago</td>
+              <td><a href="exception-detail.html"><span class="cell-id mono">EX-2026-04388</span></a></td>
+              <td><span class="cell-muted">Dispute</span></td>
+              <td>Chargeback won — evidence accepted by Visa</td>
+              <td><div class="user-name">Erin Park</div></td>
+              <td><span class="pill pill-active">Won</span></td>
+              <td>Sophie Park</td>
+              <td><a href="exception-detail.html" class="btn btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></a></td>
+            </tr></tbody>
+          </table>
+        </div>
+        <div class="pager"><div class="pager-info">Showing 8 of 142 resolved</div><div class="pager-ctrls"><button class="btn btn-sm">‹</button><button class="btn btn-sm active">1</button><button class="btn btn-sm">2</button><button class="btn btn-sm">…</button><button class="btn btn-sm">18</button><button class="btn btn-sm">›</button></div></div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('exceptions','Exceptions','Resolved Exceptions (30 days)');</script>
+</body>
+</html>

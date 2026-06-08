@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Customers · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Customers</h1>
+          <p class="page-sub">Every customer on LayBys.com — KYC status, lay-by history, lifetime value and trust score.</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Export CSV</button>
+          <button class="btn btn-ghost">Bulk Action</button>
+          </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Total Customers</div><div class="kpi-value">18,427</div><div class="kpi-delta up">▲ 612 this month</div></div>
+        <div class="kpi"><div class="kpi-label">Active Lay-Bys</div><div class="kpi-value">3,914</div><div class="kpi-delta up">▲ 8.2% MoM</div></div>
+        <div class="kpi"><div class="kpi-label">New (last 30d)</div><div class="kpi-value">612</div><div class="kpi-delta up">▲ 14% vs prev</div></div>
+        <div class="kpi"><div class="kpi-label">KYC Verified</div><div class="kpi-value">96.8%</div><div class="kpi-delta">↔ stable</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">All Customers</h3>
+            <p class="card-sub">Search, filter and manage customer accounts</p>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-ghost">Export CSV</button>
+            </div>
+        </div>
+
+        <div class="filters">
+          <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Search by name, email, or customer ID…"></div>
+          <select class="select"><option>All states</option><option>NSW</option><option>VIC</option><option>QLD</option><option>WA</option><option>SA</option><option>TAS</option><option>ACT</option><option>NT</option></select>
+          <select class="select"><option>All KYC statuses</option><option>Verified</option><option>Pending</option><option>Failed</option></select>
+          <select class="select"><option>All activity</option><option>Active lay-bys</option><option>No active</option><option>At risk</option></select>
+        </div>
+
+        <div class="tabs">
+          <a class="tab active" href="customers.html">All <span class="tab-count">18,427</span></a>
+          <a class="tab" href="customers-active.html">Active <span class="tab-count">3,914</span></a>
+          <a class="tab" href="customers-atrisk.html">At Risk <span class="tab-count">87</span></a>
+          <a class="tab" href="customers-suspended.html">Suspended <span class="tab-count">12</span></a>
+          <a class="tab" href="customers-kyc.html">KYC Pending <span class="tab-count">41</span></a>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>Customer</th><th>Customer ID</th><th>State</th><th>Active</th><th>Lifetime</th><th>KYC</th><th>Joined</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td><div class="user-cell"><div class="avatar">SM</div><div><div class="user-name">Sarah Mitchell</div><div class="user-sub">sarah.m@gmail.com</div></div></div></td>
+                <td><span class="mono">CU-2024-08124</span></td>
+                <td>NSW</td>
+                <td>2</td>
+                <td>$4,287.50</td>
+                <td><span class="pill pill-active">Verified</span></td>
+                <td>14 Mar 2024</td>
+                <td><a href="customer-detail.html" class="link">View →</a></td>
+              </tr>
+              <tr>
+                <td><div class="user-cell"><div class="avatar">JT</div><div><div class="user-name">James Thompson</div><div class="user-sub">jthompson82@outlook.com</div></div></div></td>
+                <td><span class="mono">CU-2024-04019</span></td>
+                <td>VIC</td>
+                <td>1</td>
+                <td>$2,140.00</td>
+                <td><span class="pill pill-active">Verified</span></td>
+                <td>02 Feb 2024</td>
+                <td><a href="customer-detail.html" class="link">View →</a></td>
+              </tr>
+              <tr>
+                <td><div class="user-cell"><div class="avatar">EW</div><div><div class="user-name">Emily Wong</div><div class="user-sub">emily.w@hotmail.com</div></div></div></td>
+                <td><span class="mono">CU-2025-11788</span></td>
+                <td>QLD</td>
+                <td>3</td>
+                <td>$6,892.30</td>
+                <td><span class="pill pill-active">Verified</span></td>
+                <td>09 Aug 2025</td>
+                <td><a href="customer-detail.html" class="link">View →</a></td>
+              </tr>
+              <tr>
+                <td><div class="user-cell"><div class="avatar">DK</div><div><div class="user-name">Daniel Kovac</div><div class="user-sub">d.kovac@gmail.com</div></div></div></td>
+                <td><span class="mono">CU-2025-22041</span></td>
+                <td>WA</td>
+                <td>0</td>
+                <td>$1,295.00</td>
+                <td><span class="pill pill-pending">Pending</span></td>
+                <td>22 Apr 2026</td>
+                <td><a href="customer-detail.html" class="link">View →</a></td>
+              </tr>
+              <tr>
+                <td><div class="user-cell"><div class="avatar">PR</div><div><div class="user-name">Priya Raman</div><div class="user-sub">priya.r@yahoo.com</div></div></div></td>
+                <td><span class="mono">CU-2024-09312</span></td>
+                <td>NSW</td>
+                <td>1</td>
+                <td>$3,560.00</td>
+                <td><span class="pill pill-active">Verified</span></td>
+                <td>30 May 2024</td>
+                <td><a href="customer-detail.html" class="link">View →</a></td>
+              </tr>
+              <tr>
+                <td><div class="user-cell"><div class="avatar">LB</div><div><div class="user-name">Liam Bennett</div><div class="user-sub">l.bennett@icloud.com</div></div></div></td>
+                <td><span class="mono">CU-2025-15229</span></td>
+                <td>VIC</td>
+                <td>1</td>
+                <td>$899.00</td>
+                <td><span class="pill pill-overdue">At Risk</span></td>
+                <td>11 Oct 2025</td>
+                <td><a href="customer-detail.html" class="link">View →</a></td>
+              </tr>
+              <tr>
+                <td><div class="user-cell"><div class="avatar">AF</div><div><div class="user-name">Aisha Fernando</div><div class="user-sub">aisha.f@gmail.com</div></div></div></td>
+                <td><span class="mono">CU-2024-06677</span></td>
+                <td>SA</td>
+                <td>1</td>
+                <td>$2,940.00</td>
+                <td><span class="pill pill-active">Verified</span></td>
+                <td>17 Mar 2024</td>
+                <td><a href="customer-detail.html" class="link">View →</a></td>
+              </tr>
+              <tr>
+                <td><div class="user-cell"><div class="avatar">MO</div><div><div class="user-name">Marcus O'Brien</div><div class="user-sub">marcus.ob@gmail.com</div></div></div></td>
+                <td><span class="mono">CU-2023-03014</span></td>
+                <td>QLD</td>
+                <td>0</td>
+                <td>$8,420.00</td>
+                <td><span class="pill pill-active">Verified</span></td>
+                <td>05 Sep 2023</td>
+                <td><a href="customer-detail.html" class="link">View →</a></td>
+              </tr>
+              <tr>
+                <td><div class="user-cell"><div class="avatar">CH</div><div><div class="user-name">Chloe Hartman</div><div class="user-sub">chloe.h@outlook.com</div></div></div></td>
+                <td><span class="mono">CU-2025-19880</span></td>
+                <td>NSW</td>
+                <td>2</td>
+                <td>$1,679.00</td>
+                <td><span class="pill pill-active">Verified</span></td>
+                <td>02 Jan 2026</td>
+                <td><a href="customer-detail.html" class="link">View →</a></td>
+              </tr>
+              <tr>
+                <td><div class="user-cell"><div class="avatar">RK</div><div><div class="user-name">Ravi Krishnan</div><div class="user-sub">r.krishnan@gmail.com</div></div></div></td>
+                <td><span class="mono">CU-2024-13344</span></td>
+                <td>ACT</td>
+                <td>1</td>
+                <td>$1,150.00</td>
+                <td><span class="pill pill-cancelled">Suspended</span></td>
+                <td>18 Jul 2024</td>
+                <td><a href="customer-detail.html" class="link">View →</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pager">
+          <span class="pager-info">Showing 1–10 of 18,427 customers</span>
+          <div class="pager-ctrls">
+            <button class="btn btn-ghost btn-sm">‹ Prev</button>
+            <button class="btn btn-sm active">1</button>
+            <button class="btn btn-sm">2</button>
+            <button class="btn btn-sm">3</button>
+            <span style="color:var(--ink-400);padding:0 4px">…</span>
+            <button class="btn btn-sm">1843</button>
+            <button class="btn btn-ghost btn-sm">Next ›</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('customers','Customers','Account holders, KYC and lifetime activity');</script>
+</body>
+</html>

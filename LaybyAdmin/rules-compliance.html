@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Compliance Rules · Lay-By Rules · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Lay-By Rules</h1>
+          <p class="page-sub">AML/CTF, Privacy, Consumer Law obligations · audit + reporting</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Discard Changes</button>
+          <button class="btn btn-primary">Save All</button>
+        </div>
+      </div>
+
+      <div class="tabs" style="margin-top:20px">
+        <a class="tab" href="rules.html">Deposits &amp; Terms</a>
+        <a class="tab" href="rules-frequency.html">Frequency</a>
+        <a class="tab" href="rules-fees.html">Fees &amp; Penalties</a>
+        <a class="tab" href="rules-cancellation.html">Cancellation</a>
+        <a class="tab" href="rules-eligibility.html">Eligibility</a>
+        <a class="tab active" href="rules-compliance.html">Compliance</a>
+      </div>
+
+      
+      <div class="alert alert-info" style="margin:24px 0 0">
+        <div class="alert-icon">i</div>
+        <div class="alert-body">
+          <div class="alert-title">Lay-by exempt under NCCP Act</div>
+          <div class="alert-text">Because LayBys.com charges zero interest and zero fees, the National Consumer Credit Protection Act 2009 (Cth) exemption applies. The platform must still meet AML/CTF, Privacy, and Consumer Law obligations.</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:20px">
+        <div>
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">AML / CTF Controls</h3></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Customer KYC at sign-up</div><div class="health-stat">Document.AI · 96.8% pass</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Daily PEP screening</div><div class="health-stat">Refinitiv World-Check</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Sanctions list match</div><div class="health-stat">Updated daily</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Suspicious matter reporting</div><div class="health-stat">Auto-flag &gt; $10k cumulative</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Source of funds verification</div><div class="health-stat">For lay-bys &gt; $10k</div></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Privacy &amp; Data Handling</h3></div>
+            <div class="setting-row"><div><div class="setting-name">Privacy notice at signup</div><div class="setting-sub">Australian Privacy Principles compliant</div></div><label class="toggle"><input type="checkbox" checked disabled><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Data retention period</div><div class="setting-sub">7 years from last activity (regulatory requirement)</div></div><span class="cell-muted">7 years</span></div>
+            <div class="setting-row"><div><div class="setting-name">Right to access / correction</div><div class="setting-sub">Customer self-service via account</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Right to deletion</div><div class="setting-sub">After 7-year retention period</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Encryption at rest</div><div class="setting-sub">AES-256</div></div><label class="toggle"><input type="checkbox" checked disabled><span class="toggle-slider"></span></label></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Consumer Law (ACL)</h3></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Statutory rights honoured</div><div class="health-stat">Refund / repair / replace</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">No misleading advertising</div><div class="health-stat">Reviewed quarterly</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Total payable disclosed pre-signing</div><div class="health-stat">Built into checkout flow</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Cooling-off period offered</div><div class="health-stat">48 hours per platform policy</div></div>
+            <div class="health-row"><div class="health-dot health-dot-ok"></div><div class="health-name">Plain English contracts</div><div class="health-stat">Reviewed by Consumer Affairs lawyer</div></div>
+          </div>
+
+          <div class="card" style="margin-top:20px">
+            <div class="card-head"><h3 class="card-title">Audit &amp; Reporting</h3></div>
+            <div class="setting-row"><div><div class="setting-name">All admin actions logged</div></div><label class="toggle"><input type="checkbox" checked disabled><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Quarterly compliance review</div><div class="setting-sub">External auditor</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            <div class="setting-row"><div><div class="setting-name">Annual AUSTRAC report</div><div class="setting-sub">Threshold transactions report</div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          </div>
+        </div>
+
+        <aside class="side-col">
+          <div class="card">
+            <div class="card-head"><h3 class="card-title">Compliance Score</h3></div>
+            <div style="text-align:center;padding:20px 0">
+              <div style="font-family:var(--md-font-display);font-size:48px;font-weight:600;color:var(--m3-success);letter-spacing:-1px">98<span style="font-size:24px;color:var(--m3-on-surface-variant);font-weight:400">/100</span></div>
+              <div style="font-size:13px;color:var(--m3-on-surface-variant);margin-top:6px">Excellent compliance posture</div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Last Audit</h3></div>
+            <div class="kv"><span>Date</span><b>14 Jan 2026</b></div>
+            <div class="kv"><span>Auditor</span><b>BDO Australia</b></div>
+            <div class="kv"><span>Result</span><b><span class="pill pill-active">Pass</span></b></div>
+            <div class="kv"><span>Findings</span><b>2 minor</b></div>
+            <div class="kv"><span>Next due</span><b>14 Jul 2026</b></div>
+          </div>
+          <div class="card" style="margin-top:18px">
+            <div class="card-head"><h3 class="card-title">Regulators</h3></div>
+            <div class="doc-row"><div class="doc-icon">⚖</div><div class="doc-body"><div class="doc-name">ACCC</div><div class="doc-sub">Consumer Law oversight</div></div></div>
+            <div class="doc-row"><div class="doc-icon">⚖</div><div class="doc-body"><div class="doc-name">AUSTRAC</div><div class="doc-sub">AML/CTF reporting</div></div></div>
+            <div class="doc-row"><div class="doc-icon">⚖</div><div class="doc-body"><div class="doc-name">OAIC</div><div class="doc-sub">Privacy regulator</div></div></div>
+          </div>
+        </aside>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('rules','Lay-By Rules','Compliance Rules');</script>
+</body>
+</html>

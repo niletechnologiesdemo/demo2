@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Disputes · Exceptions · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Exceptions</h1>
+          <p class="page-sub">Customer chargebacks and formal disputes from card networks</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">Configure Auto-Triage</button>
+          <button class="btn btn-primary">Bulk Resolve</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi kpi-warn"><div class="kpi-label">Open Exceptions</div><div class="kpi-value">7</div><div class="kpi-meta">3 P1 · 4 P2</div></div>
+        <div class="kpi"><div class="kpi-label">Resolved Today</div><div class="kpi-value">12</div><div class="kpi-delta up">▲ vs avg 8</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Avg Resolution Time</div><div class="kpi-value">14m</div><div class="kpi-meta">Below 30m target</div></div>
+        <div class="kpi"><div class="kpi-label">Auto-Resolved (24h)</div><div class="kpi-value">28</div><div class="kpi-meta">Smart-retry recovered</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="tabs">
+          <a class="tab" href="exceptions.html">All Open <span class="tab-count">7</span></a>
+          <a class="tab" href="exceptions-overdue.html">Overdue Lay-Bys <span class="tab-count">3</span></a>
+          <a class="tab" href="exceptions-failed.html">Failed Payments <span class="tab-count">4</span></a>
+          <a class="tab active" href="exceptions-disputes.html">Disputes <span class="tab-count">0</span></a>
+          <a class="tab" href="exceptions-resolved.html">Resolved (30d) <span class="tab-count">142</span></a>
+        </div>
+
+        
+        <div class="exceptions-list">
+          <div style="padding:60px 20px;text-align:center">
+            <div style="width:64px;height:64px;border-radius:50%;background:var(--m3-success-container);color:var(--m3-success);margin:0 auto 16px;display:grid;place-items:center;font-size:28px">✓</div>
+            <div style="font-family:var(--md-font-display);font-size:18px;font-weight:500;color:var(--m3-on-surface);margin-bottom:6px">No active disputes</div>
+            <div style="font-size:14px;color:var(--m3-on-surface-variant);max-width:440px;margin:0 auto;line-height:1.5">No customer chargebacks or formal disputes are currently open. Disputes typically arrive from card networks within 30 days of a transaction.</div>
+            <div style="margin-top:20px"><a href="exceptions-resolved.html" class="link">View resolved disputes (30d) →</a></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('exceptions','Exceptions','Disputes');</script>
+</body>
+</html>

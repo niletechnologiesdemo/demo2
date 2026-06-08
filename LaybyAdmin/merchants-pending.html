@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pending Merchant Applications · Merchants · LayBys.com Super Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <div class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Merchants</h1>
+          <p class="page-sub">Applications awaiting review · auto-screen results below</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Export CSV</button>
+          <a href="merchant-new.html" class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>Invite Merchant</a>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Total Merchants</div><div class="kpi-value">42</div><div class="kpi-meta">+5 this quarter</div></div>
+        <div class="kpi kpi-success"><div class="kpi-label">Active</div><div class="kpi-value">38</div><div class="kpi-meta">90% of merchant base</div></div>
+        <div class="kpi kpi-warn"><div class="kpi-label">Pending Review</div><div class="kpi-value">3</div><div class="kpi-meta">Avg approval 1.4 days</div></div>
+        <div class="kpi"><div class="kpi-label">Avg GMV / merchant</div><div class="kpi-value">$28.5k</div><div class="kpi-meta">Last 30 days</div></div>
+      </div>
+
+      <div class="tabs">
+        <a class="tab" href="merchants.html">All <span class="count">42</span></a>
+        <a class="tab" href="merchants-active.html">Active <span class="count">38</span></a>
+        <a class="tab active" href="merchants-pending.html">Pending <span class="count">3</span></a>
+        <a class="tab" href="merchants-suspended.html">Suspended <span class="count">1</span></a>
+      </div>
+
+      
+      <div class="alert alert-warn" style="margin:14px 0 0">
+        <div class="alert-icon">!</div>
+        <div class="alert-body">
+          <div class="alert-title">3 merchant applications awaiting review</div>
+          <div class="alert-text">Auto-screening has run on each. Below shows where each is in the pipeline. Average approval time is currently 1.4 days.</div>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:14px">
+        <table class="data">
+          <thead><tr><th>Applicant</th><th>Submitted</th><th>Time in queue</th><th>Application complete</th><th>Status</th><th></th></tr></thead>
+          <tbody><tr>
+              <td><div class="user-cell"><div class="avatar">PR</div><div><div class="user-name">Palm Republic</div><div class="user-sub">Resort wear · Byron Bay NSW</div></div></div></td>
+              <td>Sat 03 May</td>
+              <td>1 day ago</td>
+              <td><div style="display:flex;align-items:center;gap:10px"><div style="flex:1;max-width:120px;height:6px;background:var(--m3-surface-3);border-radius:3px;overflow:hidden"><div style="height:100%;width:92%;background:var(--m3-warning);border-radius:3px"></div></div><span class="cell-muted" style="white-space:nowrap;font-size:12px">92%</span></div></td>
+              <td><span class="pill pill-pending">Awaiting Trust Letter</span></td>
+              <td><a href="merchant-application.html" class="btn btn-gold btn-sm">Review</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">CS</div><div><div class="user-name">CoastalSurf NSW</div><div class="user-sub">Surf gear · Manly NSW</div></div></div></td>
+              <td>Fri 02 May</td>
+              <td>2 days ago</td>
+              <td><div style="display:flex;align-items:center;gap:10px"><div style="flex:1;max-width:120px;height:6px;background:var(--m3-surface-3);border-radius:3px;overflow:hidden"><div style="height:100%;width:78%;background:var(--m3-warning);border-radius:3px"></div></div><span class="cell-muted" style="white-space:nowrap;font-size:12px">78%</span></div></td>
+              <td><span class="pill pill-pending">Compliance Review</span></td>
+              <td><a href="merchant-application.html" class="btn btn-gold btn-sm">Review</a></td>
+            </tr>
+<tr>
+              <td><div class="user-cell"><div class="avatar">NG</div><div><div class="user-name">NovaGlow Beauty</div><div class="user-sub">Skincare · Melbourne VIC</div></div></div></td>
+              <td>Fri 02 May</td>
+              <td>2 days ago</td>
+              <td><div style="display:flex;align-items:center;gap:10px"><div style="flex:1;max-width:120px;height:6px;background:var(--m3-surface-3);border-radius:3px;overflow:hidden"><div style="height:100%;width:100%;background:var(--m3-warning);border-radius:3px"></div></div><span class="cell-muted" style="white-space:nowrap;font-size:12px">100%</span></div></td>
+              <td><span class="pill pill-pending">Final Approval</span></td>
+              <td><a href="merchant-application.html" class="btn btn-gold btn-sm">Review</a></td>
+            </tr></tbody>
+        </table>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('merchants','Merchants','Pending Merchant Applications');</script>
+</body>
+</html>

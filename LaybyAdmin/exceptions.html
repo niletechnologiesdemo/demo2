@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Exceptions · LayBys.com Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="page">
+
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Exceptions</h1>
+          <p class="page-sub">Failed payments, overdue lay-bys, KYC issues, and other items needing manual attention.</p>
+        </div>
+        <div class="filter-row">
+          <button class="btn btn-ghost">SLA Settings</button>
+          <button class="btn btn-ghost">Export</button>
+          <button class="btn btn-primary">Triage All</button>
+        </div>
+      </div>
+
+      <div class="alert alert-warn">
+        <div class="alert-icon">⚠</div>
+        <div class="alert-body">
+          <div class="alert-title">7 exceptions need attention</div>
+          <div class="alert-text">3 lay-bys are overdue past tolerance, 4 payments have failed retries. SLA: respond within 24h. Earliest deadline: Tue 05 May 17:00 AEST.</div>
+        </div>
+        <div class="alert-actions"><button class="btn btn-primary">Triage All</button></div>
+      </div>
+
+      <div class="kpi-grid" style="margin-top:20px">
+        <div class="kpi"><div class="kpi-label">Open Exceptions</div><div class="kpi-value">7</div><div class="kpi-delta down">▼ 3 vs yesterday</div></div>
+        <div class="kpi"><div class="kpi-label">Overdue Lay-Bys</div><div class="kpi-value">3</div><div class="kpi-delta">$2,140 at risk</div></div>
+        <div class="kpi"><div class="kpi-label">Failed Retries</div><div class="kpi-value">4</div><div class="kpi-delta">Next attempt 22:00</div></div>
+        <div class="kpi"><div class="kpi-label">Avg Resolution</div><div class="kpi-value">8h 24m</div><div class="kpi-delta up">▲ within SLA</div></div>
+      </div>
+
+      <div class="card" style="margin-top:24px">
+        <div class="card-head">
+          <div>
+            <h3 class="card-title">Exception Queue</h3>
+            <p class="card-sub">Sorted by SLA deadline, oldest first</p>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-ghost">Bulk Assign</button>
+            <button class="btn btn-ghost">Export</button>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <a class="tab active" href="exceptions.html">All Open <span class="tab-count">7</span></a>
+          <a class="tab" href="exceptions-overdue.html">Overdue Lay-Bys <span class="tab-count">3</span></a>
+          <a class="tab" href="exceptions-failed.html">Failed Payments <span class="tab-count">4</span></a>
+          <a class="tab" href="exceptions-disputes.html">Disputes <span class="tab-count">0</span></a>
+          <a class="tab" href="exceptions-resolved.html">Resolved (30d) <span class="tab-count">142</span></a>
+        </div>
+
+        <div class="exceptions-list">
+
+          <div class="exception-row exception-danger">
+            <div class="exception-pri"><span class="pill pill-overdue">P1 · Critical</span></div>
+            <div class="exception-main">
+              <div class="exception-head">
+                <a href="exception-detail.html" class="link mono">EX-2026-00041</a>
+                <span class="dot-sep">·</span>
+                <span class="exception-type">Lay-by overdue 14 days</span>
+              </div>
+              <div class="exception-title"><a href="layby-detail.html" class="link" style="color:inherit;text-decoration:none">LB-2025-19422</a> — Liam Bennett · StyleVault</div>
+              <div class="exception-meta">
+                <span>3 missed payments ($73.50 total)</span>
+                <span>·</span>
+                <span>Last contact 9 days ago</span>
+                <span>·</span>
+                <span>SLA breach in <strong style="color:var(--danger-700)">4h 12m</strong></span>
+              </div>
+            </div>
+            <div class="exception-actions">
+              <button class="btn btn-ghost btn-sm">Send SMS</button>
+              <a href="exception-detail.html" class="btn btn-primary btn-sm">Resolve</a>
+            </div>
+          </div>
+
+          <div class="exception-row exception-danger">
+            <div class="exception-pri"><span class="pill pill-overdue">P1 · Critical</span></div>
+            <div class="exception-main">
+              <div class="exception-head">
+                <a href="exception-detail.html" class="link mono">EX-2026-00040</a>
+                <span class="dot-sep">·</span>
+                <span class="exception-type">Lay-by overdue 11 days</span>
+              </div>
+              <div class="exception-title"><a href="layby-detail.html" class="link" style="color:inherit;text-decoration:none">LB-2025-21008</a> — Ravi Krishnan · OutdoorBase</div>
+              <div class="exception-meta">
+                <span>2 missed payments ($118.40)</span>
+                <span>·</span>
+                <span>Customer responded 03 May — promises payment Mon</span>
+                <span>·</span>
+                <span>Tomorrow 17:00</span>
+              </div>
+            </div>
+            <div class="exception-actions">
+              <button class="btn btn-ghost btn-sm">Notes</button>
+              <a href="exception-detail.html" class="btn btn-primary btn-sm">Resolve</a>
+            </div>
+          </div>
+
+          <div class="exception-row exception-warn">
+            <div class="exception-pri"><span class="pill pill-pending">P2 · High</span></div>
+            <div class="exception-main">
+              <div class="exception-head">
+                <a href="exception-detail.html" class="link mono">EX-2026-00039</a>
+                <span class="dot-sep">·</span>
+                <span class="exception-type">Payment failed × 3 (retry exhausted)</span>
+              </div>
+              <div class="exception-title"><a href="layby-detail.html" class="link" style="color:inherit;text-decoration:none">LB-2026-04188</a> — Chloe Hartman · HomeStyle Co.</div>
+              <div class="exception-meta">
+                <span>$45.00 instalment · Card declined "do not honour"</span>
+                <span>·</span>
+                <span>Auto-retried 03 May 22:00</span>
+                <span>·</span>
+                <span>Wed 06 May 17:00</span>
+              </div>
+            </div>
+            <div class="exception-actions">
+              <button class="btn btn-ghost btn-sm">Update Card</button>
+              <button class="btn btn-primary btn-sm">Manual Retry</button>
+            </div>
+          </div>
+
+          <div class="exception-row exception-warn">
+            <div class="exception-pri"><span class="pill pill-pending">P2 · High</span></div>
+            <div class="exception-main">
+              <div class="exception-head">
+                <a href="exception-detail.html" class="link mono">EX-2026-00038</a>
+                <span class="dot-sep">·</span>
+                <span class="exception-type">Direct debit dishonour</span>
+              </div>
+              <div class="exception-title"><a href="layby-detail.html" class="link" style="color:inherit;text-decoration:none">LB-2026-03917</a> — Daniel Kovac · GadgetHub</div>
+              <div class="exception-meta">
+                <span>$62.20 instalment · Bank reason "account closed"</span>
+                <span>·</span>
+                <span>Customer notified by SMS 03 May 09:00</span>
+                <span>·</span>
+                <span>Wed 06 May 17:00</span>
+              </div>
+            </div>
+            <div class="exception-actions">
+              <button class="btn btn-ghost btn-sm">Send Email</button>
+              <button class="btn btn-primary btn-sm">Reach Out</button>
+            </div>
+          </div>
+
+          <div class="exception-row exception-warn">
+            <div class="exception-pri"><span class="pill pill-pending">P2 · High</span></div>
+            <div class="exception-main">
+              <div class="exception-head">
+                <a href="exception-detail.html" class="link mono">EX-2026-00037</a>
+                <span class="dot-sep">·</span>
+                <span class="exception-type">Lay-by overdue 8 days</span>
+              </div>
+              <div class="exception-title"><a href="layby-detail.html" class="link" style="color:inherit;text-decoration:none">LB-2026-02211</a> — Tom Whitfield · CycleWorks</div>
+              <div class="exception-meta">
+                <span>1 missed payment ($73.20)</span>
+                <span>·</span>
+                <span>Hardship request submitted 02 May — under review</span>
+                <span>·</span>
+                <span>Thu 07 May 17:00</span>
+              </div>
+            </div>
+            <div class="exception-actions">
+              <button class="btn btn-ghost btn-sm">Hardship Form</button>
+              <button class="btn btn-primary btn-sm">Approve Plan</button>
+            </div>
+          </div>
+
+          <div class="exception-row">
+            <div class="exception-pri"><span class="pill pill-info">P3 · Medium</span></div>
+            <div class="exception-main">
+              <div class="exception-head">
+                <a href="exception-detail.html" class="link mono">EX-2026-00036</a>
+                <span class="dot-sep">·</span>
+                <span class="exception-type">Card expired before payment</span>
+              </div>
+              <div class="exception-title"><a href="layby-detail.html" class="link" style="color:inherit;text-decoration:none">LB-2026-04401</a> — Hannah Pope · BeautyBox AU</div>
+              <div class="exception-meta">
+                <span>$31.85 instalment · Visa ··2204 expired 04/2026</span>
+                <span>·</span>
+                <span>Customer prompted to update — no action 5d</span>
+                <span>·</span>
+                <span>Fri 08 May 17:00</span>
+              </div>
+            </div>
+            <div class="exception-actions">
+              <button class="btn btn-ghost btn-sm">Resend Link</button>
+              <button class="btn btn-primary btn-sm">Manual Retry</button>
+            </div>
+          </div>
+
+          <div class="exception-row">
+            <div class="exception-pri"><span class="pill pill-info">P3 · Medium</span></div>
+            <div class="exception-main">
+              <div class="exception-head">
+                <a href="exception-detail.html" class="link mono">EX-2026-00035</a>
+                <span class="dot-sep">·</span>
+                <span class="exception-type">Payment failed (insufficient funds)</span>
+              </div>
+              <div class="exception-title"><a href="layby-detail.html" class="link" style="color:inherit;text-decoration:none">LB-2026-04612</a> — Greta Wallis · UrbanEdge</div>
+              <div class="exception-meta">
+                <span>$24.50 instalment · Visa ··0099</span>
+                <span>·</span>
+                <span>Auto-retry scheduled today 22:00</span>
+                <span>·</span>
+                <span>Sat 09 May 17:00</span>
+              </div>
+            </div>
+            <div class="exception-actions">
+              <button class="btn btn-ghost btn-sm">View Customer</button>
+              <button class="btn btn-primary btn-sm">Wait for Retry</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:24px">
+        <div class="card">
+          <div class="card-head"><h3 class="card-title">Resolution Trend — Last 30 Days</h3></div>
+          <div class="chart-bars" style="height:140px">
+            <div class="bar" style="height:38%"></div><div class="bar" style="height:42%"></div>
+            <div class="bar" style="height:31%"></div><div class="bar" style="height:54%"></div>
+            <div class="bar" style="height:48%"></div><div class="bar" style="height:36%"></div>
+            <div class="bar" style="height:28%"></div><div class="bar" style="height:60%"></div>
+            <div class="bar" style="height:52%"></div><div class="bar" style="height:44%"></div>
+            <div class="bar" style="height:38%"></div><div class="bar" style="height:28%"></div>
+            <div class="bar" style="height:34%"></div><div class="bar" style="height:42%"></div>
+            <div class="bar" style="height:48%"></div><div class="bar" style="height:30%"></div>
+            <div class="bar" style="height:26%"></div><div class="bar" style="height:38%"></div>
+            <div class="bar" style="height:42%"></div><div class="bar" style="height:36%"></div>
+            <div class="bar" style="height:32%"></div><div class="bar" style="height:24%"></div>
+            <div class="bar" style="height:28%"></div><div class="bar" style="height:34%"></div>
+            <div class="bar" style="height:30%"></div><div class="bar" style="height:22%"></div>
+            <div class="bar" style="height:28%"></div><div class="bar" style="height:26%"></div>
+            <div class="bar" style="height:22%"></div><div class="bar bar-current" style="height:32%"></div>
+          </div>
+          <div style="margin-top:12px;display:flex;justify-content:space-between;font-size:12px;color:var(--ink-500)"><span>Avg 7 / day</span><span>142 resolved this month</span></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3 class="card-title">Common Failure Reasons (30d)</h3></div>
+          <div class="reason-row"><div class="reason-name">Insufficient funds</div><div class="reason-bar"><div class="reason-fill" style="width:42%"></div></div><div class="reason-val">42%</div></div>
+          <div class="reason-row"><div class="reason-name">Card expired / replaced</div><div class="reason-bar"><div class="reason-fill" style="width:24%"></div></div><div class="reason-val">24%</div></div>
+          <div class="reason-row"><div class="reason-name">Bank declined "do not honour"</div><div class="reason-bar"><div class="reason-fill" style="width:14%"></div></div><div class="reason-val">14%</div></div>
+          <div class="reason-row"><div class="reason-name">DD account closed</div><div class="reason-bar"><div class="reason-fill" style="width:9%"></div></div><div class="reason-val">9%</div></div>
+          <div class="reason-row"><div class="reason-name">Customer hardship</div><div class="reason-bar"><div class="reason-fill" style="width:7%"></div></div><div class="reason-val">7%</div></div>
+          <div class="reason-row"><div class="reason-name">Other</div><div class="reason-bar"><div class="reason-fill" style="width:4%"></div></div><div class="reason-val">4%</div></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+<script src="admin.js"></script>
+<script>LBAdmin.mount('exceptions','Exceptions','Overdue lay-bys, failed payments and disputes');</script>
+</body>
+</html>
