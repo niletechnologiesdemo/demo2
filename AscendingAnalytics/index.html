@@ -96,7 +96,9 @@ a { text-decoration: none; color: inherit; }
   display: flex; align-items: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(168deg, var(--white) 0%, var(--teal-light) 50%, var(--white) 100%);
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.9) 30%, rgba(255,255,255,0.55) 62%, rgba(255,255,255,0.2) 100%),
+    url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1600&q=80') center/cover no-repeat;
 }
 .hero::before {
   content: '';
@@ -118,9 +120,10 @@ a { text-decoration: none; color: inherit; }
   0%, 100% { transform: translate(0, 0); }
   50% { transform: translate(30px, -40px); }
 }
+.hero > .container { width: 100%; }
 .hero-inner {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
-  align-items: center; position: relative; z-index: 2;
+  position: relative; z-index: 2;
+  max-width: 640px;
 }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
@@ -525,7 +528,7 @@ a { text-decoration: none; color: inherit; }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 1024px) {
-  .hero-inner, .problem-grid, .solution-top, .comp-grid { grid-template-columns: 1fr; }
+  .problem-grid, .solution-top, .comp-grid { grid-template-columns: 1fr; }
   .solution-features { grid-template-columns: repeat(2, 1fr); }
   .how-steps { grid-template-columns: repeat(2, 1fr); }
   .market-stats { grid-template-columns: repeat(2, 1fr); }
@@ -546,11 +549,12 @@ a { text-decoration: none; color: inherit; }
     box-shadow: 0 12px 30px rgba(0,0,0,0.08);
     gap: 16px;
   }
-  .hero-inner { text-align: center; }
-  .hero-sub { margin: 0 auto 36px; }
-  .hero-actions { justify-content: center; }
-  .hero-stats { justify-content: center; }
-  .hero-visual { margin-top: 40px; }
+  .hero {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.82) 55%, rgba(255,255,255,0.5) 100%),
+      url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1200&q=80') center/cover no-repeat;
+  }
+  .hero-inner { max-width: 100%; }
   .solution-features, .impact-grid, .eis-grid { grid-template-columns: 1fr; }
   .how-steps { grid-template-columns: 1fr; }
   .market-stats { grid-template-columns: 1fr 1fr; }
@@ -612,29 +616,6 @@ a { text-decoration: none; color: inherit; }
           <div class="hero-stat">
             <h3>1,000</h3>
             <p>Farm target</p>
-          </div>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-img-wrap">
-          <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80" alt="Smart agriculture field with technology overlay" loading="eager">
-        </div>
-        <div class="hero-float-card top">
-          <div class="float-icon green">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-          </div>
-          <div class="float-card-text">
-            <h4>Yield Increase</h4>
-            <p>5–15% improvement</p>
-          </div>
-        </div>
-        <div class="hero-float-card bottom">
-          <div class="float-icon blue">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <div class="float-card-text">
-            <h4>Cost Savings</h4>
-            <p>£5K–£20K annually</p>
           </div>
         </div>
       </div>
