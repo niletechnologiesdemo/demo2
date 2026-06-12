@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Abbi Farm · Marketing Strategy</title>
+<meta name="description" content="A marketing strategy for Abbi Farm, Chattarpur, New Delhi." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Pinyon+Script&family=Montserrat:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --teal:#11878D;
+    --teal-deep:#0C6E73;
+    --magenta:#E34C83;
+    --magenta-deep:#C23368;
+    --lemon:#F6D73F;
+    --purple:#6D387C;
+    --purple-deep:#3C1F46;
+    --coral:#F26051;
+
+    --cream:#FBF6EC;
+    --cream-2:#F3E8D4;
+    --ink:#2E1A33;          /* deep plum, used instead of black */
+    --ink-soft:rgba(46,26,51,.72);
+
+    --serif:'Playfair Display', Georgia, serif;
+    --script:'Pinyon Script', cursive;
+    --sans:'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+    --garamond:'Cormorant Garamond', Georgia, serif;
+
+    --maxw:1180px;
+    --radius:16px;
+    --shadow:0 26px 60px -30px rgba(46,26,51,.5);
+    --shadow-soft:0 16px 40px -26px rgba(46,26,51,.4);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    background:var(--cream);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  .eyebrow{
+    font-family:var(--sans);font-weight:700;font-size:.72rem;
+    letter-spacing:.34em;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:.7em;color:var(--magenta);
+  }
+  .eyebrow::before{content:"";width:32px;height:2px;background:currentColor;display:inline-block}
+  .on-dark .eyebrow{color:var(--lemon)}
+
+  .section-title{
+    font-family:var(--serif);font-weight:800;
+    font-size:clamp(2rem,5.2vw,3.3rem);line-height:1.05;
+    letter-spacing:-.01em;margin:.55rem 0 .2rem;
+  }
+  .section-title .accent{font-style:italic;font-weight:600}
+  .lead{
+    font-family:var(--garamond);font-size:clamp(1.15rem,2.4vw,1.42rem);
+    line-height:1.5;max-width:60ch;color:var(--ink-soft);
+  }
+  .on-dark, .on-dark .lead{color:var(--cream)}
+  .on-dark .lead{color:rgba(251,246,236,.85)}
+  .rule{height:3px;width:96px;border-radius:3px;margin:1.2rem 0 1.7rem;
+    background:linear-gradient(90deg,var(--magenta),var(--lemon) 55%,var(--teal))}
+
+  section{padding:clamp(60px,8.5vw,118px) 0;position:relative}
+  .section-head{margin-bottom:clamp(32px,5vw,56px)}
+
+  /* NAV */
+  header.nav{position:fixed;top:0;left:0;right:0;z-index:60;
+    background:rgba(251,246,236,.82);backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(46,26,51,.1)}
+  .nav-inner{max-width:var(--maxw);margin:0 auto;padding:13px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{font-family:var(--serif);font-weight:800;font-size:1.18rem;letter-spacing:.01em;color:var(--ink)}
+  .brand .d{color:var(--magenta)}
+  .nav-links{display:flex;align-items:center;gap:2px}
+  .nav-links a{font-size:.74rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    padding:8px 13px;border-radius:8px;color:var(--ink-soft);transition:.2s}
+  .nav-links a:hover{color:var(--magenta);background:rgba(227,76,131,.1)}
+  .nav-toggle{display:none;background:none;border:1px solid rgba(46,26,51,.25);
+    color:var(--ink);border-radius:9px;padding:8px 11px;cursor:pointer}
+  .nav-toggle span{display:block;width:20px;height:2px;background:var(--ink);margin:4px 0}
+  @media(max-width:920px){
+    .nav-links{position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;
+      gap:0;background:var(--cream);border-bottom:1px solid rgba(46,26,51,.12);
+      max-height:0;overflow:hidden;transition:max-height .35s ease}
+    .nav-links.open{max-height:80vh}
+    .nav-links a{padding:14px 24px;border-top:1px solid rgba(46,26,51,.08)}
+    .nav-toggle{display:block}
+  }
+
+  /* HERO */
+  .hero{position:relative;min-height:74vh;display:flex;align-items:center;
+    padding:112px 0 60px;overflow:hidden;
+    background:linear-gradient(90deg,
+      #140b18 0%,
+      #1d1127 20%,
+      #2a1830 38%,
+      #3a1e44 58%,
+      #492858 80%,
+      #573066 100%);}
+  /* image shown at its natural aspect (no crop), full height, anchored right;
+     its left edge is masked so it melts into the dark->light gradient */
+  .hero-bg{position:absolute;inset:0;z-index:0;display:flex;justify-content:flex-end;overflow:hidden}
+  .hero-bg img{height:100%;width:auto;max-width:none;object-fit:cover;
+    -webkit-mask-image:linear-gradient(90deg, transparent 0%, rgba(0,0,0,.12) 22%, rgba(0,0,0,.5) 42%, #000 64%);
+    mask-image:linear-gradient(90deg, transparent 0%, rgba(0,0,0,.12) 22%, rgba(0,0,0,.5) 42%, #000 64%);}
+  /* transparent colour wash over the visible (right) part of the image */
+  .hero-bg::after{content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(90deg, transparent 50%, rgba(58,27,64,.15) 74%, rgba(17,135,141,.10) 100%),
+      linear-gradient(180deg, rgba(20,11,24,.26), transparent 22%, transparent 80%, rgba(20,11,24,.3));
+  }
+  .hero .wrap{position:relative;z-index:1;width:100%}
+  .hero-inner{max-width:620px;color:var(--cream)}
+  .hero-label{font-weight:700;font-size:.74rem;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--lemon);margin-bottom:18px}
+  .hero h1{font-family:var(--serif);font-weight:900;
+    font-size:clamp(3.2rem,8vw,5.6rem);line-height:.9;letter-spacing:-.02em}
+  .hero h1 .l2{display:block;color:var(--lemon)}
+  .hero .tagline{font-family:var(--script);font-size:clamp(2rem,4.6vw,3rem);
+    color:#fff;margin:.14em 0 .42em;line-height:1.05;text-shadow:0 2px 18px rgba(40,20,46,.5)}
+  .hero .place{font-family:var(--garamond);font-size:1.25rem;letter-spacing:.02em;
+    color:rgba(251,246,236,.88)}
+  .hero .uses{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px 22px;
+    font-weight:600;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:#fff}
+  .hero .uses span{position:relative}
+  .hero .uses span+span::before{content:"";position:absolute;left:-12px;top:50%;
+    width:5px;height:5px;border-radius:50%;background:var(--lemon);transform:translateY(-50%)}
+  @media(max-width:760px){
+    .hero{min-height:80vh;padding:116px 0 60px;background:var(--purple-deep)}
+    .hero-bg{justify-content:stretch}
+    .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 52%;
+      -webkit-mask-image:none;mask-image:none}
+    .hero-bg::after{background:
+      linear-gradient(180deg, rgba(20,11,24,.5) 0%, rgba(46,26,51,.42) 34%, rgba(20,11,24,.85) 100%)}
+  }
+
+  /* GRIDS / cards */
+  .grid{display:grid;gap:20px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:980px){.g4{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:860px){.g3{grid-template-columns:1fr}}
+  @media(max-width:600px){.g2,.g4{grid-template-columns:1fr}}
+
+  /* FOUR STREAMS */
+  .streams{background:var(--cream);padding-top:clamp(48px,5.5vw,76px)}
+  .stream{border-radius:var(--radius);padding:28px;color:#fff;display:flex;flex-direction:column;
+    gap:14px;height:100%;box-shadow:var(--shadow-soft)}
+  .stream .num{font-family:var(--serif);font-weight:800;font-size:2.1rem;line-height:1;opacity:.9}
+  .stream h3{font-family:var(--serif);font-weight:700;font-size:1.5rem;line-height:1.12}
+  .stream .imp{font-weight:800;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--lemon)}
+  .stream p{font-family:var(--garamond);font-size:1.12rem;line-height:1.4;color:rgba(255,255,255,.92)}
+  .stream ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:auto}
+  .stream li{font-size:.85rem;display:flex;gap:10px;align-items:flex-start;color:rgba(255,255,255,.94)}
+  .stream li::before{content:"";flex:0 0 auto;width:7px;height:7px;border-radius:50%;
+    background:rgba(255,255,255,.9);margin-top:7px}
+  .s-teal{background:linear-gradient(165deg,var(--teal),var(--teal-deep))}
+  .s-coral{background:linear-gradient(165deg,var(--coral),#cf4636)}
+  .s-purple{background:linear-gradient(165deg,var(--purple),var(--purple-deep))}
+  .s-magenta{background:linear-gradient(165deg,var(--magenta),var(--magenta-deep))}
+
+  /* BUILD THE BUZZ */
+  .buzz{background:var(--purple-deep)}
+  .phase{border-radius:var(--radius);overflow:hidden;background:var(--cream);
+    display:flex;flex-direction:column;box-shadow:var(--shadow)}
+  .phase .top{padding:16px 24px;color:#fff}
+  .phase .top b{display:block;font-weight:800;letter-spacing:.18em;text-transform:uppercase;font-size:.8rem}
+  .phase .top span{font-size:.72rem;letter-spacing:.16em;opacity:.9}
+  .p1 .top{background:var(--magenta)} .p2 .top{background:var(--teal)} .p3 .top{background:var(--coral)}
+  .phase .body{padding:24px}
+  .phase h3{font-family:var(--serif);font-weight:700;font-size:1.45rem;margin-bottom:10px;color:var(--ink)}
+  .phase .d{font-family:var(--garamond);font-size:1.08rem;line-height:1.45;color:var(--ink-soft);margin-bottom:16px}
+  .phase ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+  .phase li{font-size:.9rem;display:flex;gap:10px;color:var(--ink)}
+  .phase li::before{content:"";flex:0 0 auto;width:6px;height:6px;border-radius:50%;
+    background:var(--purple);margin-top:7px}
+
+  .assets{margin-top:40px}
+  .assets-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+  @media(max-width:680px){.assets-grid{grid-template-columns:1fr}}
+  .asset{display:flex;gap:13px;align-items:flex-start;background:rgba(251,246,236,.06);
+    border:1px solid rgba(246,215,63,.32);border-radius:13px;padding:16px 18px}
+  .asset .s{color:var(--lemon);font-size:1.05rem;line-height:1.3}
+  .asset b{color:var(--lemon);font-weight:700;display:block;font-size:.96rem}
+  .asset span{color:rgba(251,246,236,.78);font-size:.9rem}
+
+  /* SPACE BY SPACE strip */
+  .spaces{margin-top:46px}
+  .space-scroll{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:860px){.space-scroll{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.space-scroll{grid-template-columns:1fr}}
+  .space{border-radius:14px;overflow:hidden;background:#000;box-shadow:var(--shadow-soft)}
+  .space img{width:100%;aspect-ratio:1/1;object-fit:cover;transition:transform .7s}
+  .space:hover img{transform:scale(1.06)}
+  .space .cap{background:var(--cream);color:var(--ink);font-weight:700;letter-spacing:.04em;
+    font-size:.82rem;padding:11px 14px;text-align:center}
+
+  /* CINEMATIC */
+  .motion{background:linear-gradient(180deg,var(--cream-2),var(--cream))}
+  .video-feature{display:grid;grid-template-columns:1.6fr .9fr;gap:22px;align-items:start}
+  @media(max-width:860px){.video-feature{grid-template-columns:1fr}}
+  .vid{border-radius:var(--radius);overflow:hidden;background:#000;box-shadow:var(--shadow)}
+  .vid-wide video{width:100%;display:block;aspect-ratio:848/478;object-fit:cover}
+  .vid-tall video{width:100%;display:block;aspect-ratio:478/850;object-fit:cover}
+  .vcap{margin-top:13px;font-family:var(--garamond);font-size:1.1rem;color:var(--ink-soft);line-height:1.4}
+  .vcap b{font-family:var(--sans);font-weight:700;font-size:.74rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--magenta);display:block;margin-bottom:4px}
+
+  /* IMAGINE THE EVENTS */
+  .events{background:linear-gradient(180deg,var(--teal-deep),#0a585c)}
+  .ev{border-radius:var(--radius);overflow:hidden;background:#000;box-shadow:var(--shadow)}
+  .ev img{width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .7s}
+  .ev:hover img{transform:scale(1.05)}
+  .ev .cap{padding:16px 18px;color:#fff}
+  .ev .cap h4{font-family:var(--serif);font-weight:700;font-size:1.22rem;margin-bottom:3px}
+  .ev .cap p{font-family:var(--garamond);font-size:1.02rem;line-height:1.35;color:rgba(255,255,255,.82)}
+  .ev-magenta .cap{background:var(--magenta)} .ev-coral .cap{background:var(--coral)}
+  .ev-purple .cap{background:var(--purple)} .ev-teal .cap{background:var(--teal)}
+  .ev-lemon .cap{background:var(--lemon)} .ev-lemon .cap h4{color:var(--ink)} .ev-lemon .cap p{color:var(--ink-soft)}
+  .ev-deep .cap{background:var(--purple-deep)}
+
+  /* HOSPITALITY */
+  .hosp{background:var(--cream)}
+  .hosp-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}
+  @media(max-width:860px){.hosp-grid{grid-template-columns:1fr}}
+  .hosp-imgs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .figure{border-radius:var(--radius);overflow:hidden;background:#000;box-shadow:var(--shadow-soft)}
+  .figure img{width:100%;height:100%;object-fit:cover;aspect-ratio:3/4}
+
+  /* CLOSING */
+  .closing{background:linear-gradient(160deg,var(--magenta),var(--purple))}
+  .closing .wrap{text-align:center}
+  .closing h2{font-family:var(--serif);font-weight:800;color:#fff;
+    font-size:clamp(1.9rem,5vw,3rem);line-height:1.12}
+  .closing .tag{font-family:var(--script);font-size:clamp(2rem,5vw,3rem);color:var(--lemon);margin-top:8px}
+  .closing .sign{margin-top:26px;font-weight:600;font-size:.78rem;letter-spacing:.2em;
+    text-transform:uppercase;color:rgba(255,255,255,.85)}
+
+  footer{background:var(--purple-deep);padding:30px 0;color:rgba(251,246,236,.7)}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;
+    font-size:.8rem;letter-spacing:.06em}
+  .foot .brand{color:var(--cream);font-size:1.05rem}
+  .foot .brand .d{color:var(--lemon)}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:70;
+    background:linear-gradient(90deg,var(--magenta),var(--lemon),var(--teal))}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">Abbi<span class="d">.</span>Farm</div>
+    <nav class="nav-links" id="navlinks">
+      <a href="#streams">The Work</a>
+      <a href="#motion">In Motion</a>
+      <a href="#buzz">Building the Buzz</a>
+      <a href="#events">The Events</a>
+      <a href="#hosp">Hospitality</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg"><img src="assets/venue-house-clean.jpg" alt="Abbi Farm" /></div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="hero-label">Marketing Strategy</div>
+      <h1>Abbi<span class="l2">Farm.</span></h1>
+      <div class="tagline">Where every celebration feels like home.</div>
+      <div class="place">Chattarpur, New Delhi</div>
+      <div class="uses"><span>Weddings</span><span>Corporate Events</span><span>Social Celebrations</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUR STREAMS -->
+<section class="streams" id="streams">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">The Work</span>
+      <h2 class="section-title">Four streams,<br/><span class="accent" style="color:var(--magenta)">running in parallel.</span></h2>
+      <div class="rule"></div>
+      <p class="lead">Cinematic reels, staff stories, the founder’s vision and a coming soon campaign, all produced together from day one.</p>
+    </div>
+
+    <div class="grid g4">
+      <div class="stream s-teal reveal">
+        <div class="num">01</div>
+        <h3>Mock Videos &amp; Story Reels</h3>
+        <p>Short cinematic reels of Abbi Farm in different setups. AI generated and filmed scenarios showing weddings, parties and corporate events.</p>
+        <ul>
+          <li>Cinematic venue reels</li>
+          <li>AI generated scenarios</li>
+          <li>Aspirational storytelling</li>
+          <li>Drives enquiry intent</li>
+        </ul>
+      </div>
+      <div class="stream s-coral reveal">
+        <div class="num">02</div>
+        <h3>Staff Videos</h3>
+        <p>Behind the scenes of the team. The chef, the decorator, the event manager. Relatable, warm and shareable in family WhatsApp groups.</p>
+        <ul>
+          <li>Behind the scenes of setup</li>
+          <li>Team personality content</li>
+          <li>Highly shareable format</li>
+          <li>Builds trust and warmth</li>
+        </ul>
+      </div>
+      <div class="stream s-purple reveal">
+        <div class="num">03</div>
+        <div class="imp">Most Important</div>
+        <h3>Founder Videos</h3>
+        <p>The founder’s story. Why Abbi Farm was built and what makes it different. The dream behind the glasshouse, genuine and unscripted.</p>
+        <ul>
+          <li>Founder’s personal story</li>
+          <li>Vision behind the venue</li>
+          <li>Glasshouse reveal series</li>
+          <li>Converts viewers to bookings</li>
+        </ul>
+      </div>
+      <div class="stream s-magenta reveal">
+        <div class="num">04</div>
+        <h3>Coming Soon Campaign</h3>
+        <p>Teaser content before launch. One space revealed at a time, building anticipation and intrigue before the doors open.</p>
+        <ul>
+          <li>Space by space reveal</li>
+          <li>Atmospheric short reels</li>
+          <li>Countdown to opening</li>
+          <li>First bookings before launch</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CINEMATIC -->
+<section class="motion" id="motion">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">In Motion</span>
+      <h2 class="section-title">Cinematic <span class="accent" style="color:var(--teal)">by nature.</span></h2>
+      <div class="rule"></div>
+      <p class="lead">The same spaces, in motion. Short, cinematic reels that turn the property into a feeling.</p>
+    </div>
+
+    <div class="video-feature">
+      <div class="reveal">
+        <div class="vid vid-wide">
+          <video src="assets/video2.mp4" controls preload="metadata" playsinline muted loop></video>
+        </div>
+        <p class="vcap"><b>Hero Walkthrough</b>The property end to end, the kind of reel that opens a campaign.</p>
+      </div>
+      <div class="reveal">
+        <div class="vid vid-tall">
+          <video src="assets/video1.mp4" controls preload="metadata" playsinline muted loop></video>
+        </div>
+        <p class="vcap"><b>Story Reel</b>Vertical and made for the feed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILDING THE BUZZ -->
+<section class="buzz on-dark" id="buzz">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">The Rollout</span>
+      <h2 class="section-title">Building the buzz<br/><span class="accent" style="color:var(--lemon)">before the doors open.</span></h2>
+      <div class="rule"></div>
+    </div>
+
+    <div class="grid g3">
+      <div class="phase p1 reveal">
+        <div class="top"><b>Phase 1</b><span>Weeks 1 to 2</span></div>
+        <div class="body">
+          <h3>Set the Stage</h3>
+          <p class="d">Brand assets ready and the colour palette in place. The first post is a single hero image of the venue. No text, just beauty. Let intrigue do the work.</p>
+          <ul>
+            <li>Logo and brand guidelines</li>
+            <li>Hero venue photography</li>
+            <li>First Instagram post live</li>
+            <li>“Something beautiful is coming”</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase p2 reveal">
+        <div class="top"><b>Phase 2</b><span>Weeks 3 to 4</span></div>
+        <div class="body">
+          <h3>Reveal the Spaces</h3>
+          <p class="d">One space revealed per post. The pool, the interior, the lawns. Short atmospheric reels with music, and stories with audience polls.</p>
+          <ul>
+            <li>Pool deck reel</li>
+            <li>Interior grand staircase</li>
+            <li>Lawn space reveals</li>
+            <li>“What would you celebrate here?”</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase p3 reveal">
+        <div class="top"><b>Phase 3</b><span>Weeks 5 to 6</span></div>
+        <div class="body">
+          <h3>Founder &amp; Bookings</h3>
+          <p class="d">The founder introduces Abbi Farm, personal and genuine. The glasshouse teaser goes live, the enquiry link opens and first bookings begin.</p>
+          <ul>
+            <li>Founder introduction reel</li>
+            <li>Glasshouse reveal teaser</li>
+            <li>Enquiry link goes live</li>
+            <li>First bookings accepted</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="assets reveal">
+      <span class="eyebrow">One Time Brand Assets, Delivered at Start</span>
+      <div class="assets-grid">
+        <div class="asset"><span class="s">✦</span><span><b>Logo treatment &amp; brand guidelines</b>Colour palette and typography defined</span></div>
+        <div class="asset"><span class="s">✦</span><span><b>10 branded post templates</b>Reusable for all future content</span></div>
+        <div class="asset"><span class="s">✦</span><span><b>Instagram bio &amp; highlights</b>A professional first impression</span></div>
+        <div class="asset"><span class="s">✦</span><span><b>Coming soon story templates</b>A consistent teaser visual language</span></div>
+      </div>
+    </div>
+
+    <div class="spaces reveal">
+      <span class="eyebrow">Revealed Space by Space</span>
+      <div class="space-scroll" style="margin-top:18px">
+        <div class="space"><img src="assets/venue-pool-clean.jpg" alt="Pool deck" loading="lazy" /><div class="cap">Pool Deck</div></div>
+        <div class="space"><img src="assets/venue-interior-clean.jpg" alt="Grand interior" loading="lazy" /><div class="cap">Grand Interior</div></div>
+        <div class="space"><img src="assets/venue-center-lawn-clean.jpg" alt="Center lawn" loading="lazy" /><div class="cap">Center Lawn</div></div>
+        <div class="space"><img src="assets/venue-front-lawn-clean.jpg" alt="Front lawn" loading="lazy" /><div class="cap">Front Lawn</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGINE THE EVENTS -->
+<section class="events on-dark" id="events">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">The Possibilities</span>
+      <h2 class="section-title">Imagine <span class="accent" style="color:var(--lemon)">the events.</span></h2>
+      <div class="rule"></div>
+      <p class="lead">The celebrations Abbi Farm is made for, and the visual language we will build the feed around.</p>
+    </div>
+
+    <div class="grid g3">
+      <div class="ev ev-magenta reveal">
+        <img src="assets/insp-mandap.jpg" alt="Fairy lit floral mandap" loading="lazy" />
+        <div class="cap"><h4>Fairy Lit Mandaps</h4><p>Cascading lights, white florals, an unforgettable vow.</p></div>
+      </div>
+      <div class="ev ev-teal reveal">
+        <img src="assets/insp-banyan.jpg" alt="Banyan canopy with fairy lights" loading="lazy" />
+        <div class="cap"><h4>Banyan Canopy</h4><p>Intimate gatherings under a curtain of light.</p></div>
+      </div>
+      <div class="ev ev-coral reveal">
+        <img src="assets/insp-aisle.jpg" alt="Grand floral aisle" loading="lazy" />
+        <div class="cap"><h4>Grand Floral Aisles</h4><p>A marigold welcome worthy of the big day.</p></div>
+      </div>
+      <div class="ev ev-purple reveal">
+        <img src="assets/insp-tent.jpg" alt="Boho tented lounge" loading="lazy" />
+        <div class="cap"><h4>Boho Lounges</h4><p>Sundown sangeets in colour and candlelight.</p></div>
+      </div>
+      <div class="ev ev-lemon reveal">
+        <img src="assets/insp-tablescape.jpg" alt="Festive tablescape" loading="lazy" />
+        <div class="cap"><h4>Festive Tablescapes</h4><p>Blooms, candles and disco shimmer on every table.</p></div>
+      </div>
+      <div class="ev ev-deep reveal">
+        <img src="assets/insp-disco.jpg" alt="Disco ball dance floor" loading="lazy" />
+        <div class="cap"><h4>Disco Dance Floors</h4><p>Pool parties that turn into the night to remember.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOSPITALITY -->
+<section class="hosp" id="hosp">
+  <div class="wrap">
+    <div class="hosp-grid">
+      <div class="reveal">
+        <span class="eyebrow">The People</span>
+        <h2 class="section-title" style="font-size:clamp(1.8rem,4.6vw,2.7rem)">Hospitality that<br/><span class="accent" style="color:var(--coral)">feels like home.</span></h2>
+        <div class="rule"></div>
+        <p class="lead">A warm welcome, traditional attire and attentive service. The team is part of the brand, and their behind the scenes stories are some of the most shareable content we will create.</p>
+      </div>
+      <div class="hosp-imgs reveal">
+        <div class="figure"><img src="assets/staff-saree.jpg" alt="Staff welcome in traditional sarees" loading="lazy" /></div>
+        <div class="figure"><img src="assets/staff-waiter.jpg" alt="Attendant serving at sunset" loading="lazy" /></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="wrap">
+    <h2>Let’s make Abbi Farm the most<br/>talked about venue in Delhi.</h2>
+    <div class="tag">Where every celebration feels like home.</div>
+    <div class="sign">Waxwit &nbsp;·&nbsp; Strategic Marketing &amp; Brand Growth</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div class="brand">Abbi<span class="d">.</span>Farm</div>
+    <div>Chattarpur, New Delhi</div>
+    <div>Waxwit · Strategic Marketing &amp; Brand Growth</div>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navlinks');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const bar = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    bar.style.width = (h.scrollTop/(h.scrollHeight-h.clientHeight)*100) + '%';
+  };
+  document.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+</script>
+</body>
+</html>

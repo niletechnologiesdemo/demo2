@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="100%" height="100%">
+  <defs>
+    <style>
+      .brand-text {
+        font-family: 'Arial Black', 'Impact', sans-serif;
+        font-style: italic;
+        font-weight: 900;
+        fill: #ffffff;
+        letter-spacing: 0.5px;
+      }
+      .tagline-text {
+        font-family: 'Arial', sans-serif;
+        font-style: italic;
+        font-weight: bold;
+        fill: #FB6D1D;
+        letter-spacing: 5px;
+      }
+    </style>
+  </defs>
+
+  <g transform="translate(50, 30)">
+
+    <path d="M 110,115
+             C 140,110 235,60 320,42
+             C 385,28 510,32 620,65
+             C 700,88 800,108 880,110
+             C 840,110 710,105 620,93
+             C 540,82 450,73 375,85
+             C 315,95 240,122 170,136
+             C 230,130 370,113 540,152
+             C 440,140 330,130 240,139
+             C 180,145 130,155 110,160
+             C 112,153 150,130 110,115 Z"
+          fill="#FB6D1D" />
+
+    <text x="0" y="245" font-size="74" class="brand-text">PASSFAST-INTENSIVE</text>
+
+    <text x="8" y="305" font-size="25" class="tagline-text">THE QUICKEST WAY TO YOUR LICENCE</text>
+  </g>
+</svg>
