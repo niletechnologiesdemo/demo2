@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Student Detail — GoodhuePB Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use5.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Student Detail</strong></span>
+  <span>Profile · Admin Notes · Impersonate · Sessions · Goals</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill active"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-skills.html" class="nav-pill"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search students…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / <a href="admin-students.html">Students</a> / Alex Chen</div>
+        <h1>Alex Chen</h1>
+      </div>
+      <div class="right">
+        <a href="#" class="btn btn-secondary">🎭 Impersonate</a>
+        <a href="admin-student-create.html" class="btn btn-secondary">✎ Edit</a>
+        <button class="btn btn-ghost" style="color:var(--danger)">Deactivate</button>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns: 1fr 2fr; gap:24px">
+
+      <!-- Left column -->
+      <div class="stack">
+        <div class="card lift center anim-up delay-1">
+          <div style="width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#7C3AED);color:#fff;font-family:var(--font-display);font-size:44px;display:grid;place-items:center;font-weight:800;margin:0 auto 12px">A</div>
+          <h2 style="margin:0">Alex Chen</h2>
+          <div class="tiny muted">alex.chen@example.com</div>
+          <div class="row mt-2" style="justify-content:center;gap:6px">
+            <span class="badge badge-green">Active</span>
+            <span class="badge badge-grad num">4.0 Intermediate</span>
+            <span class="badge badge-purple">Premium</span>
+          </div>
+          <label class="switch mt-2" style="justify-content:center"><input type="checkbox" checked /> Active student</label>
+        </div>
+
+        <div class="card lift anim-up delay-2">
+          <h3>📇 Contact</h3>
+          <hr class="divider" />
+          <div class="stack tiny">
+            <div><strong>Phone</strong><div class="muted">+61 412 345 678</div></div>
+            <div><strong>Address</strong><div class="muted">Sydney, NSW</div></div>
+            <div><strong>DOB</strong><div class="muted">14 Aug 1992</div></div>
+            <div><strong>Emergency</strong><div class="muted">Sam Chen · +61 411 222 333</div></div>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <h3>🔗 External Profiles</h3>
+          <hr class="divider" />
+          <div class="stack tiny">
+            <a href="#">DUPR · @alexc</a>
+            <a href="#">Pickleheads · alex.chen</a>
+            <a href="#">Pickleball Brackets · @ac1234</a>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-4">
+          <h3>⚡ Skill Focus</h3>
+          <hr class="divider" />
+          <p class="muted tiny mb-2">Pulled from the Skill Matrix · <a href="admin-matrix.html">Open Matrix →</a></p>
+          <div class="row wrap" style="gap:6px">
+            <span class="chip"><span class="dot dot-pickleball"></span> BH Block Volley</span>
+            <span class="chip"><span class="dot dot-pickleball"></span> Reset</span>
+            <span class="chip"><span class="dot dot-pickleball"></span> Return of Serve</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="stack">
+
+        <div class="drop-tabs anim-up delay-1">
+          <button class="active">Overview</button>
+          <button>Sessions · 44</button>
+          <button onclick="window.location='admin-matrix.html'">⚡ Skill Matrix</button>
+          <button onclick="window.location='admin-student-summary.html'">⚖ Balance</button>
+          <button>Goals · 5</button>
+          <button>Materials · 12</button>
+          <button>Admin Notes · 8</button>
+          <button>Schedule</button>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi kpi-pickleball anim-up delay-1"><div class="label">This Month</div><div class="value num">44</div><div class="delta muted">sessions</div></div>
+          <div class="kpi kpi-strength anim-up delay-2"><div class="label">Hours</div><div class="value num">31.5</div><div class="delta up">▲ 4.2h</div></div>
+          
+          <div class="kpi kpi-recovery anim-up delay-4"><div class="label">Streak</div><div class="value num">5</div><div class="delta muted">days</div></div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <div class="card-head"><h3>📜 Recent Sessions</h3><a class="more" href="#">All →</a></div>
+          <p class="muted tiny mb-1">Click any row to view the session detail the player logged.</p>
+          <table class="table" style="border:0">
+            <thead><tr><th>Date</th><th>Type</th><th>Duration</th><th>Focus</th><th>Energy</th><th></th></tr></thead>
+            <tbody>
+              <tr style="cursor:pointer" onclick="window.location='session-detail.html'"><td class="tiny">Today 7:30 AM</td><td><span class="chip"><span class="dot dot-pickleball"></span> Practice</span></td><td class="num">60m</td><td>BH Block Volley · Reset</td><td><span class="badge badge-green num">8/10</span></td><td><a href="session-detail.html" class="more tiny">View →</a></td></tr>
+              <tr style="cursor:pointer" onclick="window.location='session-detail.html'"><td class="tiny">Today 12:15 PM</td><td><span class="chip"><span class="dot dot-strength"></span> Strength</span></td><td class="num">45m</td><td>Lower body</td><td><span class="badge badge-amber num">6/10</span></td><td><a href="session-detail.html" class="more tiny">View →</a></td></tr>
+              <tr style="cursor:pointer" onclick="window.location='session-detail.html'"><td class="tiny">Today 6:00 PM</td><td><span class="chip"><span class="dot dot-pickleball"></span> Match</span></td><td class="num">30m</td><td>vs. Jamie · WON</td><td><span class="badge badge-green num">7/10</span></td><td><a href="session-detail.html" class="more tiny">View →</a></td></tr>
+              <tr style="cursor:pointer" onclick="window.location='session-detail.html'"><td class="tiny">Yesterday</td><td><span class="chip"><span class="dot dot-movement"></span> Bike</span></td><td class="num">45m</td><td>Hills</td><td><span class="badge badge-amber num">6/10</span></td><td><a href="session-detail.html" class="more tiny">View →</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card lift anim-up delay-4">
+          <div class="card-head">
+            <h3>📅 Recent Appointments <span class="badge badge-purple" style="margin-left:6px">Coach ↔ Student</span></h3>
+            <a class="more" href="admin-schedule.html">All →</a>
+          </div>
+          <p class="muted tiny mb-2">Sessions between you and the player. Add pre- or post-appointment notes here (type or speak).</p>
+          <div class="stack">
+            <div class="row" style="gap:12px;align-items:flex-start;padding:10px;border:1px solid var(--border);border-radius:10px">
+              <div style="width:5px;align-self:stretch;background:var(--session-pickleball);border-radius:99px;min-height:54px"></div>
+              <div style="flex:1">
+                <div class="row between"><strong style="font-family:var(--font-display)">Private Lesson — Drop Shot</strong><span class="tiny muted">Yesterday · 60 min</span></div>
+                <div class="tiny muted">Evergreen · Focus: 3rd-shot drop, reset patterns</div>
+                <p class="muted tiny mt-1"><strong>Post-notes:</strong> "Big jump in drop depth. Slowing the paddle face worked. Keep elbow tucked next time."</p>
+              </div>
+            </div>
+            <div class="row" style="gap:12px;align-items:flex-start;padding:10px;border:1px solid var(--border);border-radius:10px">
+              <div style="width:5px;align-self:stretch;background:var(--session-strength);border-radius:99px;min-height:54px"></div>
+              <div style="flex:1">
+                <div class="row between"><strong style="font-family:var(--font-display)">Group Clinic — Strategy</strong><span class="tiny muted">Last Sat · 90 min</span></div>
+                <div class="tiny muted">White Mountain Pickleball Club · 6 students · Court geometry</div>
+                <p class="muted tiny mt-1"><strong>Post-notes:</strong> "Strong group energy. Alex needs more reps on closing the middle."</p>
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <!-- Add appointment notes inline (speech-to-text + text) -->
+          <strong class="tiny" style="text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted)">Log appointment notes</strong>
+          <div class="grid-2 mt-2">
+            <div class="field"><label>Appointment</label>
+              <select class="input"><option>Private — Tomorrow 9 AM</option><option>Group — Saturday 2 PM</option><option>Private — Mon 7 AM</option></select>
+            </div>
+            <div class="field"><label>When</label>
+              <select class="input"><option>Pre-appointment</option><option selected>Post-appointment</option></select>
+            </div>
+          </div>
+          <div class="field"><label>Session focus</label><input class="input" placeholder="What was worked on…" /></div>
+          <div class="field">
+            <label>Notes</label>
+            <textarea class="input" rows="3" placeholder="What clicked, what to work on next…"></textarea>
+            <div class="mic-row">
+              <button type="button" class="mic-btn" data-label="Speak"><span class="mic-icon">🎤</span><span class="mic-label">Speak</span></button>
+            </div>
+          </div>
+          <button class="btn btn-primary">Save Appointment Notes</button>
+        </div>
+
+        <div class="card lift anim-up delay-4">
+          <div class="card-head"><h3>📝 Admin Notes</h3><button class="btn btn-primary btn-sm">+ Add Note</button></div>
+          <div class="stack">
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:linear-gradient(135deg,#FAF5FF,#FFFFFF)">
+              <div class="row between">
+                <strong style="font-family:var(--font-display)">Backhand block — keep paddle face slightly closed</strong>
+                <span class="tiny muted">Today by Coach Mike</span>
+              </div>
+              <p class="muted tiny mt-1">"Reset depth improved a lot this week. Continue chapter 4 of Third-Shot Drop."</p>
+              <div class="row mt-1 tiny" style="gap:8px"><a class="more" href="#">Edit</a><a href="#" style="color:var(--danger)">Delete</a></div>
+            </div>
+            <div style="padding:12px;border:1px solid var(--border);border-radius:10px;background:linear-gradient(135deg,#FAF5FF,#FFFFFF)">
+              <div class="row between">
+                <strong style="font-family:var(--font-display)">Match goal — vs. 4.0+</strong>
+                <span class="tiny muted">3 days ago by Coach Mike</span>
+              </div>
+              <p class="muted tiny mt-1">"Drew loss was close. Watch the dink-roll into BH corner — Alex hesitates on the trigger."</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-5">
+          <div class="card-head"><h3>🎯 Goals</h3><a class="more" href="admin-goal-create.html">+ Assign Goal</a></div>
+          <div class="stack">
+            <div class="row between"><span><strong>Master the 3rd-Shot Drop</strong><div class="tiny muted">65% · Skill · Self-set</div></span><span class="badge badge-green">On track</span></div>
+            <hr class="divider" />
+            <div class="row between"><span><strong>Backhand 2-handed volley — consistency</strong><div class="tiny muted">40% · Skill · Coach-assigned</div></span><span class="badge badge-amber">In progress</span></div>
+            <hr class="divider" />
+            <div class="row between"><span><strong>Win 3 matches vs. 4.0+</strong><div class="tiny muted">33% · Match · Self-set</div></span><span class="badge badge-red">At risk</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

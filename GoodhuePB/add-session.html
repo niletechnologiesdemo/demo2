@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Add Session — GoodhuePB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use5.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Add Session</strong> &nbsp; · &nbsp; <span class="badge badge-amber" style="vertical-align:middle">REDESIGNED</span></span>
+  <span>4 categories · Voice / Text / Quick · top-nav · animated</span>
+</div>
+
+<div class="app-top">
+
+  <!-- ====== Top Navigation ====== -->
+  <nav class="top-nav">
+    <a href="dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+
+    <div class="nav-pills">
+      <a href="dashboard.html" class="nav-pill"><span class="ico">🏠</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="add-session.html" class="nav-pill active"><span class="ico">＋</span>Sessions ▾</a>
+        <div class="nav-menu">
+          <a href="add-session.html"><span class="ico">＋</span>Add Session</a>
+          <a href="session-history.html"><span class="ico">📜</span>Session History</a>
+          <a href="summary-daily.html"><span class="ico">📊</span>Daily Summary</a>
+          <a href="summary-weekly.html"><span class="ico">📈</span>Weekly Summary</a>
+          <a href="summary-monthly.html"><span class="ico">📅</span>Monthly Summary</a>
+        </div>
+      </div>
+      <div class="nav-pill-drop">
+        <a href="matrix.html" class="nav-pill"><span class="ico">⚡</span>Training ▾</a>
+        <div class="nav-menu">
+          <a href="matrix.html"><span class="ico">⚡</span>Matrix Utilization</a>
+          <a href="the-drop.html"><span class="ico">▶</span>The Drop</a>
+          <a href="goals.html"><span class="ico">🎯</span>Goals</a>
+          <a href="notes.html"><span class="ico">📝</span>Notes</a>
+        </div>
+      </div>
+      <a href="schedule-list.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
+      <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
+    </div>
+
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="profile.html" class="user-chip"><div class="avatar">A</div><span class="name">Alex</span></a>
+    </div>
+  </nav>
+
+  <!-- ====== Page Content ====== -->
+  <main class="app-content" style="max-width:880px">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="dashboard.html">← Back to Dashboard</a></div>
+        <h1>Log Practice</h1>
+        <p class="sub">What did you work on today?</p>
+      </div>
+    </header>
+
+    <!-- Step 1: Session type -->
+    <div class="card lift anim-up delay-1 mb-3">
+      <div class="card-head">
+        <div>
+          <h3 style="font-family:var(--font-display);font-size:18px">1 · Choose Session Type</h3>
+          <div class="muted tiny mt-1">Tap a category to start logging.</div>
+        </div>
+      </div>
+      <div class="session-types" style="grid-template-columns: repeat(4, 1fr)">
+        <div class="session-type t-pickleball selected">
+          <div class="swatch"></div>
+          <div class="name">🟦 Pickleball</div>
+          <div class="sub">Practice · Match · Drill</div>
+        </div>
+        <div class="session-type t-strength">
+          <div class="swatch"></div>
+          <div class="name">🟩 Strength</div>
+          <div class="sub">Lifting · Resistance</div>
+        </div>
+        <div class="session-type t-movement">
+          <div class="swatch"></div>
+          <div class="name">🟪 Cardio / Movement</div>
+          <div class="sub">Bike · Run · Mobility</div>
+        </div>
+        <div class="session-type t-recovery">
+          <div class="swatch"></div>
+          <div class="name">🟧 Recovery</div>
+          <div class="sub">Stretch · Foam roll</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Duration -->
+    <div class="card lift anim-up delay-2 mb-3">
+      <div class="row between">
+        <strong style="font-family:var(--font-display);font-size:18px">2 · Duration</strong>
+        <div>
+          <span class="num" style="font-family:var(--font-display);font-variation-settings:'opsz' 96,'wght' 800;font-size:48px;line-height:1;letter-spacing:-0.03em;background:linear-gradient(135deg,var(--brand),var(--accent-violet));-webkit-background-clip:text;background-clip:text;color:transparent">60</span>
+          <span class="muted">minutes</span>
+        </div>
+      </div>
+      <input type="range" min="15" max="240" step="15" value="60" style="width:100%;margin-top:18px" />
+      <div class="row between tiny muted num" style="margin-top:8px">
+        <span>15m</span><span>60m</span><span>90m</span><span>120m</span><span>180m</span><span>4h</span>
+      </div>
+    </div>
+
+    <!-- Step 3: Input mode -->
+    <div class="card lift anim-up delay-3 mb-3">
+      <div class="row between" style="align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:12px">
+        <div>
+          <strong style="font-family:var(--font-display);font-size:18px">3 · Type or talk about what happened</strong>
+          <div class="muted tiny mt-1">Example: "I biked 45 minutes with hills. Legs felt tired but good."</div>
+        </div>
+        <div class="mode-tabs">
+          <button>🎤 Voice</button>
+          <button class="active">T Text</button>
+          <button>⊞ Quick</button>
+        </div>
+      </div>
+
+      <textarea class="input" rows="6" placeholder="Talk about it naturally — what felt good, what was frustrating, what clicked for the first time. The more detail you give, the smarter the analysis."></textarea>
+    </div>
+
+    <!-- Step 4: Focused Skills -->
+    <div class="card lift anim-up delay-4 mb-3">
+      <div class="card-head">
+        <div>
+          <strong style="font-family:var(--font-display);font-size:18px">4 · Focused Skills</strong>
+          <div class="muted tiny mt-1">Shown because <strong>Pickleball</strong> is selected. We'll match your session to the right competencies.</div>
+        </div>
+        <span class="badge badge-grad">2 selected</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+        <button class="chip active">Volley — Backhand Block ✓</button>
+        <button class="chip active">Reset ✓</button>
+        <button class="chip">Serve</button>
+        <button class="chip">Return of Serve</button>
+        <button class="chip">Volley — Forehand Block</button>
+        <button class="chip">Flick — Backhand</button>
+        <button class="chip">Overhead</button>
+        <button class="chip">Serve — Lob</button>
+        <button class="chip">Serve — Side Spin</button>
+        <button class="chip">Roll — Forehand NVZ</button>
+        <button class="chip">Drop — Push</button>
+        <button class="chip">Drop — Forehand Slice</button>
+        <button class="chip">Dink — Forehand Push</button>
+        <button class="chip">Dink — Forehand Slice</button>
+        <button class="chip">Drop — Backhand Slice</button>
+        <button class="chip">Drop — Backhand 2H Topspin</button>
+        <button class="chip">Roll — Forehand (Transition)</button>
+        <button class="chip">Drive — Backhand Slice</button>
+        <button class="chip">Drive — Backhand 2H Topspin</button>
+        <button class="chip">Drive — Forehand Flat</button>
+        <button class="chip">Drive — Forehand Topspin</button>
+        <button class="chip">Drive — Forehand Slice</button>
+        <button class="chip">Roll — Backhand 2H Topspin</button>
+        <button class="chip">Drop — "Drip" / HYBRID</button>
+        <button class="chip">Serve — Short Angles</button>
+        <button class="chip">Lob</button>
+        <button class="chip">Flick — Forehand</button>
+        <button class="chip">Volley — Lob</button>
+        <button class="chip">2H BH Attack (NVZ Line)</button>
+        <button class="chip">Strategy — Court Geometry</button>
+        <button class="chip">Strategy — Transition Zone</button>
+        <button class="chip">Lob — Forehand</button>
+        <button class="chip">Strategy — Choking</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Optional details -->
+    <details class="card lift anim-up delay-5 mb-3">
+      <summary class="row between" style="cursor:pointer;list-style:none">
+        <strong style="font-family:var(--font-display);font-size:18px">5 · Optional Details</strong>
+        <span class="muted tiny">Date · Coach · Partner · Energy ▾</span>
+      </summary>
+      <div class="mt-2">
+        <div class="grid-2">
+          <div class="field">
+            <label>Date</label>
+            <input class="input" type="date" value="2026-05-14" />
+          </div>
+          <div class="field">
+            <label>Energy Level <span class="muted">(1–10)</span></label>
+            <input type="range" min="1" max="10" value="7" style="width:100%" />
+            <div class="row between tiny muted"><span>1 · drained</span><span class="num" style="color:var(--brand);font-weight:700">7</span><span>10 · peak</span></div>
+          </div>
+          <div class="field">
+            <label>Coach Name</label>
+            <input class="input" placeholder="Enter coach name" value="Coach Mike" />
+          </div>
+          <div class="field">
+            <label>Partner Name</label>
+            <input class="input" placeholder="Enter partner name" />
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Match-only -->
+    <details class="card lift anim-up delay-6 mb-3">
+      <summary class="row between" style="cursor:pointer;list-style:none">
+        <strong style="font-family:var(--font-display);font-size:18px">Played a match?</strong>
+        <span class="muted tiny">Score · opponent · location ▾</span>
+      </summary>
+      <div class="mt-2">
+        <div class="grid-2">
+          <div class="field">
+            <label>Opponent</label>
+            <input class="input" placeholder="Name" />
+          </div>
+          <div class="field">
+            <label>Score</label>
+            <input class="input" placeholder="11–9, 11–7" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Location</label>
+          <input class="input" placeholder="Court / venue" />
+        </div>
+      </div>
+    </details>
+
+    <!-- Save row -->
+    <div class="row anim-up delay-7" style="gap:12px;margin-bottom:24px">
+      <a href="dashboard.html" class="btn btn-secondary" style="flex:1">Cancel</a>
+      <a href="summary-daily.html" class="btn btn-primary btn-lg" style="flex:2">Save Session →</a>
+    </div>
+
+    <p class="muted tiny center anim-up delay-8">Your session will appear in <a href="summary-daily.html">Today's Summary</a> and your <a href="matrix.html">Matrix Utilization</a> ratings will update automatically.</p>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Schedule Calendar — GoodhuePB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use4.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Schedule · Calendar</strong></span>
+  <span>Month view with color-coded session blocks.</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="dashboard.html" class="nav-pill"><span class="ico">🏠</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="add-session.html" class="nav-pill"><span class="ico">＋</span>Sessions ▾</a>
+        <div class="nav-menu">
+          <a href="add-session.html"><span class="ico">＋</span>Add Session</a>
+          <a href="session-history.html"><span class="ico">📜</span>Session History</a>
+          <a href="summary-daily.html"><span class="ico">📊</span>Daily Summary</a>
+          <a href="summary-weekly.html"><span class="ico">📈</span>Weekly Summary</a>
+          <a href="summary-monthly.html"><span class="ico">📅</span>Monthly Summary</a>
+        </div>
+      </div>
+      <div class="nav-pill-drop">
+        <a href="matrix.html" class="nav-pill"><span class="ico">⚡</span>Training ▾</a>
+        <div class="nav-menu">
+          <a href="matrix.html"><span class="ico">⚡</span>Matrix Utilization</a>
+          <a href="the-drop.html"><span class="ico">▶</span>The Drop</a>
+          <a href="goals.html"><span class="ico">🎯</span>Goals</a>
+          <a href="notes.html"><span class="ico">📝</span>Notes</a>
+        </div>
+      </div>
+      <a href="schedule-list.html" class="nav-pill active"><span class="ico">📅</span>Schedule</a>
+      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
+      <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <a href="add-session.html" class="top-cta">＋ <span class="label">Add Session</span></a>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="profile.html" class="user-chip"><div class="avatar">A</div><span class="name">Alex</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb">May 2026</div>
+        <h1>Schedule · Calendar</h1>
+      </div>
+      <div class="right">
+        <a href="book-appointment.html" class="btn btn-primary">＋ Book Appointment</a>
+      </div>
+    </header>
+
+    <div class="row between mb-3 anim-up delay-1" style="flex-wrap:wrap;gap:12px">
+      <div class="mode-tabs">
+        <button onclick="window.location='schedule-list.html'">List</button>
+        <button class="active">Calendar</button>
+      </div>
+      <div class="row" style="gap:8px;align-items:center">
+        <button class="btn btn-secondary btn-sm">‹</button>
+        <strong style="font-family:var(--font-display);font-size:16px">May 2026</strong>
+        <button class="btn btn-secondary btn-sm">Today</button>
+        <button class="btn btn-secondary btn-sm">›</button>
+      </div>
+      <div class="row" style="gap:8px">
+        <span class="badge badge-green"><span class="live-dot" style="margin-right:4px"></span>Google Calendar Connected</span>
+        <button class="btn btn-secondary btn-sm">Sync</button>
+      </div>
+    </div>
+
+    <div class="card lift mb-3 anim-up delay-2">
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:6px">
+        <div style="text-align:center;padding:6px 0">MON</div>
+        <div style="text-align:center;padding:6px 0">TUE</div>
+        <div style="text-align:center;padding:6px 0">WED</div>
+        <div style="text-align:center;padding:6px 0">THU</div>
+        <div style="text-align:center;padding:6px 0">FRI</div>
+        <div style="text-align:center;padding:6px 0">SAT</div>
+        <div style="text-align:center;padding:6px 0">SUN</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
+        <div style="background:var(--surface-alt);border-radius:8px;padding:8px;min-height:110px;opacity:.4"><div class="tiny muted num">28</div></div>
+        <div style="background:var(--surface-alt);border-radius:8px;padding:8px;min-height:110px;opacity:.4"><div class="tiny muted num">29</div></div>
+        <div style="background:var(--surface-alt);border-radius:8px;padding:8px;min-height:110px;opacity:.4"><div class="tiny muted num">30</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">1</div>
+          <div class="tiny" style="background:var(--session-pickleball);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">9 AM · Private</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">2</div>
+          <div class="tiny" style="background:var(--session-strength);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">2 PM · Clinic</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">3</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">4</div>
+          <div class="tiny" style="background:var(--session-recovery);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">7 AM · Recovery</div>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">5</div>
+          <div class="tiny" style="background:var(--session-pickleball);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">10 AM · Practice</div>
+          <div class="tiny" style="background:var(--session-strength);color:#fff;border-radius:4px;padding:3px 5px;margin-top:2px;font-weight:500">6 PM · Lifting</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">6</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">7</div>
+          <div class="tiny" style="background:var(--session-pickleball);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">7 AM · Private</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">8</div>
+          <div class="tiny" style="background:var(--session-movement);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">7 PM · Bike</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">9</div>
+          <div class="tiny" style="background:var(--session-pickleball);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">10 AM · Match</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">10</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">11</div>
+          <div class="tiny" style="background:var(--session-pickleball);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">7 AM · Private</div>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">12</div>
+          <div class="tiny" style="background:var(--session-pickleball);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">10 AM · Clinic</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">13</div>
+          <div class="tiny" style="background:var(--session-movement);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">11 AM · Bike</div>
+          <div class="tiny" style="background:var(--session-recovery);color:#fff;border-radius:4px;padding:3px 5px;margin-top:2px;font-weight:500">8 PM · Stretch</div>
+        </div>
+        <div style="background:linear-gradient(135deg,var(--brand-soft),#FAE8FF);border:2px solid var(--brand);border-radius:8px;padding:8px;min-height:110px;box-shadow:var(--sh-glow-brand)">
+          <div class="tiny num" style="color:var(--brand);font-weight:800">14 · today</div>
+          <div class="tiny" style="background:var(--session-pickleball);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">7:30 · Practice</div>
+          <div class="tiny" style="background:var(--session-strength);color:#fff;border-radius:4px;padding:3px 5px;margin-top:2px;font-weight:500">12 PM · Strength</div>
+          <div class="tiny" style="background:var(--session-pickleball);color:#fff;border-radius:4px;padding:3px 5px;margin-top:2px;font-weight:500">6 PM · Match</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">15</div>
+          <div class="tiny" style="background:var(--session-pickleball);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">9 AM · Private</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">16</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">17</div>
+          <div class="tiny" style="background:var(--session-strength);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">2 PM · Clinic</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">18</div></div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">19</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">20</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">21</div>
+          <div class="tiny" style="background:var(--session-movement);color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:500">6 PM · Practice</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">22</div>
+          <div class="tiny" style="background:linear-gradient(135deg,var(--brand),var(--accent-violet));color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:600">🏆 Sydney Open</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">23</div>
+          <div class="tiny" style="background:linear-gradient(135deg,var(--brand),var(--accent-violet));color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:600">🏆 Sydney Open</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px">
+          <div class="tiny muted num">24</div>
+          <div class="tiny" style="background:linear-gradient(135deg,var(--brand),var(--accent-violet));color:#fff;border-radius:4px;padding:3px 5px;margin-top:4px;font-weight:600">🏆 Sydney Open</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">25</div></div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">26</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">27</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">28</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">29</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">30</div></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;min-height:110px"><div class="tiny muted num">31</div></div>
+        <div style="background:var(--surface-alt);border-radius:8px;padding:8px;min-height:110px;opacity:.4"><div class="tiny muted num">1</div></div>
+      </div>
+
+      <div class="row wrap mt-3 tiny" style="gap:18px">
+        <span><span class="sq sq-pickleball"></span> Pickleball / Lesson</span>
+        <span><span class="sq sq-strength"></span> Strength / Clinic</span>
+        <span><span class="sq sq-movement"></span> Cardio / Practice</span>
+        <span><span class="sq sq-recovery"></span> Recovery / Other</span>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

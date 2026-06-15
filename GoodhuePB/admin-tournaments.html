@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Tournaments — GoodhuePB Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use4.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Tournaments</strong></span>
+  <span>Curated event list</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill active"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-skills.html" class="nav-pill"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <a href="admin-tournament-create.html" class="top-cta">＋ <span class="label">Add Tournament</span></a>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / Tournaments</div>
+        <h1>Tournaments</h1>
+        <p class="sub">12 published · curated for the student app</p>
+      </div>
+      <div class="right">
+        <a href="admin-tournament-create.html" class="btn btn-primary">＋ Add Tournament</a>
+      </div>
+    </header>
+
+    <div class="card lift anim-up delay-1 mb-3">
+      <div class="row" style="gap:12px;flex-wrap:wrap">
+        <div class="input-icon" style="flex:1;min-width:240px">
+          <span class="ico">🔍</span>
+          <input class="input" placeholder="Search tournament name or city" />
+        </div>
+        <select class="input" style="max-width:140px"><option>All status</option><option>Upcoming</option><option>Past</option></select>
+        <select class="input" style="max-width:140px"><option>All types</option><option>Singles</option><option>Doubles</option><option>Mixed</option></select>
+        <button class="btn btn-secondary">Apply</button>
+      </div>
+    </div>
+
+    <div class="anim-up delay-2" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px">
+
+      <div class="card lift">
+        <div class="tourney-cover thumb-pb-1" style="width:100%;height:120px;margin:0;border-radius:10px;margin-bottom:12px"></div>
+        <div class="row between" style="align-items:flex-start;gap:8px">
+          <div>
+            <strong style="font-family:var(--font-display);font-size:16px;display:block">Sydney Open 2026</strong>
+            <div class="tiny muted">Sydney Open Pickleball Inc.</div>
+          </div>
+          <span class="badge badge-green">Open</span>
+        </div>
+        <hr class="divider" />
+        <div class="stack tiny" style="gap:6px">
+          <div class="row between"><span class="muted">Dates</span><strong class="num">May 22–24, 2026</strong></div>
+          <div class="row between"><span class="muted">Location</span><strong>Sydney Olympic Park, NSW</strong></div>
+          <div class="row between"><span class="muted">Fee</span><strong class="num">$85 AUD</strong></div>
+        </div>
+        <div class="row wrap mt-2" style="gap:6px">
+          <span class="badge badge-blue">Singles · Doubles · Mixed</span>
+          <span class="badge badge-gray">Open · 4.0+</span>
+        </div>
+        <div class="row mt-2" style="gap:6px">
+          <a href="admin-tournament-create.html" class="btn btn-secondary btn-sm" style="flex:1">Edit</a>
+          <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Delete</button>
+        </div>
+      </div>
+
+      <div class="card lift">
+        <div class="tourney-cover thumb-pb-2" style="width:100%;height:120px;margin:0;border-radius:10px;margin-bottom:12px"></div>
+        <div class="row between" style="align-items:flex-start;gap:8px">
+          <div>
+            <strong style="font-family:var(--font-display);font-size:16px;display:block">NSW Doubles Masters</strong>
+            <div class="tiny muted">NSW PB Association</div>
+          </div>
+          <span class="badge badge-green">Open</span>
+        </div>
+        <hr class="divider" />
+        <div class="stack tiny" style="gap:6px">
+          <div class="row between"><span class="muted">Dates</span><strong class="num">Jun 5–7, 2026</strong></div>
+          <div class="row between"><span class="muted">Location</span><strong>Penrith, NSW</strong></div>
+          <div class="row between"><span class="muted">Fee</span><strong class="num">$65 AUD</strong></div>
+        </div>
+        <div class="row wrap mt-2" style="gap:6px">
+          <span class="badge badge-purple">Doubles</span>
+          <span class="badge badge-gray num">3.5–4.5</span>
+        </div>
+        <div class="row mt-2" style="gap:6px">
+          <a href="admin-tournament-create.html" class="btn btn-secondary btn-sm" style="flex:1">Edit</a>
+          <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Delete</button>
+        </div>
+      </div>
+
+      <div class="card lift">
+        <div class="tourney-cover thumb-pb-4" style="width:100%;height:120px;margin:0;border-radius:10px;margin-bottom:12px"></div>
+        <div class="row between" style="align-items:flex-start;gap:8px">
+          <div>
+            <strong style="font-family:var(--font-display);font-size:16px;display:block">Australian National Champs</strong>
+            <div class="tiny muted">PB Australia</div>
+          </div>
+          <span class="badge badge-amber">Closes Jun 15</span>
+        </div>
+        <hr class="divider" />
+        <div class="stack tiny" style="gap:6px">
+          <div class="row between"><span class="muted">Dates</span><strong class="num">Jul 18–22, 2026</strong></div>
+          <div class="row between"><span class="muted">Location</span><strong>Melbourne Sports Centre, VIC</strong></div>
+          <div class="row between"><span class="muted">Fee</span><strong class="num">$120 AUD</strong></div>
+        </div>
+        <div class="row wrap mt-2" style="gap:6px">
+          <span class="badge badge-red">National</span>
+          <span class="badge badge-gray num">3.0–5.0</span>
+        </div>
+        <div class="row mt-2" style="gap:6px">
+          <a href="admin-tournament-create.html" class="btn btn-secondary btn-sm" style="flex:1">Edit</a>
+          <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Delete</button>
+        </div>
+      </div>
+
+      <div class="card lift">
+        <div class="tourney-cover thumb-pb-3" style="width:100%;height:120px;margin:0;border-radius:10px;margin-bottom:12px"></div>
+        <div class="row between" style="align-items:flex-start;gap:8px">
+          <div>
+            <strong style="font-family:var(--font-display);font-size:16px;display:block">Wollongong Mixed Round Robin</strong>
+            <div class="tiny muted">South Coast PB Club</div>
+          </div>
+          <span class="badge badge-green">Open</span>
+        </div>
+        <hr class="divider" />
+        <div class="stack tiny" style="gap:6px">
+          <div class="row between"><span class="muted">Dates</span><strong class="num">Jun 14, 2026</strong></div>
+          <div class="row between"><span class="muted">Location</span><strong>Wollongong, NSW</strong></div>
+          <div class="row between"><span class="muted">Fee</span><strong class="num">$40 AUD</strong></div>
+        </div>
+        <div class="row wrap mt-2" style="gap:6px">
+          <span class="badge badge-orange">Mixed Doubles</span>
+          <span class="badge badge-gray">All levels</span>
+        </div>
+        <div class="row mt-2" style="gap:6px">
+          <a href="admin-tournament-create.html" class="btn btn-secondary btn-sm" style="flex:1">Edit</a>
+          <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Delete</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

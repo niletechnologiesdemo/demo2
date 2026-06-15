@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Goals — GoodhuePB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use3.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Goals</strong></span>
+  <span>Skill · Match · Fitness · Custom.</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="dashboard.html" class="nav-pill"><span class="ico">🏠</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="add-session.html" class="nav-pill"><span class="ico">＋</span>Sessions ▾</a>
+        <div class="nav-menu">
+          <a href="add-session.html"><span class="ico">＋</span>Add Session</a>
+          <a href="session-history.html"><span class="ico">📜</span>Session History</a>
+          <a href="summary-daily.html"><span class="ico">📊</span>Daily Summary</a>
+          <a href="summary-weekly.html"><span class="ico">📈</span>Weekly Summary</a>
+          <a href="summary-monthly.html"><span class="ico">📅</span>Monthly Summary</a>
+        </div>
+      </div>
+      <div class="nav-pill-drop">
+        <a href="matrix.html" class="nav-pill active"><span class="ico">⚡</span>Training ▾</a>
+        <div class="nav-menu">
+          <a href="matrix.html"><span class="ico">⚡</span>Matrix Utilization</a>
+          <a href="the-drop.html"><span class="ico">▶</span>The Drop</a>
+          <a href="goals.html"><span class="ico">🎯</span>Goals</a>
+          <a href="notes.html"><span class="ico">📝</span>Notes</a>
+        </div>
+      </div>
+      <a href="schedule-list.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
+      <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <a href="add-session.html" class="top-cta">＋ <span class="label">Add Session</span></a>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="profile.html" class="user-chip"><div class="avatar">A</div><span class="name">Alex</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb">5 active · 12 completed · 2 from your coach</div>
+        <h1>Goals</h1>
+      </div>
+      <div class="right">
+        <a href="goal-create.html" class="btn btn-primary">＋ Add New Goal</a>
+      </div>
+    </header>
+
+    <div class="kpi-grid">
+      <div class="kpi kpi-pickleball anim-up delay-1"><div class="label">Active</div><div class="value num">5</div></div>
+      <div class="kpi kpi-strength anim-up delay-2"><div class="label">On Track</div><div class="value num">3</div><div class="delta up">▲</div></div>
+      <div class="kpi kpi-recovery anim-up delay-3"><div class="label">At Risk</div><div class="value num">1</div><div class="delta down">▼</div></div>
+      <div class="kpi kpi-movement anim-up delay-4"><div class="label">Completed</div><div class="value num">12</div><div class="delta muted">this year</div></div>
+    </div>
+
+    <div class="drop-tabs anim-up delay-2">
+      <button class="active">Active · 5</button>
+      <button>Completed · 12</button>
+      <button>From Coach · 2</button>
+      <button>All</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns: 1fr 1fr; gap:24px">
+
+      <div class="card lift anim-up delay-2">
+        <div class="row between mb-1">
+          <span class="chip"><span class="dot dot-pickleball"></span> Skill-Based</span>
+          <span class="badge badge-green">On track</span>
+        </div>
+        <h3 style="margin:8px 0;font-family:var(--font-display);font-size:20px">Master the 3rd-Shot Drop</h3>
+        <div class="tiny muted">Skill: 3rd-Shot Drop · Daily 20 min practice</div>
+        <div class="row between tiny mt-2 num"><span>Target Jun 30, 2026 · <strong>47 days left</strong></span></div>
+        <div class="progress" style="position:relative; height:10px; background:#DBEAFE; border-radius:99px; margin:10px 0; overflow:hidden">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:65%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div>
+          <div style="position:absolute;width:16px;height:16px;border:2px solid var(--session-recovery);background:#fff;border-radius:50%;top:-3px;left:80%;box-shadow:0 2px 6px rgba(249,115,22,.4)"></div>
+        </div>
+        <div class="row between tiny muted num"><span>65% complete</span><span>Target: 80%</span></div>
+        <div class="row mt-2" style="gap:6px">
+          <a href="goal-detail.html" class="btn btn-secondary btn-sm">View Details</a><a href="goal-create.html" class="btn btn-ghost btn-sm">Edit</a>
+          <a href="add-session.html" class="btn btn-primary btn-sm">+ Log Session</a>
+          <a href="matrix.html" class="btn btn-ghost btn-sm">Matrix</a>
+        </div>
+      </div>
+
+      <div class="card lift anim-up delay-3">
+        <div class="row between mb-1">
+          <span class="chip"><span class="dot dot-pickleball"></span> Match-Based</span>
+          <span class="badge badge-amber">At risk</span>
+        </div>
+        <h3 style="margin:8px 0;font-family:var(--font-display);font-size:20px">Win 3 matches against 4.0+ opponents</h3>
+        <div class="tiny muted">Match · Tournament-bound</div>
+        <div class="row between tiny mt-2 num"><span>Target Jul 15, 2026 · <strong>62 days left</strong></span></div>
+        <div class="progress" style="position:relative; height:10px; background:#FED7AA; border-radius:99px; margin:10px 0; overflow:hidden">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:33%;background:linear-gradient(90deg,var(--session-recovery),var(--warning));border-radius:99px"></div>
+        </div>
+        <div class="row between tiny muted num"><span>1 of 3 wins</span><span>Behind pace</span></div>
+        <div class="row mt-2" style="gap:6px">
+          <a href="goal-detail.html" class="btn btn-secondary btn-sm">View Details</a><a href="goal-create.html" class="btn btn-ghost btn-sm">Edit</a>
+          <a href="tournaments.html" class="btn btn-primary btn-sm">Find Tournament</a>
+        </div>
+      </div>
+
+      <div class="card lift anim-up delay-4">
+        <div class="row between mb-1">
+          <span class="chip"><span class="dot dot-strength"></span> Fitness</span>
+          <span class="badge badge-green">On track</span>
+        </div>
+        <h3 style="margin:8px 0;font-family:var(--font-display);font-size:20px">15 push-ups (men's full form)</h3>
+        <div class="tiny muted">Fitness · Rolling → knee-down → men-up progression</div>
+        <div class="row between tiny mt-2 num"><span>Target Feb 22, 2026 · <strong>2 weeks left</strong></span></div>
+        <div class="progress" style="position:relative; height:10px; background:#DCFCE7; border-radius:99px; margin:10px 0; overflow:hidden">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:73%;background:linear-gradient(90deg,var(--success),#15803D);border-radius:99px"></div>
+        </div>
+        <div class="row between tiny muted num"><span>11 of 15</span><span>Ahead of pace</span></div>
+        <div class="row mt-2" style="gap:6px">
+          <a href="goal-detail.html" class="btn btn-secondary btn-sm">View Details</a><a href="goal-create.html" class="btn btn-ghost btn-sm">Edit</a>
+          <a href="add-session.html" class="btn btn-primary btn-sm">+ Log Session</a>
+        </div>
+      </div>
+
+      <div class="card lift anim-up delay-5">
+        <div class="row between mb-1">
+          <span class="chip"><span class="dot dot-movement"></span> Custom</span>
+          <span class="badge badge-green">On track</span>
+        </div>
+        <h3 style="margin:8px 0;font-family:var(--font-display);font-size:20px">Daily 10-min mobility routine</h3>
+        <div class="tiny muted">Custom · 10 min daily · Ongoing</div>
+        <div class="row between tiny mt-2 num"><span>Streak: <strong>14 days</strong></span></div>
+        <div class="progress" style="position:relative; height:10px; background:#DBEAFE; border-radius:99px; margin:10px 0; overflow:hidden">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:50%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px"></div>
+        </div>
+        <div class="row between tiny muted num"><span>14 / 28 days</span><span>Continuous</span></div>
+        <div class="row mt-2" style="gap:6px">
+          <a href="goal-detail.html" class="btn btn-secondary btn-sm">View Details</a><a href="goal-create.html" class="btn btn-ghost btn-sm">Edit</a>
+          <a href="add-session.html" class="btn btn-primary btn-sm">+ Log Session</a>
+        </div>
+      </div>
+
+      <div class="card-grad anim-up delay-6" style="grid-column:span 2">
+        <div class="row between mb-1">
+          <div class="row" style="gap:6px">
+            <span class="chip"><span class="dot dot-pickleball"></span> Skill-Based</span>
+            <span class="badge badge-purple">From Coach Mike</span>
+          </div>
+          <span class="badge badge-amber">In progress</span>
+        </div>
+        <h3 style="margin:8px 0;font-family:var(--font-display);font-size:20px">Backhand 2-handed volley — consistency</h3>
+        <div class="tiny muted">Skill: Backhand Volley · Coach-assigned 3 weeks ago</div>
+        <div class="row between tiny mt-2 num"><span>Target Jun 10, 2026 · <strong>27 days left</strong></span></div>
+        <div class="progress" style="position:relative; height:10px; background:#DBEAFE; border-radius:99px; margin:10px 0; overflow:hidden">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:40%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px"></div>
+          <div style="position:absolute;width:16px;height:16px;border:2px solid var(--session-recovery);background:#fff;border-radius:50%;top:-3px;left:70%;box-shadow:0 2px 6px rgba(249,115,22,.4)"></div>
+        </div>
+        <div class="row between tiny muted num"><span>40% complete</span><span>Coach target: 70%</span></div>
+        <p class="muted tiny mt-2">💬 <em>Coach Mike: "Drop your elbow first, then snap the wrist. The 2-handed grip should feel like driving a steering wheel."</em></p>
+        <div class="row mt-2" style="gap:6px">
+          <a href="goal-detail.html" class="btn btn-secondary btn-sm">View Details</a>
+          <a href="the-drop.html" class="btn btn-ghost btn-sm">▶ Watch Drill Video</a>
+          <a href="add-session.html" class="btn btn-primary btn-sm">+ Log Session</a>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Contacts — GoodhuePB Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use5.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Contacts</strong></span>
+  <span>Public contact-form inbox + directory</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-contacts.html" class="nav-pill active"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / Contacts</div>
+        <h1>Contacts</h1>
+        <p class="sub">Inbox + directory · 12 new messages</p>
+      </div>
+      <div class="right">
+        <button class="btn btn-primary">＋ Add Contact</button>
+      </div>
+    </header>
+
+    <div class="drop-tabs anim-up delay-1">
+      <button class="active">Inbox · 12 new</button>
+      <button>Directory · 28</button>
+      <button>Coaches · 6</button>
+      <button>Resources · 14</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
+
+      <div class="card lift anim-up delay-2">
+        <div class="card-head"><h3>📥 Inbox</h3><span class="tiny muted">From public contact form</span></div>
+        <div class="stack">
+          <div style="padding:14px;border:1px solid var(--border);border-radius:10px;background:linear-gradient(135deg,#FAF5FF,#FFFFFF)">
+            <div class="row between mb-1"><strong style="font-family:var(--font-display)">Sarah Lin · sarah@example.com</strong><span class="tiny muted">2h ago</span></div>
+            <div class="row mb-1"><span class="badge badge-blue">General</span></div>
+            <p class="muted tiny">"Hi! What times do you run the junior clinic? Looking to enroll my 12-year-old son who's just starting."</p>
+            <div class="row mt-2" style="gap:6px"><button class="btn btn-primary btn-sm">Reply</button><button class="btn btn-ghost btn-sm">Mark read</button><button class="btn btn-ghost btn-sm" style="color:var(--danger)">Delete</button></div>
+          </div>
+          <div style="padding:14px;border:1px solid var(--border);border-radius:10px;background:linear-gradient(135deg,#FAF5FF,#FFFFFF)">
+            <div class="row between mb-1"><strong style="font-family:var(--font-display)">Tom Banner · tomb@example.com</strong><span class="tiny muted">Yesterday</span></div>
+            <div class="row mb-1"><span class="badge badge-purple">Tournament</span></div>
+            <p class="muted tiny">"Need a partner for NSW Doubles Masters in June. 4.0 player, looking to pair with similar level."</p>
+            <div class="row mt-2" style="gap:6px"><button class="btn btn-primary btn-sm">Reply</button><button class="btn btn-ghost btn-sm">Mark read</button><button class="btn btn-ghost btn-sm" style="color:var(--danger)">Delete</button></div>
+          </div>
+          <div style="padding:14px;border:1px solid var(--border);border-radius:10px">
+            <div class="row between mb-1"><strong style="font-family:var(--font-display)">Lisa Park · lisa.p@example.com</strong><span class="tiny muted">2 days ago</span></div>
+            <div class="row mb-1"><span class="badge badge-amber">Coaching enquiry</span></div>
+            <p class="muted tiny">"Interested in private coaching, weekends only. Currently around 3.5 level."</p>
+            <div class="row mt-2" style="gap:6px"><button class="btn btn-primary btn-sm">Reply</button><button class="btn btn-ghost btn-sm">Archive</button></div>
+          </div>
+          <div style="padding:14px;border:1px solid var(--border);border-radius:10px">
+            <div class="row between mb-1"><strong style="font-family:var(--font-display)">James Wu · james@bigclub.com</strong><span class="tiny muted">3 days ago</span></div>
+            <div class="row mb-1"><span class="badge badge-green">Partnership / club</span></div>
+            <p class="muted tiny">"We run a 200-player club in Brisbane — would love to chat about white-label options for GoodhuePB."</p>
+            <div class="row mt-2" style="gap:6px"><button class="btn btn-primary btn-sm">Reply</button><button class="btn btn-ghost btn-sm">Archive</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card lift anim-up delay-3">
+        <h3>＋ Add Contact</h3>
+        <hr class="divider" />
+        <div class="field"><label>Name *</label><input class="input" /></div>
+        <div class="field"><label>Email</label><input class="input" type="email" /></div>
+        <div class="field"><label>Phone</label><input class="input" type="tel" /></div>
+        <div class="field"><label>Type</label><select class="input"><option>Coach</option><option>Resource</option><option>Player</option><option>Other</option></select></div>
+        <div class="field"><label>Notes</label><textarea class="input" rows="3"></textarea></div>
+        <button class="btn btn-primary btn-block">Save Contact</button>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

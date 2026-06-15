@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Add Student — GoodhuePB Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use5.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Create / Edit Student</strong></span>
+  <span>Full profile · skills · invitation email</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill active"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-skills.html" class="nav-pill"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search students…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / <a href="admin-students.html">Students</a> / Add</div>
+        <h1>Add Student</h1>
+      </div>
+      <div class="right">
+        <a href="admin-students.html" class="btn btn-secondary">Cancel</a>
+        <button class="btn btn-primary">Save &amp; Send Invite</button>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
+
+      <div class="stack">
+
+        <div class="card lift anim-up delay-1">
+          <h3>Basic Information</h3>
+          <hr class="divider" />
+          <div class="grid-2">
+            <div class="field"><label>Name *</label><input class="input" placeholder="Full name" /></div>
+            <div class="field"><label>Email</label><input class="input" type="email" placeholder="alex@example.com" /></div>
+            <div class="field"><label>Phone</label><input class="input" type="tel" /></div>
+            <div class="field"><label>Password *</label><input class="input" type="password" placeholder="At least 6 characters" /></div>
+            <div class="field"><label>Date of birth <span style="text-transform:none;color:var(--text-subtle);font-weight:400">(MM/DD/YYYY)</span></label><input class="input" type="text" placeholder="MM/DD/YYYY" /></div>
+            <div class="field"><label>Join date <span style="text-transform:none;color:var(--text-subtle);font-weight:400">(MM/DD/YYYY)</span></label><input class="input" type="text" placeholder="MM/DD/YYYY" value="05/15/2026" /></div>
+            <div class="field"><label>Address</label><input class="input" /></div>
+            <div class="field"><label>Location *</label>
+              <div class="row" style="gap:6px">
+                <select class="input">
+                  <option selected>Evergreen</option>
+                  <option>White Mountain Pickleball Club</option>
+                  <option>Lancaster</option>
+                </select>
+                <button type="button" class="btn btn-secondary btn-sm" title="Add a new location">＋</button>
+              </div>
+              <span class="hint">Choose the player's home location. Tap + to add a new one.</span>
+            </div>
+            <div class="field"><label>Skill rating</label>
+              <select class="input"><option>Unknown</option><option>2.0 Beginner</option><option>3.0 Improver</option><option>3.5 Intermediate</option><option>4.0 Intermediate+</option><option>4.5 Advanced</option><option>5.0 Pro</option></select>
+            </div>
+            <div class="field"><label>Emergency contact name</label><input class="input" /></div>
+            <div class="field"><label>Emergency contact phone</label><input class="input" type="tel" /></div>
+          </div>
+          <div class="field"><label>About</label><textarea class="input" placeholder="Background, playing style, goals…"></textarea></div>
+        </div>
+
+        <div class="card lift anim-up delay-2">
+          <h3>External Profiles</h3>
+          <hr class="divider" />
+          <div class="field"><label>DUPR profile URL</label><input class="input" /></div>
+          <div class="field"><label>Pickleheads profile URL</label><input class="input" /></div>
+          <div class="field"><label>Pickleball Brackets profile URL</label><input class="input" /></div>
+          <div class="field">
+            <label>Other profile URLs</label>
+            <div class="row mb-1" style="gap:6px"><input class="input" placeholder="Label"/><input class="input" placeholder="URL"/><button class="btn btn-ghost btn-sm">✕</button></div>
+            <button class="btn btn-secondary btn-sm">+ Add row</button>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <h3>⚡ Skills &amp; Matrix</h3>
+          <hr class="divider" />
+          <div class="field">
+            <label>Skill focus (current month)</label>
+            <div class="row wrap" style="gap:6px">
+              <span class="chip active">Return of Serve ✓</span>
+              <span class="chip active">Volley — Backhand Block ✓</span>
+              <span class="chip">Serve</span>
+              <span class="chip">Reset</span>
+              <span class="chip">Drop</span>
+              <span class="chip">Dink — Backhand</span>
+              <span class="chip muted">+ 30 more</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Initial skill ratings (Matrix Utilization)</label>
+            <div class="grid-2 mt-2">
+              <div class="row between"><span>Serve</span><select class="input" style="max-width:120px"><option>3.0</option><option selected>3.5</option><option>4.0</option><option>4.5</option><option>5.0</option></select></div>
+              <div class="row between"><span>Return of Serve</span><select class="input" style="max-width:120px"><option>3.0</option><option>3.5</option><option selected>4.0</option><option>4.5</option><option>5.0</option></select></div>
+              <div class="row between"><span>Volley</span><select class="input" style="max-width:120px"><option>3.0</option><option selected>3.5</option><option>4.0</option><option>4.5</option><option>5.0</option></select></div>
+              <div class="row between"><span>Dink</span><select class="input" style="max-width:120px"><option>3.0</option><option>3.5</option><option selected>4.0</option><option>4.5</option><option>5.0</option></select></div>
+            </div>
+            <button class="btn btn-ghost btn-sm mt-2">Show all 36 competencies</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack">
+
+        <div class="card lift anim-up delay-2">
+          <h3>Avatar</h3>
+          <div class="center mt-2">
+            <div style="width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#DBEAFE,#BFDBFE);margin:0 auto;display:grid;place-items:center;color:var(--brand);font-size:42px">📷</div>
+            <button class="btn btn-secondary btn-sm mt-2">Upload photo</button>
+            <div class="tiny muted mt-1">JPG/PNG · max 2MB</div>
+          </div>
+        </div>
+
+        <div class="card-grad anim-up delay-4">
+          <h3 style="font-family:var(--font-display);font-size:16px">✉ Invitation Email</h3>
+          <label class="switch mt-2"><input type="checkbox" checked /> Send invite email with password</label>
+          <p class="muted tiny mt-2">If the email isn't <em>@goodhuepb.com</em>, an invitation is emailed with login details. Skip this for "ghost" student records.</p>
+        </div>
+
+        <div class="card lift anim-up delay-5">
+          <h3>Status</h3>
+          <label class="switch mt-2"><input type="checkbox" checked /> Active</label>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

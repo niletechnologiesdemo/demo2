@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Coach Dashboard — GoodhuePB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use4.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Coach Dashboard</strong></span>
+  <span>Coach console · matches student app design system</span>
+</div>
+
+<div class="app-top">
+
+  <!-- ====== Admin Top Navigation ====== -->
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill active"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-skills.html" class="nav-pill"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search students…" /></label>
+      <a href="admin-student-create.html" class="top-cta">＋ <span class="label">Add Student</span></a>
+      <button class="ico-btn anim-ring" title="Notifications">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <!-- ====== Page Content ====== -->
+  <main class="app-content">
+
+    <!-- Welcome hero -->
+    <section class="hero-img hero-img-pb-4 anim-up" style="padding:48px 44px">
+      <div class="accent-blob" style="width:280px;height:280px;background:rgba(96,165,250,.4);top:-80px;right:-80px"></div>
+      <div class="accent-blob" style="width:220px;height:220px;background:rgba(192,132,252,.35);bottom:-80px;left:30%"></div>
+      <div class="row between" style="align-items:flex-start;flex-wrap:wrap;gap:16px">
+        <div style="max-width:640px">
+          <div style="font-size:13px;opacity:.9;font-weight:600;text-transform:uppercase;letter-spacing:.08em"><span class="live-dot"></span> 23 appointments in the next 14 days</div>
+          <h1 style="font-size:42px;margin-top:8px;font-variation-settings:'opsz' 96,'wght' 800;line-height:1.05">Welcome back, Coach Mike 👋</h1>
+          <p style="font-size:15px;opacity:.95;margin-top:10px;max-width:560px;line-height:1.5">Your next lesson is tomorrow at 9 AM with Alex Chen at Evergreen.</p>
+        </div>
+        <div class="row" style="gap:10px">
+          <a href="admin-student-create.html" class="btn" style="background:rgba(255,255,255,.22); color:#fff; backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.2)">＋ Add Student</a>
+          <a href="admin-appointment-create.html" class="btn btn-ghost" style="color:#fff; background:transparent; border:1px solid rgba(255,255,255,.3)">📅 New Appointment</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- KPI strip -->
+    <div class="kpi-grid">
+      <div class="kpi kpi-pickleball anim-up delay-1"><div class="label">Total Students</div><div class="value num">128</div><div class="delta up">▲ +6 this month</div></div>
+      <div class="kpi kpi-strength anim-up delay-2"><div class="label">Active</div><div class="value num">112</div><div class="delta muted">88% retention</div></div>
+      <div class="kpi kpi-recovery anim-up delay-3"><div class="label">Inactive</div><div class="value num">16</div><div class="delta down">▼ needs follow-up</div></div>
+      <div class="kpi kpi-movement anim-up delay-4"><div class="label">Sessions This Week</div><div class="value num">94</div><div class="delta up">▲ 8.5h avg / student</div></div>
+      <div class="kpi anim-up delay-5"><div class="label">Upcoming Appts</div><div class="value num">23</div><div class="delta muted">next 14 days</div></div>
+    </div>
+
+    <!-- Two-column body -->
+    <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
+
+      <!-- Students table (search blended in) -->
+      <div class="card lift anim-up delay-3">
+        <div class="card-head"><h3>👥 Students</h3><a href="admin-students.html" class="more">View all →</a></div>
+        <!-- Blended search/filter row -->
+        <div class="row mb-2" style="gap:10px;flex-wrap:wrap">
+          <div class="input-icon" style="flex:1;min-width:200px">
+            <span class="ico">🔍</span>
+            <input class="input" placeholder="Search students by name or email" />
+          </div>
+          <select class="input" style="max-width:170px"><option>All locations</option><option>Evergreen</option><option>White Mountain Pickleball Club</option><option>Lancaster</option></select>
+          <select class="input" style="max-width:170px"><option>All skill levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
+          <button class="btn btn-secondary btn-sm">Apply</button>
+        </div>
+        <table class="table" style="border:0">
+          <thead><tr><th>Student</th><th>Skill</th><th>Last session</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="row"><div class="avatar" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#7C3AED);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700">AC</div><div><strong>Alex Chen</strong><div class="tiny muted">alex.chen@example.com</div></div></div></td>
+              <td><span class="badge badge-blue num">4.0</span></td>
+              <td class="tiny">Today</td>
+              <td class="actions"><a href="admin-student-detail.html" class="btn btn-ghost btn-sm">View</a></td>
+            </tr>
+            <tr>
+              <td><div class="row"><div class="avatar" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#EC4899,#A855F7);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700">PR</div><div><strong>Priya Raj</strong><div class="tiny muted">priya.r@example.com</div></div></div></td>
+              <td><span class="badge badge-blue num">3.5</span></td>
+              <td class="tiny">Yesterday</td>
+              <td class="actions"><a href="admin-student-detail.html" class="btn btn-ghost btn-sm">View</a></td>
+            </tr>
+            <tr>
+              <td><div class="row"><div class="avatar" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700">JD</div><div><strong>Jamie Davies</strong><div class="tiny muted">jamie@example.com</div></div></div></td>
+              <td><span class="badge badge-blue num">4.5</span></td>
+              <td class="tiny">2 days ago</td>
+              <td class="actions"><a href="admin-student-detail.html" class="btn btn-ghost btn-sm">View</a></td>
+            </tr>
+            <tr>
+              <td><div class="row"><div class="avatar" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#F97316,#C2410C);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700">DC</div><div><strong>Drew Conway</strong><div class="tiny muted">drew.c@example.com</div></div></div></td>
+              <td><span class="badge badge-amber num">3.0</span></td>
+              <td class="tiny">1 week ago</td>
+              <td class="actions"><a href="admin-student-detail.html" class="btn btn-ghost btn-sm">View</a></td>
+            </tr>
+            <tr>
+              <td><div class="row"><div class="avatar" style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#0EA5E9,#1E40AF);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700">CB</div><div><strong>Casey Brown</strong><div class="tiny muted">casey@example.com</div></div></div></td>
+              <td><span class="badge badge-blue num">4.0</span></td>
+              <td class="tiny">Today</td>
+              <td class="actions"><a href="admin-student-detail.html" class="btn btn-ghost btn-sm">View</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right column -->
+      <div class="stack">
+
+        <div class="card lift anim-up delay-4">
+          <div class="card-head"><h3>📅 Upcoming Appointments</h3><a href="admin-schedule.html" class="more">Calendar →</a></div>
+          <div class="stack">
+            <div class="row" style="gap:10px;align-items:flex-start">
+              <div style="width:5px;align-self:stretch;background:var(--session-pickleball);border-radius:99px;min-height:42px"></div>
+              <div style="flex:1">
+                <div class="row between"><strong>Alex Chen · Private</strong><span class="tiny muted">Tomorrow 9 AM</span></div>
+                <div class="tiny muted">Drop Shot · Evergreen</div>
+              </div>
+            </div>
+            <hr class="divider" />
+            <div class="row" style="gap:10px;align-items:flex-start">
+              <div style="width:5px;align-self:stretch;background:var(--session-strength);border-radius:99px;min-height:42px"></div>
+              <div style="flex:1">
+                <div class="row between"><strong>Group Clinic · 6 ppl</strong><span class="tiny muted">Sat 2 PM</span></div>
+                <div class="tiny muted">Strategy · White Mountain Pickleball Club</div>
+              </div>
+            </div>
+            <hr class="divider" />
+            <div class="row" style="gap:10px;align-items:flex-start">
+              <div style="width:5px;align-self:stretch;background:var(--session-pickleball);border-radius:99px;min-height:42px"></div>
+              <div style="flex:1">
+                <div class="row between"><strong>Priya Raj · Private</strong><span class="tiny muted">Mon 7 AM</span></div>
+                <div class="tiny muted">Serve mechanics · Lancaster</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-grad anim-up delay-5">
+          <strong style="font-family:var(--font-display);font-size:16px">📅 Google Calendar</strong>
+          <div class="tiny muted">coach.mike@goodhuepb.com</div>
+          <div class="row mt-2" style="gap:6px">
+            <span class="badge badge-green"><span class="live-dot" style="margin-right:4px"></span>Connected</span>
+            <button class="btn btn-secondary btn-sm">Sync</button>
+            <button class="btn btn-secondary btn-sm">Fetch</button>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-6">
+          <div class="card-head"><h3>⚡ Quick Actions</h3></div>
+          <div class="stack">
+            <a href="admin-contacts.html" class="btn btn-secondary btn-block" style="justify-content:flex-start">📇 Add Contact</a>
+            <a href="admin-the-drop-create.html" class="btn btn-secondary btn-block" style="justify-content:flex-start">▶ Upload to The Drop</a>
+            <a href="admin-goal-create.html" class="btn btn-secondary btn-block" style="justify-content:flex-start">🎯 Assign Goal</a>
+            <a href="admin-tournament-create.html" class="btn btn-secondary btn-block" style="justify-content:flex-start">🎾 Add Tournament</a>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-7">
+          <div class="card-head"><h3>📇 Recent Messages</h3><a href="admin-contacts.html" class="more">Inbox →</a></div>
+          <div class="stack tiny">
+            <div><span style="display:inline-block;width:8px;height:8px;background:var(--danger);border-radius:50%;margin-right:6px;vertical-align:middle" class="anim-pulse-dot"></span><strong>Sarah Lin</strong> · Asking about junior clinic times.<div class="muted">2 hours ago</div></div>
+            <hr class="divider" />
+            <div><span style="display:inline-block;width:8px;height:8px;background:var(--danger);border-radius:50%;margin-right:6px;vertical-align:middle" class="anim-pulse-dot"></span><strong>Tom Banner</strong> · Tournament partner needed.<div class="muted">Yesterday</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Schedule — GoodhuePB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use4.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Schedule</strong></span>
+  <span>List view · upcoming appointments grouped by date.</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="dashboard.html" class="nav-pill"><span class="ico">🏠</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="add-session.html" class="nav-pill"><span class="ico">＋</span>Sessions ▾</a>
+        <div class="nav-menu">
+          <a href="add-session.html"><span class="ico">＋</span>Add Session</a>
+          <a href="session-history.html"><span class="ico">📜</span>Session History</a>
+          <a href="summary-daily.html"><span class="ico">📊</span>Daily Summary</a>
+          <a href="summary-weekly.html"><span class="ico">📈</span>Weekly Summary</a>
+          <a href="summary-monthly.html"><span class="ico">📅</span>Monthly Summary</a>
+        </div>
+      </div>
+      <div class="nav-pill-drop">
+        <a href="matrix.html" class="nav-pill"><span class="ico">⚡</span>Training ▾</a>
+        <div class="nav-menu">
+          <a href="matrix.html"><span class="ico">⚡</span>Matrix Utilization</a>
+          <a href="the-drop.html"><span class="ico">▶</span>The Drop</a>
+          <a href="goals.html"><span class="ico">🎯</span>Goals</a>
+          <a href="notes.html"><span class="ico">📝</span>Notes</a>
+        </div>
+      </div>
+      <a href="schedule-list.html" class="nav-pill active"><span class="ico">📅</span>Schedule</a>
+      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
+      <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <a href="add-session.html" class="top-cta">＋ <span class="label">Add Session</span></a>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="profile.html" class="user-chip"><div class="avatar">A</div><span class="name">Alex</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <section class="hero-img hero-img-pb-3 anim-up" style="padding:36px 40px;margin-bottom:24px;min-height:180px">
+      <div class="accent-blob" style="width:240px;height:240px;background:rgba(96,165,250,.3);top:-60px;right:5%"></div>
+      <div class="row between" style="align-items:flex-end;flex-wrap:wrap;gap:12px">
+        <div>
+          <div style="font-size:13px;opacity:.9;font-weight:600;text-transform:uppercase;letter-spacing:.08em">3 sessions in the next 14 days</div>
+          <h1 style="font-size:44px;margin-top:4px;font-variation-settings:'opsz' 96,'wght' 800;line-height:1">Schedule</h1>
+          <p style="opacity:.92;margin-top:6px">Next up: Private Lesson with Coach Mike — tomorrow at 9 AM, Court 5</p>
+        </div>
+        <a href="book-appointment.html" class="btn" style="background:#fff;color:var(--brand);font-weight:700">＋ Book Appointment</a>
+      </div>
+    </section>
+
+    <div class="row between mb-3 anim-up delay-1" style="flex-wrap:wrap;gap:12px">
+      <div class="mode-tabs">
+        <button class="active">List</button>
+        <button onclick="window.location='schedule-calendar.html'">Calendar</button>
+      </div>
+      <div class="row" style="gap:8px">
+        <span class="badge badge-green"><span class="live-dot" style="margin-right:4px"></span>Google Calendar Connected</span>
+        <button class="btn btn-secondary btn-sm">Sync to Google</button>
+        <button class="btn btn-secondary btn-sm">Fetch from Google</button>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
+
+      <div class="stack">
+
+        <div class="anim-up delay-2">
+          <h3 style="margin-bottom:12px;display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-size:20px">FRIDAY · 15 MAY <span class="badge badge-blue">Tomorrow</span></h3>
+          <div class="card lift">
+            <div class="row" style="gap:16px;align-items:flex-start">
+              <div style="width:6px;align-self:stretch;background:linear-gradient(180deg,var(--session-pickleball),var(--brand));border-radius:99px;min-height:120px"></div>
+              <div style="flex:1">
+                <div class="row between">
+                  <strong style="font-size:18px;font-family:var(--font-display)">Private Lesson — Drop Shot</strong>
+                  <span class="tiny muted num">9:00 – 10:00 AM</span>
+                </div>
+                <div class="tiny muted mt-1">Court 5 · Coach Mike Stevens</div>
+                <p class="mt-2 muted tiny">Session goals: improve 3rd-shot drop depth and consistency, work on patient resets at the NVZ.</p>
+                <div class="row wrap mt-2" style="gap:6px">
+                  <span class="badge badge-blue">Private Lesson</span>
+                  <span class="badge badge-green">Confirmation sent</span>
+                  <span class="badge badge-purple">Google Calendar synced</span>
+                </div>
+                <div class="row mt-2" style="gap:6px">
+                  <a href="book-appointment.html" class="btn btn-secondary btn-sm">Edit</a>
+                  <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Cancel</button>
+                  <a href="the-drop-detail.html" class="btn btn-ghost btn-sm">▶ Prep video</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anim-up delay-3">
+          <h3 style="margin-bottom:12px;font-family:var(--font-display);font-size:20px">SATURDAY · 17 MAY</h3>
+          <div class="card lift">
+            <div class="row" style="gap:16px;align-items:flex-start">
+              <div style="width:6px;align-self:stretch;background:linear-gradient(180deg,var(--session-strength),#16A34A);border-radius:99px;min-height:100px"></div>
+              <div style="flex:1">
+                <div class="row between"><strong style="font-size:18px;font-family:var(--font-display)">Group Clinic — Strategy</strong><span class="tiny muted num">2:00 – 3:30 PM</span></div>
+                <div class="tiny muted mt-1">Court 2 · Coach Alex Wong · 6 students</div>
+                <p class="mt-2 muted tiny">Focus: court geometry, closing the middle in doubles, transition zone footwork.</p>
+                <div class="row wrap mt-2" style="gap:6px">
+                  <span class="badge badge-purple">Group Clinic</span>
+                  <span class="badge badge-green">Confirmation sent</span>
+                </div>
+                <div class="row mt-2" style="gap:6px">
+                  <a href="book-appointment.html" class="btn btn-secondary btn-sm">Edit</a>
+                  <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="anim-up delay-4">
+          <h3 style="margin-bottom:12px;font-family:var(--font-display);font-size:20px">WEDNESDAY · 21 MAY</h3>
+          <div class="card lift">
+            <div class="row" style="gap:16px;align-items:flex-start">
+              <div style="width:6px;align-self:stretch;background:linear-gradient(180deg,var(--session-movement),#7C3AED);border-radius:99px;min-height:80px"></div>
+              <div style="flex:1">
+                <div class="row between"><strong style="font-size:18px;font-family:var(--font-display)">Practice Session — Open Play</strong><span class="tiny muted num">6:00 – 7:00 PM</span></div>
+                <div class="tiny muted mt-1">Court 7 · Self-directed</div>
+                <div class="row wrap mt-2" style="gap:6px">
+                  <span class="badge badge-orange">Practice</span>
+                </div>
+                <div class="row mt-2" style="gap:6px">
+                  <a href="book-appointment.html" class="btn btn-secondary btn-sm">Edit</a>
+                  <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack">
+
+        <div class="card-grad anim-up delay-2">
+          <strong style="font-family:var(--font-display);font-size:16px">📅 Google Calendar</strong>
+          <div class="tiny muted">alex@example.com</div>
+          <div class="row mt-2" style="gap:6px">
+            <span class="badge badge-green"><span class="live-dot" style="margin-right:4px"></span>Connected</span>
+          </div>
+          <p class="muted tiny mt-2">Your appointments sync both ways with Google. Last sync 5 min ago.</p>
+          <div class="row mt-2" style="gap:6px">
+            <button class="btn btn-secondary btn-sm">Sync now</button>
+            <button class="btn btn-ghost btn-sm">Disconnect</button>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <div class="card-head"><h3>🔍 Filter</h3></div>
+          <div class="field"><label>Coach</label><select class="input"><option>All coaches</option><option>Mike Stevens</option><option>Alex Wong</option></select></div>
+          <div class="field"><label>Session type</label><select class="input"><option>All types</option><option>Private Lesson</option><option>Group Clinic</option><option>Practice</option></select></div>
+          <div class="field"><label>Location</label><select class="input"><option>All courts</option><option>Court 1</option><option>Court 2</option><option>Court 5</option><option>Court 7</option></select></div>
+          <button class="btn btn-primary btn-block">Apply</button>
+        </div>
+
+        <div class="card lift anim-up delay-4">
+          <div class="card-head"><h3>⚡ Quick Book</h3></div>
+          <div class="stack">
+            <a href="book-appointment.html" class="btn btn-secondary btn-block" style="justify-content:flex-start">
+              <span class="sq sq-pickleball" style="width:14px;height:14px"></span> Private Lesson
+            </a>
+            <a href="book-appointment.html" class="btn btn-secondary btn-block" style="justify-content:flex-start">
+              <span class="sq sq-strength" style="width:14px;height:14px"></span> Group Clinic
+            </a>
+            <a href="book-appointment.html" class="btn btn-secondary btn-block" style="justify-content:flex-start">
+              <span class="sq sq-movement" style="width:14px;height:14px"></span> Practice
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

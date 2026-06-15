@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>GoodhuePB Store — GoodhuePB Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use1.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · GoodhuePB Store</strong></span>
+  <span>Drag-to-reorder · shown in student PB Store</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-affiliate.html" class="nav-pill active"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / GoodhuePB Store</div>
+        <h1>GoodhuePB Store</h1>
+        <p class="sub">24 active · curates the student PB Store grid</p>
+      </div>
+      <div class="right">
+        <button class="btn btn-primary">＋ Add Affiliate Link</button>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
+
+      <div class="card lift anim-up delay-1">
+        <div class="card-head"><h3>🛒 Links (drag to reorder)</h3><span class="tiny muted">sort_order saved on drop</span></div>
+        <table class="table" style="border:0">
+          <thead><tr><th></th><th>Link</th><th>URL</th><th>Status</th><th>Added</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="cursor:grab;color:var(--text-subtle)">⋮⋮</td>
+              <td><div class="row"><div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#DBEAFE,#BFDBFE);display:grid;place-items:center;font-size:20px">🏓</div><div><strong>Selkirk Vanguard Power Air</strong><div class="tiny muted">Paddle · Pro-level control</div></div></div></td>
+              <td><a href="#" class="tiny">selkirk.com/vanguard</a></td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td class="tiny num">May 1, 2026</td>
+              <td class="actions"><button class="btn btn-ghost btn-sm">Edit</button><button class="btn btn-ghost btn-sm" style="color:var(--danger)">✕</button></td>
+            </tr>
+            <tr>
+              <td style="cursor:grab;color:var(--text-subtle)">⋮⋮</td>
+              <td><div class="row"><div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#DCFCE7,#BBF7D0);display:grid;place-items:center;font-size:20px">👕</div><div><strong>Goodhue PB Performance Tee</strong><div class="tiny muted">Apparel · Moisture-wicking</div></div></div></td>
+              <td><a href="#" class="tiny">goodhue.shop/tee</a></td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td class="tiny num">Apr 14, 2026</td>
+              <td class="actions"><button class="btn btn-ghost btn-sm">Edit</button><button class="btn btn-ghost btn-sm" style="color:var(--danger)">✕</button></td>
+            </tr>
+            <tr>
+              <td style="cursor:grab;color:var(--text-subtle)">⋮⋮</td>
+              <td><div class="row"><div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#FFEDD5,#FED7AA);display:grid;place-items:center;font-size:20px">🎯</div><div><strong>Target Cones (set of 8)</strong><div class="tiny muted">Training · Drill markers</div></div></div></td>
+              <td><a href="#" class="tiny">amazon.com.au/cones</a></td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td class="tiny num">Apr 2, 2026</td>
+              <td class="actions"><button class="btn btn-ghost btn-sm">Edit</button><button class="btn btn-ghost btn-sm" style="color:var(--danger)">✕</button></td>
+            </tr>
+            <tr>
+              <td style="cursor:grab;color:var(--text-subtle)">⋮⋮</td>
+              <td><div class="row"><div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#FAE8FF,#E9D5FF);display:grid;place-items:center;font-size:20px">💆</div><div><strong>TriggerPoint Foam Roller</strong><div class="tiny muted">Recovery · Self-myofascial</div></div></div></td>
+              <td><a href="#" class="tiny">triggerpoint.com/roller</a></td>
+              <td><span class="badge badge-amber">Hidden</span></td>
+              <td class="tiny num">Mar 28, 2026</td>
+              <td class="actions"><button class="btn btn-ghost btn-sm">Edit</button><button class="btn btn-ghost btn-sm" style="color:var(--danger)">✕</button></td>
+            </tr>
+            <tr>
+              <td style="cursor:grab;color:var(--text-subtle)">⋮⋮</td>
+              <td><div class="row"><div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#FEE2E2,#FECACA);display:grid;place-items:center;font-size:20px">👟</div><div><strong>K-Swiss Express Light Pickleball</strong><div class="tiny muted">Footwear · Lateral stability</div></div></div></td>
+              <td><a href="#" class="tiny">kswiss.com/pickleball</a></td>
+              <td><span class="badge badge-green">Active</span></td>
+              <td class="tiny num">Mar 10, 2026</td>
+              <td class="actions"><button class="btn btn-ghost btn-sm">Edit</button><button class="btn btn-ghost btn-sm" style="color:var(--danger)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card lift anim-up delay-2">
+        <h3>＋ Add Affiliate Link</h3>
+        <hr class="divider" />
+        <div class="field"><label>Title *</label><input class="input" placeholder="Selkirk Vanguard Power Air" /></div>
+        <div class="field"><label>URL *</label><input class="input" type="url" placeholder="https://…" /></div>
+        <div class="field"><label>Description</label><textarea class="input" rows="3" placeholder="Short description shown on the card"></textarea></div>
+        <div class="field">
+          <label>Cover image</label>
+          <div style="border:2px dashed var(--border-strong);border-radius:8px;padding:18px;text-align:center;background:var(--surface-alt)">
+            <strong style="font-size:13px">Upload image</strong>
+            <div class="tiny muted">JPG/PNG · max 2MB</div>
+            <button class="btn btn-secondary btn-sm mt-2">Choose</button>
+          </div>
+        </div>
+        <label class="switch mb-2"><input type="checkbox" checked /> Active (visible in PB Store)</label>
+        <button class="btn btn-primary btn-block">Save Affiliate Link</button>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

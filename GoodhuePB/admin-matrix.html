@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Skill Matrix — GoodhuePB Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use5.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Skill Matrix</strong></span>
+  <span>Coach + student collaboratively map and manage the competency matrix</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill active"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-skills.html" class="nav-pill"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills Catalog</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search students…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / Skill Matrix</div>
+        <h1>Skill Matrix</h1>
+        <p class="sub">Pickleball Interactive Skill Matrix · map progression with the player</p>
+      </div>
+      <div class="right">
+        <button class="btn btn-secondary">📤 Share with Student</button>
+        <button class="btn btn-primary">Save Matrix</button>
+      </div>
+    </header>
+
+    <!-- Student selector -->
+    <div class="card lift anim-up delay-1 mb-3">
+      <div class="row between" style="flex-wrap:wrap;gap:12px">
+        <div class="row" style="gap:12px;align-items:center">
+          <span class="tiny muted" style="font-weight:700;text-transform:uppercase;letter-spacing:.06em">Editing matrix for</span>
+          <select class="input" style="max-width:280px">
+            <option selected>Alex Chen — 4.0 Intermediate</option>
+            <option>Priya Raj — 3.5</option>
+            <option>Jamie Davies — 4.5</option>
+            <option>Drew Conway — 3.0</option>
+            <option>Casey Brown — 4.0</option>
+          </select>
+          <a href="admin-student-detail.html" class="more tiny">View full profile →</a>
+        </div>
+        <div class="tiny muted">Last updated together: <strong>12 May 2026</strong> · in-person session</div>
+      </div>
+    </div>
+
+    <!-- Overall + Focus -->
+    <div style="display:grid;grid-template-columns: 1fr 1.6fr; gap:24px" class="mb-3">
+      <div class="card lift anim-up delay-1">
+        <div class="row between" style="align-items:center">
+          <div>
+            <div class="tiny muted">Overall Skill Level</div>
+            <div class="row mt-1" style="gap:12px;align-items:flex-end">
+              <strong class="num" style="font-family:var(--font-display);font-size:48px;line-height:1;letter-spacing:-0.03em;font-variation-settings:'opsz' 96,'wght' 800;background:linear-gradient(135deg,var(--brand),var(--accent-violet));-webkit-background-clip:text;background-clip:text;color:transparent">4.0</strong>
+              <span class="badge badge-blue" style="margin-bottom:8px">Intermediate</span>
+            </div>
+          </div>
+          <span class="anim-float" style="font-size:36px;opacity:.6">📈</span>
+        </div>
+        <hr class="divider" />
+        <div class="tiny muted mb-1">Set overall level</div>
+        <div class="row" style="gap:4px;flex-wrap:wrap">
+          <button class="badge badge-gray num">2.5</button>
+          <button class="badge badge-gray num">3.0</button>
+          <button class="badge badge-gray num">3.5</button>
+          <button class="badge badge-grad num">4.0</button>
+          <button class="badge badge-gray num">4.5</button>
+          <button class="badge badge-gray num">5.0</button>
+        </div>
+      </div>
+
+      <div class="card-grad anim-up delay-2">
+        <div class="row" style="align-items:flex-start;gap:18px">
+          <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--brand-soft),#FAE8FF);color:var(--brand);display:grid;place-items:center;font-size:22px;flex-shrink:0">🎯</div>
+          <div style="flex:1">
+            <div class="tiny muted">Focus Area · set with the player for this month</div>
+            <div class="row wrap mt-2" style="gap:6px">
+              <span class="chip active">Serve ✕</span>
+              <span class="chip active">Return of Serve ✕</span>
+              <span class="chip active">Volley — Backhand Block ✕</span>
+              <button class="btn btn-ghost btn-sm">+ Add focus skill</button>
+            </div>
+            <p class="muted tiny mt-2">Focus skills weight the player's Matrix updates more heavily and surface matched videos in The Drop.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
+
+      <!-- Actively Improving — editable -->
+      <div class="card lift anim-up delay-2">
+        <div class="row between mb-2">
+          <strong style="display:flex;align-items:center;gap:8px;color:var(--success);font-family:var(--font-display);font-size:18px">⚡ Actively Improving</strong>
+          <span class="badge badge-green anim-glow-dot">3</span>
+        </div>
+
+        <div class="matrix-row">
+          <div>
+            <div class="name">Return of Serve</div>
+            <div class="tiny" style="color:var(--success)">↑ 3 days ago · player-logged</div>
+            <div class="progress">
+              <div class="fill" style="--p:.65; width:65%"></div>
+            </div>
+            <div class="row" style="gap:4px;flex-wrap:wrap;margin-top:4px">
+              <button class="badge badge-gray num">2.5</button>
+              <button class="badge badge-gray num">3.0</button>
+              <button class="badge badge-gray num">3.5</button>
+              <button class="badge badge-grad num">4.0</button>
+              <button class="badge badge-gray num">4.5</button>
+              <button class="badge badge-gray num">5.0</button>
+            </div>
+          </div>
+          <div class="nums center">
+            <div><span class="from num">4.0</span> <span style="color:var(--text-muted);font-size:16px">→</span></div>
+            
+          </div>
+          <div class="ctrls">
+            <details class="note-pop"><summary class="btn btn-secondary btn-sm">💬 Add Note</summary><div class="field" style="margin-top:8px;min-width:240px"><textarea class="input" rows="2" placeholder="Quick note on this competency…"></textarea><div class="mic-row"><button type="button" class="mic-btn" data-label="Speak"><span class="mic-icon">🎤</span><span class="mic-label">Speak</span></button></div></div></details>
+            <button class="btn btn-primary">▶ Link Video</button>
+          </div>
+        </div>
+
+        <div class="matrix-row">
+          <div>
+            <div class="name">BH 2-Handed Topspin Roll (Transition)</div>
+            <div class="tiny" style="color:var(--success)">↑ assessed by you · 12 May</div>
+            <div class="progress">
+              <div class="fill" style="--p:.6; width:60%"></div>
+            </div>
+            <div class="row" style="gap:4px;flex-wrap:wrap;margin-top:4px">
+              <button class="badge badge-gray num">2.5</button>
+              <button class="badge badge-gray num">3.0</button>
+              <button class="badge badge-gray num">3.5</button>
+              <button class="badge badge-grad num">4.0</button>
+              <button class="badge badge-gray num">4.5</button>
+              <button class="badge badge-gray num">5.0</button>
+            </div>
+          </div>
+          <div class="nums center">
+            <div><span class="from num">4.0</span> <span style="color:var(--text-muted);font-size:16px">→</span></div>
+            
+          </div>
+          <div class="ctrls">
+            <details class="note-pop"><summary class="btn btn-secondary btn-sm">💬 Add Note</summary><div class="field" style="margin-top:8px;min-width:240px"><textarea class="input" rows="2" placeholder="Quick note on this competency…"></textarea><div class="mic-row"><button type="button" class="mic-btn" data-label="Speak"><span class="mic-icon">🎤</span><span class="mic-label">Speak</span></button></div></div></details>
+            <button class="btn btn-primary">▶ Link Video</button>
+          </div>
+        </div>
+
+        <div class="matrix-row">
+          <div>
+            <div class="name">Lob Volley</div>
+            <div class="tiny" style="color:var(--success)">↑ 3 days ago · player-logged</div>
+            <div class="progress">
+              <div class="fill" style="--p:.5; width:50%"></div>
+            </div>
+            <div class="row" style="gap:4px;flex-wrap:wrap;margin-top:4px">
+              <button class="badge badge-gray num">2.5</button>
+              <button class="badge badge-gray num">3.0</button>
+              <button class="badge badge-grad num">3.7</button>
+              <button class="badge badge-gray num">4.0</button>
+              <button class="badge badge-gray num">4.5</button>
+              <button class="badge badge-gray num">5.0</button>
+            </div>
+          </div>
+          <div class="nums center">
+            <div><span class="from num">3.7</span> <span style="color:var(--text-muted);font-size:16px">→</span></div>
+            
+          </div>
+          <div class="ctrls">
+            <details class="note-pop"><summary class="btn btn-secondary btn-sm">💬 Add Note</summary><div class="field" style="margin-top:8px;min-width:240px"><textarea class="input" rows="2" placeholder="Quick note on this competency…"></textarea><div class="mic-row"><button type="button" class="mic-btn" data-label="Speak"><span class="mic-icon">🎤</span><span class="mic-label">Speak</span></button></div></div></details>
+            <button class="btn btn-primary">▶ Link Video</button>
+          </div>
+        </div>
+
+        <div class="row between mt-2 tiny">
+          <span class="row" style="gap:10px">
+            <span class="row" style="gap:6px"><span style="width:12px;height:12px;background:linear-gradient(135deg,var(--brand),var(--accent-violet));border-radius:99px"></span> Current</span>
+            <span class="row" style="gap:6px"></span>
+          </span>
+          <span class="muted">Click a rating chip to update · tap target to adjust</span>
+        </div>
+      </div>
+
+      <!-- Side: coach note / video linking panels -->
+      <div class="stack">
+
+
+
+        <div class="card lift anim-up delay-4">
+          <h3>▶ Link a Drop video</h3>
+          <hr class="divider" />
+          <p class="muted tiny mb-2">Attach a video so it shows on the player's Matrix → ▶ Video button.</p>
+          <input class="input" placeholder="Search The Drop…" />
+          <div class="stack mt-2">
+            <label class="row between" style="gap:8px;cursor:pointer">
+              <span class="row" style="gap:8px"><input type="checkbox" checked /> Return of Serve — Footwork</span>
+              <span class="tiny muted num">6:12</span>
+            </label>
+            <label class="row between" style="gap:8px;cursor:pointer">
+              <span class="row" style="gap:8px"><input type="checkbox" /> Block Volleys at the NVZ Line</span>
+              <span class="tiny muted num">7:44</span>
+            </label>
+            <label class="row between" style="gap:8px;cursor:pointer">
+              <span class="row" style="gap:8px"><input type="checkbox" /> Lob Volley Defense</span>
+              <span class="tiny muted num">5:02</span>
+            </label>
+          </div>
+          <button class="btn btn-secondary btn-block mt-2">Link Selected Videos</button>
+        </div>
+
+
+
+      </div>
+
+    </div>
+
+    <!-- Full Competency Breakdown -->
+    <div class="card lift mt-3 anim-up delay-4">
+      <div class="card-head"><h3>⚡ Full Competency Breakdown</h3><span class="tiny muted">All 36 skills · click any row to edit the player's rating</span></div>
+
+      <table class="table" style="border:0">
+        <thead><tr><th>Competency</th><th>Category</th><th>Current</th><th>Last assessed</th><th></th></tr></thead>
+        <tbody>
+          <tr><td><strong>Serve</strong></td><td><span class="badge badge-blue">Skill</span></td><td><span class="num" style="font-weight:700">4.0</span></td><td class="tiny muted">12 May · coach</td><td class="actions"><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+          <tr><td><strong>Return of Serve</strong></td><td><span class="badge badge-blue">Skill</span></td><td><span class="num" style="font-weight:700">4.0</span></td><td class="tiny muted">11 May · player</td><td class="actions"><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+          <tr><td><strong>Volley — Backhand Block</strong></td><td><span class="badge badge-blue">Skill</span></td><td><span class="num" style="font-weight:700">4.0</span></td><td class="tiny muted">12 May · coach</td><td class="actions"><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+          <tr><td><strong>3rd-Shot Drop</strong></td><td><span class="badge badge-blue">Skill</span></td><td><span class="num" style="font-weight:700">3.5</span></td><td class="tiny muted">28 Apr · player</td><td class="actions"><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+          <tr><td><strong>Reset</strong></td><td><span class="badge badge-blue">Skill</span></td><td><span class="num" style="font-weight:700">4.0</span></td><td class="tiny muted">12 May · coach</td><td class="actions"><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+          <tr><td><strong>Dink — Backhand</strong></td><td><span class="badge badge-blue">Skill</span></td><td><span class="num" style="font-weight:700">4.0</span></td><td class="tiny muted">5 May · player</td><td class="actions"><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+          <tr><td><strong>Lob Volley</strong></td><td><span class="badge badge-blue">Skill</span></td><td><span class="num" style="font-weight:700">3.7</span></td><td class="tiny muted">11 May · player</td><td class="actions"><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+          <tr><td><strong>Overhead</strong></td><td><span class="badge badge-blue">Skill</span></td><td><span class="num" style="font-weight:700">4.0</span></td><td class="tiny muted">2 Apr · coach</td><td class="actions"><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+          <tr><td><strong>Strategy — Court Geometry</strong></td><td><span class="badge badge-purple">Strategy</span></td><td><span class="num" style="font-weight:700">3.8</span></td><td class="tiny muted">12 May · coach</td><td class="actions"><button class="btn btn-ghost btn-sm">Edit</button></td></tr>
+        </tbody>
+      </table>
+      <button class="btn btn-ghost btn-sm mt-2">Show all 36 competencies</button>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

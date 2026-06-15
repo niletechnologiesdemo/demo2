@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Assign Goal — GoodhuePB Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use3.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Assign Goal</strong></span>
+  <span>Multi-student select with "Select All"</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill active"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-skills.html" class="nav-pill"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / <a href="admin-goals.html">Goals</a> / Assign</div>
+        <h1>Assign Goal</h1>
+      </div>
+      <div class="right">
+        <a href="admin-goals.html" class="btn btn-secondary">Cancel</a>
+        <a href="admin-goals.html" class="btn btn-primary">Create Goal · 3 students</a>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
+
+      <div class="stack">
+
+        <div class="card lift anim-up delay-1">
+          <div class="card-head">
+            <h3>1 · Select Students</h3>
+            <label class="switch"><input type="checkbox" /> Select all (128)</label>
+          </div>
+          <hr class="divider" />
+          <input class="input mb-2" placeholder="Filter students by name, tag, or skill" />
+          <div class="row wrap mb-2" style="gap:6px">
+            <span class="chip active">Alex Chen ✕</span>
+            <span class="chip active">Priya Raj ✕</span>
+            <span class="chip active">Jamie Davies ✕</span>
+          </div>
+          <select class="input" multiple style="min-height:170px">
+            <option selected>Alex Chen — 4.0</option>
+            <option selected>Priya Raj — 3.5</option>
+            <option selected>Jamie Davies — 4.5</option>
+            <option>Drew Conway — 3.0</option>
+            <option>Casey Brown — 4.0</option>
+            <option>Tom Mitchell — 2.5</option>
+            <option>Sarah Lin — 3.5</option>
+          </select>
+          <p class="muted tiny mt-2">A separate goal will be created for each selected student.</p>
+        </div>
+
+        <div class="card lift anim-up delay-2">
+          <h3>2 · Goal Type</h3>
+          <hr class="divider" />
+          <div class="session-types" style="grid-template-columns: repeat(4, 1fr)">
+            <div class="session-type t-pickleball selected"><div class="swatch"></div><div class="name">🎯 Skill-Based</div><div class="sub">Technique improvements</div></div>
+            <div class="session-type t-strength"><div class="swatch"></div><div class="name">🏆 Match-Based</div><div class="sub">Game performance</div></div>
+            <div class="session-type t-movement"><div class="swatch"></div><div class="name">💪 Fitness</div><div class="sub">Conditioning</div></div>
+            <div class="session-type t-recovery"><div class="swatch"></div><div class="name">⭐ Custom</div><div class="sub">Personalized</div></div>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <h3>3 · Goal Details</h3>
+          <hr class="divider" />
+          <div class="field"><label>Linked Matrix skill (Skill-Based only)</label>
+            <select class="input"><option>3rd-Shot Drop</option><option>Backhand Block Volley</option><option>Return of Serve</option><option>Reset</option></select>
+            <span class="hint">The goal's progress will surface on the player's Matrix Utilization for this competency.</span>
+          </div>
+          <div class="field"><label>Title *</label><input class="input" placeholder="e.g. Master the 3rd-shot drop" /></div>
+          <div class="field"><label>Description</label><textarea class="input" rows="3" placeholder="Why this goal matters; how to get there"></textarea></div>
+          <div class="grid-2">
+            <div class="field"><label>Target date <span style="text-transform:none;color:var(--text-subtle);font-weight:400">(MM/DD/YYYY)</span></label><input class="input" type="text" placeholder="MM/DD/YYYY" value="06/30/2026" /></div>
+            
+            <div class="field"><label>Total Hours Required for this Goal</label><input class="input" type="number" value="15" placeholder="e.g. 15" /></div>
+            
+          </div>
+        </div>
+
+        <!-- 4 · Attach Drop videos -->
+        <div class="card lift anim-up delay-4">
+          <h3>4 · Attach Drop Videos</h3>
+          <hr class="divider" />
+          <p class="muted tiny mb-2">Videos you attach appear directly on the player's <strong>Goal detail</strong> page and on their Matrix Utilization. This is how a goal becomes a guided practice plan.</p>
+
+          <div class="input-icon mb-2">
+            <span class="ico">🔍</span>
+            <input class="input" placeholder="Search The Drop by title or skill…" />
+          </div>
+
+          <!-- Selectable video rows -->
+          <div class="stack">
+            <label class="row between" style="gap:10px;cursor:pointer;padding:10px;border:1px solid var(--brand);background:var(--brand-soft);border-radius:10px">
+              <span class="row" style="gap:10px">
+                <input type="checkbox" checked />
+                <span class="thumb-img thumb-pb-4" style="width:64px;height:40px;border-radius:6px;display:block"></span>
+                <span><strong style="font-size:14px">Mastering the Third-Shot Drop</strong><div class="tiny muted">YouTube · 8:00 · Coach Alex</div></span>
+              </span>
+              <span class="badge badge-purple">Coach pick</span>
+            </label>
+            <label class="row between" style="gap:10px;cursor:pointer;padding:10px;border:1px solid var(--brand);background:var(--brand-soft);border-radius:10px">
+              <span class="row" style="gap:10px">
+                <input type="checkbox" checked />
+                <span class="thumb-img thumb-pb-6" style="width:64px;height:40px;border-radius:6px;display:block"></span>
+                <span><strong style="font-size:14px">Reset Footwork on Heavy Drives</strong><div class="tiny muted">Video · 6:12 · Coach Alex</div></span>
+              </span>
+              <span class="badge badge-purple">Coach pick</span>
+            </label>
+            <label class="row between" style="gap:10px;cursor:pointer;padding:10px;border:1px solid var(--border);border-radius:10px">
+              <span class="row" style="gap:10px">
+                <input type="checkbox" />
+                <span class="thumb-img thumb-pb-2" style="width:64px;height:40px;border-radius:6px;display:block"></span>
+                <span><strong style="font-size:14px">Cross-Court Dink Consistency</strong><div class="tiny muted">Video · 4:32 · Coach Mike</div></span>
+              </span>
+              <span class="tiny muted">Add</span>
+            </label>
+            <label class="row between" style="gap:10px;cursor:pointer;padding:10px;border:1px solid var(--border);border-radius:10px">
+              <span class="row" style="gap:10px">
+                <input type="checkbox" />
+                <span class="thumb-img thumb-pb-5" style="width:64px;height:40px;border-radius:6px;display:block"></span>
+                <span><strong style="font-size:14px">Dink Like a Pro</strong><div class="tiny muted">Video · 10:00 · Coach Mike</div></span>
+              </span>
+              <span class="tiny muted">Add</span>
+            </label>
+          </div>
+          <div class="row between mt-2">
+            <span class="tiny muted"><strong>2 videos</strong> will be attached to this goal</span>
+            <a href="admin-the-drop.html" class="more tiny">Browse all of The Drop →</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack">
+
+        <div class="card lift anim-up delay-2">
+          <h3>Summary</h3>
+          <hr class="divider" />
+          <div class="stack tiny">
+            <div class="row between"><span>Students</span><strong>3</strong></div>
+            <div class="row between"><span>Goal type</span><strong>Skill-Based</strong></div>
+            <div class="row between"><span>Target date</span><strong>30 Jun 2026</strong></div>
+            <div class="row between"><span>Goals created</span><strong>3 (one per student)</strong></div>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <h3>Notify</h3>
+          <div class="stack mt-2">
+            <label class="switch"><input type="checkbox" checked /> Send notification to each student</label>
+            <label class="switch"><input type="checkbox" /> Email each student</label>
+          </div>
+        </div>
+
+        <div class="card-grad anim-up delay-4">
+          <h3 style="font-family:var(--font-display);font-size:16px">Preview (per student)</h3>
+          <div class="card mt-2" style="background:#fff">
+            <span class="chip"><span class="dot dot-pickleball"></span> Skill-Based</span>
+            <strong style="display:block;margin-top:8px;font-family:var(--font-display)">Master the 3rd-Shot Drop</strong>
+            <div class="tiny muted num">Target Jun 30 · 20 min daily</div>
+            <div class="row mt-2 tiny" style="gap:6px;color:var(--text-muted)">
+              <span>▶ 2 linked videos</span>
+            </div>
+          </div>
+          <p class="muted tiny mt-2">Each player sees this as a full <a href="goal-detail.html">Goal detail</a> page with the attached videos.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

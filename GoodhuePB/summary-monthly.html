@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Monthly Summary — GoodhuePB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use3.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Monthly Summary</strong> &nbsp; · &nbsp; <span class="badge badge-green" style="vertical-align:middle">NEW</span></span>
+  <span>Week 1–4 grid · Monthly Breakdown · Balance Insight · Visual Ratio Bar</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="dashboard.html" class="nav-pill"><span class="ico">🏠</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="add-session.html" class="nav-pill active"><span class="ico">＋</span>Sessions ▾</a>
+        <div class="nav-menu">
+          <a href="add-session.html"><span class="ico">＋</span>Add Session</a>
+          <a href="session-history.html"><span class="ico">📜</span>Session History</a>
+          <a href="summary-daily.html"><span class="ico">📊</span>Daily Summary</a>
+          <a href="summary-weekly.html"><span class="ico">📈</span>Weekly Summary</a>
+          <a href="summary-monthly.html"><span class="ico">📅</span>Monthly Summary</a>
+        </div>
+      </div>
+      <div class="nav-pill-drop">
+        <a href="matrix.html" class="nav-pill"><span class="ico">⚡</span>Training ▾</a>
+        <div class="nav-menu">
+          <a href="matrix.html"><span class="ico">⚡</span>Matrix Utilization</a>
+          <a href="the-drop.html"><span class="ico">▶</span>The Drop</a>
+          <a href="goals.html"><span class="ico">🎯</span>Goals</a>
+          <a href="notes.html"><span class="ico">📝</span>Notes</a>
+        </div>
+      </div>
+      <a href="schedule-list.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
+      <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <a href="add-session.html" class="top-cta">＋ <span class="label">Add Session</span></a>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="profile.html" class="user-chip"><div class="avatar">A</div><span class="name">Alex</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb">May 2026</div>
+        <h1>Monthly Summary</h1>
+      </div>
+      <div class="right">
+        <button class="btn btn-secondary">📤 Share</button>
+      </div>
+    </header>
+
+    <div class="row between mb-3 anim-up delay-1" style="flex-wrap:wrap;gap:12px">
+      <div class="mode-tabs">
+        <button onclick="window.location='summary-daily.html'">Daily</button>
+        <button onclick="window.location='summary-weekly.html'">Weekly</button>
+        <button class="active">Monthly</button>
+      </div>
+      <div class="row" style="gap:8px;align-items:center">
+        <button class="btn btn-secondary btn-sm">‹ April 2026</button>
+        <strong style="font-family:var(--font-display);font-size:16px">May 2026</strong>
+        <button class="btn btn-secondary btn-sm" disabled style="opacity:.4">June 2026 ›</button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi kpi-pickleball anim-up delay-1"><div class="label">Sessions</div><div class="value num">44</div><div class="delta up">▲ +6 vs Apr</div></div>
+      <div class="kpi kpi-strength anim-up delay-2"><div class="label">Total Time</div><div class="value num">31.5h</div><div class="delta up">▲ +4.2h</div></div>
+      <div class="kpi kpi-movement anim-up delay-3"><div class="label">Matches</div><div class="value num">9</div><div class="delta up">6 wins · 67%</div></div>
+      <div class="kpi kpi-recovery anim-up delay-4"><div class="label">Days Active</div><div class="value num">22 / 31</div></div>
+      <div class="kpi anim-up delay-5"><div class="label">Longest Streak</div><div class="value">6 🔥</div><div class="delta muted">11–16 May</div></div>
+    </div>
+
+    <!-- Week-by-week -->
+    <div class="card lift mb-3 anim-up delay-2">
+      <div class="card-head"><h3>📅 Week-by-Week</h3></div>
+
+      <div style="display:grid;grid-template-columns: repeat(4, 1fr); gap:24px">
+
+        <div>
+          <div class="tiny muted mb-1" style="text-transform:uppercase;letter-spacing:.06em;font-weight:700">Week 1 · 1–3 May</div>
+          <div style="display:grid;grid-template-columns: 60px 1fr;gap:8px 12px;align-items:center;font-size:13px">
+            <span class="tiny muted">MON</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-recovery"></span></div>
+            <span class="tiny muted">TUE</span><div class="row"><span class="sq sq-strength"></span><span class="sq sq-movement"></span></div>
+            <span class="tiny muted">WED</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-pickleball"></span></div>
+            <span class="tiny muted">THU</span><div class="row"><span class="sq sq-recovery"></span></div>
+            <span class="tiny muted">FRI</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-strength"></span></div>
+            <span class="tiny muted">SAT</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-pickleball"></span><span class="sq sq-recovery"></span></div>
+            <span class="tiny muted">SUN</span><div class="row"><span class="sq sq-movement"></span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="tiny muted mb-1" style="text-transform:uppercase;letter-spacing:.06em;font-weight:700">Week 2 · 4–10 May</div>
+          <div style="display:grid;grid-template-columns: 60px 1fr;gap:8px 12px;align-items:center;font-size:13px">
+            <span class="tiny muted">MON</span><div class="row"><span class="sq sq-pickleball"></span></div>
+            <span class="tiny muted">TUE</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-strength"></span></div>
+            <span class="tiny muted">WED</span><div class="row"><span class="sq sq-recovery"></span></div>
+            <span class="tiny muted">THU</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-pickleball"></span></div>
+            <span class="tiny muted">FRI</span><div class="row"><span class="sq sq-movement"></span></div>
+            <span class="tiny muted">SAT</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-recovery"></span></div>
+            <span class="tiny muted">SUN</span><div class="row"><span class="sq sq-strength"></span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="tiny muted mb-1" style="text-transform:uppercase;letter-spacing:.06em;font-weight:700">Week 3 · 11–17 May</div>
+          <div style="display:grid;grid-template-columns: 60px 1fr;gap:8px 12px;align-items:center;font-size:13px">
+            <span class="tiny muted">MON</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-pickleball"></span></div>
+            <span class="tiny muted">TUE</span><div class="row"><span class="sq sq-recovery"></span></div>
+            <span class="tiny muted">WED</span><div class="row"><span class="sq sq-strength"></span><span class="sq sq-movement"></span></div>
+            <span style="font-weight:800;color:var(--brand);font-size:12px">THU</span><div class="row"><span class="sq sq-pickleball"></span></div>
+            <span class="tiny muted">FRI</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-recovery"></span></div>
+            <span class="tiny muted">SAT</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-pickleball"></span></div>
+            <span class="tiny muted">SUN</span><div class="row"><span class="sq sq-recovery"></span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="tiny muted mb-1" style="text-transform:uppercase;letter-spacing:.06em;font-weight:700">Week 4 · 18–24 May</div>
+          <div style="display:grid;grid-template-columns: 60px 1fr;gap:8px 12px;align-items:center;font-size:13px">
+            <span class="tiny muted">MON</span><div class="row"><span class="sq sq-strength"></span></div>
+            <span class="tiny muted">TUE</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-movement"></span></div>
+            <span class="tiny muted">WED</span><div class="row"><span class="sq sq-pickleball"></span></div>
+            <span class="tiny muted">THU</span><div class="row"><span class="sq sq-recovery"></span></div>
+            <span class="tiny muted">FRI</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-strength"></span></div>
+            <span class="tiny muted">SAT</span><div class="row"><span class="sq sq-pickleball"></span><span class="sq sq-pickleball"></span><span class="sq sq-recovery"></span></div>
+            <span class="tiny muted">SUN</span><div class="row"><span class="sq sq-movement"></span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Monthly Breakdown + Insight -->
+    <div style="display:grid;grid-template-columns: 1fr 1.4fr; gap:24px" class="mb-3">
+
+      <div class="card lift anim-up delay-3">
+        <div class="card-head"><h3>📊 Monthly Breakdown</h3></div>
+        <div class="stack num" style="font-family:var(--font-mono);font-size:14px">
+          <div class="row between"><span><span class="sq sq-pickleball"></span> Pickleball</span><strong>22 Sessions</strong></div>
+          <div class="row between"><span><span class="sq sq-strength"></span> Strength</span><strong>6 Sessions</strong></div>
+          <div class="row between"><span><span class="sq sq-movement"></span> Movement / Cardio</span><strong>7 Sessions</strong></div>
+          <div class="row between"><span><span class="sq sq-recovery"></span> Recovery</span><strong>9 Sessions</strong></div>
+        </div>
+
+        <hr class="divider" />
+
+        <div>
+          <div class="tiny muted mb-1">Visual Ratio Bar <em>(optional)</em></div>
+          <div style="display:flex; height:16px; border-radius:99px; overflow:hidden; border:1px solid var(--border)">
+            <div style="flex:22; background:var(--session-pickleball)"></div>
+            <div style="flex:6;  background:var(--session-strength)"></div>
+            <div style="flex:7;  background:var(--session-movement)"></div>
+            <div style="flex:9;  background:var(--session-recovery)"></div>
+          </div>
+          <div class="row between tiny muted num mt-2">
+            <span>50% PB</span>
+            <span>14% Strength</span>
+            <span>16% Movement</span>
+            <span>20% Recovery</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight anim-up delay-4" style="margin:0">
+        <div class="label">Monthly Balance Insight</div>
+        <div class="body">
+          Strong consistency with pickleball activity.<br /><br />
+          Recovery sessions improved during Weeks 3–4.<br />
+          Strength work remained lighter than court volume.<br /><br />
+          Movement profile shows good variety and improved balance across the month.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Records + skill movement + match record -->
+    <div style="display:grid;grid-template-columns: 1fr 1fr 1fr; gap:24px">
+
+      <div class="card lift anim-up delay-5">
+        <div class="card-head"><h3>🏅 Personal Records</h3></div>
+        <div class="stack">
+          <div class="row between"><div><strong>Longest streak</strong><div class="tiny muted">May 11 – May 16</div></div><span class="badge badge-green">6 days 🔥</span></div>
+          <hr class="divider" />
+          <div class="row between"><div><strong>Biggest week</strong><div class="tiny muted">Week 3 · 9.5 hours</div></div><span class="badge badge-blue">PR</span></div>
+          <hr class="divider" />
+          <div class="row between"><div><strong>Most matches</strong><div class="tiny muted">Week 4 · 3 played</div></div><span class="badge badge-purple">High</span></div>
+        </div>
+      </div>
+
+      <div class="card lift anim-up delay-6">
+        <div class="card-head"><h3>⚡ Skill Movements</h3><a class="more" href="matrix.html">Matrix →</a></div>
+        <div class="stack tiny">
+          <div class="row between"><strong>Backhand Block Volley</strong><span class="badge badge-green num">3.8 → 4.1 ▲</span></div>
+          <div class="row between"><strong>Reset</strong><span class="badge badge-green num">3.7 → 4.0 ▲</span></div>
+          <div class="row between"><strong>Return of Serve</strong><span class="badge badge-amber num">4.0 → 4.0 →</span></div>
+          <div class="row between"><strong>Lob Volley</strong><span class="badge badge-green num">3.5 → 3.7 ▲</span></div>
+        </div>
+      </div>
+
+      <div class="card lift anim-up delay-7">
+        <div class="card-head"><h3>🏆 Match Record</h3><a class="more" href="performance.html">Performance →</a></div>
+        <div class="row between"><span class="num"><strong>9</strong> played</span><span class="badge badge-green">6 W</span><span class="badge badge-red">3 L</span></div>
+        <hr class="divider" />
+        <div class="tiny muted">Win rate: <strong style="color:var(--success);font-size:18px;font-family:var(--font-display)">67%</strong> · Up from 50% in April</div>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

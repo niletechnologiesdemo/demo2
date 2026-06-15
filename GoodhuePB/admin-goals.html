@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Goals — GoodhuePB Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use3.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Goals</strong></span>
+  <span>Per-student goal assignment</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill active"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-skills.html" class="nav-pill"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <a href="admin-goal-create.html" class="top-cta">＋ <span class="label">Assign Goal</span></a>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / Goals</div>
+        <h1>Goals</h1>
+        <p class="sub">87 active goals assigned across students</p>
+      </div>
+      <div class="right">
+        <a href="admin-goal-create.html" class="btn btn-primary">＋ Assign Goal</a>
+      </div>
+    </header>
+
+    <div class="kpi-grid">
+      <div class="kpi kpi-pickleball anim-up delay-1"><div class="label">Active Goals</div><div class="value num">87</div></div>
+      <div class="kpi kpi-strength anim-up delay-2"><div class="label">On Track</div><div class="value num">62</div><div class="delta up">71%</div></div>
+      <div class="kpi kpi-recovery anim-up delay-3"><div class="label">At Risk</div><div class="value num">14</div><div class="delta down">16%</div></div>
+      <div class="kpi kpi-movement anim-up delay-4"><div class="label">Completed (mo)</div><div class="value num">23</div><div class="delta up">▲ +5 vs Apr</div></div>
+    </div>
+
+    <div class="card lift anim-up delay-2 mb-3">
+      <div class="row" style="gap:12px;flex-wrap:wrap">
+        <div class="input-icon" style="flex:1;min-width:240px">
+          <span class="ico">🔍</span>
+          <input class="input" placeholder="Search student or goal title" />
+        </div>
+        <select class="input" style="max-width:150px"><option>All types</option><option>Skill</option><option>Match</option><option>Fitness</option><option>Custom</option></select>
+        <select class="input" style="max-width:150px"><option>All status</option><option>On track</option><option>At risk</option><option>Completed</option></select>
+        <button class="btn btn-secondary">Apply</button>
+      </div>
+    </div>
+
+    <div class="card lift anim-up delay-3">
+      <table class="table" style="border:0">
+        <thead><tr><th>Student</th><th>Goal</th><th>Type</th><th>Target</th><th>Progress</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="row"><div class="avatar" style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#7C3AED);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700">AC</div><strong>Alex Chen</strong></div></td>
+            <td>Master the 3rd-Shot Drop</td>
+            <td><span class="chip"><span class="dot dot-pickleball"></span> Skill</span></td>
+            <td class="tiny num">Jun 30, 2026</td>
+            <td><div style="width:150px;height:8px;background:#DBEAFE;border-radius:99px;position:relative;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:65%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px"></div></div><span class="tiny muted num">65%</span></td>
+            <td><span class="badge badge-green">On track</span></td>
+            <td class="actions"><a href="admin-goal-create.html" class="btn btn-ghost btn-sm">Edit</a><button class="btn btn-ghost btn-sm" style="color:var(--danger)">✕</button></td>
+          </tr>
+          <tr>
+            <td><div class="row"><div class="avatar" style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#7C3AED);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700">AC</div><strong>Alex Chen</strong></div></td>
+            <td>BH 2-handed volley — consistency</td>
+            <td><span class="chip"><span class="dot dot-pickleball"></span> Skill</span></td>
+            <td class="tiny num">Jun 10, 2026</td>
+            <td><div style="width:150px;height:8px;background:#DBEAFE;border-radius:99px;position:relative;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:40%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px"></div></div><span class="tiny muted num">40%</span></td>
+            <td><span class="badge badge-amber">In progress</span></td>
+            <td class="actions"><a href="admin-goal-create.html" class="btn btn-ghost btn-sm">Edit</a><button class="btn btn-ghost btn-sm" style="color:var(--danger)">✕</button></td>
+          </tr>
+          <tr>
+            <td><div class="row"><div class="avatar" style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#EC4899,#A855F7);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700">PR</div><strong>Priya Raj</strong></div></td>
+            <td>Improve Return of Serve consistency</td>
+            <td><span class="chip"><span class="dot dot-pickleball"></span> Skill</span></td>
+            <td class="tiny num">Jul 15, 2026</td>
+            <td><div style="width:150px;height:8px;background:#DBEAFE;border-radius:99px;position:relative;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:55%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px"></div></div><span class="tiny muted num">55%</span></td>
+            <td><span class="badge badge-green">On track</span></td>
+            <td class="actions"><a href="admin-goal-create.html" class="btn btn-ghost btn-sm">Edit</a><button class="btn btn-ghost btn-sm" style="color:var(--danger)">✕</button></td>
+          </tr>
+          <tr>
+            <td><div class="row"><div class="avatar" style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#22C55E,#16A34A);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700">JD</div><strong>Jamie Davies</strong></div></td>
+            <td>Win 5 tournament matches</td>
+            <td><span class="chip"><span class="dot dot-pickleball"></span> Match</span></td>
+            <td class="tiny num">Sep 1, 2026</td>
+            <td><div style="width:150px;height:8px;background:#FED7AA;border-radius:99px;position:relative;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:20%;background:linear-gradient(90deg,var(--session-recovery),var(--warning));border-radius:99px"></div></div><span class="tiny muted num">20%</span></td>
+            <td><span class="badge badge-red">At risk</span></td>
+            <td class="actions"><a href="admin-goal-create.html" class="btn btn-ghost btn-sm">Edit</a><button class="btn btn-ghost btn-sm" style="color:var(--danger)">✕</button></td>
+          </tr>
+          <tr>
+            <td><div class="row"><div class="avatar" style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#0EA5E9,#1E40AF);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700">CB</div><strong>Casey Brown</strong></div></td>
+            <td>Daily 10-min mobility</td>
+            <td><span class="chip"><span class="dot dot-movement"></span> Custom</span></td>
+            <td class="tiny">Ongoing</td>
+            <td><div style="width:150px;height:8px;background:#DCFCE7;border-radius:99px;position:relative;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:80%;background:linear-gradient(90deg,var(--success),#15803D);border-radius:99px"></div></div><span class="tiny muted num">80%</span></td>
+            <td><span class="badge badge-green">On track</span></td>
+            <td class="actions"><a href="admin-goal-create.html" class="btn btn-ghost btn-sm">Edit</a><button class="btn btn-ghost btn-sm" style="color:var(--danger)">✕</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>New Appointment — GoodhuePB Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use4.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Create Appointment</strong></span>
+  <span>Session type cards · student multi-select · sync options</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill active"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-skills.html" class="nav-pill"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / <a href="admin-schedule.html">Schedule</a> / New</div>
+        <h1>New Appointment</h1>
+      </div>
+      <div class="right">
+        <a href="admin-schedule.html" class="btn btn-secondary">Cancel</a>
+        <a href="admin-schedule.html" class="btn btn-primary">Create Appointment</a>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
+
+      <div class="stack">
+
+        <div class="card lift anim-up delay-1">
+          <h3>Session Type</h3>
+          <hr class="divider" />
+          <div class="session-types" style="grid-template-columns: repeat(4, 1fr)">
+            <div class="session-type t-pickleball selected">
+              <div class="swatch"></div><div class="name">Private Lesson</div><div class="sub">1-on-1 with a coach</div>
+            </div>
+            <div class="session-type t-strength">
+              <div class="swatch"></div><div class="name">Group Clinic</div><div class="sub">2–8 players</div>
+            </div>
+            <div class="session-type t-movement">
+              <div class="swatch"></div><div class="name">Practice Session</div><div class="sub">Self-directed</div>
+            </div>
+            <div class="session-type t-recovery">
+              <div class="swatch"></div><div class="name">Other</div><div class="sub">Custom session</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-2">
+          <h3>Basic Info</h3>
+          <hr class="divider" />
+          <div class="field"><label>Title *</label><input class="input" value="Drop Shot Private — Alex" /></div>
+          <div class="grid-2">
+            <div class="field"><label>Date * <span style="text-transform:none;color:var(--text-subtle);font-weight:400">(MM/DD/YYYY)</span></label><input class="input" type="text" placeholder="MM/DD/YYYY" value="05/15/2026" /></div>
+            <div class="field"><label>Duration</label><select class="input"><option>30 min</option><option selected>60 min</option><option>90 min</option><option>120 min</option></select></div>
+            <div class="field"><label>Start time *</label><input class="input" type="time" value="09:00" /></div>
+            <div class="field"><label>End time *</label><input class="input" type="time" value="10:00" /></div>
+          </div>
+          <div class="field"><label>Location *</label>
+            <select class="input">
+              <option selected>Evergreen</option>
+              <option>White Mountain Pickleball Club</option>
+              <option>Lancaster</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <h3>Students</h3>
+          <hr class="divider" />
+          <div class="field">
+            <label>Assigned students *</label>
+            <div class="input-icon mb-2">
+              <span class="ico">🔍</span>
+              <input class="input" placeholder="Search students by name…" />
+            </div>
+            <select class="input" multiple style="min-height:140px">
+              <option selected>Alex Chen — alex.chen@example.com</option>
+              <option>Priya Raj</option>
+              <option>Jamie Davies</option>
+              <option>Drew Conway</option>
+              <option>Casey Brown</option>
+              <option>Tom Mitchell</option>
+            </select>
+            <span class="hint">Type to filter the list, then hold ⌘ / Ctrl to multi-select.</span>
+          </div>
+          <div class="row wrap" style="gap:6px">
+            <span class="chip active">Alex Chen ✕</span>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-4">
+          <h3>Session Details</h3>
+          <hr class="divider" />
+          <div class="field">
+            <label>Skill Focus <span style="text-transform:none;color:var(--text-subtle);font-weight:400">(from Skill Matrix)</span></label>
+            <select class="input" multiple style="min-height:96px">
+              <option selected>Volley — Backhand Block</option>
+              <option selected>Reset</option>
+              <option>Return of Serve</option>
+              <option>3rd-Shot Drop</option>
+              <option>Dink — Backhand</option>
+              <option>Serve</option>
+              <option>Lob</option>
+              <option>Strategy — Court Geometry</option>
+            </select>
+            <span class="hint">Hold ⌘ / Ctrl to pick multiple. Options are pulled from the Skill Matrix catalog.</span>
+          </div>
+          <div class="field">
+            <label>Session goals</label>
+            <textarea class="input" rows="3" placeholder="What you want the player to walk away with…"></textarea>
+            <div class="mic-row">
+              <button type="button" class="mic-btn" data-label="Speak"><span class="mic-icon">🎤</span><span class="mic-label">Speak</span></button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Equipment &amp; materials</label>
+            <input class="input" placeholder="Paddles, balls, cones, video tripod…" />
+            <div class="mic-row">
+              <button type="button" class="mic-btn" data-label="Speak"><span class="mic-icon">🎤</span><span class="mic-label">Speak</span></button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Additional notes</label>
+            <textarea class="input" rows="3" placeholder="Anything else relevant…"></textarea>
+            <div class="mic-row">
+              <button type="button" class="mic-btn" data-label="Speak"><span class="mic-icon">🎤</span><span class="mic-label">Speak</span></button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack">
+
+        <div class="card lift anim-up delay-2">
+          <h3>Options</h3>
+          <hr class="divider" />
+          <div class="stack">
+            <label class="switch"><input type="checkbox" checked /> Send confirmation email to students</label>
+            <label class="switch"><input type="checkbox" checked /> Sync with Google Calendar</label>
+            <label class="switch"><input type="checkbox" /> Send SMS reminder 1 hour before</label>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <h3>Coach</h3>
+          <select class="input mt-2">
+            <option selected>Mike Stevens (you)</option>
+            <option>Alex Wong</option>
+            <option>Sarah Park</option>
+          </select>
+        </div>
+
+        <div class="card-grad anim-up delay-4">
+          <strong style="font-family:var(--font-display);font-size:16px">📅 Google Calendar</strong>
+          <div class="tiny muted">coach.mike@goodhuepb.com</div>
+          <div class="row mt-2"><span class="badge badge-green"><span class="live-dot" style="margin-right:4px"></span>Connected</span></div>
+          <p class="muted tiny mt-2">Event will be created with students added as guests.</p>
+        </div>
+
+        <div class="card lift anim-up delay-5">
+          <h3>Preview</h3>
+          <div class="row mt-2" style="gap:10px;align-items:flex-start">
+            <div style="width:5px;align-self:stretch;background:linear-gradient(180deg,var(--session-pickleball),var(--brand));border-radius:99px;height:60px"></div>
+            <div>
+              <strong style="font-family:var(--font-display)">Drop Shot Private — Alex</strong>
+              <div class="tiny muted num">15 May · 9:00 – 10:00 AM</div>
+              <div class="tiny muted">Court 5 · Mike Stevens</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Matrix Utilization — GoodhuePB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use5.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Matrix Utilization</strong> &nbsp; · &nbsp; <span class="badge badge-amber" style="vertical-align:middle">REDESIGNED</span></span>
+  <span>Tighter rows · current → target sliders · 🎤 Log + ▶ Video per row.</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="dashboard.html" class="nav-pill"><span class="ico">🏠</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="add-session.html" class="nav-pill"><span class="ico">＋</span>Sessions ▾</a>
+        <div class="nav-menu">
+          <a href="add-session.html"><span class="ico">＋</span>Add Session</a>
+          <a href="session-history.html"><span class="ico">📜</span>Session History</a>
+          <a href="summary-daily.html"><span class="ico">📊</span>Daily Summary</a>
+          <a href="summary-weekly.html"><span class="ico">📈</span>Weekly Summary</a>
+          <a href="summary-monthly.html"><span class="ico">📅</span>Monthly Summary</a>
+        </div>
+      </div>
+      <div class="nav-pill-drop">
+        <a href="matrix.html" class="nav-pill active"><span class="ico">⚡</span>Training ▾</a>
+        <div class="nav-menu">
+          <a href="matrix.html"><span class="ico">⚡</span>Matrix Utilization</a>
+          <a href="the-drop.html"><span class="ico">▶</span>The Drop</a>
+          <a href="goals.html"><span class="ico">🎯</span>Goals</a>
+          <a href="notes.html"><span class="ico">📝</span>Notes</a>
+        </div>
+      </div>
+      <a href="schedule-list.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
+      <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <a href="add-session.html" class="top-cta">＋ <span class="label">Add Session</span></a>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="profile.html" class="user-chip"><div class="avatar">A</div><span class="name">Alex</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb">Pickleball Interactive Skill Matrix · your virtual coach for progression and competency tracking</div>
+        <h1>Matrix Utilization</h1>
+      </div>
+    </header>
+
+    <!-- Overall + Focus -->
+    <div style="display:grid;grid-template-columns: 1fr 1.6fr; gap:24px" class="mb-3">
+      <div class="card lift anim-up delay-1">
+        <div class="row between" style="align-items:center">
+          <div>
+            <div class="tiny muted">Overall Skill Level</div>
+            <div class="row mt-1" style="gap:12px;align-items:flex-end">
+              <strong class="num" style="font-family:var(--font-display);font-size:54px;line-height:1;letter-spacing:-0.03em;font-variation-settings:'opsz' 96,'wght' 800;background:linear-gradient(135deg,var(--brand),var(--accent-violet));-webkit-background-clip:text;background-clip:text;color:transparent">4.0</strong>
+              <span class="badge badge-blue" style="margin-bottom:8px">Intermediate</span>
+            </div>
+          </div>
+          <span class="anim-float" style="font-size:40px;opacity:.6">📈</span>
+        </div>
+        <hr class="divider" />
+        <div class="row" style="gap:4px;flex-wrap:wrap">
+          <span class="badge badge-gray num">2.5</span>
+          <span class="badge badge-gray num">3.0</span>
+          <span class="badge badge-gray num">3.5</span>
+          <span class="badge badge-grad num">4.0</span>
+          <span class="badge badge-gray num">4.5</span>
+          <span class="badge badge-gray num">5.0</span>
+        </div>
+      </div>
+
+      <div class="card-grad anim-up delay-2">
+        <div class="row" style="align-items:flex-start;gap:18px">
+          <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--brand-soft),#FAE8FF);color:var(--brand);display:grid;place-items:center;font-size:22px;flex-shrink:0">🎯</div>
+          <div style="flex:1">
+            <div class="tiny muted">Focus Area · this month</div>
+            <strong style="font-family:var(--font-display);font-size:18px;display:block;margin-top:2px">Serve · Return of Serve · Volley — Backhand Block</strong>
+            <p class="muted tiny mt-2">Your coach has set these as priority skills. Sessions covering them weight your Matrix updates more heavily.</p>
+            <button class="btn btn-secondary btn-sm mt-2">Edit Focus</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View tabs -->
+    <div class="drop-tabs anim-up delay-3">
+      <button class="active">⚡ Actively Improving · 3</button>
+      <button>All Skills · 36</button>
+      <button>By Category</button>
+      <button>Goals</button>
+    </div>
+
+    <!-- Two col: Actively Improving + sidebar -->
+    <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
+
+      <div class="card lift anim-up delay-3">
+        <div class="row between mb-2">
+          <strong style="display:flex;align-items:center;gap:8px;color:var(--success);font-family:var(--font-display);font-size:18px">⚡ Actively Improving</strong>
+          <span class="badge badge-green anim-glow-dot">3</span>
+        </div>
+
+        <div class="matrix-row">
+          <div>
+            <div class="name">Return of Serve</div>
+            <div class="tiny" style="color:var(--success)">↑ 3 days ago</div>
+            <div class="progress">
+              <div class="fill" style="--p:.65; width:65%"></div>
+              <div class="target" style="left:85%"></div>
+            </div>
+            <div class="row between tiny muted num">
+              <span>2.0</span><span>3.0</span><span>4.0</span><span>5.0</span>
+            </div>
+          </div>
+          <div class="nums center">
+            <div><span class="from num">4.0</span> <span style="color:var(--text-muted);font-size:18px">→</span></div>
+            <div class="tiny"><span class="to num" style="color:var(--brand);font-weight:700;font-size:14px">4.5</span> <span class="muted">target</span></div>
+          </div>
+          <div class="ctrls">
+            <a href="add-session.html" class="btn btn-secondary">🎤 Log</a>
+            <a href="the-drop.html" class="btn btn-primary">▶ Video</a>
+          </div>
+        </div>
+
+        <div class="matrix-row">
+          <div>
+            <div class="name">BH 2-Handed Topspin Roll (Transition)</div>
+            <div class="tiny" style="color:var(--success)">↑ 3 days ago</div>
+            <div class="progress">
+              <div class="fill" style="--p:.6; width:60%"></div>
+              <div class="target" style="left:80%"></div>
+            </div>
+            <div class="row between tiny muted num">
+              <span>2.0</span><span>3.0</span><span>4.0</span><span>5.0</span>
+            </div>
+          </div>
+          <div class="nums center">
+            <div><span class="from num">4.0</span> <span style="color:var(--text-muted);font-size:18px">→</span></div>
+            <div class="tiny"><span class="to num" style="color:var(--brand);font-weight:700;font-size:14px">4.3</span> <span class="muted">target</span></div>
+          </div>
+          <div class="ctrls">
+            <a href="add-session.html" class="btn btn-secondary">🎤 Log</a>
+            <a href="the-drop.html" class="btn btn-primary">▶ Video</a>
+          </div>
+        </div>
+
+        <div class="matrix-row">
+          <div>
+            <div class="name">Lob Volley</div>
+            <div class="tiny" style="color:var(--success)">↑ 3 days ago</div>
+            <div class="progress">
+              <div class="fill" style="--p:.5; width:50%"></div>
+              <div class="target" style="left:70%"></div>
+            </div>
+            <div class="row between tiny muted num">
+              <span>2.0</span><span>3.0</span><span>4.0</span><span>5.0</span>
+            </div>
+          </div>
+          <div class="nums center">
+            <div><span class="from num">3.7</span> <span style="color:var(--text-muted);font-size:18px">→</span></div>
+            <div class="tiny"><span class="to num" style="color:var(--brand);font-weight:700;font-size:14px">4.0</span> <span class="muted">target</span></div>
+          </div>
+          <div class="ctrls">
+            <a href="add-session.html" class="btn btn-secondary">🎤 Log</a>
+            <a href="the-drop.html" class="btn btn-primary">▶ Video</a>
+          </div>
+        </div>
+
+        <div class="row between mt-2 tiny">
+          <span class="row" style="gap:10px">
+            <span class="row" style="gap:6px"><span style="width:12px;height:12px;background:linear-gradient(135deg,var(--brand),var(--accent-violet));border-radius:99px"></span> Current</span>
+            <span class="row" style="gap:6px"><span style="display:inline-block;width:12px;height:12px;border:2px solid var(--session-recovery);background:#fff;border-radius:99px"></span> Target</span>
+          </span>
+          <a class="more" href="add-session.html">Update ratings →</a>
+        </div>
+      </div>
+
+      <div class="stack">
+
+        <div class="card lift anim-up delay-4">
+          <div class="card-head"><h3>🎯 My Goals</h3><a class="more" href="goal-create.html">+ New</a></div>
+          <div class="stack">
+            <div>
+              <strong style="font-size:14px;font-family:var(--font-display)">More topspin, lighter grip on all shots</strong>
+              <div class="tiny muted">Target: Jun 30, 2026</div>
+            </div>
+            <hr class="divider" />
+            <div>
+              <strong style="font-size:14px;font-family:var(--font-display)">2-handed backhand volley</strong>
+              <div class="tiny muted">Target: Jun 10, 2026</div>
+            </div>
+            <hr class="divider" />
+            <div>
+              <strong style="font-size:14px;font-family:var(--font-display)">15 men's push-ups</strong>
+              <div class="tiny muted">Fitness · Feb 22, 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-5">
+          <div class="card-head"><h3>⚠ Stagnant</h3><span class="badge badge-gray">2</span></div>
+          <p class="muted tiny mb-2">No improvement in 30+ days.</p>
+          <div class="stack tiny">
+            <div class="row between"><strong>Overhead</strong><span class="badge badge-gray num">4.0</span></div>
+            <div class="row between"><strong>Drop — Push</strong><span class="badge badge-gray num">3.5</span></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Competency Breakdown -->
+    <div class="card lift mt-3 anim-up delay-6">
+      <div class="card-head"><h3>⚡ Competency Breakdown</h3><span class="tiny muted">All 36 skills</span></div>
+
+      <div style="display:grid;grid-template-columns: repeat(2, 1fr); gap:18px 32px">
+
+        <div>
+          <div class="row between mb-1"><strong>Serve</strong><span class="badge badge-blue num">4.0</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:80%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Lob</strong><span class="badge badge-blue num">3.5</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:70%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Return of Serve</strong><span class="badge badge-green num">4.0 ▲</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:80%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Volley</strong><span class="badge badge-blue num">3.8</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:76%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Drop</strong><span class="badge badge-amber num">3.5</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:70%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Reset</strong><span class="badge badge-green num">4.0 ▲</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:80%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Roll</strong><span class="badge badge-blue num">3.8</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:76%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>2H Backhand Attack (NVZ)</strong><span class="badge badge-blue num">3.5</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:70%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Dink</strong><span class="badge badge-blue num">4.0</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:80%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Drive</strong><span class="badge badge-blue num">3.5</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:70%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Flick</strong><span class="badge badge-blue num">3.5</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:70%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Overhead</strong><span class="badge badge-blue num">4.0</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:80%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Strategy</strong><span class="badge badge-blue num">3.8</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:76%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+        <div>
+          <div class="row between mb-1"><strong>Lob Volley</strong><span class="badge badge-green num">3.7 ▲</span></div>
+          <div style="position:relative;height:8px;background:#DBEAFE;border-radius:99px;overflow:hidden"><div style="position:absolute;left:0;top:0;bottom:0;width:74%;background:linear-gradient(90deg,var(--brand),var(--accent-violet));border-radius:99px;animation:progress-fill var(--d-slow) var(--ease-out-quart) both;transform-origin:left"></div></div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

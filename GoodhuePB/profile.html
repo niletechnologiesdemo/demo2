@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Profile — GoodhuePB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use5.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Profile</strong></span>
+  <span>Photo · profile links · skill focus · bio.</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="dashboard.html" class="nav-pill"><span class="ico">🏠</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="add-session.html" class="nav-pill"><span class="ico">＋</span>Sessions ▾</a>
+        <div class="nav-menu">
+          <a href="add-session.html"><span class="ico">＋</span>Add Session</a>
+          <a href="session-history.html"><span class="ico">📜</span>Session History</a>
+          <a href="summary-daily.html"><span class="ico">📊</span>Daily Summary</a>
+          <a href="summary-weekly.html"><span class="ico">📈</span>Weekly Summary</a>
+          <a href="summary-monthly.html"><span class="ico">📅</span>Monthly Summary</a>
+        </div>
+      </div>
+      <div class="nav-pill-drop">
+        <a href="matrix.html" class="nav-pill"><span class="ico">⚡</span>Training ▾</a>
+        <div class="nav-menu">
+          <a href="matrix.html"><span class="ico">⚡</span>Matrix Utilization</a>
+          <a href="the-drop.html"><span class="ico">▶</span>The Drop</a>
+          <a href="goals.html"><span class="ico">🎯</span>Goals</a>
+          <a href="notes.html"><span class="ico">📝</span>Notes</a>
+        </div>
+      </div>
+      <a href="schedule-list.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
+      <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="profile.html" class="user-chip" style="background:var(--brand-soft);border-color:var(--brand)"><div class="avatar">A</div><span class="name">Alex</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb">Member since Oct 2025 · Skill rating 4.0</div>
+        <h1>Profile</h1>
+      </div>
+      <div class="right">
+        <a href="login.html" class="btn btn-ghost" style="color:var(--danger)">Logout</a>
+        <button class="btn btn-primary">Save Changes</button>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns: 1fr 2fr; gap:24px">
+
+      <div class="stack">
+
+        <div class="card lift center anim-up delay-1">
+          <div style="position:relative;width:160px;height:160px;margin:0 auto 16px">
+            <div style="width:160px;height:160px;border-radius:50%;background:linear-gradient(135deg,var(--accent-pink),var(--accent-violet),var(--brand));color:#fff;font-family:var(--font-display);font-size:64px;display:grid;place-items:center;font-weight:800;box-shadow:0 12px 32px -8px rgba(124,58,237,.5)">A</div>
+            <button class="btn btn-primary btn-sm" style="position:absolute;bottom:4px;right:4px;border-radius:50%;width:42px;height:42px;padding:0;font-size:18px">📷</button>
+          </div>
+          <h2 style="margin:0;font-size:28px">Alex Chen</h2>
+          <div class="muted tiny">alex.chen@example.com</div>
+          <div class="row mt-2" style="justify-content:center;gap:6px">
+            <span class="badge badge-grad num">4.0 · Intermediate</span>
+            <span class="badge badge-purple">Premium</span>
+          </div>
+          <button class="btn btn-secondary btn-sm mt-2">Upload Photo</button>
+          <p class="muted tiny mt-2">JPG / PNG · max 5MB · square crop recommended</p>
+        </div>
+
+        <div class="card lift anim-up delay-2">
+          <h3>🔗 External Profiles</h3>
+          <hr class="divider" />
+          <div class="field">
+            <label>DUPR profile</label>
+            <input class="input" placeholder="https://dupr.com/profile/…" value="https://dupr.com/profile/alex-chen" />
+          </div>
+          <div class="field">
+            <label>Pickleheads profile</label>
+            <input class="input" placeholder="https://pickleheads.com/…" />
+          </div>
+          <div class="field">
+            <label>Pickleball Brackets profile</label>
+            <input class="input" placeholder="https://pickleballbrackets.com/…" />
+          </div>
+          <details>
+            <summary class="muted tiny" style="cursor:pointer">+ Add another profile URL</summary>
+            <div class="mt-2">
+              <div class="row" style="gap:6px"><input class="input" placeholder="Label" style="flex:1"/><input class="input" placeholder="URL" style="flex:2"/><button class="btn btn-ghost btn-sm">✕</button></div>
+              <button class="btn btn-secondary btn-sm mt-2">+ Add row</button>
+            </div>
+          </details>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <h3>⚙ Account</h3>
+          <div class="stack mt-2">
+            <button class="btn btn-secondary btn-block">Change password</button>
+            <button class="btn btn-secondary btn-block">Notification preferences</button>
+            <button class="btn btn-secondary btn-block">Connected apps (Google)</button>
+            <button class="btn btn-ghost btn-block" style="color:var(--danger)">Delete account</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack">
+
+        <div class="card lift anim-up delay-1">
+          <h3>Basic Information</h3>
+          <hr class="divider" />
+          <div class="grid-2">
+            <div class="field"><label>Name</label><input class="input" value="Alex Chen" /></div>
+            <div class="field"><label>Email</label><input class="input" type="email" value="alex.chen@example.com" /></div>
+            <div class="field"><label>Phone</label><input class="input" type="tel" value="+61 412 345 678" /></div>
+            <div class="field"><label>Date of birth</label><input class="input" type="date" value="1992-08-14" /></div>
+            <div class="field"><label>Address</label><input class="input" value="Sydney, NSW" /></div>
+            <div class="field"><label>Join date</label><input class="input" type="date" value="2025-10-12" disabled /></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label>Emergency contact name</label><input class="input" placeholder="Name" /></div>
+            <div class="field"><label>Emergency contact phone</label><input class="input" type="tel" placeholder="+61…" /></div>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-2">
+          <h3>⚡ Skill &amp; Performance</h3>
+          <hr class="divider" />
+          <div class="field">
+            <label>Current focus skills · Matrix Utilization</label>
+            <div class="row wrap" style="gap:6px">
+              <span class="chip active">Volley — Backhand Block ✓</span>
+              <span class="chip active">Return of Serve ✓</span>
+              <span class="chip active">Reset ✓</span>
+              <span class="chip">3rd-Shot Drop</span>
+              <span class="chip">Serve — Lob</span>
+              <span class="chip">Dink — Backhand</span>
+              <span class="chip muted">+ 30 more</span>
+            </div>
+            <span class="hint">Tap chips to add or remove. Coach can override this.</span>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label>Skill rating</label>
+              <select class="input" disabled>
+                <option>4.0 · Intermediate</option>
+              </select>
+              <span class="hint">Coach-managed. Updates as you progress through Matrix Utilization.</span>
+            </div>
+            <div class="field">
+              <label>Preferred coach</label>
+              <select class="input">
+                <option selected>Coach Mike</option>
+                <option>Coach Alex</option>
+                <option>Coach Sarah</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <h3>📝 Bio</h3>
+          <hr class="divider" />
+          <textarea class="input" rows="5" placeholder="Tell coaches a bit about your goals, playing style, and what you're working on…">Lifelong tennis player, picked up pickleball 18 months ago. Focused on transition game and consistency at 4.0+. Available evenings &amp; weekends. Tournament-bound for Sydney Open 2026.</textarea>
+        </div>
+
+        <div class="card lift anim-up delay-4">
+          <h3>🔒 Privacy</h3>
+          <hr class="divider" />
+          <div class="stack">
+            <label class="switch"><input type="checkbox" checked /> Allow my coach to see my session history</label>
+            <label class="switch"><input type="checkbox" checked /> Show my progress on the studio leaderboard</label>
+            <label class="switch"><input type="checkbox" /> Make my profile discoverable for tournament partners</label>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

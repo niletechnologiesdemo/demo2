@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Add Tournament — GoodhuePB Coach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use4.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Create / Edit Tournament</strong></span>
+  <span>All fields covered</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill active"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-skills.html" class="nav-pill"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / <a href="admin-tournaments.html">Tournaments</a> / Add</div>
+        <h1>Add Tournament</h1>
+      </div>
+      <div class="right">
+        <a href="admin-tournaments.html" class="btn btn-secondary">Cancel</a>
+        <a href="admin-tournaments.html" class="btn btn-primary">Save Tournament</a>
+      </div>
+    </header>
+
+    <p class="muted anim-up delay-1 mb-3" style="max-width:720px">Tournaments are lightweight — capture just enough to make an attractive card in the student app, then drop in the official registration link. Students tap the card and are redirected to register on the organiser's site.</p>
+
+    <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
+
+      <div class="stack">
+
+        <!-- The redirect link — hero field -->
+        <div class="card-grad anim-up delay-1">
+          <h3 style="font-family:var(--font-display);font-size:18px">🔗 Registration Link</h3>
+          <p class="muted tiny mt-1 mb-2">The official tournament URL. This is where students go when they tap "Register" on the card.</p>
+          <div class="input-icon">
+            <span class="ico">🔗</span>
+            <input class="input" type="url" placeholder="https://organiser.com/sydney-open-2026" style="font-size:15px" />
+          </div>
+          <label class="switch mt-2"><input type="checkbox" checked /> Open in a new tab</label>
+        </div>
+
+        <!-- Basic info -->
+        <div class="card lift anim-up delay-2">
+          <h3>Basic Info</h3>
+          <hr class="divider" />
+          <div class="field"><label>Tournament name *</label><input class="input" placeholder="e.g. Sydney Open 2026" /></div>
+          <div class="field"><label>Organiser</label><input class="input" placeholder="Sydney Open Pickleball Inc." /></div>
+          <div class="grid-2">
+            <div class="field"><label>Start date *</label><input class="input" type="date" /></div>
+            <div class="field"><label>End date</label><input class="input" type="date" /></div>
+            <div class="field"><label>City *</label><input class="input" placeholder="Sydney, NSW" /></div>
+            <div class="field"><label>Venue</label><input class="input" placeholder="Sydney Olympic Park" /></div>
+          </div>
+          <div class="grid-2">
+            <div class="field"><label>Type</label><select class="input"><option>Singles</option><option>Doubles</option><option>Mixed Doubles</option><option>Multiple divisions</option></select></div>
+            <div class="field"><label>Skill level</label><select class="input"><option>Beginner</option><option>Intermediate</option><option selected>Advanced</option><option>Open</option><option>All levels</option></select></div>
+            <div class="field"><label>Entry fee</label><input class="input" placeholder="$85 AUD" /></div>
+            <div class="field"><label>Registration closes</label><input class="input" type="date" /></div>
+          </div>
+          <div class="field"><label>Short description <span style="text-transform:none;color:var(--text-subtle)">(optional)</span></label><textarea class="input" rows="2" placeholder="One line shown on the card"></textarea></div>
+        </div>
+
+      </div>
+
+      <div class="stack">
+
+        <div class="card lift anim-up delay-2">
+          <h3>Cover Image</h3>
+          <div class="mt-2" style="border:2px dashed var(--border-strong);border-radius:var(--r-lg);padding:24px;text-align:center;background:var(--surface-alt)">
+            <div style="font-size:32px">🖼</div>
+            <strong>Upload tournament image</strong>
+            <div class="muted tiny mt-1">JPG/PNG/WebP · max 2MB</div>
+            <button class="btn btn-secondary btn-sm mt-2">Choose File</button>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <h3>Card Preview</h3>
+          <div class="card mt-2" style="padding:0;overflow:hidden">
+            <div class="tourney-cover thumb-pb-1" style="height:120px"><span class="tag">Advanced</span></div>
+            <div style="padding:14px">
+              <strong style="font-family:var(--font-display)">Sydney Open 2026</strong>
+              <div class="tiny muted num">22–24 May · Sydney Olympic Park</div>
+              <button class="btn btn-primary btn-block btn-sm mt-2">Register →</button>
+            </div>
+          </div>
+          <p class="muted tiny mt-2 center">Tapping "Register" opens the link you set above.</p>
+        </div>
+
+        <div class="card lift anim-up delay-4">
+          <h3>Visibility</h3>
+          <div class="stack mt-2">
+            <label class="switch"><input type="checkbox" checked /> Publish to student app</label>
+            <label class="switch"><input type="checkbox" /> Feature on student dashboard</label>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Coach Profile — GoodhuePB</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body class="has-bg-image" style="--page-bg: url('img/Use5.png')">
+
+<div class="wf-banner">
+  <span><a href="index.html">← Sitemap</a> &nbsp; · &nbsp; <strong>Admin · Coach Profile</strong></span>
+  <span>Avatar · password change · Google Calendar · notifications</span>
+</div>
+
+<div class="app-top">
+
+  <nav class="top-nav">
+    <a href="admin-dashboard.html" class="brand">
+      <img src="logo.svg" alt="GoodhuePB" class="brand-mark" />
+    </a>
+    <div class="nav-pills">
+      <a href="admin-dashboard.html" class="nav-pill"><span class="ico">📊</span>Dashboard</a>
+      <div class="nav-pill-drop">
+        <a href="admin-students.html" class="nav-pill"><span class="ico">👥</span>Students ▾</a>
+        <div class="nav-menu">
+          <a href="admin-students.html"><span class="ico">👥</span>All Students</a>
+          <a href="admin-student-create.html"><span class="ico">＋</span>Add Student</a>
+          <a href="admin-matrix.html"><span class="ico">📊</span>Skill Matrix</a>
+          <a href="admin-goals.html"><span class="ico">🎯</span>Goals</a>
+        </div>
+      </div>
+      <a href="admin-schedule.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
+      <a href="admin-the-drop.html" class="nav-pill"><span class="ico">▶</span>The Drop</a>
+      <a href="admin-tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
+      <div class="nav-pill-drop">
+        <a href="admin-profile.html" class="nav-pill active"><span class="ico">⚙</span>More ▾</a>
+        <div class="nav-menu">
+          <a href="admin-skills.html"><span class="ico">⚡</span>Skills</a>
+          <a href="admin-affiliate.html"><span class="ico">🛒</span>GoodhuePB Store</a>
+          <a href="admin-contacts.html"><span class="ico">📇</span>Contacts</a>
+          <a href="admin-profile.html"><span class="ico">⚙</span>Coach Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="top-search"><input placeholder="Search…" /></label>
+      <button class="ico-btn">🔔<span class="dot"></span></button>
+      <a href="admin-profile.html" class="user-chip" style="background:var(--brand-soft);border-color:var(--brand)"><div class="avatar">CM</div><span class="name">Coach Mike</span></a>
+    </div>
+  </nav>
+
+  <main class="app-content">
+
+    <header class="page-head anim-up">
+      <div>
+        <div class="crumb"><a href="admin-dashboard.html">Dashboard</a> / Coach Profile</div>
+        <h1>Coach Profile</h1>
+      </div>
+      <div class="right">
+        <a href="admin-login.html" class="btn btn-ghost" style="color:var(--danger)">Logout</a>
+        <button class="btn btn-primary">Save Profile</button>
+      </div>
+    </header>
+
+    <div style="display:grid;grid-template-columns: 1fr 2fr; gap:24px">
+
+      <div class="stack">
+
+        <div class="card lift center anim-up delay-1">
+          <div style="position:relative;width:140px;height:140px;margin:0 auto 14px">
+            <div style="width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,#1E40AF,#7C3AED);color:#fff;font-family:var(--font-display);font-size:48px;display:grid;place-items:center;font-weight:800">CM</div>
+            <button class="btn btn-primary btn-sm" style="position:absolute;bottom:4px;right:4px;border-radius:50%;width:40px;height:40px;padding:0;font-size:16px">📷</button>
+          </div>
+          <h2 style="margin:0">Mike Stevens</h2>
+          <div class="tiny muted">Head Coach · Admin</div>
+          <div class="row mt-2" style="justify-content:center;gap:6px">
+            <button class="btn btn-secondary btn-sm">Upload</button>
+            <button class="btn btn-secondary btn-sm">📷 Use camera</button>
+          </div>
+          <p class="muted tiny mt-2">JPG/PNG/GIF · max 2MB</p>
+        </div>
+
+        <details class="card lift anim-up delay-2">
+          <summary style="cursor:pointer;list-style:none"><strong style="font-family:var(--font-display)">📷 Webcam capture (modal)</strong></summary>
+          <div class="mt-2" style="aspect-ratio:4/3;background:#0F172A;border-radius:8px;display:grid;place-items:center;color:#94A3B8">
+            <span>(Webcam preview)</span>
+          </div>
+          <div class="row mt-2" style="gap:8px;justify-content:center">
+            <button class="btn btn-secondary btn-sm">⇄ Switch camera</button>
+            <button class="btn btn-primary btn-sm">📷 Capture</button>
+          </div>
+        </details>
+
+        <div class="card-grad anim-up delay-3">
+          <h3 style="font-family:var(--font-display);font-size:16px">📅 Google Calendar</h3>
+          <div class="mt-2"><span class="badge badge-green"><span class="live-dot" style="margin-right:4px"></span>Connected</span></div>
+          <div class="tiny muted mt-2">coach.mike@goodhuepb.com</div>
+          <div class="row mt-2" style="gap:6px">
+            <button class="btn btn-secondary btn-sm">Reconnect</button>
+            <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Disconnect</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="stack">
+
+        <div class="card lift anim-up delay-1">
+          <h3>Profile Information</h3>
+          <hr class="divider" />
+          <div class="grid-2">
+            <div class="field"><label>Name *</label><input class="input" value="Mike Stevens" /></div>
+            <div class="field"><label>Email *</label><input class="input" type="email" value="coach.mike@goodhuepb.com" /></div>
+            <div class="field"><label>Phone</label><input class="input" type="tel" value="+61 412 999 888" /></div>
+            <div class="field"><label>Admin fee (AUD/hr)</label><input class="input" type="number" value="120" /></div>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-2">
+          <h3>🔗 Pickleball Profile Links</h3>
+          <hr class="divider" />
+          <div class="field"><label>DUPR profile URL</label><input class="input" placeholder="https://dupr.com/profile/coach-mike" /></div>
+          <div class="field"><label>Pickleheads profile URL</label><input class="input" placeholder="https://pickleheads.com/coach-mike" /></div>
+          <div class="field"><label>Pickleball Brackets profile URL</label><input class="input" placeholder="https://pickleballbrackets.com/coach-mike" /></div>
+          <div class="field">
+            <label>Other profile URLs</label>
+            <div class="row mb-1" style="gap:6px"><input class="input" placeholder="Label (e.g. Instagram)"/><input class="input" placeholder="URL"/><button class="btn btn-ghost btn-sm">✕</button></div>
+            <button class="btn btn-secondary btn-sm">+ Add row</button>
+          </div>
+        </div>
+
+        <div class="card lift anim-up delay-3">
+          <h3>🔒 Change Password</h3>
+          <hr class="divider" />
+          <div class="field"><label>Current password *</label><input class="input" type="password" /></div>
+          <div class="grid-2">
+            <div class="field"><label>New password *</label><input class="input" type="password" placeholder="At least 8 characters" /></div>
+            <div class="field"><label>Confirm new password *</label><input class="input" type="password" /></div>
+          </div>
+          <button class="btn btn-primary">Update Password</button>
+          <p class="muted tiny mt-2">If your current password is incorrect, this shows "Current password is incorrect".</p>
+        </div>
+
+        <div class="card lift anim-up delay-4">
+          <h3>🔔 Notifications</h3>
+          <hr class="divider" />
+          <div class="stack mt-2">
+            <label class="switch"><input type="checkbox" checked /> New student signup</label>
+            <label class="switch"><input type="checkbox" checked /> Contact form submission</label>
+            <label class="switch"><input type="checkbox" /> Daily student activity digest</label>
+            <label class="switch"><input type="checkbox" checked /> Appointment booking from a student</label>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
