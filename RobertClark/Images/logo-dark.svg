@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268 52" fill="none" role="img" aria-label="Business Website Integration">
+  <defs>
+    <linearGradient id="bwiTileD" x1="4" y1="4" x2="46" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3D6BE5"/>
+      <stop offset="0.52" stop-color="#7A45F0"/>
+      <stop offset="1" stop-color="#13B5A0"/>
+    </linearGradient>
+    <linearGradient id="bwiWordD" x1="60" y1="30" x2="190" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3D6BE5"/>
+      <stop offset="0.5" stop-color="#7A45F0"/>
+      <stop offset="1" stop-color="#13B5A0"/>
+    </linearGradient>
+    <linearGradient id="bwiShineD" x1="0" y1="4" x2="0" y2="30" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- App-tile icon -->
+  <g>
+    <rect x="4" y="6" width="42" height="42" rx="13" fill="url(#bwiTileD)"/>
+    <rect x="4" y="6" width="42" height="22" rx="13" fill="url(#bwiShineD)"/>
+    <rect x="4.6" y="6.6" width="40.8" height="40.8" rx="12.4" fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="1.2"/>
+    <!-- merge / integration glyph -->
+    <g stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M14 18 C14 26, 25 23, 25 30"/>
+      <path d="M36 18 C36 26, 25 23, 25 30"/>
+      <path d="M25 30 V37"/>
+    </g>
+    <g fill="#ffffff">
+      <circle cx="14" cy="17" r="3.1"/>
+      <circle cx="36" cy="17" r="3.1"/>
+      <circle cx="25" cy="38" r="3.6"/>
+    </g>
+    <circle cx="25" cy="38" r="1.5" fill="url(#bwiTileD)"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="61" y="25" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="16" font-weight="700" letter-spacing="-0.3" fill="#10193A">Business Website</text>
+  <text x="61" y="43" font-family="Inter, -apple-system, Segoe UI, sans-serif" font-size="14.5" font-weight="800" letter-spacing="4.4" fill="url(#bwiWordD)">INTEGRATION</text>
+</svg>
