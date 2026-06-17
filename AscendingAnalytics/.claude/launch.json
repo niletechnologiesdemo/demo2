@@ -4,7 +4,7 @@
     {
       "name": "static",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-I", "-c", "import functools,http.server,socketserver; H=functools.partial(http.server.SimpleHTTPRequestHandler, directory='/Users/aadityanilesiphone/Documents/GitHub/demo2/AscendingAnalytics'); socketserver.TCPServer(('127.0.0.1',8124),H).serve_forever()"],
+      "runtimeArgs": ["-I", "-c", "import functools,http.server,socketserver; H=functools.partial(http.server.SimpleHTTPRequestHandler, directory='/Users/aadityanilesiphone/Documents/GitHub/demo/AscendingAnalytics'); socketserver.TCPServer(('127.0.0.1',8124),H).serve_forever()"],
       "port": 8124
     }
   ]
