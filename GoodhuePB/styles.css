@@ -1224,10 +1224,10 @@ input[type="range"]::-moz-range-thumb {
   font-variation-settings: "opsz" 96, "wght" 700;
 }
 .login-form-wrap .sub {
-  text-align: center; color: #93C5FD; font-size: 13px;
+  text-align: center; color: #fff; font-size: 13px;
   margin-top: 4px; margin-bottom: 28px;
 }
-.login-form-wrap .field label { color: #94A3B8; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.login-form-wrap .field label { color: #fff; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
 .login-form-wrap .input {
   background: rgba(255,255,255,.04);
   border-color: rgba(255,255,255,.08);
@@ -1237,7 +1237,7 @@ input[type="range"]::-moz-range-thumb {
 .login-form-wrap .input::placeholder { color: #64748B; }
 .login-form-wrap .input-icon .ico { color: #34D399; }
 .login-form-wrap .forgot { color: #60A5FA; font-size: 13px; }
-.login-form-wrap .signup-cta { text-align: center; margin-top: 22px; font-size: 13px; color: #94A3B8; }
+.login-form-wrap .signup-cta { text-align: center; margin-top: 22px; font-size: 13px; color: #fff; }
 .login-form-wrap .signup-cta a { color: #34D399; font-weight: 600; }
 .login-form-wrap .btn-primary {
   background: linear-gradient(90deg, #2563EB, #4F46E5);

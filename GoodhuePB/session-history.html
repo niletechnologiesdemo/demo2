@@ -41,7 +41,6 @@
         </div>
       </div>
       <a href="schedule-list.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
-      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
       <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
       <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
     </div>
@@ -69,7 +68,6 @@
       <div class="kpi kpi-pickleball anim-up delay-1"><div class="label">Total Sessions</div><div class="value num">44</div></div>
       <div class="kpi kpi-strength anim-up delay-2"><div class="label">Hours Trained</div><div class="value num">31.5</div></div>
       <div class="kpi kpi-movement anim-up delay-3"><div class="label">Avg / Session</div><div class="value num">43m</div></div>
-      <div class="kpi kpi-recovery anim-up delay-4"><div class="label">Last Focus</div><div class="value" style="font-size:18px;font-family:var(--font-display);font-variation-settings:'opsz' 32,'wght' 700;background:none;color:var(--text)">BH Block Volley</div></div>
     </div>
 
     <div class="card lift mb-3 anim-up delay-2">
@@ -83,9 +81,14 @@
         </div>
       </div>
       <div class="row mt-2" style="gap:12px;flex-wrap:wrap">
-        <input class="input" placeholder="Search notes, opponents, skills…" style="flex:1;min-width:240px" />
-        <select class="input" style="max-width:160px"><option>This month</option><option>Last 7 days</option><option>Last 30 days</option><option>This year</option></select>
-        <select class="input" style="max-width:160px"><option>All coaches</option><option>Coach Mike</option><option>Coach Alex</option></select>
+        <input class="input" placeholder="Search by skill, focus or notes…" style="flex:1;min-width:240px" />
+        <select class="input" style="max-width:180px">
+          <option>Last 7 days</option>
+          <option>Last 30 days</option>
+          <option selected>This month</option>
+          <option>Last 6 months</option>
+          <option>This year</option>
+        </select>
         <button class="btn btn-secondary">Apply</button>
       </div>
     </div>
@@ -93,81 +96,17 @@
     <div class="card lift anim-up delay-3">
       <table class="table" style="border:0">
         <thead>
-          <tr><th>Date</th><th>Type</th><th>Duration</th><th>Focus / Notes</th><th>Coach / Partner</th><th>Energy</th><th></th></tr>
+          <tr><th>Date</th><th>Type</th><th>Focus</th><th>Duration</th><th>Notes</th><th>Energy</th><th></th></tr>
         </thead>
         <tbody>
-          <tr>
-            <td><strong>14 May</strong><div class="tiny muted num">Today · 7:30 AM</div></td>
-            <td><span class="chip"><span class="dot dot-pickleball"></span> Practice</span></td>
-            <td class="num">60m</td>
-            <td><strong>Backhand Block Volley · Reset</strong><div class="tiny muted">"Slowing paddle face really helped."</div></td>
-            <td>Coach Mike</td>
-            <td><span class="badge badge-green num">8/10</span></td>
-            <td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td>
-          </tr>
-          <tr>
-            <td><strong>14 May</strong><div class="tiny muted num">Today · 12:15 PM</div></td>
-            <td><span class="chip"><span class="dot dot-strength"></span> Lifting</span></td>
-            <td class="num">45m</td>
-            <td><strong>Lower body</strong><div class="tiny muted">Squats, RDLs, calf raises.</div></td>
-            <td>—</td>
-            <td><span class="badge badge-amber num">6/10</span></td>
-            <td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td>
-          </tr>
-          <tr>
-            <td><strong>14 May</strong><div class="tiny muted num">Today · 6:00 PM</div></td>
-            <td><span class="chip"><span class="dot dot-pickleball"></span> Match</span></td>
-            <td class="num">30m</td>
-            <td><strong>vs. Jamie</strong> · <span class="badge badge-green">WON 11-9, 11-7</span><div class="tiny muted">Court 3</div></td>
-            <td>vs. Jamie</td>
-            <td><span class="badge badge-green num">7/10</span></td>
-            <td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td>
-          </tr>
-          <tr>
-            <td><strong>13 May</strong><div class="tiny muted">Yesterday</div></td>
-            <td><span class="chip"><span class="dot dot-movement"></span> Bike</span></td>
-            <td class="num">45m</td>
-            <td><strong>Cardio · Bike</strong><div class="tiny muted">"45 min with hills. Legs tired but good."</div></td>
-            <td>—</td>
-            <td><span class="badge badge-amber num">6/10</span></td>
-            <td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td>
-          </tr>
-          <tr>
-            <td><strong>13 May</strong><div class="tiny muted">Yesterday</div></td>
-            <td><span class="chip"><span class="dot dot-recovery"></span> Stretch</span></td>
-            <td class="num">20m</td>
-            <td><strong>Hips &amp; lower back</strong><div class="tiny muted">Foam roll quads.</div></td>
-            <td>—</td>
-            <td><span class="badge badge-gray">—</span></td>
-            <td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td>
-          </tr>
-          <tr>
-            <td><strong>12 May</strong><div class="tiny muted">Monday</div></td>
-            <td><span class="chip"><span class="dot dot-pickleball"></span> Group Clinic</span></td>
-            <td class="num">90m</td>
-            <td><strong>3rd-Shot Drop · Lob · Drop drills</strong></td>
-            <td>Coach Alex</td>
-            <td><span class="badge badge-green num">7/10</span></td>
-            <td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td>
-          </tr>
-          <tr>
-            <td><strong>11 May</strong><div class="tiny muted">Sunday</div></td>
-            <td><span class="chip"><span class="dot dot-movement"></span> Run</span></td>
-            <td class="num">30m</td>
-            <td><strong>Easy zone-2 run</strong></td>
-            <td>—</td>
-            <td><span class="badge badge-green num">8/10</span></td>
-            <td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td>
-          </tr>
-          <tr>
-            <td><strong>10 May</strong><div class="tiny muted">Saturday</div></td>
-            <td><span class="chip"><span class="dot dot-pickleball"></span> Practice</span></td>
-            <td class="num">75m</td>
-            <td><strong>Dink rallies · cross-court patterns</strong><div class="tiny muted">w/ Priya</div></td>
-            <td>w/ Priya R</td>
-            <td><span class="badge badge-green num">7/10</span></td>
-            <td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td>
-          </tr>
+          <tr><td><strong>14 May</strong><div class="tiny muted num">Today · 7:30 AM</div></td><td><span class="chip"><span class="dot dot-pickleball"></span> Practice</span></td><td><strong>Backhand Block Volley · Reset</strong></td><td class="num">60m</td><td class="tiny muted"><div class="tiny muted">"Slowing paddle face really helped."</div></td><td><span class="badge badge-green num">8/10</span></td><td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td></tr>
+          <tr><td><strong>14 May</strong><div class="tiny muted num">Today · 12:15 PM</div></td><td><span class="chip"><span class="dot dot-strength"></span> Lifting</span></td><td><strong>Lower body</strong></td><td class="num">45m</td><td class="tiny muted"><div class="tiny muted">Squats, RDLs, calf raises.</div></td><td><span class="badge badge-amber num">6/10</span></td><td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td></tr>
+          <tr><td><strong>14 May</strong><div class="tiny muted num">Today · 6:00 PM</div></td><td><span class="chip"><span class="dot dot-pickleball"></span> Match</span></td><td><strong>vs. Jamie</strong></td><td class="num">30m</td><td class="tiny muted">· <span class="badge badge-green">WON 11-9, 11-7</span><div class="tiny muted">Court 3</div></td><td><span class="badge badge-green num">7/10</span></td><td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td></tr>
+          <tr><td><strong>13 May</strong><div class="tiny muted">Yesterday</div></td><td><span class="chip"><span class="dot dot-movement"></span> Bike</span></td><td><strong>Cardio · Bike</strong></td><td class="num">45m</td><td class="tiny muted"><div class="tiny muted">"45 min with hills. Legs tired but good."</div></td><td><span class="badge badge-amber num">6/10</span></td><td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td></tr>
+          <tr><td><strong>13 May</strong><div class="tiny muted">Yesterday</div></td><td><span class="chip"><span class="dot dot-recovery"></span> Stretch</span></td><td><strong>Hips &amp; lower back</strong></td><td class="num">20m</td><td class="tiny muted"><div class="tiny muted">Foam roll quads.</div></td><td><span class="badge badge-gray">—</span></td><td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td></tr>
+          <tr><td><strong>12 May</strong><div class="tiny muted">Monday</div></td><td><span class="chip"><span class="dot dot-pickleball"></span> Group Clinic</span></td><td><strong>3rd-Shot Drop · Lob · Drop drills</strong></td><td class="num">90m</td><td class="tiny muted">—</td><td><span class="badge badge-green num">7/10</span></td><td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td></tr>
+          <tr><td><strong>11 May</strong><div class="tiny muted">Sunday</div></td><td><span class="chip"><span class="dot dot-movement"></span> Run</span></td><td><strong>Easy zone-2 run</strong></td><td class="num">30m</td><td class="tiny muted">—</td><td><span class="badge badge-green num">8/10</span></td><td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td></tr>
+          <tr><td><strong>10 May</strong><div class="tiny muted">Saturday</div></td><td><span class="chip"><span class="dot dot-pickleball"></span> Practice</span></td><td><strong>Dink rallies · cross-court patterns</strong></td><td class="num">75m</td><td class="tiny muted"><div class="tiny muted">w/ Priya</div></td><td><span class="badge badge-green num">7/10</span></td><td class="actions"><a href="session-detail.html" class="btn btn-ghost btn-sm">View</a></td></tr>
         </tbody>
       </table>
 

@@ -41,7 +41,6 @@
         </div>
       </div>
       <a href="schedule-list.html" class="nav-pill active"><span class="ico">📅</span>Schedule</a>
-      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
       <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
       <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
     </div>
@@ -59,11 +58,10 @@
       <div class="accent-blob" style="width:240px;height:240px;background:rgba(96,165,250,.3);top:-60px;right:5%"></div>
       <div class="row between" style="align-items:flex-end;flex-wrap:wrap;gap:12px">
         <div>
-          <div style="font-size:13px;opacity:.9;font-weight:600;text-transform:uppercase;letter-spacing:.08em">3 sessions in the next 14 days</div>
+          <div style="font-size:13px;opacity:.9;font-weight:600;text-transform:uppercase;letter-spacing:.08em">3 appointments in the next 14 days</div>
           <h1 style="font-size:44px;margin-top:4px;font-variation-settings:'opsz' 96,'wght' 800;line-height:1">Schedule</h1>
-          <p style="opacity:.92;margin-top:6px">Next up: Private Lesson with Coach Mike — tomorrow at 9 AM, Court 5</p>
+          <p style="opacity:.92;margin-top:6px">Next up: Private Lesson — tomorrow at 9 AM, Evergreen</p>
         </div>
-        <a href="book-appointment.html" class="btn" style="background:#fff;color:var(--brand);font-weight:700">＋ Book Appointment</a>
       </div>
     </section>
 
@@ -79,6 +77,8 @@
       </div>
     </div>
 
+    <p class="muted tiny anim-up delay-1" style="margin-bottom:16px"><strong>Your coach sets your appointments.</strong> View your upcoming sessions here — log them in the <a href="add-session.html">Sessions tab</a> once they're complete.</p>
+
     <div style="display:grid;grid-template-columns: 2fr 1fr; gap:24px">
 
       <div class="stack">
@@ -93,7 +93,7 @@
                   <strong style="font-size:18px;font-family:var(--font-display)">Private Lesson — Drop Shot</strong>
                   <span class="tiny muted num">9:00 – 10:00 AM</span>
                 </div>
-                <div class="tiny muted mt-1">Court 5 · Coach Mike Stevens</div>
+                <div class="tiny muted mt-1">Evergreen</div>
                 <p class="mt-2 muted tiny">Session goals: improve 3rd-shot drop depth and consistency, work on patient resets at the NVZ.</p>
                 <div class="row wrap mt-2" style="gap:6px">
                   <span class="badge badge-blue">Private Lesson</span>
@@ -101,8 +101,6 @@
                   <span class="badge badge-purple">Google Calendar synced</span>
                 </div>
                 <div class="row mt-2" style="gap:6px">
-                  <a href="book-appointment.html" class="btn btn-secondary btn-sm">Edit</a>
-                  <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Cancel</button>
                   <a href="the-drop-detail.html" class="btn btn-ghost btn-sm">▶ Prep video</a>
                 </div>
               </div>
@@ -117,16 +115,13 @@
               <div style="width:6px;align-self:stretch;background:linear-gradient(180deg,var(--session-strength),#16A34A);border-radius:99px;min-height:100px"></div>
               <div style="flex:1">
                 <div class="row between"><strong style="font-size:18px;font-family:var(--font-display)">Group Clinic — Strategy</strong><span class="tiny muted num">2:00 – 3:30 PM</span></div>
-                <div class="tiny muted mt-1">Court 2 · Coach Alex Wong · 6 students</div>
+                <div class="tiny muted mt-1">White Mountain Pickleball Club · 6 students</div>
                 <p class="mt-2 muted tiny">Focus: court geometry, closing the middle in doubles, transition zone footwork.</p>
                 <div class="row wrap mt-2" style="gap:6px">
                   <span class="badge badge-purple">Group Clinic</span>
                   <span class="badge badge-green">Confirmation sent</span>
                 </div>
-                <div class="row mt-2" style="gap:6px">
-                  <a href="book-appointment.html" class="btn btn-secondary btn-sm">Edit</a>
-                  <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Cancel</button>
-                </div>
+
               </div>
             </div>
           </div>
@@ -139,14 +134,11 @@
               <div style="width:6px;align-self:stretch;background:linear-gradient(180deg,var(--session-movement),#7C3AED);border-radius:99px;min-height:80px"></div>
               <div style="flex:1">
                 <div class="row between"><strong style="font-size:18px;font-family:var(--font-display)">Practice Session — Open Play</strong><span class="tiny muted num">6:00 – 7:00 PM</span></div>
-                <div class="tiny muted mt-1">Court 7 · Self-directed</div>
+                <div class="tiny muted mt-1">Lancaster · Self-directed</div>
                 <div class="row wrap mt-2" style="gap:6px">
                   <span class="badge badge-orange">Practice</span>
                 </div>
-                <div class="row mt-2" style="gap:6px">
-                  <a href="book-appointment.html" class="btn btn-secondary btn-sm">Edit</a>
-                  <button class="btn btn-ghost btn-sm" style="color:var(--danger)">Cancel</button>
-                </div>
+
               </div>
             </div>
           </div>
@@ -171,25 +163,9 @@
 
         <div class="card lift anim-up delay-3">
           <div class="card-head"><h3>🔍 Filter</h3></div>
-          <div class="field"><label>Coach</label><select class="input"><option>All coaches</option><option>Mike Stevens</option><option>Alex Wong</option></select></div>
           <div class="field"><label>Session type</label><select class="input"><option>All types</option><option>Private Lesson</option><option>Group Clinic</option><option>Practice</option></select></div>
-          <div class="field"><label>Location</label><select class="input"><option>All courts</option><option>Court 1</option><option>Court 2</option><option>Court 5</option><option>Court 7</option></select></div>
+          <div class="field"><label>Location</label><select class="input"><option>All locations</option><option>Evergreen</option><option>White Mountain Pickleball Club</option><option>Lancaster</option></select></div>
           <button class="btn btn-primary btn-block">Apply</button>
-        </div>
-
-        <div class="card lift anim-up delay-4">
-          <div class="card-head"><h3>⚡ Quick Book</h3></div>
-          <div class="stack">
-            <a href="book-appointment.html" class="btn btn-secondary btn-block" style="justify-content:flex-start">
-              <span class="sq sq-pickleball" style="width:14px;height:14px"></span> Private Lesson
-            </a>
-            <a href="book-appointment.html" class="btn btn-secondary btn-block" style="justify-content:flex-start">
-              <span class="sq sq-strength" style="width:14px;height:14px"></span> Group Clinic
-            </a>
-            <a href="book-appointment.html" class="btn btn-secondary btn-block" style="justify-content:flex-start">
-              <span class="sq sq-movement" style="width:14px;height:14px"></span> Practice
-            </a>
-          </div>
         </div>
 
       </div>

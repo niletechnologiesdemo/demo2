@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Book your course — PassFast Intensive</title>
+<meta name="description" content="Book your intensive driving course online. Choose a package, pick your preferred times and reserve with a secure deposit or full payment." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header class="book-header">
+  <div class="container">
+    <nav class="nav">
+      <a class="brand" href="index.html" aria-label="PassFast Intensive home">
+        <img src="Images/logo.svg" class="brand-logo" alt="PassFast Intensive — the quickest way to your licence" />
+      </a>
+      <a class="book-back" href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        Back to site
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main class="booking-main">
+  <div class="container">
+
+    <!-- Stepper -->
+    <div class="stepper" id="stepper">
+      <div class="st" data-step="1"><span class="st-dot">1</span><span class="st-label">Package</span></div>
+      <span class="st-line"></span>
+      <div class="st" data-step="2"><span class="st-dot">2</span><span class="st-label">Schedule</span></div>
+      <span class="st-line"></span>
+      <div class="st" data-step="3"><span class="st-dot">3</span><span class="st-label">Details</span></div>
+      <span class="st-line"></span>
+      <div class="st" data-step="4"><span class="st-dot">4</span><span class="st-label">Payment</span></div>
+      <span class="st-line"></span>
+      <div class="st" data-step="5"><span class="st-dot">5</span><span class="st-label">Done</span></div>
+    </div>
+
+    <!-- Steps 1-4: wizard with summary -->
+    <div class="wizard-grid" id="wizardGrid">
+      <div class="wizard-panel">
+
+        <!-- STEP 1: PACKAGE -->
+        <section class="step-pane active" data-pane="1">
+          <div class="wp-head">
+            <h2>Choose your package</h2>
+            <p>Every lesson is a focused 2-hour session. Pick the total hours that suit your goal.</p>
+          </div>
+          <div class="opt-list" id="pkgList"></div>
+          <div class="wizard-nav">
+            <div class="spacer"></div>
+            <button class="btn btn-primary" data-next>Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </div>
+        </section>
+
+        <!-- STEP 2: SCHEDULE -->
+        <section class="step-pane" data-pane="2">
+          <div class="wp-head">
+            <h2>Tell us your preferred times</h2>
+            <p id="schedSub">Share the days and slots that work best — your instructor confirms the exact schedule within 12 hours.</p>
+          </div>
+
+          <div class="block-label">When would you like your first lesson? <span class="req" style="color:var(--ok-700)">*</span></div>
+          <div class="field">
+            <input type="date" id="firstDate" />
+            <div class="err">Please choose a start date.</div>
+          </div>
+
+          <div class="block-label">Preferred days <span class="hint">— pick any that suit you</span></div>
+          <div class="chips" id="dayChips"></div>
+
+          <div class="block-label">Preferred time of day</div>
+          <div class="chips" id="todChips">
+            <span class="chip" data-tod="Morning">Morning · 8am–12pm</span>
+            <span class="chip" data-tod="Afternoon">Afternoon · 12–5pm</span>
+            <span class="chip" data-tod="Evening">Evening · 5–9pm</span>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin:26px 0 4px;">
+            <div class="block-label" style="margin:0;">Pin your preferred slots <span class="hint">— optional</span></div>
+            <span class="slot-counter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="slotCount">0</span> of <span id="slotMax">0</span> selected</span>
+          </div>
+          <div class="slot-days" id="slotDays"></div>
+
+          <div class="note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <p>This is a <strong>booking request</strong>, not an instant confirmation. We confirm your exact times within 12 hours and will suggest the closest alternatives if a slot isn't available.</p>
+          </div>
+          <div class="note amber" id="cancelNote" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <p id="cancelNoteText"></p>
+          </div>
+
+          <div class="wizard-nav">
+            <button class="btn-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back</button>
+            <button class="btn btn-primary" data-next>Continue<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </div>
+        </section>
+
+        <!-- STEP 3: DETAILS -->
+        <section class="step-pane" data-pane="3">
+          <div class="wp-head">
+            <h2>Your details</h2>
+            <p>So we can confirm your schedule and keep you updated.</p>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label>First name <span class="req">*</span></label>
+              <input type="text" id="firstName" autocomplete="given-name" placeholder="Alex" />
+              <div class="err">Please enter your first name.</div>
+            </div>
+            <div class="field">
+              <label>Last name <span class="req">*</span></label>
+              <input type="text" id="lastName" autocomplete="family-name" placeholder="Taylor" />
+              <div class="err">Please enter your last name.</div>
+            </div>
+            <div class="field">
+              <label>Email <span class="req">*</span></label>
+              <input type="email" id="email" autocomplete="email" placeholder="you@email.com" />
+              <div class="err">Please enter a valid email.</div>
+            </div>
+            <div class="field">
+              <label>Mobile <span class="req">*</span></label>
+              <input type="tel" id="phone" autocomplete="tel" placeholder="07123 456789" />
+              <div class="err">Please enter your mobile number.</div>
+            </div>
+            <div class="field">
+              <label>Postcode <span class="req">*</span></label>
+              <input type="text" id="postcode" autocomplete="postal-code" placeholder="CW9 5AB" />
+              <div class="err">Please enter your postcode.</div>
+            </div>
+            <div class="field">
+              <label>Licence status <span class="req">*</span></label>
+              <select id="licence">
+                <option value="">Select…</option>
+                <option>Provisional licence held</option>
+                <option>Applied, awaiting provisional</option>
+                <option>Full licence (refresher lessons)</option>
+                <option>No licence yet</option>
+              </select>
+              <div class="err">Please select your licence status.</div>
+            </div>
+            <div class="field full">
+              <label>Anything we should know? <span style="color:var(--muted);font-weight:500;">(optional)</span></label>
+              <textarea id="notes" placeholder="Previous experience, preferred pickup point, accessibility needs…"></textarea>
+            </div>
+          </div>
+          <div class="wizard-nav">
+            <button class="btn-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back</button>
+            <button class="btn btn-primary" data-next>Continue to payment<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </div>
+        </section>
+
+        <!-- STEP 4: PAYMENT -->
+        <section class="step-pane" data-pane="4">
+          <div class="wp-head">
+            <h2>Secure your course</h2>
+            <p>Pay in full or reserve your place with a 25% deposit — the balance is settled before your course begins.</p>
+          </div>
+
+          <div class="pay-opts" id="payOpts">
+            <div class="pay-opt selected" data-pay="full">
+              <span class="opt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <div class="po-tag">Pay in full</div>
+              <div class="po-amt" id="payFullAmt">£0</div>
+              <div class="po-sub">One payment, all sorted</div>
+            </div>
+            <div class="pay-opt" data-pay="deposit">
+              <span class="opt-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <div class="po-tag">Pay deposit</div>
+              <div class="po-amt" id="payDepAmt">£0</div>
+              <div class="po-sub" id="payDepSub">25% now · balance later</div>
+            </div>
+          </div>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label>Name on card <span class="req">*</span></label>
+              <input type="text" id="cardName" autocomplete="cc-name" placeholder="Alex Taylor" />
+              <div class="err">Please enter the name on the card.</div>
+            </div>
+            <div class="field full">
+              <label>Card number <span class="req">*</span></label>
+              <input type="text" id="cardNum" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" maxlength="19" />
+              <div class="err">Please enter a valid card number.</div>
+            </div>
+            <div class="field">
+              <label>Expiry <span class="req">*</span></label>
+              <input type="text" id="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" maxlength="7" />
+              <div class="err">Enter expiry.</div>
+            </div>
+            <div class="field">
+              <label>CVC <span class="req">*</span></label>
+              <input type="text" id="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4" />
+              <div class="err">Enter CVC.</div>
+            </div>
+          </div>
+
+          <div class="card-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Demo checkout — no real payment is taken. Encrypted &amp; secure in production.
+          </div>
+
+          <div class="wizard-nav">
+            <button class="btn-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Back</button>
+            <button class="btn btn-primary" id="payBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span id="payBtnLabel">Pay £0</span></button>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- SUMMARY -->
+      <aside class="summary" id="summary">
+        <div class="summary-head">
+          <div class="sh-eyebrow">Your booking</div>
+          <h3 id="sumName">Select a package</h3>
+          <div class="sh-sub" id="sumSub">2-hour lessons with a DVSA instructor</div>
+        </div>
+        <div class="summary-body">
+          <div class="sum-row"><span class="k">Sessions</span><span class="v" id="sumSessions">—</span></div>
+          <div class="sum-row"><span class="k">First lesson</span><span class="v" id="sumDate">—</span></div>
+          <div class="sum-row"><span class="k">Preferred slots</span><span class="v" id="sumSlots">—</span></div>
+          <div class="sum-total"><span class="k">Course total</span><span class="v" id="sumTotal">£0</span></div>
+          <div class="sum-due" id="sumDue"></div>
+        </div>
+        <div class="summary-foot">
+          <div class="sum-assure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V5z"/><path d="M9 12l2 2 4-4"/></svg>Up to 100% money-back guarantee</div>
+          <div class="sum-assure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Schedule confirmed within 12 hours</div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- STEP 5: CONFIRMATION -->
+    <div class="step-pane" data-pane="5">
+      <div class="confirm">
+        <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <span class="eyebrow">Request received</span>
+        <h2 style="margin-top:14px;">You're nearly on the road!</h2>
+        <p id="confirmLede">Thanks <span id="confName">there</span> — we've received your booking request and your payment is secured.</p>
+        <div class="confirm-ref">Booking reference <span id="confRef">PF-000000</span></div>
+
+        <div class="confirm-card">
+          <h4>What happens next</h4>
+          <div class="confirm-steps">
+            <div class="confirm-step"><span class="cs-n">1</span><div><b>We review your preferred times</b><p>Your instructor checks your requested slots against the schedule.</p></div></div>
+            <div class="confirm-step"><span class="cs-n">2</span><div><b>You get a confirmation within 12 hours</b><p>We'll confirm your exact lesson times by email and text — or suggest the closest alternatives.</p></div></div>
+            <div class="confirm-step"><span class="cs-n">3</span><div><b>You're booked in</b><p>Your lessons are locked in and you're on your way to passing.</p></div></div>
+          </div>
+        </div>
+
+        <div class="note amber" id="confCancel" style="text-align:left;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <p id="confCancelText"></p>
+        </div>
+
+        <div class="confirm-actions">
+          <a class="btn btn-primary" href="index.html">Back to home</a>
+          <a class="btn btn-ghost" href="tel:01606533996">Call us · 01606 533996</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="assets/booking.js"></script>
+</body>
+</html>

@@ -41,7 +41,6 @@
         </div>
       </div>
       <a href="schedule-list.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
-      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
       <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
       <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
     </div>
@@ -122,25 +121,14 @@
 
       <div class="grid-2">
         <div class="field">
-          <label>Target date</label>
-          <input class="input" type="date" value="2026-06-30" />
+          <label>Target date <span style="text-transform:none;color:var(--text-subtle);font-weight:400">(MM/DD/YYYY)</span></label>
+          <input class="input" type="text" placeholder="MM/DD/YYYY" value="06/30/2026" />
         </div>
         <div class="field">
-          <label>Daily practice (min)</label>
-          <input class="input" type="number" value="20" />
-        </div>
-        <div class="field">
-          <label>Success criteria</label>
-          <input class="input" placeholder="How will you know you've achieved it?" />
-        </div>
-        <div class="field">
-          <label>Initial progress (%)</label>
-          <input type="range" min="0" max="100" value="0" style="width:100%" />
-          <div class="row between tiny muted num"><span>0%</span><span>50%</span><span>100%</span></div>
+          <label>Total Hours Required for this Goal</label>
+          <input class="input" type="number" value="15" placeholder="e.g. 15" />
         </div>
       </div>
-
-      <label class="switch mt-2"><input type="checkbox" checked /> Active (track on Dashboard &amp; Matrix)</label>
     </div>
 
     <div class="card lift mb-3 anim-up delay-3">

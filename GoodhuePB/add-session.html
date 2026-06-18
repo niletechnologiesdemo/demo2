@@ -43,7 +43,6 @@
         </div>
       </div>
       <a href="schedule-list.html" class="nav-pill"><span class="ico">📅</span>Schedule</a>
-      <a href="performance.html" class="nav-pill"><span class="ico">🏆</span>Performance</a>
       <a href="tournaments.html" class="nav-pill"><span class="ico">🎾</span>Tournaments</a>
       <a href="store.html" class="nav-pill"><span class="ico">🛒</span>Store</a>
     </div>
@@ -92,7 +91,7 @@
         </div>
         <div class="session-type t-recovery">
           <div class="swatch"></div>
-          <div class="name">🟧 Recovery</div>
+          <div class="name">🟧 Stretching</div>
           <div class="sub">Stretch · Foam roll</div>
         </div>
       </div>
@@ -123,7 +122,6 @@
         <div class="mode-tabs">
           <button>🎤 Voice</button>
           <button class="active">T Text</button>
-          <button>⊞ Quick</button>
         </div>
       </div>
 
@@ -181,13 +179,13 @@
     <details class="card lift anim-up delay-5 mb-3">
       <summary class="row between" style="cursor:pointer;list-style:none">
         <strong style="font-family:var(--font-display);font-size:18px">5 · Optional Details</strong>
-        <span class="muted tiny">Date · Coach · Partner · Energy ▾</span>
+        <span class="muted tiny">Date · Location · Energy ▾</span>
       </summary>
       <div class="mt-2">
         <div class="grid-2">
           <div class="field">
-            <label>Date</label>
-            <input class="input" type="date" value="2026-05-14" />
+            <label>Date <span style="text-transform:none;color:var(--text-subtle);font-weight:400">(MM/DD/YYYY)</span></label>
+            <input class="input" type="text" placeholder="MM/DD/YYYY" value="05/14/2026" />
           </div>
           <div class="field">
             <label>Energy Level <span class="muted">(1–10)</span></label>
@@ -195,37 +193,35 @@
             <div class="row between tiny muted"><span>1 · drained</span><span class="num" style="color:var(--brand);font-weight:700">7</span><span>10 · peak</span></div>
           </div>
           <div class="field">
-            <label>Coach Name</label>
-            <input class="input" placeholder="Enter coach name" value="Coach Mike" />
-          </div>
-          <div class="field">
-            <label>Partner Name</label>
-            <input class="input" placeholder="Enter partner name" />
+            <label>Location</label>
+            <select class="input">
+              <option selected>Evergreen</option>
+              <option>White Mountain Pickleball Club</option>
+              <option>Lancaster</option>
+              <option>Other…</option>
+            </select>
           </div>
         </div>
       </div>
     </details>
 
-    <!-- Match-only -->
+    <!-- Step 6: Link to Goal -->
     <details class="card lift anim-up delay-6 mb-3">
       <summary class="row between" style="cursor:pointer;list-style:none">
-        <strong style="font-family:var(--font-display);font-size:18px">Played a match?</strong>
-        <span class="muted tiny">Score · opponent · location ▾</span>
+        <strong style="font-family:var(--font-display);font-size:18px">6 · Assign this Session to a Goal</strong>
+        <span class="muted tiny">Link · contribute hours ▾</span>
       </summary>
       <div class="mt-2">
-        <div class="grid-2">
-          <div class="field">
-            <label>Opponent</label>
-            <input class="input" placeholder="Name" />
-          </div>
-          <div class="field">
-            <label>Score</label>
-            <input class="input" placeholder="11–9, 11–7" />
-          </div>
-        </div>
+        <p class="muted tiny mb-2">Linking adds this session's time to a Goal's progress and surfaces it on your Matrix Utilization for that skill.</p>
         <div class="field">
-          <label>Location</label>
-          <input class="input" placeholder="Court / venue" />
+          <label>Pick a Goal</label>
+          <select class="input">
+            <option>None — don't link to any goal</option>
+            <option selected>🎯 Master the 3rd-Shot Drop · 65% complete</option>
+            <option>🎯 Improve BH Block Volley consistency · 40% complete</option>
+            <option>🎯 Tournament Prep — Sydney Open · 20% complete</option>
+          </select>
+          <span class="hint">Choose one of your active goals or leave unlinked.</span>
         </div>
       </div>
     </details>
