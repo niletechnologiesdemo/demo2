@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "kumankaya-demo",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["/Users/aadityanilesiphone/Documents/GitHub/demo2/Kumankaya/server.js"],
+      "port": 5599
+    }
+  ]
+}

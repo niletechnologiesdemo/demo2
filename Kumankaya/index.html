@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kumankaya Community — App Design Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<style>
+:root{
+  --green:#1F3D2F; --green2:#2A5240; --moss:#7C8A5E; --gold:#D9A441; --gold-d:#9c7322;
+  --terra:#BC6B47; --sand:#F2E9D8; --sand2:#EAdfc9; --indigo:#20223A; --bark:#2A2722;
+  --paper:#FBF7EF; --line:rgba(42,39,34,.12); --muted:#6f6a5f;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Inter',system-ui,sans-serif; color:var(--bark);
+  background:
+    radial-gradient(820px 680px at 75% 46%, rgba(217,164,65,.10), transparent 60%),
+    radial-gradient(1000px 820px at 72% 50%, #20402f 0%, #122318 56%, #0b150f 100%);
+  min-height:100vh; display:flex; align-items:center; justify-content:center; padding:30px 24px;
+}
+h1,h2,h3,h4,.serif{font-family:'Fraunces',Georgia,serif; font-weight:500; margin:0;}
+.material-symbols-outlined{font-size:22px; line-height:1; vertical-align:middle;}
+
+/* ===== top demo bar ===== */
+.stage{display:flex; gap:56px; align-items:center; justify-content:center; width:100%; max-width:1180px;}
+.intro{flex:1; max-width:480px; color:var(--sand);}
+.brandrow{display:flex; align-items:center; gap:12px; margin-bottom:20px;}
+.brandrow img{width:46px; height:46px; object-fit:contain; filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));}
+.brandrow span{font-family:'Fraunces',serif; font-weight:600; font-size:17px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold);}
+.bigtitle{font-family:'Fraunces',serif; font-weight:600; font-size:52px; line-height:1.02; color:var(--sand); margin:0;}
+.bigtitle em{font-style:normal; color:var(--gold);}
+.introlead{color:rgba(242,233,216,.74); font-size:15px; line-height:1.6; margin:18px 0 0; max-width:440px;}
+.modlist{display:flex; flex-direction:column; gap:12px; margin:26px 0;}
+.mod{display:flex; gap:13px; align-items:flex-start;}
+.mod .mic{width:40px; height:40px; border-radius:12px; background:rgba(217,164,65,.13); color:var(--gold); display:flex; align-items:center; justify-content:center; flex:0 0 auto;}
+.mod b{color:var(--sand); font-size:15px; display:block; line-height:1.25; font-weight:600;}
+.mod small{color:rgba(242,233,216,.6); font-size:12.5px;}
+.controls{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
+.controls .lab{font-size:11px; letter-spacing:.1em; text-transform:uppercase; opacity:.6; width:100%; margin-bottom:3px;}
+.footnote{color:rgba(242,233,216,.5); font-size:12px; line-height:1.55; margin-top:18px; max-width:440px;}
+.phone-wrap{flex:0 0 auto; position:relative;}
+.phone-wrap::before{content:""; position:absolute; inset:-34px -34px 0; background:radial-gradient(closest-side, rgba(217,164,65,.13), transparent 72%); pointer-events:none;}
+@media(max-width:920px){
+  body{padding:26px 18px;}
+  .stage{flex-direction:column; gap:32px;}
+  .intro{max-width:560px; text-align:center;}
+  .brandrow,.controls{justify-content:center;}
+  .introlead,.footnote{margin-left:auto; margin-right:auto;}
+  .modlist{max-width:380px; margin-left:auto; margin-right:auto;}
+  .bigtitle{font-size:40px;}
+}
+.chip{font-size:12.5px; padding:7px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.18); background:transparent; color:var(--sand); cursor:pointer; font-family:inherit; transition:.15s;}
+.chip:hover{background:rgba(255,255,255,.1);}
+.chip.on{background:var(--gold); color:#3a2c08; border-color:var(--gold); font-weight:600;}
+.chip.alt.on{background:var(--sand); color:var(--green);}
+
+/* ===== phone ===== */
+.phone{
+  width:390px; max-width:96vw; height:844px; max-height:86vh; background:var(--paper);
+  border-radius:46px; position:relative; overflow:hidden;
+  box-shadow:0 0 0 12px #0d1712, 0 0 0 14px #2c3a31, 0 40px 80px rgba(0,0,0,.55);
+  display:flex; flex-direction:column;
+}
+.statusbar{height:46px; flex:0 0 46px; display:flex; align-items:center; justify-content:space-between; padding:0 26px; font-size:13px; font-weight:600; color:var(--sand); z-index:50; background:var(--green);}
+.statusbar.dark{color:var(--sand);}
+.statusbar .right{display:flex; gap:6px; align-items:center;}
+.statusbar .notch{position:absolute; left:50%; transform:translateX(-50%); top:8px; width:120px; height:26px; background:#0d1712; border-radius:0 0 16px 16px;}
+
+.viewport{position:relative; flex:1; overflow:hidden;}
+.screen{position:absolute; inset:0; display:none; flex-direction:column; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch;}
+.screen.active{display:flex; animation:fade .25s ease;}
+@keyframes fade{from{opacity:.4; transform:translateX(6px)} to{opacity:1; transform:none}}
+.screen::-webkit-scrollbar{width:0;}
+.body{padding:16px 16px 96px; flex:1;}
+.body.cream{background:var(--sand);}
+
+/* appbar */
+.appbar{position:sticky; top:0; z-index:30; background:var(--green); color:var(--sand); padding:12px 14px; display:flex; align-items:center; gap:10px; box-shadow:0 2px 10px rgba(0,0,0,.12);}
+.appbar .ttl{font-family:'Fraunces',serif; font-weight:500; font-size:19px; flex:1;}
+.appbar .ic{width:38px; height:38px; display:flex; align-items:center; justify-content:center; border-radius:50%; cursor:pointer; color:var(--sand);}
+.appbar .ic:hover{background:rgba(255,255,255,.12);}
+.appbar.flat{background:transparent; color:var(--bark); box-shadow:none;}
+.appbar.flat .ic{color:var(--bark);}
+
+/* tabbar */
+.tabbar{flex:0 0 auto; display:flex; background:var(--paper); border-top:1px solid var(--line); padding:8px 6px calc(8px + env(safe-area-inset-bottom));}
+.tabbar button{flex:1; background:none; border:0; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:3px; color:var(--muted); font-family:inherit; font-size:10.5px; padding:4px 0;}
+.tabbar button .material-symbols-outlined{font-size:24px;}
+.tabbar button.on{color:var(--green);}
+.tabbar button.on .material-symbols-outlined{color:var(--gold);}
+
+/* generic ui */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; background:var(--green); color:var(--sand); border:0; border-radius:14px; padding:14px 18px; font-family:inherit; font-size:15px; font-weight:600; cursor:pointer; width:100%; transition:.15s;}
+.btn:hover{background:var(--green2);}
+.btn.gold{background:var(--gold); color:#3a2c08;}
+.btn.gold:hover{filter:brightness(1.05);}
+.btn.ghost{background:transparent; color:var(--green); border:1.5px solid var(--green);}
+.btn.terra{background:var(--terra); color:#fff;}
+.btn.sm{width:auto; padding:9px 14px; font-size:13px; border-radius:11px;}
+.card{background:#fff; border:1px solid var(--line); border-radius:18px; padding:15px; margin-bottom:13px; box-shadow:0 1px 2px rgba(0,0,0,.03);}
+.row{display:flex; align-items:center; gap:10px;}
+.between{justify-content:space-between;}
+.muted{color:var(--muted);} .sm{font-size:13px;} .xs{font-size:11.5px;}
+.tag{display:inline-flex; align-items:center; gap:4px; font-size:11px; font-weight:600; padding:4px 9px; border-radius:999px; letter-spacing:.02em;}
+.t-disc{background:#e3ece5; color:var(--green);}
+.t-q{background:#f4e2d8; color:#8f3f1c;}
+.t-blog{background:#e1e2ef; color:#34375f;}
+.t-ann{background:#f8edcf; color:#7a5a08;}
+.t-event{background:#e9ede0; color:#4f5a32;}
+.t-gold{background:#f7e9c4; color:#7a5a08;}
+.t-loc{background:#efe7d6; color:var(--bark);}
+.avatar{width:42px; height:42px; border-radius:50%; flex:0 0 auto; display:flex; align-items:center; justify-content:center; font-weight:600; color:#fff; font-size:15px; font-family:'Fraunces',serif;}
+.avatar.sm{width:32px; height:32px; font-size:12px;}
+.avatar.lg{width:72px; height:72px; font-size:26px;}
+.field{margin-bottom:13px;}
+.field label{display:block; font-size:12.5px; font-weight:600; margin-bottom:6px; color:var(--bark);}
+.input,textarea,select{width:100%; border:1px solid var(--line); background:#fff; border-radius:12px; padding:13px 14px; font-family:inherit; font-size:14.5px; color:var(--bark);}
+textarea{resize:vertical; min-height:90px;}
+.input:focus,textarea:focus,select:focus{outline:none; border-color:var(--moss); box-shadow:0 0 0 3px rgba(124,138,94,.18);}
+.divider{height:1px; background:var(--line); margin:14px 0;}
+.pill-tabs{display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; margin-bottom:6px;}
+.pill-tabs::-webkit-scrollbar{height:0;}
+.ptab{flex:0 0 auto; font-size:13px; padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:#fff; cursor:pointer; color:var(--bark); font-family:inherit; white-space:nowrap;}
+.ptab.on{background:var(--green); color:var(--sand); border-color:var(--green);}
+.section-h{font-family:'Fraunces',serif; font-weight:600; font-size:18px; margin:6px 0 12px;}
+.icbox{width:46px; height:46px; border-radius:13px; display:flex; align-items:center; justify-content:center; flex:0 0 auto;}
+.reactions{display:flex; align-items:center; gap:14px; color:var(--muted); font-size:13px;}
+.reactions .rx{display:flex; align-items:center; gap:5px; cursor:pointer; padding:5px 8px; border-radius:9px; border:1px solid var(--line); background:#fff;}
+.reactions .rx.up.on{color:var(--green); border-color:var(--moss); background:#eef2e8;}
+.reactions .rx.down.on{color:var(--terra); border-color:#e3c3b4; background:#f7ece6;}
+.reactions .material-symbols-outlined{font-size:18px;}
+
+/* gating */
+.gated{position:relative;}
+.gated .gblur{transition:.2s;}
+.glock{display:none; position:absolute; inset:0; flex-direction:column; align-items:center; justify-content:center; gap:8px; text-align:center; padding:16px; background:linear-gradient(180deg, rgba(251,247,239,.2), rgba(251,247,239,.86)); border-radius:14px;}
+.glock .material-symbols-outlined{font-size:30px; color:var(--gold-d);}
+body[data-tier="guest"] .gated .gblur, body[data-tier="free"] .gated .gblur{filter:blur(7px); opacity:.6; pointer-events:none; user-select:none;}
+body[data-tier="guest"] .gated .glock, body[data-tier="free"] .gated .glock{display:flex;}
+.elite-only{display:none;} body[data-tier="elite"] .elite-only{display:block;}
+.non-elite{display:block;} body[data-tier="elite"] .non-elite{display:none;}
+.show-free{display:none;} body[data-tier="guest"] .show-free, body[data-tier="free"] .show-free{display:block;}
+.hide-paid{} body[data-tier="paid"] .hide-paid, body[data-tier="elite"] .hide-paid{display:none !important;}
+.badge-elite{display:none; align-items:center; gap:4px; font-size:11px; font-weight:600; color:#7a5a08; background:#f7e9c4; padding:3px 8px; border-radius:999px;}
+body[data-tier="elite"] .me-elite .badge-elite{display:inline-flex;}
+
+/* hero / media blocks */
+.media{border-radius:16px; height:150px; display:flex; align-items:flex-end; padding:14px; color:#fff; position:relative; overflow:hidden;}
+.media .mtag{position:absolute; top:12px; left:12px;}
+.m-jungle{background:linear-gradient(135deg,#2c5340,#16291f);}
+.m-gold{background:linear-gradient(135deg,#caa24a,#9c7322);}
+.m-terra{background:linear-gradient(135deg,#c47a55,#8a4527);}
+.m-indigo{background:linear-gradient(135deg,#3a3d63,#20223A);}
+.m-moss{background:linear-gradient(135deg,#8b986d,#5c6840);}
+.banner{border-radius:18px; padding:18px; color:var(--sand); background:linear-gradient(135deg,#2c5340,#16291f); margin-bottom:14px; position:relative; overflow:hidden;}
+.banner h3{color:var(--sand); font-size:19px;}
+.kente{position:absolute; right:-20px; top:-20px; width:120px; height:120px; border:14px solid rgba(217,164,65,.18); border-radius:50%;}
+
+/* onboarding */
+.ob{flex:1; display:flex; flex-direction:column; padding:26px 24px calc(26px + env(safe-area-inset-bottom)); color:var(--sand);}
+.ob.dark{background:linear-gradient(180deg,#1F3D2F 0%, #15281e 62%, #0f1f17 100%);}
+.ob .logo{width:96px; height:96px; object-fit:contain; margin:0 auto 18px; filter:drop-shadow(0 6px 16px rgba(0,0,0,.5));}
+.ob h1{color:var(--sand); font-size:30px; font-weight:600; line-height:1.12;}
+.ob p.lead{color:rgba(242,233,216,.8); font-size:15px; line-height:1.6;}
+.pillar{display:flex; gap:12px; align-items:flex-start; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); padding:14px; border-radius:16px; margin-bottom:11px;}
+.pillar .material-symbols-outlined{color:var(--gold); font-size:26px;}
+.pillar b{color:var(--sand); font-size:15px; display:block; margin-bottom:2px;}
+.pillar span{color:rgba(242,233,216,.72); font-size:12.5px; line-height:1.45;}
+.selgrid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.selitem{border:1.5px solid rgba(255,255,255,.18); border-radius:14px; padding:13px; cursor:pointer; font-size:13.5px; color:var(--sand); display:flex; align-items:center; gap:8px; transition:.15s;}
+.selitem .material-symbols-outlined{font-size:20px; color:var(--gold);}
+.selitem.on{background:var(--gold); color:#3a2c08; border-color:var(--gold);}
+.selitem.on .material-symbols-outlined{color:#3a2c08;}
+.authbtn{display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:13px; border-radius:13px; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.95); color:#222; font-weight:600; font-size:14.5px; cursor:pointer; margin-bottom:10px; font-family:inherit;}
+.authbtn.dark{background:#111; color:#fff; border-color:#111;}
+.dots{display:flex; gap:6px; justify-content:center; margin:14px 0;}
+.dots i{width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.3);}
+.dots i.on{background:var(--gold); width:20px; border-radius:4px;}
+
+/* calendar */
+.cal{display:grid; grid-template-columns:repeat(7,1fr); gap:7px;}
+.cal .dow{text-align:center; font-size:10.5px; color:var(--muted); font-weight:600; padding-bottom:2px;}
+.cal .day{aspect-ratio:1; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:12.5px; background:#fff; border:1px solid var(--line); cursor:pointer; position:relative;}
+.cal .day.empty{background:transparent; border:0; cursor:default;}
+.cal .day .em{font-size:15px;}
+.cal .day.today{outline:2px solid var(--gold);}
+.legend{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;}
+.legend span{display:flex; align-items:center; gap:5px; font-size:11.5px; color:var(--muted);}
+.legend i{width:12px; height:12px; border-radius:4px; display:inline-block;}
+
+/* modal sheet */
+.sheet-wrap{position:absolute; inset:0; z-index:60; display:none;}
+.sheet-wrap.open{display:block;}
+.sheet-bg{position:absolute; inset:0; background:rgba(20,20,16,.45);}
+.sheet{position:absolute; left:0; right:0; bottom:0; background:var(--paper); border-radius:22px 22px 0 0; padding:8px 18px calc(22px + env(safe-area-inset-bottom)); max-height:86%; overflow-y:auto; animation:up .25s ease;}
+@keyframes up{from{transform:translateY(100%)} to{transform:none}}
+.grab{width:42px; height:5px; border-radius:3px; background:var(--line); margin:8px auto 14px;}
+.moodgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+.mood{border:1px solid var(--line); border-radius:14px; padding:12px 8px; text-align:center; cursor:pointer; background:#fff;}
+.mood .em{font-size:26px;}
+.mood .lb{font-size:11.5px; margin-top:4px; color:var(--bark);}
+.mood.on{border-color:var(--gold); box-shadow:0 0 0 3px rgba(217,164,65,.25);}
+.opt{display:flex; align-items:center; gap:12px; padding:14px 4px; border-bottom:1px solid var(--line); cursor:pointer;}
+.opt .material-symbols-outlined{color:var(--green);}
+.toggle{width:46px; height:27px; border-radius:999px; background:var(--line); position:relative; cursor:pointer; flex:0 0 auto; transition:.18s;}
+.toggle i{position:absolute; top:3px; left:3px; width:21px; height:21px; border-radius:50%; background:#fff; transition:.18s; box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.toggle.on{background:var(--moss);} .toggle.on i{left:22px;}
+.list-item{display:flex; gap:12px; align-items:center; padding:12px 0; border-bottom:1px solid var(--line); cursor:pointer;}
+.note{background:#f8edcf; border:1px solid #ecd9a0; color:#7a5a08; border-radius:12px; padding:11px 13px; font-size:12.5px; display:flex; gap:8px; align-items:flex-start;}
+.note .material-symbols-outlined{font-size:18px;}
+.phase{font-size:9.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; background:var(--indigo); color:var(--sand); padding:2px 7px; border-radius:6px;}
+.stat{flex:1; text-align:center;} .stat b{font-family:'Fraunces',serif; font-size:20px; display:block;} .stat span{font-size:11px; color:var(--muted);}
+.crisis{font-size:11px; color:var(--muted); text-align:center; padding:10px;}
+.starline{display:flex; align-items:flex-start; gap:10px; margin-bottom:10px;}
+.starline .material-symbols-outlined{color:var(--gold); font-size:20px;}
+@media(max-width:430px){ .phone{height:88vh;} }
+</style>
+</head>
+<body data-tier="free">
+
+<!-- ============ STAGE (left info panel + phone) ============ -->
+<div class="stage">
+  <aside class="intro">
+    <div class="brandrow"><img src="Logo.png" alt="Kumankaya logo"><span>Kumankaya</span></div>
+    <h1 class="bigtitle">Kumankaya<br><em>Mobile App Demo</em></h1>
+    <p class="introlead">An interactive prototype of the community app for the plant-medicine wellbeing space — built around community, learning, reflection &amp; conscious living.</p>
+    <div class="modlist">
+      <div class="mod"><div class="mic"><span class="material-symbols-outlined">forum</span></div><div><b>Community &amp; forums</b><small>Topics, post types, reactions &amp; location filters</small></div></div>
+      <div class="mod"><div class="mic"><span class="material-symbols-outlined">diversity_3</span></div><div><b>Social connection</b><small>Profiles, follow &amp; opt-in messaging</small></div></div>
+      <div class="mod"><div class="mic"><span class="material-symbols-outlined">auto_stories</span></div><div><b>Resources &amp; pathways</b><small>Guides, video, audio &amp; toolkits</small></div></div>
+      <div class="mod"><div class="mic"><span class="material-symbols-outlined">self_improvement</span></div><div><b>Journaling</b><small>Private, colour-coded mood diary</small></div></div>
+      <div class="mod"><div class="mic"><span class="material-symbols-outlined">cottage</span></div><div><b>Retreats &amp; booking</b><small>Kumankaya info, enquiry &amp; 1:1 requests</small></div></div>
+      <div class="mod"><div class="mic"><span class="material-symbols-outlined">workspace_premium</span></div><div><b>Membership &amp; gating</b><small>Free, Paid &amp; Elite private posts</small></div></div>
+    </div>
+    <div class="controls">
+      <span class="lab">View the app as</span>
+      <button class="chip alt on" data-tier="guest" onclick="setTier(this)">Guest</button>
+      <button class="chip alt" data-tier="free" onclick="setTier(this)">Free</button>
+      <button class="chip alt" data-tier="paid" onclick="setTier(this)">Paid</button>
+      <button class="chip alt" data-tier="elite" onclick="setTier(this)">Elite ★</button>
+      <button class="chip" onclick="go('sc-splash')">↺ Restart</button>
+      <button class="chip" onclick="tab('sc-feed','tab-home')">Skip to app →</button>
+    </div>
+    <p class="footnote">Switch Guest / Free / Paid / Elite to watch the freemium gating, locked teasers and the Elite public/private toggle change live.</p>
+  </aside>
+
+  <div class="phone-wrap">
+  <!-- ============ PHONE ============ -->
+  <div class="phone">
+  <div class="statusbar" id="statusbar">
+    <span id="clock">9:41</span>
+    <div class="right"><span class="material-symbols-outlined" style="font-size:17px">signal_cellular_alt</span><span class="material-symbols-outlined" style="font-size:17px">wifi</span><span class="material-symbols-outlined" style="font-size:17px">battery_full</span></div>
+  </div>
+
+  <div class="viewport" id="viewport">
+
+  <!-- ========================================================= -->
+  <!-- ONBOARDING / AUTH                                          -->
+  <!-- ========================================================= -->
+
+  <!-- SPLASH -->
+  <section class="screen no-tab active" id="sc-splash">
+    <div class="ob dark" style="align-items:center; justify-content:center; text-align:center;">
+      <img src="Logo.png" class="logo" style="width:150px;height:150px" alt="logo">
+      <h1 style="font-size:36px">kumankaya</h1>
+      <p style="letter-spacing:.34em; text-transform:uppercase; font-size:12px; color:var(--gold); margin-top:6px">community</p>
+      <p class="lead" style="text-align:center; max-width:290px; margin:34px auto 26px">A community for healing, growth &amp; conscious living.</p>
+      <button class="btn gold" style="max-width:280px;margin:0 auto" onclick="go('sc-welcome')">Begin</button>
+    </div>
+  </section>
+
+  <!-- WELCOME / PILLARS -->
+  <section class="screen no-tab" id="sc-welcome">
+    <div class="ob dark">
+      <div style="height:8px"></div>
+      <h1>Welcome to the circle</h1>
+      <p class="lead">A supportive, private space to connect, learn, and reflect on your journey — wherever you are.</p>
+      <div style="margin:22px 0 6px">
+        <div class="pillar"><span class="material-symbols-outlined">groups</span><div><b>Community &amp; connection</b><span>Find and support like-minded people in forums by topic and location.</span></div></div>
+        <div class="pillar"><span class="material-symbols-outlined">menu_book</span><div><b>Education &amp; preparation</b><span>Guides on ceremony preparation, integration &amp; conscious living.</span></div></div>
+        <div class="pillar"><span class="material-symbols-outlined">self_improvement</span><div><b>Reflection &amp; wellbeing</b><span>A private mood journal to track and integrate your experience.</span></div></div>
+      </div>
+      <div class="dots"><i class="on"></i><i></i><i></i></div>
+      <div style="flex:1"></div>
+      <button class="btn gold" onclick="go('sc-age')">Continue</button>
+      <button class="authbtn" style="background:transparent;color:var(--sand);border-color:rgba(255,255,255,.25);margin-top:10px" onclick="go('sc-auth')">I already have an account</button>
+    </div>
+  </section>
+
+  <!-- AGE GATE -->
+  <section class="screen no-tab" id="sc-age">
+    <div class="ob dark" style="justify-content:center; text-align:center">
+      <span class="material-symbols-outlined" style="font-size:46px;color:var(--gold)">verified_user</span>
+      <h1 style="margin-top:14px">A few words before we begin</h1>
+      <p class="lead" style="margin:14px auto; max-width:300px">Kumankaya Community is an educational and peer-support space for adults. It does not facilitate, promote or enable the purchase or use of any controlled substance.</p>
+      <div class="note" style="text-align:left; margin:6px 0 18px">
+        <span class="material-symbols-outlined">info</span>
+        <span>Content here is for harm-reduction &amp; wellbeing only and is not medical advice. You must be 18 or older.</span>
+      </div>
+      <button class="btn gold" onclick="go('sc-auth')">I am 18 or older &amp; I agree</button>
+      <button class="authbtn" style="background:transparent;color:rgba(242,233,216,.7);border:0;margin-top:6px" onclick="go('sc-welcome')">Go back</button>
+    </div>
+  </section>
+
+  <!-- AUTH -->
+  <section class="screen no-tab" id="sc-auth">
+    <div class="ob dark">
+      <img src="Logo.png" class="logo" alt="logo">
+      <h1 style="text-align:center">Create your account</h1>
+      <p class="lead" style="text-align:center; margin-bottom:18px">Your identity stays private — choose any display name.</p>
+      <button class="authbtn dark" onclick="afterAuth()"><svg width="18" height="18" viewBox="0 0 384 512" fill="#fff" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zM262.1 104.5c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> Continue with Apple</button>
+      <button class="authbtn" onclick="afterAuth()"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google</button>
+      <div class="row" style="margin:12px 0; gap:10px; color:rgba(242,233,216,.5); font-size:12px"><div style="flex:1;height:1px;background:rgba(255,255,255,.18)"></div>or<div style="flex:1;height:1px;background:rgba(255,255,255,.18)"></div></div>
+      <div class="field"><label style="color:var(--sand)">Email</label><input class="input" placeholder="you@email.com"></div>
+      <div class="field"><label style="color:var(--sand)">Password</label><input class="input" type="password" placeholder="••••••••"></div>
+      <button class="btn gold" onclick="afterAuth()">Continue with email</button>
+      <p class="xs" style="text-align:center;color:rgba(242,233,216,.55);margin-top:14px">By continuing you agree to our Terms &amp; Privacy Policy.</p>
+    </div>
+  </section>
+
+  <!-- ONBOARD: INTERESTS -->
+  <section class="screen no-tab" id="sc-ob1">
+    <div class="ob dark">
+      <p class="phase" style="background:var(--gold);color:#3a2c08;width:max-content">Step 1 of 3</p>
+      <h1 style="margin-top:12px">What draws you here?</h1>
+      <p class="lead">Pick a few topics to personalise your feed and resources.</p>
+      <div class="selgrid" style="margin:18px 0">
+        <div class="selitem" onclick="this.classList.toggle('on')"><span class="material-symbols-outlined">spa</span>Ceremony preparation</div>
+        <div class="selitem on" onclick="this.classList.toggle('on')"><span class="material-symbols-outlined">psychology</span>Integration</div>
+        <div class="selitem" onclick="this.classList.toggle('on')"><span class="material-symbols-outlined">restaurant</span>Diet &amp; lifestyle</div>
+        <div class="selitem on" onclick="this.classList.toggle('on')"><span class="material-symbols-outlined">forest</span>Plant traditions</div>
+        <div class="selitem" onclick="this.classList.toggle('on')"><span class="material-symbols-outlined">favorite</span>Trauma &amp; healing</div>
+        <div class="selitem" onclick="this.classList.toggle('on')"><span class="material-symbols-outlined">groups</span>Community &amp; events</div>
+      </div>
+      <div class="dots"><i class="on"></i><i></i><i></i></div>
+      <div style="flex:1"></div>
+      <button class="btn gold" onclick="go('sc-ob2')">Next</button>
+    </div>
+  </section>
+
+  <!-- ONBOARD: LOCATION -->
+  <section class="screen no-tab" id="sc-ob2">
+    <div class="ob dark">
+      <p class="phase" style="background:var(--gold);color:#3a2c08;width:max-content">Step 2 of 3</p>
+      <h1 style="margin-top:12px">Where are you based?</h1>
+      <p class="lead">Used only to surface nearby discussions &amp; events. City-level, never your exact location — and you can change or hide it anytime.</p>
+      <div class="field" style="margin-top:18px"><label style="color:var(--sand)">City / region</label><input class="input" value="Tulum, Quintana Roo" ></div>
+      <div class="row between" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:13px;border-radius:14px">
+        <div style="color:var(--sand);font-size:13.5px">Show my location on posts</div>
+        <div class="toggle on" onclick="this.classList.toggle('on')"><i></i></div>
+      </div>
+      <div class="dots"><i></i><i class="on"></i><i></i></div>
+      <div style="flex:1"></div>
+      <button class="btn gold" onclick="go('sc-ob3')">Next</button>
+      <button class="authbtn" style="background:transparent;color:rgba(242,233,216,.7);border:0" onclick="go('sc-ob3')">Skip for now</button>
+    </div>
+  </section>
+
+  <!-- ONBOARD: DISCLAIMER -->
+  <section class="screen no-tab" id="sc-ob3">
+    <div class="ob dark">
+      <p class="phase" style="background:var(--gold);color:#3a2c08;width:max-content">Step 3 of 3</p>
+      <h1 style="margin-top:12px">Our shared agreement</h1>
+      <p class="lead">To keep this space safe for everyone:</p>
+      <div style="margin:16px 0">
+        <div class="starline"><span class="material-symbols-outlined">check_circle</span><span style="color:rgba(242,233,216,.85);font-size:13.5px">This is a space for education, support &amp; reflection.</span></div>
+        <div class="starline"><span class="material-symbols-outlined">block</span><span style="color:rgba(242,233,216,.85);font-size:13.5px">No buying, selling, sourcing or dosing instructions.</span></div>
+        <div class="starline"><span class="material-symbols-outlined">diversity_3</span><span style="color:rgba(242,233,216,.85);font-size:13.5px">Be respectful. This is not a dating space.</span></div>
+        <div class="starline"><span class="material-symbols-outlined">health_and_safety</span><span style="color:rgba(242,233,216,.85);font-size:13.5px">Content is not medical advice. In crisis, seek local help.</span></div>
+      </div>
+      <div class="row" style="gap:10px;background:rgba(255,255,255,.06);padding:13px;border-radius:14px">
+        <div class="toggle on" onclick="this.classList.toggle('on')"><i></i></div>
+        <div style="color:var(--sand);font-size:13px">I have read and agree to the community guidelines.</div>
+      </div>
+      <div class="dots"><i></i><i></i><i class="on"></i></div>
+      <div style="flex:1"></div>
+      <button class="btn gold" onclick="finishOnboard()">Enter the community</button>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- HOME / COMMUNITY FEED                                      -->
+  <!-- ========================================================= -->
+  <section class="screen" id="sc-feed" data-tab="tab-home">
+    <div class="appbar">
+      <img src="Logo.png" style="width:30px;height:30px;object-fit:contain" alt="">
+      <div class="ttl">Community</div>
+      <div class="ic" onclick="go('sc-search')"><span class="material-symbols-outlined">search</span></div>
+      <div class="ic" onclick="go('sc-notif')"><span class="material-symbols-outlined">notifications</span></div>
+    </div>
+    <div class="body cream">
+      <!-- location + type filters -->
+      <div class="row between" style="margin-bottom:10px">
+        <button class="ptab on" onclick="openSheet('sheet-loc')"><span class="material-symbols-outlined" style="font-size:15px;vertical-align:-3px">place</span> Near me · Tulum <span class="material-symbols-outlined" style="font-size:15px;vertical-align:-3px">expand_more</span></button>
+        <button class="ptab" onclick="openSheet('sheet-filter')"><span class="material-symbols-outlined" style="font-size:15px;vertical-align:-3px">tune</span> Filter</button>
+      </div>
+      <div class="pill-tabs">
+        <button class="ptab on">All</button>
+        <button class="ptab">Discussion</button>
+        <button class="ptab">Question</button>
+        <button class="ptab">Blog</button>
+        <button class="ptab">Announcement</button>
+        <button class="ptab">Event</button>
+      </div>
+
+      <!-- announcement -->
+      <div class="card" onclick="go('sc-post')">
+        <div class="row between"><span class="tag t-ann"><span class="material-symbols-outlined" style="font-size:13px">campaign</span> Announcement</span><span class="tag t-loc"><span class="material-symbols-outlined" style="font-size:12px">public</span> Global</span></div>
+        <h3 style="font-size:17px;margin:10px 0 6px">New integration pathway is live this week</h3>
+        <p class="sm muted" style="margin:0 0 10px">We've added a guided 7-step series on returning home gently. Open to all members…</p>
+        <div class="row between">
+          <div class="row"><div class="avatar sm" style="background:var(--gold)">K</div><div class="xs"><b>Kumankaya Team</b><br><span class="muted">2h ago</span></div></div>
+          <div class="reactions"><span><span class="material-symbols-outlined" style="font-size:17px">forum</span> 24</span></div>
+        </div>
+      </div>
+
+      <!-- question -->
+      <div class="card" onclick="go('sc-post')">
+        <div class="row between"><span class="tag t-q"><span class="material-symbols-outlined" style="font-size:13px">help</span> Question</span><span class="tag t-loc"><span class="material-symbols-outlined" style="font-size:12px">place</span> Tulum</span></div>
+        <h3 style="font-size:17px;margin:10px 0 6px">First dieta coming up — how did you prepare emotionally?</h3>
+        <p class="sm muted" style="margin:0 0 10px">I have my first master plant dieta in three weeks and I'd love to hear how others got their mind &amp; heart ready…</p>
+        <div class="row" style="gap:6px;margin-bottom:10px"><span class="tag t-disc">#preparation</span><span class="tag t-disc">#firsttimer</span></div>
+        <div class="row between">
+          <div class="row" onclick="event.stopPropagation();go('sc-user')"><div class="avatar sm" style="background:var(--terra)">MR</div><div class="xs"><b>maya_rivers</b><br><span class="muted">5h ago · 18 answers</span></div></div>
+          <div class="reactions"><span class="rx up"><span class="material-symbols-outlined">thumb_up</span> 42</span></div>
+        </div>
+      </div>
+
+      <!-- ELITE PRIVATE POST (gated) -->
+      <div class="card gated" style="padding:0;overflow:hidden">
+        <div class="gblur" style="padding:15px" onclick="go('sc-post')">
+          <div class="row between"><span class="tag t-disc"><span class="material-symbols-outlined" style="font-size:13px">forum</span> Discussion</span><span class="tag t-gold"><span class="material-symbols-outlined" style="font-size:12px">lock</span> Members</span></div>
+          <h3 style="font-size:17px;margin:10px 0 6px">What 12 months of dieta taught me about surrender</h3>
+          <p class="sm muted" style="margin:0 0 10px">A long, honest reflection on the year I spent in apprenticeship — the grief, the plant teachers, and what finally shifted when I stopped trying to control the process…</p>
+          <div class="row between">
+            <div class="row"><div class="avatar sm" style="background:var(--indigo)">JK</div><div class="xs"><b>josh_k</b> <span class="badge-elite" style="display:inline-flex">★ Elite</span><br><span class="muted">1d ago</span></div></div>
+            <div class="reactions"><span class="rx up"><span class="material-symbols-outlined">thumb_up</span> 156</span><span><span class="material-symbols-outlined" style="font-size:17px">forum</span> 38</span></div>
+          </div>
+        </div>
+        <div class="glock">
+          <span class="material-symbols-outlined">lock</span>
+          <b style="font-family:'Fraunces',serif;font-size:16px">Members-only post</b>
+          <span class="xs muted" style="max-width:230px">An Elite member shared this with subscribers. Engagement is visible — subscribe to read &amp; join in.</span>
+          <button class="btn gold sm" style="margin-top:6px" onclick="go('sc-subscribe')">Unlock with subscription</button>
+        </div>
+      </div>
+
+      <!-- event -->
+      <div class="card" onclick="go('sc-post')">
+        <div class="row between"><span class="tag t-event"><span class="material-symbols-outlined" style="font-size:13px">event</span> Event</span><span class="tag t-loc"><span class="material-symbols-outlined" style="font-size:12px">place</span> Tulum</span></div>
+        <h3 style="font-size:17px;margin:10px 0 6px">Integration sharing circle — Sat 28 June, 6pm</h3>
+        <p class="sm muted" style="margin:0 0 10px">Hosting a free in-person sharing circle near the beach. All welcome. Details &amp; what to bring in the post…</p>
+        <div class="row between">
+          <div class="row"><div class="avatar sm" style="background:var(--moss)">DL</div><div class="xs"><b>deena_l</b><br><span class="muted">1d ago</span></div></div>
+          <div class="reactions"><span class="rx up"><span class="material-symbols-outlined">thumb_up</span> 29</span></div>
+        </div>
+      </div>
+
+      <!-- blog -->
+      <div class="card" onclick="go('sc-post')">
+        <div class="media m-indigo" style="height:120px;margin:-15px -15px 12px;border-radius:18px 18px 0 0"><span class="tag t-blog mtag">Blog · 11 min</span></div>
+        <h3 style="font-size:17px;margin:0 0 6px">The principles of conscious community</h3>
+        <p class="sm muted" style="margin:0 0 10px">Why how we gather matters as much as why we gather…</p>
+        <div class="row between">
+          <div class="row"><div class="avatar sm" style="background:var(--green)">A</div><div class="xs"><b>ashley_d</b><br><span class="muted">3d ago</span></div></div>
+          <div class="reactions"><span class="rx up"><span class="material-symbols-outlined">thumb_up</span> 88</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POST DETAIL -->
+  <section class="screen no-tab" id="sc-post">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Discussion</div><div class="ic" onclick="openSheet('sheet-postmenu')"><span class="material-symbols-outlined">more_vert</span></div></div>
+    <div class="body cream">
+      <div class="card">
+        <div class="row between" style="margin-bottom:10px"><span class="tag t-q"><span class="material-symbols-outlined" style="font-size:13px">help</span> Question</span><span class="tag t-loc"><span class="material-symbols-outlined" style="font-size:12px">place</span> Tulum</span></div>
+        <h2 style="font-size:21px;line-height:1.25;margin-bottom:12px">First dieta coming up — how did you prepare emotionally?</h2>
+        <div class="row between" style="margin-bottom:12px">
+          <div class="row" onclick="go('sc-user')"><div class="avatar sm" style="background:var(--terra)">MR</div><div class="xs"><b>maya_rivers</b><br><span class="muted">5h ago · Preparation forum</span></div></div>
+          <button class="btn ghost sm" onclick="go('sc-user')">Follow</button>
+        </div>
+        <p class="sm" style="line-height:1.65">I have my first master plant dieta in three weeks and I'd love to hear how others got their mind &amp; heart ready. I'm feeling excited but also a lot of fear coming up.</p>
+        <p class="sm" style="line-height:1.65">How did you work with the nerves beforehand? Any journaling prompts, practices, or mindset shifts that helped you arrive open?</p>
+        <div class="row" style="gap:6px;margin:12px 0"><span class="tag t-disc">#preparation</span><span class="tag t-disc">#firsttimer</span><span class="tag t-disc">#dieta</span></div>
+        <div class="divider"></div>
+        <div class="row between">
+          <div class="reactions">
+            <span class="rx up" onclick="rx(this)"><span class="material-symbols-outlined">thumb_up</span> Helpful · 42</span>
+            <span class="rx down" onclick="rx(this)"><span class="material-symbols-outlined">thumb_down</span> 1</span>
+          </div>
+          <span class="row muted xs" style="gap:4px"><span class="material-symbols-outlined" style="font-size:16px">bookmark</span> Save</span>
+        </div>
+      </div>
+
+      <div class="section-h">18 answers</div>
+
+      <!-- best answer -->
+      <div class="card" style="border:1.5px solid var(--gold)">
+        <div class="row between" style="margin-bottom:8px"><span class="tag t-gold"><span class="material-symbols-outlined" style="font-size:12px">verified</span> Best answer · chosen by author</span></div>
+        <div class="row" style="margin-bottom:8px" onclick="go('sc-user')"><div class="avatar sm" style="background:var(--indigo)">JK</div><div class="xs"><b>josh_k</b> <span class="badge-elite" style="display:inline-flex">★ Elite</span><br><span class="muted">4h ago</span></div></div>
+        <p class="sm" style="line-height:1.65">The fear is part of the medicine arriving early. I'd gently suggest: lighten your diet a week ahead, reduce screens, and each night write one line — "what am I bringing to the plant?" By the time you arrive, you'll know your intention in your body, not just your head. You're not meant to feel ready. You're meant to feel willing. 🤍</p>
+        <div class="reactions" style="margin-top:10px"><span class="rx up on"><span class="material-symbols-outlined">thumb_up</span> 96</span><span class="muted xs">Reply</span></div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="margin-bottom:8px" onclick="go('sc-user')"><div class="avatar sm" style="background:var(--moss)">DL</div><div class="xs"><b>deena_l</b><br><span class="muted">3h ago</span></div></div>
+        <p class="sm" style="line-height:1.65">Breathwork in the mornings helped me hugely. And remember you can always slow down — there's no prize for pushing.</p>
+        <div class="reactions" style="margin-top:10px"><span class="rx up"><span class="material-symbols-outlined">thumb_up</span> 31</span><span class="muted xs">Reply</span></div>
+        <!-- nested reply -->
+        <div style="margin:12px 0 0 16px;padding-left:12px;border-left:2px solid var(--line)">
+          <div class="row" style="margin-bottom:6px"><div class="avatar sm" style="background:var(--terra)">MR</div><div class="xs"><b>maya_rivers</b> <span class="muted">· author</span><br><span class="muted">2h ago</span></div></div>
+          <p class="sm" style="line-height:1.6">Thank you 🙏 the "no prize for pushing" really lands.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="margin-bottom:8px"><div class="avatar sm" style="background:var(--green)">H</div><div class="xs"><b>hope_m</b><br><span class="muted">1h ago</span></div></div>
+        <p class="sm" style="line-height:1.65">A flower bath the day before, if you can. It softened everything for me.</p>
+        <div class="reactions" style="margin-top:10px"><span class="rx up"><span class="material-symbols-outlined">thumb_up</span> 12</span><span class="muted xs">Reply</span></div>
+      </div>
+    </div>
+    <!-- comment composer -->
+    <div style="position:sticky;bottom:0;background:var(--paper);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;align-items:center">
+      <input class="input" placeholder="Share a supportive reply…" style="border-radius:999px;padding:11px 16px">
+      <button class="ic" style="background:var(--green);color:var(--sand);width:42px;height:42px;border-radius:50%;border:0;cursor:pointer"><span class="material-symbols-outlined">send</span></button>
+    </div>
+  </section>
+
+  <!-- CREATE POST -->
+  <section class="screen no-tab" id="sc-create">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">close</span></div><div class="ttl">New post</div><button class="btn gold sm" onclick="back()">Post</button></div>
+    <div class="body cream">
+      <label class="sm" style="font-weight:600;display:block;margin-bottom:8px">Post type</label>
+      <div class="pill-tabs" style="margin-bottom:16px">
+        <button class="ptab on">Discussion</button><button class="ptab">Question</button><button class="ptab">Blog</button><button class="ptab">Announcement</button><button class="ptab">Event</button>
+      </div>
+      <div class="field"><label>Category / forum</label><select class="input"><option>Preparation</option><option>Integration &amp; aftercare</option><option>Diet &amp; lifestyle</option><option>Plant traditions</option><option>Trauma &amp; healing</option><option>Local — Tulum &amp; Riviera Maya</option></select></div>
+      <div class="field"><label>Title</label><input class="input" placeholder="A clear, kind title"></div>
+      <div class="field"><label>Your message</label><textarea placeholder="Share your thoughts, question or story…"></textarea></div>
+      <div class="field"><label>Tags</label><input class="input" placeholder="#preparation  #integration"></div>
+      <div class="card" style="background:#fff">
+        <div class="row between"><div class="row" style="gap:8px"><span class="material-symbols-outlined" style="color:var(--green)">place</span><div class="sm"><b>Add my location</b><br><span class="muted xs">Show this post to people near Tulum</span></div></div><div class="toggle on" onclick="this.classList.toggle('on')"><i></i></div></div>
+      </div>
+
+      <!-- ELITE visibility toggle -->
+      <div class="card elite-only" style="background:#fff;border-color:var(--gold)">
+        <div class="row between" style="margin-bottom:10px"><div class="row" style="gap:8px"><span class="material-symbols-outlined" style="color:var(--gold-d)">workspace_premium</span><b>Post visibility</b></div><span class="badge-elite" style="display:inline-flex">★ Elite</span></div>
+        <div class="pill-tabs" style="margin:0">
+          <button class="ptab on" style="flex:1"><span class="material-symbols-outlined" style="font-size:15px;vertical-align:-3px">public</span> Public — free for all</button>
+          <button class="ptab" style="flex:1"><span class="material-symbols-outlined" style="font-size:15px;vertical-align:-3px">lock</span> Private — subscribers only</button>
+        </div>
+        <p class="xs muted" style="margin:10px 0 0">Private posts show a locked teaser to free members. Visibility can't be changed once posted.</p>
+      </div>
+      <div class="note non-elite"><span class="material-symbols-outlined">workspace_premium</span><span>Become an <b>Elite member</b> to choose Public or Private (subscribers-only) for your posts. <a href="javascript:go('sc-subscribe')" style="color:#7a5a08;font-weight:600">See plans →</a></span></div>
+    </div>
+  </section>
+
+  <!-- SEARCH -->
+  <section class="screen no-tab" id="sc-search">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><input class="input" placeholder="Search discussions, people, resources…" style="border-radius:999px;padding:10px 16px;background:rgba(255,255,255,.12);border:0;color:var(--sand)" autofocus></div>
+    <div class="body cream">
+      <div class="row between"><div class="section-h">Filters</div><span class="xs muted">Reset</span></div>
+      <label class="sm" style="font-weight:600;display:block;margin:4px 0 8px">Type</label>
+      <div class="pill-tabs"><button class="ptab on">All</button><button class="ptab">Discussion</button><button class="ptab">Question</button><button class="ptab">Blog</button><button class="ptab">Event</button></div>
+      <label class="sm" style="font-weight:600;display:block;margin:10px 0 8px">Location</label>
+      <div class="pill-tabs"><button class="ptab">Global</button><button class="ptab">My country</button><button class="ptab on">My city · Tulum</button><button class="ptab">Custom radius</button></div>
+      <label class="sm" style="font-weight:600;display:block;margin:10px 0 8px">Category</label>
+      <div class="pill-tabs"><button class="ptab on">All</button><button class="ptab">Preparation</button><button class="ptab">Integration</button><button class="ptab">Lifestyle</button></div>
+      <div class="divider"></div>
+      <div class="section-h">Popular near you</div>
+      <div class="list-item" onclick="go('sc-post')"><span class="tag t-q">Q</span><div style="flex:1"><b class="sm">Preparing emotionally for a first dieta</b><br><span class="muted xs">Tulum · 42 helpful</span></div><span class="material-symbols-outlined muted">chevron_right</span></div>
+      <div class="list-item" onclick="go('sc-post')"><span class="tag t-event">E</span><div style="flex:1"><b class="sm">Integration sharing circle — 28 June</b><br><span class="muted xs">Tulum · this weekend</span></div><span class="material-symbols-outlined muted">chevron_right</span></div>
+      <div class="list-item" onclick="go('sc-user')"><div class="avatar sm" style="background:var(--terra)">MR</div><div style="flex:1"><b class="sm">maya_rivers</b><br><span class="muted xs">Member · Tulum</span></div><span class="material-symbols-outlined muted">chevron_right</span></div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- SOCIAL — USER PROFILE / DMs / CHAT                         -->
+  <!-- ========================================================= -->
+  <section class="screen no-tab" id="sc-user">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Profile</div><div class="ic" onclick="openSheet('sheet-report')"><span class="material-symbols-outlined">more_vert</span></div></div>
+    <div class="body cream" style="padding-top:0">
+      <div class="banner" style="text-align:center;padding-top:24px">
+        <div class="kente"></div>
+        <div class="avatar lg" style="background:var(--indigo);margin:0 auto 10px">JK</div>
+        <h2 style="color:var(--sand);font-size:22px">josh_k <span class="badge-elite" style="display:inline-flex;vertical-align:middle">★ Elite</span></h2>
+        <p class="sm" style="color:rgba(242,233,216,.8);margin:6px 0">Apprentice &amp; integration guide · 13 yrs on the path</p>
+        <span class="tag t-loc" style="background:rgba(255,255,255,.15);color:var(--sand)"><span class="material-symbols-outlined" style="font-size:12px">place</span> Riviera Maya</span>
+      </div>
+      <div class="card"><div class="row">
+        <div class="stat"><b>248</b><span>Posts</span></div>
+        <div class="stat"><b>1.2k</b><span>Followers</span></div>
+        <div class="stat"><b>312</b><span>Following</span></div>
+      </div></div>
+      <div class="row" style="gap:10px;margin-bottom:14px">
+        <button class="btn" style="flex:1" onclick="this.textContent= this.textContent=='Following'?'Follow':'Following'">Follow</button>
+        <button class="btn ghost" style="flex:1" onclick="openSheet('sheet-dmreq')"><span class="material-symbols-outlined" style="font-size:18px">mail</span> Message</button>
+      </div>
+      <div class="note"><span class="material-symbols-outlined">info</span><span>Connecting is for like-minded support, not dating. Messages need the recipient's approval first.</span></div>
+      <div class="section-h">Recent posts</div>
+      <div class="card" onclick="go('sc-post')"><span class="tag t-blog">Blog</span><h3 style="font-size:16px;margin:8px 0 4px">What 12 months of dieta taught me</h3><span class="muted xs">156 helpful · members-only</span></div>
+      <div class="card" onclick="go('sc-post')"><span class="tag t-disc">Discussion</span><h3 style="font-size:16px;margin:8px 0 4px">On grief as a plant teacher</h3><span class="muted xs">88 helpful</span></div>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-dms">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Messages <span class="phase" style="vertical-align:middle">Phase 2</span></div></div>
+    <div class="body cream">
+      <div class="note"><span class="material-symbols-outlined">shield</span><span>Direct messages are opt-in. People you don't follow must send a request you approve first.</span></div>
+      <div class="section-h">Requests · 1</div>
+      <div class="list-item" onclick="go('sc-chat')"><div class="avatar" style="background:var(--moss)">H</div><div style="flex:1"><b class="sm">hope_m</b><br><span class="muted xs">Would love to connect about breathwork…</span></div><span class="tag t-gold">New</span></div>
+      <div class="section-h" style="margin-top:14px">Conversations</div>
+      <div class="list-item" onclick="go('sc-chat')"><div class="avatar" style="background:var(--indigo)">JK</div><div style="flex:1"><b class="sm">josh_k</b><br><span class="muted xs">Thank you, that means a lot 🙏</span></div><span class="muted xs">2h</span></div>
+      <div class="list-item" onclick="go('sc-chat')"><div class="avatar" style="background:var(--terra)">DL</div><div style="flex:1"><b class="sm">deena_l</b><br><span class="muted xs">See you at the circle Saturday!</span></div><span class="muted xs">1d</span></div>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-chat">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="avatar sm" style="background:var(--indigo)">JK</div><div class="ttl" style="font-size:16px">josh_k</div><div class="ic"><span class="material-symbols-outlined">more_vert</span></div></div>
+    <div class="body cream" style="display:flex;flex-direction:column;gap:10px">
+      <div class="crisis">Messages are private &amp; text-only. Be kind. Report anything that feels off.</div>
+      <div style="align-self:flex-start;max-width:78%;background:#fff;border:1px solid var(--line);padding:11px 14px;border-radius:16px 16px 16px 4px"><p class="sm" style="margin:0">Loved your answer on Maya's post. It really helped me reframe my own nerves.</p></div>
+      <div style="align-self:flex-end;max-width:78%;background:var(--green);color:var(--sand);padding:11px 14px;border-radius:16px 16px 4px 16px"><p class="sm" style="margin:0">So glad 🤍 the fear is just the medicine arriving early.</p></div>
+      <div style="align-self:flex-end;max-width:78%;background:var(--green);color:var(--sand);padding:11px 14px;border-radius:16px 16px 4px 16px"><p class="sm" style="margin:0">Are you coming to the circle this weekend?</p></div>
+    </div>
+    <div style="position:sticky;bottom:0;background:var(--paper);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;align-items:center">
+      <input class="input" placeholder="Message…" style="border-radius:999px;padding:11px 16px">
+      <button class="ic" style="background:var(--green);color:var(--sand);width:42px;height:42px;border-radius:50%;border:0"><span class="material-symbols-outlined">send</span></button>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- RESOURCES                                                  -->
+  <!-- ========================================================= -->
+  <section class="screen" id="sc-res" data-tab="tab-res">
+    <div class="appbar"><div class="ttl">Resources</div><div class="ic" onclick="go('sc-search')"><span class="material-symbols-outlined">search</span></div></div>
+    <div class="body cream">
+      <div class="banner">
+        <div class="kente"></div>
+        <p class="xs" style="letter-spacing:.16em;text-transform:uppercase;color:var(--gold)">Guided pathway</p>
+        <h3 style="margin:6px 0">Preparing for your first ceremony</h3>
+        <p class="sm" style="color:rgba(242,233,216,.82);margin:0 0 12px">7 steps · video, guides &amp; a checklist</p>
+        <button class="btn gold sm" onclick="go('sc-pathway')">Start pathway</button>
+      </div>
+      <div class="pill-tabs">
+        <button class="ptab on">All</button><button class="ptab">Preparation</button><button class="ptab">Integration</button><button class="ptab">Lifestyle</button><button class="ptab">Aftercare</button><button class="ptab">Travel</button>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden" onclick="go('sc-resitem')">
+        <div class="media m-jungle" style="height:140px;border-radius:18px 18px 0 0"><span class="tag mtag" style="background:rgba(0,0,0,.35);color:#fff"><span class="material-symbols-outlined" style="font-size:13px">play_circle</span> Video · 14 min</span></div>
+        <div style="padding:13px"><span class="tag t-disc">Preparation</span><h3 style="font-size:16px;margin:8px 0 4px">How to prepare your body &amp; mind</h3><span class="muted xs">Free · by Kumankaya</span></div>
+      </div>
+
+      <div class="row" style="gap:13px;align-items:stretch">
+        <div class="card" style="flex:1;padding:0;overflow:hidden" onclick="go('sc-resitem')">
+          <div class="media m-moss" style="height:90px;border-radius:18px 18px 0 0"><span class="material-symbols-outlined mtag" style="color:#fff">menu_book</span></div>
+          <div style="padding:11px"><span class="tag t-event">Guide</span><h4 style="font-size:14px;margin:7px 0 3px">The dieta handbook</h4><span class="muted xs">Free</span></div>
+        </div>
+        <div class="card gated" style="flex:1;padding:0;overflow:hidden">
+          <div class="gblur" onclick="go('sc-resitem')">
+            <div class="media m-indigo" style="height:90px;border-radius:18px 18px 0 0"><span class="material-symbols-outlined mtag" style="color:#fff">headphones</span></div>
+            <div style="padding:11px"><span class="tag t-blog">Audio</span><h4 style="font-size:14px;margin:7px 0 3px">Integration meditation series</h4><span class="muted xs">Members</span></div>
+          </div>
+          <div class="glock"><span class="material-symbols-outlined">lock</span><span class="xs muted">Members only</span><button class="btn gold sm" onclick="go('sc-subscribe')">Unlock</button></div>
+        </div>
+      </div>
+
+      <div class="card gated" style="padding:0;overflow:hidden;margin-top:0">
+        <div class="gblur" onclick="go('sc-resitem')">
+          <div class="row" style="padding:13px;gap:12px">
+            <div class="icbox m-terra"><span class="material-symbols-outlined" style="color:#fff">description</span></div>
+            <div style="flex:1"><span class="tag t-q">Toolkit</span><h4 style="font-size:15px;margin:6px 0 3px">Travelling for a ceremony in a new city</h4><span class="muted xs">Members · PDF checklist</span></div>
+          </div>
+        </div>
+        <div class="glock"><span class="material-symbols-outlined">lock</span><span class="xs muted">Subscribe to access the full library</span><button class="btn gold sm" onclick="go('sc-subscribe')">View plans</button></div>
+      </div>
+
+      <div class="card" onclick="go('sc-resitem')">
+        <div class="row" style="gap:12px"><div class="icbox m-jungle"><span class="material-symbols-outlined" style="color:#fff">eco</span></div><div style="flex:1"><span class="tag t-disc">Lifestyle</span><h4 style="font-size:15px;margin:6px 0 3px">Eating &amp; living gently after ceremony</h4><span class="muted xs">Free · article</span></div><span class="material-symbols-outlined muted">chevron_right</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-resitem">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Resource</div><div class="ic"><span class="material-symbols-outlined">bookmark</span></div></div>
+    <div class="body" style="padding:0">
+      <div class="media m-jungle" style="height:200px;border-radius:0;justify-content:center;align-items:center"><span class="material-symbols-outlined" style="font-size:60px;color:#fff;opacity:.9">play_circle</span></div>
+      <div style="padding:16px 16px 96px">
+        <span class="tag t-disc">Preparation · Video</span>
+        <h2 style="font-size:22px;margin:10px 0 8px;line-height:1.25">How to prepare your body &amp; mind</h2>
+        <div class="row between" style="margin-bottom:12px"><span class="muted sm">14 min · by Kumankaya</span><span class="tag t-event">Free</span></div>
+        <p class="sm" style="line-height:1.65">A grounded introduction to arriving prepared — covering gentle dietary shifts, lightening your environment, setting intention, and softening expectations.</p>
+        <div class="note" style="margin:14px 0"><span class="material-symbols-outlined">health_and_safety</span><span>Educational content only — not medical advice. If you take medication or have a health condition, consult a qualified professional first.</span></div>
+        <div class="section-h">In this guide</div>
+        <div class="opt"><span class="material-symbols-outlined">check_circle</span><div class="sm">Gentle dietary preparation</div></div>
+        <div class="opt"><span class="material-symbols-outlined">check_circle</span><div class="sm">Quieting your inputs &amp; environment</div></div>
+        <div class="opt"><span class="material-symbols-outlined">check_circle</span><div class="sm">Setting an honest intention</div></div>
+        <div class="opt" style="border:0"><span class="material-symbols-outlined">check_circle</span><div class="sm">Working with fear &amp; expectation</div></div>
+        <button class="btn" style="margin-top:14px">Mark as complete</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-pathway">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Pathway</div></div>
+    <div class="body cream">
+      <div class="banner"><div class="kente"></div><h3>Preparing for your first ceremony</h3><p class="sm" style="color:rgba(242,233,216,.82);margin:6px 0 0">2 of 7 complete</p><div style="height:6px;background:rgba(255,255,255,.2);border-radius:3px;margin-top:10px"><div style="width:28%;height:100%;background:var(--gold);border-radius:3px"></div></div></div>
+      <div class="card" onclick="go('sc-resitem')"><div class="row" style="gap:12px"><div class="icbox" style="background:#eef2e8"><span class="material-symbols-outlined" style="color:var(--green)">check</span></div><div style="flex:1"><b class="sm">1 · Understanding the journey</b><br><span class="muted xs">Completed</span></div></div></div>
+      <div class="card" onclick="go('sc-resitem')"><div class="row" style="gap:12px"><div class="icbox" style="background:#eef2e8"><span class="material-symbols-outlined" style="color:var(--green)">check</span></div><div style="flex:1"><b class="sm">2 · Preparing body &amp; mind</b><br><span class="muted xs">Completed</span></div></div></div>
+      <div class="card" onclick="go('sc-resitem')" style="border-color:var(--gold)"><div class="row" style="gap:12px"><div class="icbox m-gold"><span class="material-symbols-outlined" style="color:#fff">play_arrow</span></div><div style="flex:1"><b class="sm">3 · Setting your intention</b><br><span class="muted xs">Up next · 9 min</span></div></div></div>
+      <div class="card gated" style="padding:0"><div class="gblur" style="padding:15px"><div class="row" style="gap:12px"><div class="icbox" style="background:#efe7d6"><span class="material-symbols-outlined">lock</span></div><div style="flex:1"><b class="sm">4 · The night before</b><br><span class="muted xs">Members</span></div></div></div><div class="glock"><button class="btn gold sm" onclick="go('sc-subscribe')">Unlock pathway</button></div></div>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- JOURNAL                                                    -->
+  <!-- ========================================================= -->
+  <section class="screen" id="sc-journal" data-tab="tab-journal">
+    <div class="appbar"><div class="ttl">Your journey</div><div class="ic" onclick="go('sc-insights')"><span class="material-symbols-outlined">insights</span></div></div>
+    <div class="body cream">
+      <div class="row between" style="margin-bottom:6px"><div class="row" style="gap:6px"><span class="material-symbols-outlined">chevron_left</span><h3 style="font-family:'Fraunces',serif;font-size:18px">June 2026</h3><span class="material-symbols-outlined">chevron_right</span></div><span class="tag t-gold"><span class="material-symbols-outlined" style="font-size:13px">lock</span> Private</span></div>
+      <p class="muted xs" style="margin:0 0 12px">Only you can see this. Stored privately on your device.</p>
+      <div class="card" style="padding:13px">
+        <div class="cal" id="calendar"></div>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--gold)"></i> Joyful</span>
+        <span><i style="background:var(--moss)"></i> Calm</span>
+        <span><i style="background:var(--indigo)"></i> Reflective</span>
+        <span><i style="background:var(--terra)"></i> Heavy</span>
+        <span><i style="background:#cdbf9f"></i> Neutral</span>
+      </div>
+      <button class="btn gold" style="margin-top:16px" onclick="go('sc-entry')"><span class="material-symbols-outlined">edit</span> Add today's entry</button>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-entry">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Sat, 22 June</div><button class="btn gold sm" onclick="back()">Save</button></div>
+    <div class="body cream">
+      <div class="section-h">How are you feeling?</div>
+      <div class="card" style="text-align:center;padding:20px">
+        <div id="moodbig" style="font-size:54px">🌅</div>
+        <b style="font-family:'Fraunces',serif;font-size:18px" id="moodlbl">Joyful</b>
+        <button class="btn ghost sm" style="margin:12px auto 0;width:max-content" onclick="openSheet('sheet-mood')">Change mood</button>
+      </div>
+      <div class="field"><label>What happened today?</label><textarea style="min-height:140px" placeholder="Write freely about your experience, what came up, what you're integrating…">Woke up before sunrise and sat with the trees for an hour. Something in me has settled since the last ceremony — less gripping, more trust. Grateful.</textarea></div>
+      <label class="sm" style="font-weight:600;display:block;margin-bottom:8px">Tags</label>
+      <div class="pill-tabs"><button class="ptab on">Integration</button><button class="ptab on">Breakthrough</button><button class="ptab">Ceremony day</button><button class="ptab">Difficult</button></div>
+      <div class="row" style="gap:10px;margin-top:14px"><button class="btn ghost" style="flex:1"><span class="material-symbols-outlined" style="font-size:18px">photo_camera</span> Photo</button><button class="btn ghost" style="flex:1"><span class="material-symbols-outlined" style="font-size:18px">mic</span> Voice note</button></div>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-insights">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Your patterns</div></div>
+    <div class="body cream">
+      <div class="card"><div class="row"><div class="stat"><b>18</b><span>Entries</span></div><div class="stat"><b>6</b><span>Day streak</span></div><div class="stat"><b style="color:var(--moss)">Calm</b><span>Most felt</span></div></div></div>
+      <div class="section-h">Mood this month</div>
+      <div class="card"><div class="row" style="align-items:flex-end;gap:6px;height:110px">
+        <div style="flex:1;background:var(--moss);height:60%;border-radius:6px 6px 0 0"></div>
+        <div style="flex:1;background:var(--terra);height:35%;border-radius:6px 6px 0 0"></div>
+        <div style="flex:1;background:var(--gold);height:80%;border-radius:6px 6px 0 0"></div>
+        <div style="flex:1;background:var(--indigo);height:50%;border-radius:6px 6px 0 0"></div>
+        <div style="flex:1;background:var(--moss);height:70%;border-radius:6px 6px 0 0"></div>
+        <div style="flex:1;background:var(--gold);height:90%;border-radius:6px 6px 0 0"></div>
+      </div><p class="muted xs" style="text-align:center;margin:10px 0 0">Week 1 → 6</p></div>
+      <div class="note"><span class="material-symbols-outlined">tips_and_updates</span><span>You tend to feel calmest the morning after journaling. A gentle pattern worth noticing.</span></div>
+      <button class="btn ghost" style="margin-top:14px"><span class="material-symbols-outlined" style="font-size:18px">download</span> Export my journal</button>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- RETREATS (Kumankaya)                                       -->
+  <!-- ========================================================= -->
+  <section class="screen" id="sc-retreats" data-tab="tab-retreat">
+    <div class="appbar"><div class="ttl">Retreats</div></div>
+    <div class="body cream">
+      <div class="row" style="gap:8px;margin-bottom:14px"><img src="Logo.png" style="width:34px;height:34px;object-fit:contain"><div><b class="sm">Kumankaya Healing Center</b><br><span class="muted xs">Yucatán jungle, Mexico</span></div></div>
+      <div class="card" style="padding:0;overflow:hidden" onclick="go('sc-retreat')">
+        <div class="media m-jungle" style="height:170px;border-radius:18px 18px 0 0"><div><span class="tag t-gold mtag">Featured</span><h3 style="color:#fff;font-size:20px;margin:0">Master plant dieta &amp; retreat</h3></div></div>
+        <div style="padding:14px"><p class="sm muted" style="margin:0 0 10px">Intimate, traditional plant-medicine retreats in 27 acres of protected jungle.</p><div class="row between"><span class="sm"><b>From $90</b> <span class="muted">/ night</span></span><span class="tag t-event">Aug 2026 – Apr 2027</span></div></div>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden" onclick="go('sc-retreat')"><div class="media m-gold" style="height:120px;border-radius:18px 18px 0 0"><h3 style="color:#fff;margin:0">Golden Roots Scholarship</h3></div><div style="padding:13px"><span class="muted sm">A free 10-day stay, offered twice a year.</span></div></div>
+      <div class="card" style="padding:0;overflow:hidden" onclick="go('sc-booking')"><div class="row" style="padding:14px;gap:12px"><div class="icbox m-indigo"><span class="material-symbols-outlined" style="color:#fff">spa</span></div><div style="flex:1"><b class="sm">1:1 integration session</b><br><span class="muted xs">Request a private session with the team</span></div><span class="material-symbols-outlined muted">chevron_right</span></div></div>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-retreat">
+    <div class="appbar flat" style="position:absolute;width:100%;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent)"><div class="ic" style="color:#fff;background:rgba(0,0,0,.25)" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div style="flex:1"></div><div class="ic" style="color:#fff;background:rgba(0,0,0,.25)"><span class="material-symbols-outlined">share</span></div></div>
+    <div class="body" style="padding:0">
+      <div class="media m-jungle" style="height:230px;border-radius:0"></div>
+      <div style="padding:16px 16px 110px">
+        <h2 style="font-size:24px;margin:0 0 6px">Master plant dieta &amp; retreat</h2>
+        <span class="tag t-loc"><span class="material-symbols-outlined" style="font-size:12px">place</span> Felipe Carrillo Puerto, Quintana Roo</span>
+        <p class="sm" style="line-height:1.65;margin-top:12px">A traditional Shipibo plant-medicine retreat set in 27 acres of protected Mayan jungle. Intimate group sizes, deep support, and a strong focus on preparation and integration.</p>
+        <div class="section-h">What's included</div>
+        <div class="opt"><span class="material-symbols-outlined">restaurant</span><div class="sm">Dieta meals &amp; accommodation</div></div>
+        <div class="opt"><span class="material-symbols-outlined">groups</span><div class="sm">Ceremonies with experienced facilitators</div></div>
+        <div class="opt"><span class="material-symbols-outlined">spa</span><div class="sm">Bodywork &amp; integration support</div></div>
+        <div class="opt" style="border:0"><span class="material-symbols-outlined">forest</span><div class="sm">Solitude in pristine jungle</div></div>
+        <div class="section-h">Seasons</div>
+        <div class="card"><div class="row between sm"><span>2026–2027</span><b>30 Aug – 24 Apr</b></div><div class="divider" style="margin:10px 0"></div><div class="row between sm"><span>From</span><b>$90 / night</b></div></div>
+        <div class="note"><span class="material-symbols-outlined">info</span><span>Information is provided by Kumankaya. This is an enquiry — no payment is taken in the app.</span></div>
+      </div>
+    </div>
+    <div style="position:sticky;bottom:0;background:var(--paper);border-top:1px solid var(--line);padding:12px calc(12px + env(safe-area-inset-bottom));display:flex;gap:10px">
+      <button class="btn ghost" style="flex:1" onclick="go('sc-booking')">Ask a question</button>
+      <button class="btn gold" style="flex:1.4" onclick="go('sc-inquiry')">Express interest</button>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-inquiry">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Express interest</div></div>
+    <div class="body cream">
+      <p class="sm muted">Share your interest and the Kumankaya team will reach out. No payment is taken here.</p>
+      <div class="field"><label>Retreat</label><select class="input"><option>Master plant dieta &amp; retreat</option><option>Ayahuasca diet (3–9 nights)</option><option>Apprenticeship diet</option><option>Private retreat</option></select></div>
+      <div class="row" style="gap:10px"><div class="field" style="flex:1"><label>First name</label><input class="input"></div><div class="field" style="flex:1"><label>Last name</label><input class="input"></div></div>
+      <div class="field"><label>Email</label><input class="input" placeholder="you@email.com"></div>
+      <div class="field"><label>Preferred dates / season</label><input class="input" placeholder="e.g. Sept–Oct 2026"></div>
+      <div class="field"><label>Anything you'd like to share?</label><textarea placeholder="Your intentions, questions, experience…"></textarea></div>
+      <div class="row" style="gap:10px;margin-bottom:14px"><div class="toggle on" onclick="this.classList.toggle('on')"><i></i></div><span class="sm">Keep me updated with retreat news</span></div>
+      <button class="btn gold" onclick="openSheet('sheet-sent')">Send enquiry</button>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-booking">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Request a 1:1 session</div></div>
+    <div class="body cream">
+      <p class="sm muted">Send a scheduling request. The team will confirm a time with you — no payment is taken in the app.</p>
+      <div class="field"><label>Session type</label><select class="input"><option>Integration support (online)</option><option>Pre-retreat preparation call</option><option>General enquiry</option></select></div>
+      <div class="field"><label>Preferred days</label><div class="pill-tabs" style="margin:0"><button class="ptab on">Mon</button><button class="ptab">Tue</button><button class="ptab on">Wed</button><button class="ptab">Thu</button><button class="ptab">Fri</button></div></div>
+      <div class="field"><label>Preferred time</label><div class="pill-tabs" style="margin:0"><button class="ptab on">Morning</button><button class="ptab">Afternoon</button><button class="ptab">Evening</button></div></div>
+      <div class="field"><label>Your time zone</label><input class="input" value="GMT-5 · Cancún"></div>
+      <div class="field"><label>What would you like support with?</label><textarea placeholder="A few words on what's present for you…"></textarea></div>
+      <button class="btn gold" onclick="openSheet('sheet-sent')">Send request</button>
+    </div>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- PROFILE (ME) + SUBSCRIBE + SETTINGS + NOTIFS              -->
+  <!-- ========================================================= -->
+  <section class="screen me-elite" id="sc-me" data-tab="tab-me">
+    <div class="appbar"><div class="ttl">Me</div><div class="ic" onclick="go('sc-settings')"><span class="material-symbols-outlined">settings</span></div></div>
+    <div class="body cream" style="padding-top:0">
+      <div class="banner" style="text-align:center;padding-top:24px">
+        <div class="kente"></div>
+        <div class="avatar lg" style="background:var(--terra);margin:0 auto 10px">YO</div>
+        <h2 style="color:var(--sand);font-size:22px">you_on_the_path <span class="badge-elite" style="display:inline-flex;vertical-align:middle">★ Elite</span></h2>
+        <p class="sm" style="color:rgba(242,233,216,.8);margin:6px 0">Tulum · joined June 2026</p>
+        <button class="btn gold sm" style="width:max-content;margin:6px auto 0" onclick="go('sc-user')">Edit profile</button>
+      </div>
+
+      <!-- tier status -->
+      <div class="card hide-paid" style="background:linear-gradient(135deg,#caa24a,#9c7322);color:#fff;border:0">
+        <div class="row between"><div><b style="font-family:'Fraunces',serif;font-size:17px">Unlock the full circle</b><p class="sm" style="margin:4px 0 0;color:rgba(255,255,255,.9)">Members-only posts, full library &amp; more.</p></div><span class="material-symbols-outlined" style="font-size:34px">workspace_premium</span></div>
+        <button class="btn" style="background:#fff;color:#7a5a08;margin-top:12px" onclick="go('sc-subscribe')">See plans</button>
+      </div>
+
+      <div class="card"><div class="row between"><div class="row" style="gap:10px"><span class="material-symbols-outlined" style="color:var(--green)">workspace_premium</span><div><b class="sm" id="tierName">Free member</b><br><span class="muted xs" id="tierDesc">Reading public content</span></div></div><span class="material-symbols-outlined muted" onclick="go('sc-subscribe')">chevron_right</span></div></div>
+
+      <div class="list-item" onclick="go('sc-dms')"><span class="material-symbols-outlined" style="color:var(--green)">mail</span><div style="flex:1" class="sm">Messages</div><span class="phase">Phase 2</span><span class="material-symbols-outlined muted">chevron_right</span></div>
+      <div class="list-item" onclick="go('sc-post')"><span class="material-symbols-outlined" style="color:var(--green)">forum</span><div style="flex:1" class="sm">My posts &amp; answers</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+      <div class="list-item" onclick="go('sc-res')"><span class="material-symbols-outlined" style="color:var(--green)">bookmark</span><div style="flex:1" class="sm">Saved &amp; bookmarks</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+      <div class="list-item" onclick="go('sc-journal')"><span class="material-symbols-outlined" style="color:var(--green)">menu_book</span><div style="flex:1" class="sm">My journal</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+      <div class="list-item" onclick="go('sc-create')"><span class="material-symbols-outlined" style="color:var(--green)">add_circle</span><div style="flex:1" class="sm">Create a post</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-subscribe">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">close</span></div><div class="ttl">Plans</div></div>
+    <div class="body cream">
+      <div style="text-align:center;margin:6px 0 16px"><img src="Logo.png" style="width:54px;height:54px;object-fit:contain"><h2 style="font-size:23px;margin:8px 0 4px">Join the full circle</h2><p class="sm muted" style="margin:0">Free forever, or unlock everything.</p></div>
+
+      <div class="card"><div class="row between"><b class="sm">Free</b><b class="sm">$0</b></div><div class="divider" style="margin:10px 0"></div>
+        <div class="starline"><span class="material-symbols-outlined" style="color:var(--moss)">check</span><span class="sm">Post, comment &amp; react in forums</span></div>
+        <div class="starline"><span class="material-symbols-outlined" style="color:var(--moss)">check</span><span class="sm">Read all public content</span></div>
+        <div class="starline"><span class="material-symbols-outlined" style="color:var(--moss)">check</span><span class="sm">Full private journal — always free</span></div>
+        <div class="starline"><span class="material-symbols-outlined muted">lock</span><span class="sm muted">Members-only posts &amp; full library locked</span></div>
+      </div>
+
+      <div class="card" style="border:2px solid var(--green)"><div class="row between"><b class="sm">Paid subscriber</b><b class="sm">$12<span class="muted" style="font-weight:400">/mo</span></b></div><div class="divider" style="margin:10px 0"></div>
+        <div class="starline"><span class="material-symbols-outlined" style="color:var(--green)">check</span><span class="sm">Everything in Free</span></div>
+        <div class="starline"><span class="material-symbols-outlined" style="color:var(--green)">check</span><span class="sm">Read members-only posts &amp; full resource library</span></div>
+        <div class="starline"><span class="material-symbols-outlined" style="color:var(--green)">check</span><span class="sm">Guided pathways &amp; direct messages</span></div>
+        <button class="btn" style="margin-top:12px" onclick="choose('paid')">Choose Paid</button>
+      </div>
+
+      <div class="card" style="border:2px solid var(--gold);background:#fffdf6"><div class="row between"><b class="sm" style="color:#7a5a08">★ Elite</b><b class="sm">$24<span class="muted" style="font-weight:400">/mo</span></b></div><div class="divider" style="margin:10px 0"></div>
+        <div class="starline"><span class="material-symbols-outlined" style="color:var(--gold-d)">check</span><span class="sm">Everything in Paid</span></div>
+        <div class="starline"><span class="material-symbols-outlined" style="color:var(--gold-d)">workspace_premium</span><span class="sm"><b>Post Public or Private</b> (subscribers-only)</span></div>
+        <div class="starline"><span class="material-symbols-outlined" style="color:var(--gold-d)">military_tech</span><span class="sm">Elite profile badge</span></div>
+        <div class="starline"><span class="material-symbols-outlined" style="color:var(--gold-d)">bolt</span><span class="sm">Early access to new resources</span></div>
+        <button class="btn gold" style="margin-top:12px" onclick="choose('elite')">Choose Elite</button>
+      </div>
+      <p class="xs muted" style="text-align:center;margin-top:12px">Billed via the App Store / Google Play. Cancel anytime. Annual plans save 20%.</p>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-settings">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Settings</div></div>
+    <div class="body cream">
+      <div class="section-h">Account</div>
+      <div class="card" style="padding:4px 14px">
+        <div class="opt"><span class="material-symbols-outlined">person</span><div style="flex:1" class="sm">Display name &amp; profile</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+        <div class="opt"><span class="material-symbols-outlined">workspace_premium</span><div style="flex:1" class="sm">Manage subscription</div><span class="material-symbols-outlined muted" onclick="go('sc-subscribe')">chevron_right</span></div>
+        <div class="opt" style="border:0"><span class="material-symbols-outlined">place</span><div style="flex:1" class="sm">Location · Tulum</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+      </div>
+      <div class="section-h">Privacy</div>
+      <div class="card" style="padding:4px 14px">
+        <div class="opt"><span class="material-symbols-outlined">visibility</span><div style="flex:1" class="sm">Show location on posts</div><div class="toggle on" onclick="this.classList.toggle('on')"><i></i></div></div>
+        <div class="opt"><span class="material-symbols-outlined">mail</span><div style="flex:1" class="sm">Allow message requests</div><div class="toggle on" onclick="this.classList.toggle('on')"><i></i></div></div>
+        <div class="opt" style="border:0"><span class="material-symbols-outlined">download</span><div style="flex:1" class="sm">Export my data</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+      </div>
+      <div class="section-h">Notifications</div>
+      <div class="card" style="padding:4px 14px">
+        <div class="opt"><span class="material-symbols-outlined">forum</span><div style="flex:1" class="sm">Replies &amp; mentions</div><div class="toggle on" onclick="this.classList.toggle('on')"><i></i></div></div>
+        <div class="opt"><span class="material-symbols-outlined">edit_calendar</span><div style="flex:1" class="sm">Daily journal reminder</div><div class="toggle on" onclick="this.classList.toggle('on')"><i></i></div></div>
+        <div class="opt" style="border:0"><span class="material-symbols-outlined">event</span><div style="flex:1" class="sm">Events near me</div><div class="toggle" onclick="this.classList.toggle('on')"><i></i></div></div>
+      </div>
+      <div class="section-h">Support &amp; safety</div>
+      <div class="card" style="padding:4px 14px">
+        <div class="opt"><span class="material-symbols-outlined">help</span><div style="flex:1" class="sm">Help &amp; FAQ</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+        <div class="opt"><span class="material-symbols-outlined">policy</span><div style="flex:1" class="sm">Community guidelines</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+        <div class="opt"><span class="material-symbols-outlined">health_and_safety</span><div style="flex:1" class="sm">Crisis &amp; support resources</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+        <div class="opt" style="border:0"><span class="material-symbols-outlined">description</span><div style="flex:1" class="sm">Terms &amp; Privacy</div><span class="material-symbols-outlined muted">chevron_right</span></div>
+      </div>
+      <button class="btn ghost" style="margin-top:8px;color:var(--terra);border-color:var(--terra)" onclick="go('sc-splash')">Log out</button>
+      <p class="crisis">Kumankaya Community · v1.0 demo · English</p>
+    </div>
+  </section>
+
+  <section class="screen no-tab" id="sc-notif">
+    <div class="appbar"><div class="ic" onclick="back()"><span class="material-symbols-outlined">arrow_back</span></div><div class="ttl">Notifications</div></div>
+    <div class="body cream">
+      <div class="list-item" onclick="go('sc-post')"><div class="avatar sm" style="background:var(--indigo)">JK</div><div style="flex:1" class="sm"><b>josh_k</b> chose your answer as best answer 🏆<br><span class="muted xs">2h ago</span></div></div>
+      <div class="list-item" onclick="go('sc-post')"><div class="avatar sm" style="background:var(--moss)">DL</div><div style="flex:1" class="sm"><b>deena_l</b> replied to your post<br><span class="muted xs">5h ago</span></div></div>
+      <div class="list-item" onclick="go('sc-dms')"><span class="material-symbols-outlined" style="color:var(--green)">mail</span><div style="flex:1" class="sm"><b>hope_m</b> sent a message request<br><span class="muted xs">1d ago</span></div></div>
+      <div class="list-item" onclick="go('sc-journal')"><span class="material-symbols-outlined" style="color:var(--gold-d)">edit_calendar</span><div style="flex:1" class="sm">How are you feeling today? Add a journal entry.<br><span class="muted xs">1d ago</span></div></div>
+      <div class="list-item" onclick="go('sc-res')"><span class="material-symbols-outlined" style="color:var(--green)">auto_stories</span><div style="flex:1" class="sm">New resource: <b>Integration meditation series</b><br><span class="muted xs">2d ago</span></div></div>
+    </div>
+  </section>
+
+  </div><!-- /viewport -->
+
+  <!-- ============ FAB compose ============ -->
+  <button id="fab" onclick="go('sc-create')" style="position:absolute;right:18px;bottom:94px;width:58px;height:58px;border-radius:50%;background:var(--gold);color:#3a2c08;border:3px solid var(--paper);box-shadow:0 8px 22px rgba(0,0,0,.38);cursor:pointer;z-index:25;display:none;align-items:center;justify-content:center"><span class="material-symbols-outlined" style="font-size:28px">edit</span></button>
+
+  <!-- ============ TAB BAR ============ -->
+  <nav class="tabbar" id="tabbar" style="display:none">
+    <button id="tab-home" class="on" onclick="tab('sc-feed','tab-home')"><span class="material-symbols-outlined">forum</span>Community</button>
+    <button id="tab-res" onclick="tab('sc-res','tab-res')"><span class="material-symbols-outlined">auto_stories</span>Resources</button>
+    <button id="tab-journal" onclick="tab('sc-journal','tab-journal')"><span class="material-symbols-outlined">self_improvement</span>Journal</button>
+    <button id="tab-retreat" onclick="tab('sc-retreats','tab-retreat')"><span class="material-symbols-outlined">cottage</span>Retreats</button>
+    <button id="tab-me" onclick="tab('sc-me','tab-me')"><span class="material-symbols-outlined">account_circle</span>Me</button>
+  </nav>
+
+  <!-- ============ SHEETS / MODALS ============ -->
+  <div class="sheet-wrap" id="sheet-loc"><div class="sheet-bg" onclick="closeSheet()"></div><div class="sheet">
+    <div class="grab"></div><h3 class="section-h">Filter by location</h3>
+    <div class="opt" onclick="closeSheet()"><span class="material-symbols-outlined">public</span><div style="flex:1">Global</div></div>
+    <div class="opt" onclick="closeSheet()"><span class="material-symbols-outlined">flag</span><div style="flex:1">My country · Mexico</div></div>
+    <div class="opt" onclick="closeSheet()"><span class="material-symbols-outlined">location_city</span><div style="flex:1"><b>My city · Tulum</b></div><span class="material-symbols-outlined" style="color:var(--gold-d)">check</span></div>
+    <div class="opt" onclick="closeSheet()"><span class="material-symbols-outlined">explore</span><div style="flex:1">Custom radius…</div></div>
+    <div class="field" style="margin-top:10px"><input class="input" placeholder="Search a city or region…"></div>
+  </div></div>
+
+  <div class="sheet-wrap" id="sheet-filter"><div class="sheet-bg" onclick="closeSheet()"></div><div class="sheet">
+    <div class="grab"></div><h3 class="section-h">Filter &amp; sort</h3>
+    <label class="sm" style="font-weight:600;display:block;margin:6px 0 8px">Post type</label>
+    <div class="pill-tabs"><button class="ptab on">All</button><button class="ptab">Discussion</button><button class="ptab">Question</button><button class="ptab">Blog</button><button class="ptab">Announcement</button><button class="ptab">Event</button></div>
+    <label class="sm" style="font-weight:600;display:block;margin:10px 0 8px">Sort by</label>
+    <div class="pill-tabs"><button class="ptab on">Trending</button><button class="ptab">New</button><button class="ptab">Most helpful</button></div>
+    <button class="btn gold" style="margin-top:14px" onclick="closeSheet()">Show results</button>
+  </div></div>
+
+  <div class="sheet-wrap" id="sheet-mood"><div class="sheet-bg" onclick="closeSheet()"></div><div class="sheet">
+    <div class="grab"></div><h3 class="section-h">Select your mood</h3>
+    <div class="moodgrid">
+      <div class="mood on" onclick="pickMood(this,'🌅','Joyful')"><div class="em">🌅</div><div class="lb">Joyful</div></div>
+      <div class="mood" onclick="pickMood(this,'🌿','Calm')"><div class="em">🌿</div><div class="lb">Calm</div></div>
+      <div class="mood" onclick="pickMood(this,'🌙','Reflective')"><div class="em">🌙</div><div class="lb">Reflective</div></div>
+      <div class="mood" onclick="pickMood(this,'🌧️','Heavy')"><div class="em">🌧️</div><div class="lb">Heavy</div></div>
+      <div class="mood" onclick="pickMood(this,'🔥','Activated')"><div class="em">🔥</div><div class="lb">Activated</div></div>
+      <div class="mood" onclick="pickMood(this,'😌','Grateful')"><div class="em">😌</div><div class="lb">Grateful</div></div>
+    </div>
+    <button class="btn gold" style="margin-top:16px" onclick="closeSheet()">Done</button>
+  </div></div>
+
+  <div class="sheet-wrap" id="sheet-postmenu"><div class="sheet-bg" onclick="closeSheet()"></div><div class="sheet">
+    <div class="grab"></div>
+    <div class="opt" onclick="closeSheet()"><span class="material-symbols-outlined">bookmark</span><div>Save post</div></div>
+    <div class="opt" onclick="closeSheet()"><span class="material-symbols-outlined">share</span><div>Share</div></div>
+    <div class="opt" onclick="closeSheet()"><span class="material-symbols-outlined">notifications_off</span><div>Mute this thread</div></div>
+    <div class="opt" style="color:var(--terra);border:0" onclick="closeSheet()"><span class="material-symbols-outlined" style="color:var(--terra)">flag</span><div>Report — sourcing, sales or unsafe content</div></div>
+  </div></div>
+
+  <div class="sheet-wrap" id="sheet-report"><div class="sheet-bg" onclick="closeSheet()"></div><div class="sheet">
+    <div class="grab"></div><h3 class="section-h">josh_k</h3>
+    <div class="opt" onclick="closeSheet()"><span class="material-symbols-outlined">person_add</span><div>Follow</div></div>
+    <div class="opt" onclick="closeSheet()"><span class="material-symbols-outlined">volume_off</span><div>Mute</div></div>
+    <div class="opt" onclick="closeSheet()"><span class="material-symbols-outlined">block</span><div>Block</div></div>
+    <div class="opt" style="border:0" onclick="closeSheet()"><span class="material-symbols-outlined" style="color:var(--terra)">flag</span><div style="color:var(--terra)">Report this profile</div></div>
+  </div></div>
+
+  <div class="sheet-wrap" id="sheet-dmreq"><div class="sheet-bg" onclick="closeSheet()"></div><div class="sheet">
+    <div class="grab"></div><h3 class="section-h">Send a message request</h3>
+    <p class="sm muted">josh_k will need to accept before you can chat. Keep it kind and relevant — this isn't a dating space.</p>
+    <textarea style="margin:10px 0" placeholder="Introduce yourself…"></textarea>
+    <button class="btn gold" onclick="closeSheet();go('sc-chat')">Send request</button>
+  </div></div>
+
+  <div class="sheet-wrap" id="sheet-sent"><div class="sheet-bg" onclick="closeSheet()"></div><div class="sheet" style="text-align:center;padding-bottom:30px">
+    <div class="grab"></div>
+    <span class="material-symbols-outlined" style="font-size:54px;color:var(--moss)">check_circle</span>
+    <h3 class="section-h" style="margin-top:8px">Sent to Kumankaya</h3>
+    <p class="sm muted" style="margin:0 auto 16px;max-width:260px">Your request has reached the team's console. They'll be in touch by email soon. 🤍</p>
+    <button class="btn gold" onclick="closeSheet();tab('sc-retreats','tab-retreat')">Back to retreats</button>
+  </div></div>
+
+</div><!-- /phone -->
+  </div><!-- /phone-wrap -->
+</div><!-- /stage -->
+
+<script>
+/* ---------- navigation ---------- */
+var stack=[];
+function curId(){var a=document.querySelector('.screen.active');return a?a.id:null;}
+function render(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  var el=document.getElementById(id); if(!el)return;
+  el.classList.add('active'); el.scrollTop=0;
+  var noTab=el.classList.contains('no-tab');
+  document.getElementById('tabbar').style.display=noTab?'none':'flex';
+  document.getElementById('fab').style.display=(id==='sc-feed')?'flex':'none';
+  var sb=document.getElementById('statusbar');
+  var dark=['sc-splash','sc-welcome','sc-age','sc-auth','sc-ob1','sc-ob2','sc-ob3'].indexOf(id)>=0;
+  sb.classList.toggle('dark',dark);
+}
+function go(id){var c=curId(); if(c&&c!==id)stack.push(c); render(id);}
+function back(){var p=stack.pop(); render(p||'sc-feed');}
+function tab(id,btn){stack=[]; render(id); setTab(btn);}
+function setTab(btn){document.querySelectorAll('.tabbar button').forEach(function(b){b.classList.remove('on');}); var el=document.getElementById(btn); if(el)el.classList.add('on');}
+
+/* ---------- tier ---------- */
+function setTier(b){
+  document.querySelectorAll('.demorow .chip.alt').forEach(function(c){c.classList.remove('on');});
+  b.classList.add('on');
+  var t=b.getAttribute('data-tier');
+  document.body.setAttribute('data-tier',t);
+  var n={guest:'Guest',free:'Free member',paid:'Paid subscriber',elite:'Elite member'}[t];
+  var d={guest:'Browsing as a visitor',free:'Reading public content',paid:'Full access unlocked',elite:'Full access · can post privately'}[t];
+  var nn=document.getElementById('tierName'), dd=document.getElementById('tierDesc');
+  if(nn)nn.textContent=n; if(dd)dd.textContent=d;
+}
+function choose(t){
+  var map={paid:'paid',elite:'elite'};
+  document.querySelectorAll('.demorow .chip.alt').forEach(function(c){c.classList.toggle('on',c.getAttribute('data-tier')===map[t]);});
+  document.body.setAttribute('data-tier',map[t]);
+  setTier(document.querySelector('.demorow .chip.alt.on'));
+  go('sc-me'); setTab('tab-me');
+}
+
+/* ---------- onboarding ---------- */
+function afterAuth(){go('sc-ob1');}
+function finishOnboard(){stack=[]; render('sc-feed'); setTab('tab-home');}
+
+/* ---------- reactions ---------- */
+function rx(el){
+  var up=el.classList.contains('up'), parent=el.parentElement;
+  parent.querySelectorAll('.rx').forEach(function(r){r.classList.remove('on');});
+  el.classList.add('on');
+}
+
+/* ---------- sheets ---------- */
+function openSheet(id){document.getElementById(id).classList.add('open');}
+function closeSheet(){document.querySelectorAll('.sheet-wrap').forEach(function(s){s.classList.remove('open');});}
+
+/* ---------- mood ---------- */
+function pickMood(el,em,lbl){
+  document.querySelectorAll('#sheet-mood .mood').forEach(function(m){m.classList.remove('on');});
+  el.classList.add('on');
+  document.getElementById('moodbig').textContent=em;
+  document.getElementById('moodlbl').textContent=lbl;
+}
+
+/* ---------- calendar ---------- */
+(function buildCal(){
+  var cal=document.getElementById('calendar'); if(!cal)return;
+  var dows=['S','M','T','W','T','F','S'];
+  dows.forEach(function(d){var e=document.createElement('div');e.className='dow';e.textContent=d;cal.appendChild(e);});
+  var firstDow=0; /* June 1 2026 is a Monday -> index 1 */ firstDow=1;
+  var moods={
+    1:['🌿','var(--moss)'],2:['🌙','var(--indigo)'],3:['🌿','var(--moss)'],5:['🌅','var(--gold)'],
+    6:['🌧️','var(--terra)'],8:['😌','var(--gold)'],9:['🌿','var(--moss)'],10:['🌙','var(--indigo)'],
+    12:['🌅','var(--gold)'],13:['🌿','var(--moss)'],15:['🌧️','var(--terra)'],16:['🌙','var(--indigo)'],
+    18:['🌿','var(--moss)'],19:['😌','var(--gold)'],20:['🌅','var(--gold)'],21:['🌿','var(--moss)'],22:['🌅','var(--gold)']
+  };
+  for(var i=0;i<firstDow;i++){var x=document.createElement('div');x.className='day empty';cal.appendChild(x);}
+  for(var d=1;d<=30;d++){
+    var cell=document.createElement('div'); cell.className='day'+(d===22?' today':'');
+    var m=moods[d];
+    if(m){cell.style.background=m[1]; cell.style.color=(m[1].indexOf('indigo')>=0||m[1].indexOf('terra')>=0)?'#fff':'#2A2722';
+      cell.innerHTML='<span class="em">'+m[0]+'</span><span style="font-size:9px">'+d+'</span>';}
+    else{cell.innerHTML='<span style="opacity:.45">'+d+'</span>';}
+    cell.onclick=function(){go('sc-entry');};
+    cal.appendChild(cell);
+  }
+})();
+</script>
+</body>
+</html>
