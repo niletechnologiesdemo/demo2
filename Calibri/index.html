@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Almanac — Calibri Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   ALMANAC — Calibri Consulting · High-fidelity UI prototype
+   Self-contained: HTML + CSS + vanilla JS, in-memory state.
+   ============================================================ */
+
+:root{
+  --navy:#16284D;          /* primary, from logo */
+  --navy-700:#1E3A5F;
+  --navy-900:#0F1D3A;
+  --navy-ink:#1A2238;
+  --gold:#C2A14D;          /* accent, from logo */
+  --gold-soft:#D9C27E;
+  --gold-tint:#F3ECD8;
+  --paper:#F7F5EF;         /* warm background */
+  --paper-2:#FBFAF6;
+  --card:#FFFFFF;
+  --line:#E5E1D6;          /* warm border */
+  --line-2:#EFEDE5;
+  --ink:#23262F;
+  --muted:#6B7280;
+  --muted-2:#9AA0AC;
+  --teal:#2F7E78;          /* adaptive tier */
+  --green:#2E7D5B;
+  --green-tint:#E7F2EC;
+  --amber:#B5852A;
+  --amber-tint:#FBF1DC;
+  --red:#B23A3A;
+  --red-tint:#FBEBE9;
+  --blue-tint:#EAF0FA;
+  --shadow:0 1px 2px rgba(16,29,58,.06), 0 8px 24px rgba(16,29,58,.06);
+  --shadow-lg:0 12px 40px rgba(16,29,58,.16);
+  --radius:14px;
+  --radius-sm:10px;
+  --serif:'Cormorant Garamond', Georgia, serif;
+  --sans:'Inter', system-ui, -apple-system, sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--paper);
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer}
+input,textarea,select{font-family:inherit;font-size:14px}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#d7d2c5;border-radius:8px;border:2px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb:hover{background:#c5bfae;background-clip:content-box}
+
+/* ---------- Icons: default every inline SVG to text size ---------- */
+#root svg{width:1em;height:1em;display:inline-block;vertical-align:-.14em;flex-shrink:0}
+.ic{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:0}
+
+/* ---------- Typography helpers ---------- */
+.serif{font-family:var(--serif)}
+h1,h2,h3{margin:0;font-weight:600}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+.tiny{font-size:11.5px}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;justify-content:center;
+  border:1px solid var(--line);background:var(--card);color:var(--ink);
+  padding:9px 15px;border-radius:10px;font-weight:600;font-size:13.5px;
+  transition:.15s;white-space:nowrap;
+}
+.btn:hover{border-color:#cfc9ba;background:#fdfcf9}
+.btn .ic{font-size:15px}
+.btn-primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn-primary:hover{background:var(--navy-700);border-color:var(--navy-700)}
+.btn-gold{background:var(--gold);border-color:var(--gold);color:#21314f}
+.btn-gold:hover{background:#b6963f;border-color:#b6963f}
+.btn-ghost{background:transparent;border-color:transparent;color:var(--muted)}
+.btn-ghost:hover{background:#efece3;color:var(--ink)}
+.btn-danger{color:var(--red);border-color:#e8cfca;background:#fff}
+.btn-danger:hover{background:var(--red-tint)}
+.btn-sm{padding:6px 11px;font-size:12.5px;border-radius:8px}
+.btn-lg{padding:12px 22px;font-size:15px;border-radius:12px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.iconbtn{width:34px;height:34px;padding:0;border-radius:9px;display:inline-flex;align-items:center;justify-content:center}
+
+/* ---------- Pills / badges ---------- */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;
+  padding:3px 9px;border-radius:999px;letter-spacing:.02em;border:1px solid transparent}
+.pill .dot{width:6px;height:6px;border-radius:50%}
+.tier{cursor:default}
+.tier-core{background:var(--blue-tint);color:#2a4a86;border-color:#cfdcf2}
+.tier-core .dot{background:#3a63b0}
+.tier-ai{background:var(--gold-tint);color:#8a6d1f;border-color:#e8dab0}
+.tier-ai .dot{background:var(--gold)}
+.tier-adaptive{background:#E4F1EF;color:#235e58;border-color:#c4e2dd}
+.tier-adaptive .dot{background:var(--teal)}
+.status{font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px}
+.st-seller{background:var(--blue-tint);color:#2a4a86}
+.st-buyer{background:var(--gold-tint);color:#8a6d1f}
+.st-mapping{background:#E4F1EF;color:#235e58}
+.st-closed{background:#ECEAE3;color:#6c6658}
+.flag-pill{background:var(--red-tint);color:var(--red);border-color:#eccfca}
+.ok-pill{background:var(--green-tint);color:var(--green);border-color:#cce6d8}
+
+/* ---------- Top bar ---------- */
+.topbar{height:62px;background:var(--navy);display:flex;align-items:center;
+  padding:0 22px;gap:18px;position:sticky;top:0;z-index:40;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.topbar .brand{display:flex;align-items:center;gap:11px;cursor:pointer}
+.topbar .brand .logo-chip{background:#fff;border-radius:8px;padding:5px 9px;display:flex;align-items:center}
+.topbar .brand .logo-chip img{height:24px;display:block}
+.topbar .brand .wm{color:#fff;font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.04em;line-height:1}
+.topbar .brand .wm small{display:block;font-size:9.5px;letter-spacing:.34em;color:var(--gold-soft);font-weight:700;font-family:var(--sans);margin-top:2px}
+.topbar .sep{width:1px;height:26px;background:rgba(255,255,255,.16)}
+.topbar .crumb{color:#cdd6e6;font-size:13px;display:flex;align-items:center;gap:8px}
+.topbar .crumb b{color:#fff;font-weight:600}
+.topbar .spacer{flex:1}
+.topbar .u{display:flex;align-items:center;gap:10px;cursor:pointer;padding:5px 8px;border-radius:10px}
+.topbar .u:hover{background:rgba(255,255,255,.08)}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--gold);color:#21314f;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;flex-shrink:0}
+.topbar .u .nm{color:#fff;font-size:13px;font-weight:600;line-height:1.15}
+.topbar .u .rl{color:#aebbd0;font-size:11px}
+
+/* Tier control */
+.tierctl{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.08);
+  border-radius:10px;padding:3px}
+.tierctl button{border:none;background:transparent;color:#c2cde0;font-size:11.5px;font-weight:600;
+  padding:6px 11px;border-radius:8px;display:flex;align-items:center;gap:6px}
+.tierctl button .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.8}
+.tierctl button.active{background:#fff;color:var(--navy)}
+.tierctl .lbl{color:#94a3bd;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding-left:6px}
+
+/* Tier spotlight mode: dim features not in the active tier */
+body[data-spot="core"] [data-tier]:not([data-tier="core"]),
+body[data-spot="ai"] [data-tier]:not([data-tier="ai"]),
+body[data-spot="adaptive"] [data-tier]:not([data-tier="adaptive"]){opacity:.32;filter:grayscale(.5)}
+body[data-spot="core"] [data-tier="core"],
+body[data-spot="ai"] [data-tier="ai"],
+body[data-spot="adaptive"] [data-tier="adaptive"]{
+  outline:2px solid var(--gold);outline-offset:3px;border-radius:8px;position:relative;z-index:1}
+
+/* ---------- Layout ---------- */
+.page{max-width:1280px;margin:0 auto;padding:30px 26px 70px}
+.row{display:flex;gap:14px;align-items:center}
+.between{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.grid{display:grid;gap:16px}
+.wrap{flex-wrap:wrap}
+
+/* ---------- Cards ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-p{padding:20px}
+.section-title{font-family:var(--serif);font-size:23px;color:var(--navy-ink);font-weight:600}
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+.login{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr}
+.login .left{background:
+   radial-gradient(1200px 500px at 10% -10%, rgba(194,161,77,.18), transparent 60%),
+   linear-gradient(160deg,var(--navy-900),var(--navy) 70%);
+  color:#fff;padding:54px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.login .left::after{content:"";position:absolute;right:-120px;bottom:-120px;width:420px;height:420px;
+  border-radius:50%;border:1px solid rgba(217,194,126,.25);box-shadow:0 0 0 40px rgba(217,194,126,.05)}
+.login .left .logo{display:flex;align-items:center;gap:16px}
+.login .left .logo .logo-chip{background:#fff;border-radius:11px;padding:8px 13px;display:flex;align-items:center}
+.login .left .logo .logo-chip img{height:34px;display:block}
+.real-logo{height:42px;display:block;margin:0 auto 22px}
+.login .left .logo .wm{font-family:var(--serif);font-size:30px;letter-spacing:.05em}
+.login .left .logo .wm small{display:block;font-size:11px;letter-spacing:.4em;color:var(--gold-soft);font-family:var(--sans);font-weight:700;margin-top:3px}
+.login .hero h1{font-family:var(--serif);font-size:46px;line-height:1.08;font-weight:600;max-width:13ch}
+.login .hero p{color:#b9c4d8;font-size:15.5px;max-width:42ch;margin-top:16px}
+.login .hero .tag{margin-top:26px;display:flex;gap:8px;flex-wrap:wrap}
+.login .hero .tag span{font-size:12px;color:#dfe6f1;border:1px solid rgba(255,255,255,.18);padding:6px 12px;border-radius:999px}
+.login .foot{color:#8593ab;font-size:12px}
+.login .right{display:flex;align-items:center;justify-content:center;padding:40px;background:var(--paper)}
+.loginbox{width:100%;max-width:360px}
+.loginbox h2{font-family:var(--serif);font-size:28px;color:var(--navy-ink)}
+.loginbox p.sub{color:var(--muted);margin:6px 0 26px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:12.5px;font-weight:600;color:#404756;margin-bottom:6px}
+.input{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 13px;color:var(--ink);transition:.15s}
+.input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(194,161,77,.16)}
+textarea.input{resize:vertical;min-height:74px;line-height:1.55}
+select.input{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+.login .demo-users{margin-top:18px;border-top:1px dashed var(--line);padding-top:16px}
+.login .demo-users .du{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;cursor:pointer}
+.login .demo-users .du:hover{background:#fff}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+.dash-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:22px}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.stat .n{font-family:var(--serif);font-size:32px;color:var(--navy-ink);font-weight:600;line-height:1}
+.stat .l{color:var(--muted);font-size:12.5px;margin-top:6px}
+.stat .ic{float:right;width:38px;height:38px;border-radius:10px;background:var(--paper);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:20px}
+
+.case-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.case-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;cursor:pointer;transition:.16s;box-shadow:var(--shadow)}
+.case-card:hover{border-color:var(--gold-soft);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.case-card .ttl{font-family:var(--serif);font-size:20px;color:var(--navy-ink);font-weight:600}
+.case-card .meta{color:var(--muted);font-size:12.5px;margin-top:3px}
+.handoff{display:flex;align-items:center;gap:10px;margin:14px 0}
+.handoff .p{flex:1;background:var(--paper);border:1px solid var(--line-2);border-radius:10px;padding:9px 11px}
+.handoff .p .role{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.handoff .p.sell .role{color:#2a4a86}
+.handoff .p.buy .role{color:#8a6d1f}
+.handoff .p .nm{font-weight:600;color:var(--ink);font-size:13.5px;margin-top:2px}
+.handoff .arr{color:var(--gold);flex-shrink:0;font-size:18px;display:flex}
+.progress{height:7px;background:#eceae2;border-radius:99px;overflow:hidden;margin-top:6px}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:99px}
+.newcase-card{border:1.5px dashed #cfc8b6;background:linear-gradient(180deg,#fff,#fbfaf5);display:flex;
+  flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;color:var(--muted);min-height:190px}
+.newcase-card:hover{border-color:var(--gold);color:var(--navy)}
+.newcase-card .plus{width:46px;height:46px;border-radius:50%;background:var(--gold-tint);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px}
+
+/* ============================================================
+   CASE WORKSPACE
+   ============================================================ */
+.case-shell{display:grid;grid-template-columns:262px 1fr;min-height:calc(100vh - 62px)}
+.rail{background:#fff;border-right:1px solid var(--line);padding:18px 14px;position:sticky;top:62px;height:calc(100vh - 62px);overflow:auto}
+.rail .back{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12.5px;font-weight:600;padding:6px;border-radius:8px;cursor:pointer}
+.rail .back:hover{background:var(--paper);color:var(--ink)}
+.rail .cname{font-family:var(--serif);font-size:18px;color:var(--navy-ink);font-weight:600;margin:12px 6px 2px}
+.rail .cstat{margin:0 6px 14px}
+.rail .grp{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);font-weight:700;margin:16px 8px 6px}
+.navitem{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;color:#3b4150;font-size:13.5px;font-weight:500;cursor:pointer;position:relative}
+.navitem:hover{background:var(--paper)}
+.navitem.active{background:var(--navy);color:#fff;font-weight:600}
+.navitem.active .ic{color:var(--gold-soft)}
+.navitem .ic{font-size:17px;color:var(--muted);flex-shrink:0}
+.navitem .ck{margin-left:auto;width:16px;height:16px;color:var(--green)}
+.navitem.active .ck{color:var(--gold-soft)}
+.navitem .lock{margin-left:auto;width:14px;height:14px;color:var(--muted-2)}
+.navsub{padding-left:14px}
+
+.case-main{padding:26px 30px 80px;overflow:auto;height:calc(100vh - 62px)}
+.case-main-wide{max-width:980px}
+.phead{margin-bottom:20px}
+.phead h2{font-family:var(--serif);font-size:27px;color:var(--navy-ink);font-weight:600}
+.phead p{color:var(--muted);margin-top:4px;max-width:70ch}
+
+/* stepper */
+.stepper{display:flex;align-items:center;gap:0;margin:0 0 24px}
+.stepper .s{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:12.5px;font-weight:600}
+.stepper .s .b{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;background:#fff}
+.stepper .s.done .b{background:var(--green);border-color:var(--green);color:#fff}
+.stepper .s.active{color:var(--navy)}
+.stepper .s.active .b{background:var(--navy);border-color:var(--navy);color:#fff}
+.stepper .line{flex:1;height:1.5px;background:var(--line);margin:0 10px;min-width:18px}
+.stepper .line.done{background:var(--green)}
+
+/* forms */
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.formgrid .full{grid-column:1 / -1}
+.fieldset{margin-bottom:26px}
+.fieldset > .lg{font-family:var(--serif);font-size:18px;color:var(--navy-ink);margin-bottom:4px;font-weight:600}
+.fieldset > .hint{color:var(--muted);font-size:12.5px;margin-bottom:14px}
+.hl{display:flex;align-items:center;gap:8px}
+
+/* roles */
+.role-card{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+  border-radius:12px;padding:15px 16px;transition:.15s}
+.role-card:hover{border-color:var(--gold-soft)}
+.role-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;font-size:15px}
+.role-card .nm{font-weight:700;color:var(--navy-ink);font-size:15px}
+.role-card .ti{color:var(--gold);font-weight:600;font-size:12.5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font-size:11.5px;background:var(--paper);border:1px solid var(--line-2);border-radius:999px;padding:3px 10px;color:#4b5161}
+.chip.add{cursor:pointer;border-style:dashed;color:var(--muted)}
+.chip.add:hover{border-color:var(--gold);color:var(--navy)}
+.kpibar{display:flex;align-items:center;gap:8px;margin-top:10px}
+.kpibar .meter{flex:1;height:6px;background:#eceae2;border-radius:99px;overflow:hidden}
+.kpibar .meter>i{display:block;height:100%;background:var(--green)}
+
+/* KPI capture split — fixed-height two-pane, each pane scrolls internally */
+.case-main-flush{padding:0;overflow:hidden;height:calc(100vh - 62px)}
+.kpi-page{display:flex;flex-direction:column;height:100%;padding:24px 30px 18px;box-sizing:border-box}
+.kpi-head{flex-shrink:0}
+.kpi-head .phead{margin-bottom:14px}
+.kpi-cols{flex:1;display:grid;grid-template-columns:1fr 380px;gap:20px;min-height:0}
+.kpi-list{overflow:auto;min-height:0;padding-right:6px}
+.kpi-foot{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;padding-top:14px;margin-top:4px;border-top:1px solid var(--line-2)}
+.kpi-layout{display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start}
+.person-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.ptab{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px 5px 6px;cursor:pointer;font-weight:600;font-size:13px;color:#3b4150}
+.ptab:hover{border-color:var(--gold-soft)}
+.ptab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.ptab .role-av{width:26px;height:26px;font-size:11px}
+.ptab .ck{width:14px;height:14px;color:var(--green)}
+.ptab.active .ck{color:var(--gold-soft)}
+
+.kpi-item{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;background:#fff;transition:border-color .14s,box-shadow .14s}
+.kpi-item:hover{border-color:var(--gold-soft)}
+.kpi-item.open{box-shadow:var(--shadow)}
+.kpi-item .kh{display:flex;align-items:center;gap:11px;padding:13px 15px;background:#fff;cursor:pointer;transition:.14s}
+.kpi-item .kh:hover{background:var(--paper-2)}
+.kpi-item.open .kh{background:var(--paper-2);border-bottom:1px solid var(--line-2)}
+.kpi-item .chev{display:inline-flex;color:var(--muted-2);font-size:15px;transition:transform .18s;flex-shrink:0}
+.kpi-item.open .chev{transform:rotate(90deg);color:var(--navy)}
+.kpi-item .kh .t{font-weight:700;color:var(--navy-ink);font-size:14px}
+.khright{margin-left:auto;display:flex;align-items:center;gap:9px}
+.whdots{display:flex;gap:4px}
+.whdot{width:21px;height:21px;border-radius:6px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;background:#efece4;color:#bdb7a6}
+.whdot.on.w{background:var(--blue-tint);color:#2a4a86}
+.whdot.on.h{background:#efeafb;color:#5a4fa3}
+.whdot.on.y{background:var(--gold-tint);color:#8a6d1f}
+.kglance{padding:0 16px 13px 42px;color:var(--muted);font-size:12.5px;cursor:pointer;display:flex;gap:8px;align-items:baseline}
+.kglance .lead{color:var(--muted-2);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0;transform:translateY(-1px)}
+.kglance .txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kpi-item.flagged{border-color:#eccfca}
+.kpi-item.flagged .kglance{color:#9a4a44}
+.kpi-item .kb{padding:14px 15px;display:grid;gap:12px}
+.whyrow label{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+.whyrow .what label{color:#2a4a86}
+.whyrow .how label{color:#5a4fa3}
+.whyrow .why label{color:var(--gold)}
+.whytag{font-size:9.5px;padding:1px 7px;border-radius:99px;font-weight:800;letter-spacing:.04em}
+.whytag.w{background:var(--blue-tint);color:#2a4a86}
+.whytag.h{background:#efeafb;color:#5a4fa3}
+.whytag.y{background:var(--gold-tint);color:#8a6d1f}
+
+/* AI copilot */
+.copilot{border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;height:100%;min-height:0;background:#fff;box-shadow:var(--shadow)}
+.copilot .ch{padding:13px 15px;background:linear-gradient(135deg,var(--navy),var(--navy-700));color:#fff;display:flex;align-items:center;gap:11px}
+.copilot .ch .bot{width:34px;height:34px;border-radius:10px;background:rgba(217,194,126,.2);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--gold-soft)}
+.copilot .ch .nm{font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+.copilot .ch .st{font-size:11px;color:#aec4be;display:flex;align-items:center;gap:5px}
+.copilot .ch .st .live{width:6px;height:6px;border-radius:50%;background:#5fd0a8;box-shadow:0 0 0 3px rgba(95,208,168,.25)}
+.cbody{flex:1;overflow:auto;padding:16px;background:
+   linear-gradient(180deg,#fbfaf6,#fff);display:flex;flex-direction:column;gap:12px}
+.msg{display:flex;gap:9px;max-width:92%}
+.msg .ava{width:26px;height:26px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.msg.bot .ava{background:var(--navy);color:var(--gold-soft)}
+.msg.me{align-self:flex-end;flex-direction:row-reverse}
+.msg.me .ava{background:var(--gold);color:#21314f}
+.bubble{padding:10px 13px;border-radius:13px;font-size:13px;line-height:1.5}
+.msg.bot .bubble{background:#fff;border:1px solid var(--line);border-top-left-radius:4px;color:#2c313c}
+.msg.me .bubble{background:var(--navy);color:#fff;border-top-right-radius:4px}
+.bubble b{color:inherit}
+.msg.bot .bubble b{color:var(--navy)}
+.flagcard{background:var(--red-tint);border:1px solid #eccfca;border-radius:12px;padding:11px 13px;font-size:12.5px}
+.flagcard .ttl{display:flex;align-items:center;gap:7px;color:var(--red);font-weight:700;margin-bottom:4px}
+.flagcard .act{display:flex;gap:7px;margin-top:9px}
+.sugglist{display:flex;flex-direction:column;gap:7px;margin-top:2px}
+.sugg{display:flex;align-items:center;gap:8px;text-align:left;border:1px solid var(--line);background:#fff;
+  border-radius:10px;padding:9px 11px;font-size:12.5px;color:#2c313c;font-weight:500;cursor:pointer;transition:.14s}
+.sugg:hover{border-color:var(--gold);background:var(--gold-tint)}
+.sugg .ic{color:var(--gold);flex-shrink:0}
+.cfoot{border-top:1px solid var(--line);padding:11px;display:flex;gap:8px;align-items:flex-end;background:#fff}
+.cfoot textarea{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px 11px;resize:none;height:40px;max-height:110px;line-height:1.4}
+.cfoot textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(194,161,77,.16)}
+.typing{display:flex;gap:3px;padding:4px 2px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--muted-2);animation:bl 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes bl{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+/* org map */
+.orgmap{background:
+   radial-gradient(circle at 20% 0%, #fff, transparent),
+   var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:30px;position:relative}
+.org-top{display:flex;justify-content:center;margin-bottom:8px}
+.org-tier{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;position:relative;padding-top:22px}
+.org-node{width:188px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 14px;box-shadow:var(--shadow);position:relative}
+.org-node .nm{font-weight:700;color:var(--navy-ink);font-size:14px}
+.org-node .ti{color:var(--gold);font-size:12px;font-weight:600}
+.org-node .co{display:flex;align-items:center;gap:6px;margin-top:9px;font-size:11px;color:var(--muted)}
+.org-node.head{border-color:var(--navy);border-width:1.5px}
+.connector{height:24px;width:1.5px;background:var(--line);margin:0 auto}
+
+/* mapping board */
+.cov-full{color:var(--green)}.cov-partial{color:var(--amber)}.cov-gap{color:var(--red)}
+.row .cov-full .ic,.row .cov-partial .ic,.row .cov-gap .ic{font-size:18px}
+.map-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.map-stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px}
+.map-stat.danger{border-color:#eccfca;background:var(--red-tint)}
+.map-stat .mn{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--navy-ink);display:flex;align-items:center;gap:8px}
+.map-stat .mn .ic{font-size:18px}
+.map-stat .ml{font-size:12px;color:var(--muted);margin-top:3px}
+.map-board{display:grid;grid-template-columns:1fr;gap:12px}
+.map-headrow{display:grid;grid-template-columns:1fr 188px 1fr;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--muted);padding:0 4px}
+.map-headrow>div{padding:4px 16px}
+.map-row{display:grid;grid-template-columns:1fr 188px 1fr;gap:0;align-items:stretch;
+  background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.map-row.is-gap{border-color:#eccfca}
+.map-cell{padding:16px 16px}
+.map-cell.sell{border-right:1px solid var(--line-2)}
+.map-cell.buy{border-left:1px solid var(--line-2)}
+.map-cell .nm{font-weight:700;color:var(--navy-ink)}
+.map-cell .ti{color:var(--gold);font-size:12px;font-weight:600}
+.map-cell .resp{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.map-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--paper-2);padding:14px 10px}
+.cov-badge{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;border:1px solid transparent}
+.cov-badge .ic{font-size:15px}
+.cov-badge.cov-full{background:var(--green-tint);border-color:#cce6d8}
+.cov-badge.cov-partial{background:var(--amber-tint);border-color:#e8dab0}
+.cov-badge.cov-gap{background:var(--red-tint);border-color:#eccfca}
+.map-mid .conn{width:1.5px;height:22px;background:var(--line)}
+.map-mid .seg{margin-top:0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}
+.seg button{border:none;background:#fff;padding:6px 13px;font-size:12px;font-weight:600;color:var(--muted)}
+.seg button.active{background:var(--navy);color:#fff}
+.seg button:not(.active):hover{background:var(--paper)}
+.whymini{display:flex;gap:7px;align-items:flex-start;margin-top:11px;font-size:11.5px;color:#6f5916;background:var(--gold-tint);border:1px solid #ecdfba;border-radius:9px;padding:8px 10px;line-height:1.45}
+.whymini b{color:#5e4b14}
+.whymini .ic{color:var(--gold);flex-shrink:0;font-size:14px;margin-top:1px}
+.whymini.empty{color:#9a7d2e;background:#fbf6e8}
+.carry{display:flex;gap:7px;align-items:flex-start;margin-top:11px;background:var(--gold-tint);border:1px solid #e8dab0;border-radius:9px;padding:8px 10px;font-size:11.5px;color:#7a611c;line-height:1.45}
+.carry b{color:#5e4b14}.carry .ic{color:var(--gold);flex-shrink:0;font-size:14px;margin-top:1px}
+.gapbox{display:flex;gap:7px;align-items:flex-start;background:var(--red-tint);border:1px solid #eccfca;border-radius:9px;padding:9px 11px;font-size:11.5px;color:var(--red);margin-top:11px;line-height:1.45}
+.gapbox .ic{flex-shrink:0;font-size:14px;margin-top:1px}.gapbox b{color:#8a2f2f}
+.gaphead{display:flex;align-items:center;gap:7px;font-weight:700;color:var(--red);font-size:13.5px}
+.gaphead .ic{font-size:16px}
+.map-cell.empty{background:repeating-linear-gradient(45deg,#fff,#fff 9px,#fcfaf4 9px,#fcfaf4 18px)}
+.reassign{display:block;margin-top:12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.reassign select{margin-top:5px;font-size:12.5px}
+
+/* close */
+.close-sum{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.keepbox{border:1px solid #cce6d8;background:var(--green-tint);border-radius:13px;padding:18px}
+.purgebox{border:1px solid #eccfca;background:var(--red-tint);border-radius:13px;padding:18px}
+.keepbox h3,.purgebox h3{font-family:var(--serif);font-size:18px;display:flex;align-items:center;gap:9px}
+.keepbox h3{color:#1f6b4b}.purgebox h3{color:var(--red)}
+.linelist{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:9px}
+.linelist li{display:flex;gap:9px;font-size:13px;align-items:flex-start}
+.linelist li .ic{flex-shrink:0;margin-top:1px}
+
+/* ---------- Copilot full page ---------- */
+.cop-page{display:flex;flex-direction:column;height:100%}
+.cop-head{flex-shrink:0;padding:20px 30px 16px;border-bottom:1px solid var(--line);background:#fff}
+.cop-mark{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--navy),var(--navy-700));color:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0}
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#5fd0a8;box-shadow:0 0 0 3px rgba(95,208,168,.22);margin-right:6px;vertical-align:middle}
+.cop-ctxbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.ctx-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);margin-right:2px}
+.cop-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 13px 4px 5px;font-size:12.5px;font-weight:600;color:#3b4150;cursor:pointer;transition:.14s}
+.cop-chip:hover{border-color:var(--gold-soft)}
+.cop-chip.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.cop-chip .role-av{width:24px;height:24px;font-size:10px}
+.cop-chip .gl{width:24px;height:24px;border-radius:50%;background:var(--gold-tint);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px}
+.cop-chip.active .gl{background:rgba(217,194,126,.25);color:var(--gold-soft)}
+.cop-body{flex:1;overflow:auto;min-height:0;padding:26px 24px;display:flex;justify-content:center;background:linear-gradient(180deg,#fbfaf6,#fff)}
+.cop-inner{width:100%;max-width:780px;display:flex;flex-direction:column;gap:14px}
+.cop-inner .msg{max-width:86%}
+.cop-inner .bubble{font-size:14px}
+.cop-inner .flagcard{max-width:100%}
+.sug-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:2px}
+.cop-foot{flex-shrink:0;border-top:1px solid var(--line);padding:14px 24px;background:#fff;display:flex;justify-content:center}
+.cop-inputwrap{width:100%;max-width:780px;display:flex;gap:10px;align-items:flex-end}
+.cop-inputwrap textarea{flex:1;border:1px solid var(--line);border-radius:12px;padding:12px 14px;resize:none;height:46px;max-height:140px;line-height:1.4;font-size:14px}
+.cop-inputwrap textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(194,161,77,.16)}
+
+/* ---------- Mapping: view toggle, summary table, item rows ---------- */
+.map-viewtoggle{display:flex;margin-bottom:16px}
+.map-viewtoggle .seg button{padding:8px 15px;font-size:13px;display:inline-flex;align-items:center;gap:7px}
+.map-viewtoggle .seg button .ic{font-size:15px}
+.map-stat.warn{border-color:#e8dab0;background:var(--amber-tint)}
+.map-table{width:100%;border-collapse:collapse;font-size:13px}
+.map-table th{text-align:left;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:12px 16px;background:var(--paper-2);border-bottom:1px solid var(--line)}
+.map-table td{padding:13px 16px;border-bottom:1px solid var(--line-2);vertical-align:top}
+.map-table tr:last-child td{border-bottom:none}
+.map-table .ti{color:var(--gold);font-size:11.5px;font-weight:600}
+.map-table tr.cov-row-gap{background:#fdf6f5}
+.ownerline{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.open-chip{display:inline-block;background:var(--red-tint);color:#9a3b3b;border:1px solid #eccfca;border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:600;margin:0 5px 5px 0}
+.openrow{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:#fff}
+.openrow b{color:var(--navy-ink)}
+.input.mini{padding:6px 9px;font-size:12.5px;border-radius:8px;min-width:200px}
+.itemmap{margin-top:12px;display:flex;flex-direction:column;gap:7px}
+.itemrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 11px;border:1px solid var(--line-2);border-radius:9px;background:var(--paper-2)}
+.itemrow.open{background:var(--red-tint);border-color:#eccfca}
+.itemrow .il{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--navy-ink)}
+.itemrow .il .ic{font-size:15px}
+.itemrow.open .il{color:#9a3b3b}
+.itemrow .input.mini{min-width:170px}
+
+/* ---------- Almanac questionnaire ---------- */
+.q-page{max-width:1240px;margin:0 auto}
+.q-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+.q-main{min-width:0}
+.q-rail{position:sticky;top:18px;display:flex;flex-direction:column;gap:14px}
+.q-rail-card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px}
+.qr-h{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted-2);margin-bottom:12px}
+.qr-prog{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.qr-prog .bar{flex:1;height:7px;background:#eceae2;border-radius:99px;overflow:hidden}
+.qr-prog .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:99px}
+.qr-prog span{font-size:11.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+.qr-list{display:flex;flex-direction:column;gap:1px;max-height:calc(100vh - 320px);overflow:auto}
+.qr-item{display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:none;background:transparent;padding:7px 8px;border-radius:8px;font-size:12.5px;color:#4b5161;cursor:pointer}
+.qr-item:hover{background:var(--paper)}
+.qr-dot{width:7px;height:7px;border-radius:50%;background:#d9d3c5;flex-shrink:0}
+.qr-item.on .qr-dot{background:var(--gold)}
+.qr-item.on .qr-label{color:var(--navy-ink);font-weight:600}
+.qr-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.almanac-sheet{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.alm-cover{padding:30px 36px 22px;background:radial-gradient(700px 220px at 0% 0%, var(--gold-tint), transparent 70%),#fff;border-bottom:2px solid var(--gold-soft)}
+.alm-kicker{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+.alm-kicker .ic{font-size:15px}
+.alm-cover-title{font-size:32px;color:var(--navy-ink);font-weight:600;margin-top:8px;line-height:1.05}
+.alm-cover-sub{color:var(--muted);font-size:13.5px;margin-top:5px;font-style:italic}
+.alm-entries{padding:6px 36px}
+.alm-entry{padding:18px 0;border-bottom:1px solid var(--line-2)}
+.alm-entry:last-child{border-bottom:none}
+.alm-entry-head{display:flex;align-items:center;gap:10px;margin-bottom:5px}
+.alm-title{font-family:var(--serif);font-size:18px;color:var(--navy-ink);font-weight:600;flex:1}
+.alm-title-input{flex:1;border:none;border-bottom:1px dashed var(--line);font-family:var(--serif);font-size:18px;color:var(--navy-ink);font-weight:600;padding:2px 0;background:transparent}
+.alm-title-input:focus{outline:none;border-bottom-color:var(--gold)}
+.alm-title-input::placeholder{color:var(--muted-2);font-style:italic;font-weight:500}
+.alm-actions{display:flex;gap:4px;opacity:.25;transition:.14s}
+.alm-entry:hover .alm-actions{opacity:1}
+.alm-actions .iconbtn{width:28px;height:28px}
+.alm-actions button[data-dir="up"] svg{transform:rotate(-90deg)}
+.alm-actions button[data-dir="down"] svg{transform:rotate(90deg)}
+.alm-body{width:100%;border:none;background:transparent;resize:none;font-size:14px;line-height:1.7;color:#33373f;padding:2px 0;overflow:hidden;min-height:46px;display:block}
+.alm-body:focus{outline:none}
+.alm-body::placeholder{color:var(--muted-2)}
+.alm-add{display:flex;align-items:center;justify-content:center;gap:8px;width:calc(100% - 72px);margin:6px 36px 26px;padding:12px;border:1.5px dashed #cfc8b6;background:transparent;border-radius:12px;color:var(--muted);font-weight:600;font-size:13.5px}
+.alm-add:hover{border-color:var(--gold);color:var(--navy);background:var(--gold-tint)}
+.almanac-sheet>.tip{margin:0 36px 28px}
+/* file view */
+.almanac-file{background:#fffdf8;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:42px 56px 34px;position:relative;overflow:hidden}
+.almanac-file::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--gold),var(--gold-soft))}
+.file-top{border-bottom:2px solid var(--gold-soft);padding-bottom:18px;margin-bottom:6px}
+.file-kicker{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--gold)}
+.file-kicker .ic{font-size:15px}
+.file-title{font-size:38px;color:var(--navy-ink);font-weight:700;margin-top:8px;line-height:1.04}
+.file-meta{color:var(--muted);font-size:13px;margin-top:6px;font-style:italic}
+.file-sec{padding:18px 0;border-bottom:1px solid var(--line-2)}
+.file-sec:last-of-type{border-bottom:none}
+.file-sec h3{font-size:19px;color:var(--gold);font-weight:600;margin-bottom:7px}
+.file-sec p{font-size:14.5px;line-height:1.78;color:#33373f;margin:0}
+.file-foot{display:flex;align-items:center;gap:9px;margin-top:18px;padding-top:16px;border-top:2px solid var(--gold-soft);color:var(--muted);font-size:12px}
+.file-foot .ic{color:var(--gold);font-size:15px}
+
+/* ---------- modal / toast / misc ---------- */
+.scrim{position:fixed;inset:0;background:rgba(15,29,58,.42);backdrop-filter:blur(2px);z-index:60;
+  display:flex;align-items:center;justify-content:center;padding:24px;animation:fade .15s}
+@keyframes fade{from{opacity:0}}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:560px;box-shadow:var(--shadow-lg);animation:pop .18s}
+@keyframes pop{from{transform:translateY(10px) scale(.98);opacity:0}}
+.modal .mh{padding:20px 24px;border-bottom:1px solid var(--line-2);display:flex;justify-content:space-between;align-items:center}
+.modal .mh h3{font-family:var(--serif);font-size:22px;color:var(--navy-ink)}
+.modal .mb{padding:22px 24px;max-height:64vh;overflow:auto}
+.modal .mf{padding:16px 24px;border-top:1px solid var(--line-2);display:flex;justify-content:flex-end;gap:10px;background:var(--paper-2);border-radius:0 0 18px 18px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--navy-ink);color:#fff;
+  padding:12px 20px;border-radius:12px;box-shadow:var(--shadow-lg);z-index:80;display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:500;animation:up .25s}
+.toast .ic{color:var(--gold-soft)}
+@keyframes up{from{transform:translate(-50%,14px);opacity:0}}
+.empty{text-align:center;padding:48px 20px;color:var(--muted)}
+.empty .ic{width:54px;height:54px;border-radius:14px;background:var(--paper);color:var(--gold);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:26px}
+.kbd{font-size:11px;background:#eceae2;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-weight:600;color:#5b6170}
+.divider{height:1px;background:var(--line-2);margin:22px 0}
+.notion-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:#fff;margin-bottom:9px}
+.notion-row .ic{width:34px;height:34px;border-radius:9px;background:var(--paper);display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:18px}
+.menu{position:absolute;right:0;top:46px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-lg);padding:6px;min-width:190px;z-index:50}
+.menu button{display:flex;width:100%;align-items:center;gap:9px;border:none;background:transparent;padding:9px 11px;border-radius:8px;font-size:13px;color:var(--ink);text-align:left}
+.menu button:hover{background:var(--paper)}
+.menu .sep{height:1px;background:var(--line-2);margin:5px 0}
+.tip{background:var(--gold-tint);border:1px solid #e8dab0;border-radius:11px;padding:12px 14px;display:flex;gap:10px;font-size:12.5px;color:#6f5916}
+.tip .ic{color:var(--gold);flex-shrink:0}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="overlay"></div>
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   ICONS (inline SVG) — small helper
+   ============================================================ */
+const I = {
+  compass:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><polygon points="16 8 11 11 8 16 13 13" fill="currentColor" stroke="none"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>',
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M9 6l6 6-6 6"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M5 13l4 4L19 7"/></svg>',
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg>',
+  users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 5.5a3 3 0 010 5.8M21 20c0-2.6-1.7-4.8-4-5.6"/></svg>',
+  brain:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 4a3 3 0 00-3 3 3 3 0 00-1 5.8A3 3 0 009 18a2 2 0 002-2V6a2 2 0 00-2-2zM15 4a3 3 0 013 3 3 3 0 011 5.8A3 3 0 0115 18a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>',
+  map:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg>',
+  flag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>',
+  alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 2.4 18a2 2 0 001.7 3h15.8a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>',
+  spark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l1.8 4.8L18 9.6l-4.2 1.8L12 16l-1.8-4.6L6 9.6l4.2-1.8z"/><path d="M19 14l.7 1.8L21.5 16l-1.8.7L19 18.5l-.7-1.8L16.5 16l1.8-.5z"/></svg>',
+  send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12l16-8-6 16-3-6-7-2z"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>',
+  grid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M14 6l4 4"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2M6 7l1 13h10l1-13"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  dots:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg>',
+  download:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12M7 11l5 4 5-4M5 21h14"/></svg>',
+  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5a2 2 0 012-2h12v16H6a2 2 0 00-2 2z"/><path d="M4 19a2 2 0 012-2h12"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l8 3v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+  logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 5V4a2 2 0 00-2-2H6a2 2 0 00-2 2v16a2 2 0 002 2h7a2 2 0 002-2v-1"/><path d="M19 12H9M16 9l3 3-3 3"/></svg>',
+  reset:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4v6h6"/><path d="M20 20v-6h-6"/><path d="M5 14a8 8 0 0014 2M19 10A8 8 0 005 8"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  trend:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v4h-4"/></svg>',
+  bulb:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3 11v2h6v-2a6 6 0 00-3-11z"/></svg>',
+  question:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 014.5 1.5c0 1.5-2 2-2 3M12 17h.01"/></svg>',
+};
+const ic = (n, cls='ic') => `<span class="${cls}">${I[n]||''}</span>`;
+
+/* ============================================================
+   TIER METADATA
+   ============================================================ */
+const TIERS = {
+  core:{label:'Core', cls:'tier-core', opt:'Option 1'},
+  ai:{label:'AI', cls:'tier-ai', opt:'Option 2'},
+  adaptive:{label:'Adaptive', cls:'tier-adaptive', opt:'Option 3'},
+};
+const tierPill = (t) => `<span class="pill tier ${TIERS[t].cls}" title="${TIERS[t].opt} feature"><span class="dot"></span>${TIERS[t].label}</span>`;
+
+/* ============================================================
+   SEED DATA — sample case ABC Financial -> Summit Wealth
+   ============================================================ */
+const COLORS = ['#2a4a86','#5a4fa3','#2F7E78','#B5852A','#B23A3A','#1f6b4b','#8a6d1f'];
+const initials = (n) => n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+
+function seedCases(){
+  return [
+    {
+      id:'c-abc',
+      name:'ABC Financial — Succession',
+      created:'May 2026',
+      lead:'Melissa Hartman',
+      stage:'mapping',
+      seller:{
+        name:'ABC Financial',
+        loc:'Denver, CO', aum:'$420M', clients:'310 households', staff:'4 + 2 admin', founded:'2004',
+        questionnaire:{
+          overview:'ABC Financial is a Denver-based fee-only planning practice founded by John Reyes in 2004. It grew almost entirely on referrals from a tight circle of CPAs and attorneys, and its reputation is inseparable from John personally — clients came for him and stayed for him. The practice is profitable and stable, but deeply founder-dependent: the relationships, the investment judgment, and the unwritten ways of working all live in one or two heads.',
+          aum:'$420M', clients:'310 households', revenue:'$3.1M recurring', custodian:'Schwab + Fidelity',
+          model:'Fee-only, comprehensive financial planning', niche:'Pre-retirees & business owners',
+          reason:'Founder (John Reyes) retiring in 14 months', software:'eMoney, Redtail CRM, Orion',
+          topclients:'28 households = 60% of revenue', notes:'Strong referral engine; founder-dependent relationships.'
+        },
+        roles:[
+          {id:'r1', name:'John Reyes', title:'CEO & Founder', color:'#2a4a86', head:true,
+            owns:['Top-client relationships','Investment philosophy','Final plan sign-off','Firm strategy'],
+            kpis:[
+              {id:'k1', label:'Top-tier client reviews', what:'Personally runs annual & semi-annual reviews for the 28 largest households.', how:'Two-week prep ritual; reviews each plan against original assumptions before the meeting.', why:'Early in his career a missed inflation assumption cost a client their retirement date. He never delegates the assumption check.', done:true},
+              {id:'k2', label:'Friday client update email', what:'Sends a weekly market-context note; writes the top-20 versions personally.', how:'Templated base, then personalised paragraph per top client every Friday AM.', why:'Believes proactive contact in volatile weeks is why his retention is 97%.', done:true, flag:'contradiction'},
+              {id:'k3', label:'Final financial-plan sign-off', what:'Reviews and approves every plan before it reaches a client.', how:'', why:'', done:false},
+            ]},
+          {id:'r2', name:'Jack Monroe', title:'CFO', color:'#5a4fa3',
+            owns:['Practice finances','Fee schedule','Payroll & vendors'],
+            kpis:[
+              {id:'k4', label:'Fee billing & reconciliation', what:'Quarterly fee runs across both custodians.', how:'Manual cross-check against Orion before debiting.', why:'A prior over-bill required client refunds; now double-checks every cycle.', done:true},
+              {id:'k5', label:'Payroll & vendor management', what:'', how:'', why:'', done:false},
+            ]},
+          {id:'r3', name:'Jacob Lin', title:'Accounts & Operations', color:'#2F7E78',
+            owns:['Account opening','Client onboarding ops','Paperwork & compliance'],
+            kpis:[
+              {id:'k6', label:'New account onboarding', what:'Opens accounts, gathers paperwork, sets up portals.', how:'Personal checklist not written down anywhere.', why:'', done:false},
+            ]},
+          {id:'r4', name:'Randy Cole', title:'Sales & Business Development', color:'#B5852A',
+            owns:['Prospecting','Referral relationships','Weekly client updates'],
+            kpis:[
+              {id:'k7', label:'Weekly client communications', what:'States he sends the Friday weekly update to the full client base.', how:'Pulls market commentary, schedules the send to all 310 households.', why:'Keeps the firm top-of-mind for referrals.', done:true, flag:'contradiction'},
+              {id:'k8', label:'Referral & COI relationships', what:'Maintains relationships with ~15 centers of influence (CPAs, attorneys).', how:'', why:'', done:false},
+            ]},
+        ],
+      },
+      buyer:{
+        name:'Summit Wealth Partners',
+        loc:'Boulder, CO', aum:'$680M', clients:'520 households', staff:'5 advisors', founded:'2011',
+        questionnaire:{
+          overview:'Summit Wealth Partners is a Boulder-based, team-based RIA built deliberately to avoid single-advisor dependency. Every household is served by a lead plus an associate, with documented workflows in Wealthbox. They are acquiring ABC to expand their Denver footprint and inherit its referral network — but their leaner, process-driven model has gaps where ABC relied on individuals.',
+          aum:'$680M', clients:'520 households', revenue:'$5.4M recurring', custodian:'Schwab',
+          model:'Fee-only, team-based planning', niche:'Tech professionals & pre-retirees',
+          reason:'Acquiring ABC to expand Denver presence', software:'eMoney, Wealthbox CRM, Orion',
+          topclients:'Diversified — no single client >4% of revenue', notes:'Team-based service model; no single-advisor dependency.'
+        },
+        roles:[
+          {id:'b1', name:'Maria Castillo', title:'Managing Partner', color:'#2a4a86', head:true,
+            owns:['Firm leadership','Key relationships','Investment committee'],
+            kpis:[
+              {id:'bk1', label:'Client relationship oversight', what:'Leads investment committee, oversees senior relationships.', how:'Team-based reviews with a lead + associate per household.', why:'Designed the firm to avoid founder dependency from day one.', done:true},
+            ]},
+          {id:'b2', name:'David Okafor', title:'Operations Lead', color:'#2F7E78',
+            owns:['Operations','Onboarding','Billing','Compliance'],
+            kpis:[
+              {id:'bk2', label:'Account onboarding & ops', what:'Runs a documented onboarding workflow in Wealthbox.', how:'Standardised checklists, two-person review.', why:'Scale required removing tribal knowledge.', done:true},
+              {id:'bk3', label:'Fee billing', what:'Automated quarterly billing through Orion.', how:'', why:'', done:false},
+            ]},
+          {id:'b3', name:'Priya Shah', title:'Client Service Associate', color:'#5a4fa3',
+            owns:['Client service','Meeting prep','Communications'],
+            kpis:[
+              {id:'bk4', label:'Client communications', what:'Sends firm-wide monthly newsletter; no weekly cadence today.', how:'Marketing platform, scheduled monthly.', why:'', done:false},
+            ]},
+        ],
+      },
+      mapping:[
+        {sellerId:'r1', buyerId:'b1', note:'Maria covers leadership & investment philosophy, but ABC’s top-client relationships are personal to John — needs a structured relationship-transfer plan over the 14-month runway.',
+          items:{'Top-client relationships':'', 'Investment philosophy':'b1', 'Final plan sign-off':'', 'Firm strategy':'b1'}},
+        {sellerId:'r2', buyerId:'b2', note:'David’s ops function absorbs CFO billing/reconciliation cleanly; automate ABC’s manual checks.',
+          items:{'Practice finances':'b2', 'Fee schedule':'b2', 'Payroll & vendors':'b2'}},
+        {sellerId:'r3', buyerId:'b2', note:'Onboarding folds into David’s documented workflow — capture Jacob’s unwritten checklist first.',
+          items:{'Account opening':'b2', 'Client onboarding ops':'b2', 'Paperwork & compliance':'b2'}},
+        {sellerId:'r4', buyerId:null, note:'No dedicated business-development / COI-relationship owner at Summit. Randy’s 15 COI relationships and referral engine risk being dropped in the transition.',
+          items:{'Prospecting':'', 'Referral relationships':'', 'Weekly client updates':''}},
+      ],
+      lessons:[],
+    },
+    {
+      id:'c-meridian',
+      name:'Meridian Advisory — Partner Buyout',
+      created:'Feb 2026', lead:'Daniel Wu', stage:'closed',
+      seller:{name:'Meridian Advisory', questionnaire:{clients:'180 households'}, roles:[
+        {id:'m1', name:'Ellen Pierce', title:'Founding Partner', color:'#2a4a86', head:true, owns:['Client relationships','Firm strategy'], kpis:[{id:'mk1',label:'Client relationships',what:'Owns the top relationships.',how:'Quarterly reviews.',why:'Built the firm on trust.',done:true}]},
+        {id:'m2', name:'Tom Reilly', title:'Operations & Finance', color:'#2F7E78', owns:['Operations','Billing'], kpis:[{id:'mk2',label:'Operations',what:'Runs back office.',how:'Documented workflows.',why:'Scale.',done:true}]},
+      ]},
+      buyer:{name:'Crestline Capital', questionnaire:{clients:'400 households'}, roles:[
+        {id:'cm1', name:'Grace Lin', title:'Partner', color:'#2a4a86', owns:[], kpis:[]},
+        {id:'cm2', name:'Owen Pratt', title:'Operations Lead', color:'#B5852A', owns:[], kpis:[]},
+      ]},
+      mapping:[
+        {sellerId:'m1', buyerId:'cm1', note:'', items:{'Client relationships':'cm1','Firm strategy':'cm1'}},
+        {sellerId:'m2', buyerId:'cm2', note:'', items:{'Operations':'cm2','Billing':'cm2'}},
+      ],
+      lessons:[
+        'Always ask who physically holds custodian login credentials — surfaced a single-point-of-failure.',
+        'Added question: "What does this person do that isn’t in any job description?"',
+        'New contradiction pattern: stated review cadence vs. calendar reality.',
+      ],
+      closedMeta:{purgedOn:'May 30, 2026', records:'612 client records purged', kept:'3 methodology lessons'},
+    },
+  ];
+}
+
+const TEAM = [
+  {id:'u-mel', name:'Melissa Hartman', role:'Principal', color:'#2a4a86'},
+  {id:'u-dan', name:'Daniel Wu', role:'Transition Analyst', color:'#2F7E78'},
+  {id:'u-sara', name:'Sara Ellison', role:'Onboarding Lead', color:'#B5852A'},
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const LS_KEY = 'almanac-demo-v1';
+let state = load() || {
+  view:'login',
+  user:null,
+  tier:'all',
+  appView:'dashboard',
+  activeCaseId:null,
+  nav:'overview',
+  activePerson:{},      // {caseId+side: roleId}
+  chats:{},             // keyed by caseId+roleId
+  resolvedFlags:{},     // keyed by kpiId
+  menuOpen:false,
+  cases:seedCases(),
+};
+state.menuOpen=false;
+state.openKpi=state.openKpi||{};
+state.copilotCtx=state.copilotCtx||'all';
+state.mapView=state.mapView||'summary';
+state.qView=state.qView||'edit';
+
+function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){} }
+function load(){ try{ const r=localStorage.getItem(LS_KEY); return r?JSON.parse(r):null; }catch(e){ return null; } }
+function resetDemo(){ localStorage.removeItem(LS_KEY); location.reload(); }
+
+const activeCase = () => state.cases.find(c=>c.id===state.activeCaseId);
+const navSide = () => state.nav.startsWith('seller')?'seller':state.nav.startsWith('buyer')?'buyer':null;
+
+/* ============================================================
+   RENDER ROUTER
+   ============================================================ */
+function render(){
+  document.body.dataset.spot = state.tier==='all'?'':state.tier;
+  const root = document.getElementById('root');
+  if(state.view==='login'){ root.innerHTML = LoginView(); return; }
+  root.innerHTML = TopBar() + (state.appView==='dashboard' ? DashboardView() : CaseView());
+  // keep the chat scrolled to the latest message
+  const cb=document.querySelector('.cop-body'); if(cb) cb.scrollTop=cb.scrollHeight;
+  // size almanac textareas to their content for a flowing feel
+  document.querySelectorAll('.alm-body').forEach(t=>{ t.style.height='auto'; t.style.height=Math.max(t.scrollHeight,46)+'px'; });
+}
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+function TopBar(){
+  const u=state.user;
+  const crumb = state.appView==='dashboard'
+    ? `<span class="crumb">All cases</span>`
+    : `<span class="crumb" data-act="go-dash" style="cursor:pointer">Cases</span> <span class="crumb">/</span> <span class="crumb"><b>${activeCase()?.name||''}</b></span>`;
+  return `
+  <div class="topbar">
+    <div class="brand" data-act="go-dash">
+      <span class="logo-chip"><img src="logo.png" alt="Calibri Consulting"/></span>
+      <div class="wm">Almanac</div>
+    </div>
+    <div class="sep"></div>
+    ${crumb}
+    <div class="spacer"></div>
+    <div class="tierctl" title="Spotlight which delivery option each feature belongs to">
+      <span class="lbl">View tier</span>
+      <button class="${state.tier==='all'?'active':''}" data-act="tier" data-v="all">All</button>
+      <button class="${state.tier==='core'?'active':''}" data-act="tier" data-v="core"><span class="dot" style="color:#3a63b0"></span>Core</button>
+      <button class="${state.tier==='ai'?'active':''}" data-act="tier" data-v="ai"><span class="dot" style="color:#C2A14D"></span>AI</button>
+      <button class="${state.tier==='adaptive'?'active':''}" data-act="tier" data-v="adaptive"><span class="dot" style="color:#2F7E78"></span>Adaptive</button>
+    </div>
+    <div class="sep"></div>
+    <div style="position:relative">
+      <div class="u" data-act="usermenu">
+        <div class="avatar" style="background:${u.color}">${initials(u.name)}</div>
+        <div><div class="nm">${u.name}</div><div class="rl">${u.role}</div></div>
+      </div>
+      ${state.menuOpen?`
+      <div class="menu">
+        <button data-act="reset">${ic('reset')} Reset demo data</button>
+        <div class="sep"></div>
+        <button data-act="logout">${ic('logout')} Sign out</button>
+      </div>`:''}
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+function LoginView(){
+  return `
+  <div class="login">
+    <div class="left">
+      <div class="logo">
+        <span class="logo-chip"><img src="logo.png" alt="Calibri Consulting"/></span>
+        <div class="wm">Almanac</div>
+      </div>
+      <div class="hero">
+        <div class="eyebrow" style="color:var(--gold-soft)">Practice transition intelligence</div>
+        <h1 class="serif">The judgment that ran the practice survives the transition.</h1>
+        <p>Capture not just <em>what</em> a departing advisor's practice does, but <em>how</em> and <em>why</em> — then map it cleanly onto the acquiring firm, so nothing is lost in the handover.</p>
+        <div class="tag"><span>Case-based workspace</span><span>AI interview copilot</span><span>Buyer ↔ Seller mapping</span></div>
+      </div>
+      <div class="foot">© 2026 Calibri Consulting · Internal tool · Client data is purged at case close.</div>
+    </div>
+    <div class="right">
+      <div class="loginbox">
+        <img src="logo.png" alt="Calibri Consulting" class="real-logo"/>
+        <h2 class="serif">Welcome back</h2>
+        <p class="sub">Sign in to your Almanac workspace.</p>
+        <div class="field"><label>Work email</label><input class="input" id="li-email" value="melissa@calibriconsulting.com"/></div>
+        <div class="field"><label>Password</label><input class="input" id="li-pass" type="password" value="••••••••••"/></div>
+        <button class="btn btn-primary btn-lg" style="width:100%" data-act="login" data-u="u-mel">Sign in</button>
+        <div class="demo-users">
+          <div class="tiny muted" style="font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px">Demo · sign in as</div>
+          ${TEAM.map(u=>`
+            <div class="du" data-act="login" data-u="${u.id}">
+              <div class="avatar" style="background:${u.color}">${initials(u.name)}</div>
+              <div><div style="font-weight:600;font-size:13px">${u.name}</div><div class="tiny muted">${u.role}</div></div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+function caseProgress(c){
+  if(c.stage==='closed') return 100;
+  const sellerDone = c.seller.roles.length?c.seller.roles.reduce((a,r)=>a+(r.kpis||[]).filter(k=>k.done).length,0):0;
+  const sellerTot = c.seller.roles.reduce((a,r)=>a+(r.kpis||[]).length,0)||1;
+  let p = 12; // questionnaire + roles baseline
+  p += Math.round((sellerDone/sellerTot)*40);
+  if(c.buyer.roles.length) p+=18;
+  if(c.mapping && c.mapping.length) p+=20;
+  return Math.min(p,96);
+}
+function stageBadge(s){
+  const m={seller:['st-seller','Onboarding seller'],buyer:['st-buyer','Onboarding buyer'],mapping:['st-mapping','Mapping transition'],closed:['st-closed','Closed']};
+  const [cls,txt]=m[s]||m.seller; return `<span class="status ${cls}">${txt}</span>`;
+}
+function DashboardView(){
+  const open = state.cases.filter(c=>c.stage!=='closed');
+  const closed = state.cases.filter(c=>c.stage==='closed');
+  return `
+  <div class="page">
+    <div class="dash-head">
+      <div>
+        <div class="eyebrow">Calibri Consulting</div>
+        <h1 class="section-title" style="font-size:30px;margin-top:4px">Transition cases</h1>
+        <p class="muted" style="margin-top:4px">Each case captures one practice handover — seller in, buyer in, mapped across.</p>
+      </div>
+      <button class="btn btn-gold btn-lg" data-act="new-case">${ic('plus')} Start a new case</button>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat" data-tier="core"><div class="ic">${ic('grid')}</div><div class="n">${open.length}</div><div class="l">Active cases</div></div>
+      <div class="stat" data-tier="ai"><div class="ic">${ic('brain')}</div><div class="n">38</div><div class="l">AI-surfaced gaps & questions</div></div>
+      <div class="stat" data-tier="core"><div class="ic">${ic('flag')}</div><div class="n">2</div><div class="l">Open contradictions</div></div>
+      <div class="stat" data-tier="adaptive"><div class="ic">${ic('trend')}</div><div class="n">${closed.reduce((a,c)=>a+(c.lessons?.length||0),0)}</div><div class="l">Lessons in methodology</div></div>
+    </div>
+
+    <div class="row" style="margin-bottom:14px"><h2 class="serif" style="font-size:19px;color:var(--navy-ink)">In progress</h2></div>
+    <div class="case-grid">
+      ${open.map(CaseCard).join('')}
+      <div class="case-card newcase-card" data-act="new-case">
+        <div class="plus">${ic('plus')}</div>
+        <div style="font-family:var(--serif);font-size:18px;color:var(--navy-ink)">Start a new case</div>
+        <div class="tiny">Onboard a seller and a buyer, then map the handover.</div>
+      </div>
+    </div>
+
+    ${closed.length?`
+    <div class="row" style="margin:30px 0 14px"><h2 class="serif" style="font-size:19px;color:var(--navy-ink)">Closed</h2></div>
+    <div class="case-grid">${closed.map(CaseCard).join('')}</div>`:''}
+  </div>`;
+}
+function CaseCard(c){
+  const p=caseProgress(c);
+  return `
+  <div class="case-card" data-act="open-case" data-id="${c.id}">
+    <div class="between">
+      <div class="ttl">${c.name}</div>
+      ${stageBadge(c.stage)}
+    </div>
+    <div class="meta">Lead: ${c.lead} · Opened ${c.created}</div>
+    <div class="handoff">
+      <div class="p sell"><div class="role">Seller</div><div class="nm">${c.seller.name}</div></div>
+      <div class="arr">${ic('arrow')}</div>
+      <div class="p buy"><div class="role">Buyer</div><div class="nm">${c.buyer.name}</div></div>
+    </div>
+    ${c.stage==='closed'
+      ? `<div class="tiny" style="display:flex;align-items:center;gap:7px;color:var(--green)">${ic('shield','ic')} ${c.closedMeta.records} · ${c.closedMeta.kept}</div>`
+      : `<div class="between"><span class="tiny muted">${p}% captured</span><span class="tiny muted">Stage: ${c.stage}</span></div><div class="progress"><i style="width:${p}%"></i></div>`}
+  </div>`;
+}
+
+/* ============================================================
+   CASE WORKSPACE SHELL
+   ============================================================ */
+const NAV = [
+  {k:'overview', label:'Case overview', ic:'grid', tier:'core'},
+  {k:'copilot', label:'AI Copilot', ic:'brain', tier:'ai'},
+  {grp:'Seller — ABC Financial'},
+  {k:'seller.questionnaire', label:'Questionnaire', ic:'doc', tier:'core'},
+  {k:'seller.roles', label:'Roles & who’s who', ic:'users', tier:'core'},
+  {k:'seller.kpi', label:'KPI capture', ic:'brain', tier:'core'},
+  {k:'seller.orgmap', label:'Org map', ic:'map', tier:'core'},
+  {grp:'Buyer — Summit Wealth'},
+  {k:'buyer.questionnaire', label:'Questionnaire', ic:'doc', tier:'core'},
+  {k:'buyer.roles', label:'Roles & who’s who', ic:'users', tier:'core'},
+  {k:'buyer.kpi', label:'KPI capture', ic:'brain', tier:'core'},
+  {k:'buyer.orgmap', label:'Org map', ic:'map', tier:'core'},
+  {grp:'Transition'},
+  {k:'mapping', label:'Mapping', ic:'map', tier:'core'},
+  {k:'knowledge', label:'Methodology base', ic:'book', tier:'ai'},
+  {k:'close', label:'Close & handover', ic:'shield', tier:'core'},
+];
+function CaseView(){
+  const c=activeCase(); if(!c) return DashboardView();
+  const flush = state.nav==='copilot';
+  return `<div class="case-shell">${Rail(c)}<div class="case-main${flush?' case-main-flush':''}">${CaseRoute(c)}</div></div>`;
+}
+function navDone(c,k){
+  if(k==='overview') return false;
+  if(k==='seller.questionnaire'||k==='buyer.questionnaire'){ const q=c[k.split('.')[0]].questionnaire||{}; if(q.fields) return q.fields.filter(f=>(f.value||'').trim()).length>=3; return Object.keys(q).length>3; }
+  if(k==='seller.roles') return c.seller.roles.length>0;
+  if(k==='buyer.roles') return c.buyer.roles.length>0;
+  if(k==='seller.kpi'){const all=c.seller.roles.flatMap(r=>r.kpis||[]);return all.length&&all.every(x=>x.done);}
+  if(k==='buyer.kpi'){const all=c.buyer.roles.flatMap(r=>r.kpis||[]);return all.length&&all.every(x=>x.done);}
+  if(k==='mapping') return c.mapping && c.mapping.length>0;
+  return false;
+}
+function Rail(c){
+  return `
+  <div class="rail">
+    <div class="back" data-act="go-dash">${ic('back')} All cases</div>
+    <div class="cname">${c.name}</div>
+    <div class="cstat">${stageBadge(c.stage)}</div>
+    ${NAV.map(n=>{
+      if(n.grp) return `<div class="grp">${n.grp.replace('ABC Financial',c.seller.name).replace('Summit Wealth',c.buyer.name)}</div>`;
+      const active=state.nav===n.k;
+      const done=navDone(c,n.k);
+      const lock = n.tier!=='core' && false; // all reachable in demo
+      return `<div class="navitem ${active?'active':''}" data-act="nav" data-k="${n.k}" data-tier="${n.tier}">
+        ${ic(n.ic)} <span>${n.label}</span>
+        ${n.tier!=='core'?tierPill(n.tier):''}
+        ${done?ic('check','ck'):''}
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+function CaseRoute(c){
+  switch(state.nav){
+    case 'overview': return OverviewPage(c);
+    case 'copilot': return CopilotPage(c);
+    case 'seller.questionnaire': return QuestionnairePage(c,'seller');
+    case 'buyer.questionnaire': return QuestionnairePage(c,'buyer');
+    case 'seller.roles': return RolesPage(c,'seller');
+    case 'buyer.roles': return RolesPage(c,'buyer');
+    case 'seller.kpi': return KpiPage(c,'seller');
+    case 'buyer.kpi': return KpiPage(c,'buyer');
+    case 'seller.orgmap': return OrgMapPage(c,'seller');
+    case 'buyer.orgmap': return OrgMapPage(c,'buyer');
+    case 'mapping': return MappingPage(c);
+    case 'knowledge': return KnowledgePage(c);
+    case 'close': return ClosePage(c);
+    default: return OverviewPage(c);
+  }
+}
+
+/* ---------- Overview ---------- */
+function sideProgress(side){
+  const all=side.roles.flatMap(r=>r.kpis||[]);
+  return {done:all.filter(k=>k.done).length, total:all.length, roles:side.roles.length};
+}
+function OverviewPage(c){
+  const sp=sideProgress(c.seller), bp=sideProgress(c.buyer);
+  const flags=c.seller.roles.flatMap(r=>(r.kpis||[]).filter(k=>k.flag&&!state.resolvedFlags[k.id]));
+  return `
+  <div class="case-main-wide">
+    <div class="phead">
+      <div class="eyebrow">Case overview</div>
+      <h2 class="serif">${c.name}</h2>
+      <p>${c.seller.name} (${c.seller.aum||''}) is handing over to ${c.buyer.name}. Track capture on both sides, resolve contradictions, then map the transition role by role.</p>
+    </div>
+
+    <div class="grid" style="grid-template-columns:1fr 1fr;margin-bottom:18px">
+      <div class="card card-p" data-tier="core">
+        <div class="between"><div class="row"><span class="status st-seller">Seller</span><b style="font-family:var(--serif);font-size:18px">${c.seller.name}</b></div><button class="btn btn-sm" data-act="nav" data-k="seller.kpi">Open ${ic('arrow')}</button></div>
+        <div class="row wrap" style="gap:18px;margin-top:14px">
+          <div><div class="n serif" style="font-size:24px;color:var(--navy-ink)">${sp.roles}</div><div class="tiny muted">roles mapped</div></div>
+          <div><div class="n serif" style="font-size:24px;color:var(--navy-ink)">${sp.done}/${sp.total}</div><div class="tiny muted">KPIs captured</div></div>
+          <div><div class="n serif" style="font-size:24px;color:var(--gold)">${qget(c,'seller','clients')||'—'}</div><div class="tiny muted">clients</div></div>
+        </div>
+      </div>
+      <div class="card card-p" data-tier="core">
+        <div class="between"><div class="row"><span class="status st-buyer">Buyer</span><b style="font-family:var(--serif);font-size:18px">${c.buyer.name}</b></div><button class="btn btn-sm" data-act="nav" data-k="buyer.kpi">Open ${ic('arrow')}</button></div>
+        <div class="row wrap" style="gap:18px;margin-top:14px">
+          <div><div class="n serif" style="font-size:24px;color:var(--navy-ink)">${bp.roles}</div><div class="tiny muted">roles mapped</div></div>
+          <div><div class="n serif" style="font-size:24px;color:var(--navy-ink)">${bp.done}/${bp.total}</div><div class="tiny muted">KPIs captured</div></div>
+          <div><div class="n serif" style="font-size:24px;color:var(--gold)">${qget(c,'buyer','clients')||'—'}</div><div class="tiny muted">clients</div></div>
+        </div>
+      </div>
+    </div>
+
+    ${flags.length?`
+    <div class="card card-p" data-tier="ai" style="border-color:#eccfca;background:var(--red-tint)">
+      <div class="row" style="margin-bottom:6px">${ic('alert')}<b style="color:var(--red)">${flags.length} open contradiction${flags.length>1?'s':''} the AI copilot flagged</b> ${tierPill('ai')}</div>
+      ${flags.map(f=>`<div class="small" style="margin-top:6px;color:#7a2f2f">• <b>${f.label}</b> — conflicting accounts across roles. <a data-act="nav" data-k="seller.kpi" style="color:var(--red);font-weight:700;cursor:pointer;text-decoration:underline">Review →</a></div>`).join('')}
+    </div>`:''}
+
+    <div class="card card-p" style="margin-top:18px">
+      <div class="between" style="margin-bottom:6px"><b style="font-family:var(--serif);font-size:18px;color:var(--navy-ink)">Next steps</b></div>
+      <div class="grid" style="grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <button class="btn" data-act="nav" data-k="seller.kpi" style="justify-content:flex-start">${ic('brain')} Finish seller KPI capture</button>
+        <button class="btn" data-act="nav" data-k="buyer.kpi" style="justify-content:flex-start">${ic('brain')} Finish buyer KPI capture</button>
+        <button class="btn" data-act="nav" data-k="mapping" style="justify-content:flex-start">${ic('map')} Continue mapping</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- Questionnaire (the practice almanac) ---------- */
+const Q_FIELDS=[
+  {k:'overview', l:'About the practice', ph:'A short narrative — who they are, how they got here, what makes them distinctive.'},
+  {k:'aum', l:'Assets under management', ph:'$ AUM'},
+  {k:'clients', l:'Client base', ph:'# households / clients'},
+  {k:'revenue', l:'Recurring revenue', ph:'$ annual recurring'},
+  {k:'custodian', l:'Custodian(s)', ph:'e.g. Schwab, Fidelity'},
+  {k:'model', l:'Business model', ph:'Fee structure & service model'},
+  {k:'niche', l:'Client niche & specialty', ph:'Who they serve and why clients choose them'},
+  {k:'software', l:'Tech stack', ph:'CRM, planning, portfolio software'},
+  {k:'topclients', l:'Client concentration', ph:'Revenue concentration in top clients'},
+  {k:'reason', l:'Reason for transition', ph:'Why is this practice transitioning?'},
+  {k:'notes', l:'Anything else worth knowing', ph:'Culture, history, quirks, relationships, risks — whatever the team already knows.'},
+];
+const escHTML = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+// Migrate the flat questionnaire into an ordered, extensible list of fields the first time it's opened.
+function ensureQuestionnaire(c,side){
+  const q = c[side].questionnaire = c[side].questionnaire || {};
+  if(!q.fields){
+    q.fields = Q_FIELDS.map(f=>({id:f.k, label:f.l, value:q[f.k]||'', hint:f.ph, custom:false}));
+  }
+  return q;
+}
+function qget(c,side,id){
+  const q=c[side].questionnaire; if(!q) return '';
+  if(q.fields){ const f=q.fields.find(x=>x.id===id); return f?f.value:''; }
+  return q[id]||'';
+}
+function QuestionnairePage(c,side){
+  const s=c[side]; const q=ensureQuestionnaire(c,side); save();
+  const filled=q.fields.filter(f=>(f.value||'').trim()).length;
+  const view=state.qView||'edit';
+  return `
+  <div class="q-page">
+    <div class="phead">
+      <div class="eyebrow">${side==='seller'?'Seller':'Buyer'} onboarding · Step 1 of 4 · the file that starts the case</div>
+      <h2 class="serif">Practice almanac — ${s.name}</h2>
+      <p>The living file on ${s.name}. Answer the prompts, add your own sections, reorder freely — write as much or as little as you like. This becomes the knowledge base the copilot and the mapping draw from. ${tierPill('core')}</p>
+    </div>
+    ${Stepper(side,'questionnaire')}
+
+    <div class="between" style="margin-bottom:16px">
+      <div class="seg">
+        <button class="${view==='edit'?'active':''}" data-act="q-view" data-v="edit">${ic('edit','')} Compile</button>
+        <button class="${view==='file'?'active':''}" data-act="q-view" data-v="file">${ic('book','')} View as file</button>
+      </div>
+      <div class="row">
+        <span class="tiny muted">${filled} of ${q.fields.length} sections filled</span>
+        ${view==='file'?`<button class="btn btn-sm btn-gold" data-act="toast" data-msg="Almanac file exported (demo)">${ic('download')} Export file</button>`:''}
+      </div>
+    </div>
+
+    <div class="q-layout">
+      <div class="q-main">${view==='edit'?QAlmanacEdit(c,side,q):QAlmanacFile(c,side,q)}</div>
+      ${QRail(c,side,q,view,filled)}
+    </div>
+
+    <div class="between" style="margin-top:20px">
+      <button class="btn btn-ghost" data-act="nav" data-k="overview">${ic('back')} Overview</button>
+      <button class="btn btn-primary" data-act="save-q" data-side="${side}">Save & continue to roles ${ic('arrow')}</button>
+    </div>
+  </div>`;
+}
+function QRail(c,side,q,view,filled){
+  const pct=Math.round(filled/q.fields.length*100);
+  const list=q.fields.map(f=>{
+    const on=(f.value||'').trim().length>0;
+    return `<button class="qr-item ${on?'on':''}" data-act="q-jump" data-id="${f.id}"><span class="qr-dot"></span><span class="qr-label">${f.label||'Untitled section'}</span></button>`;
+  }).join('');
+  return `
+  <aside class="q-rail">
+    <div class="q-rail-card">
+      <div class="qr-h">${view==='file'?'On this file':'Contents'}</div>
+      <div class="qr-prog"><div class="bar"><i style="width:${pct}%"></i></div><span>${filled}/${q.fields.length}</span></div>
+      <div class="qr-list">${list}</div>
+      ${view==='edit'?`<button class="btn btn-sm" style="width:100%;margin-top:10px" data-act="q-add" data-side="${side}">${ic('plus','')} Add section</button>`
+        :`<button class="btn btn-sm btn-gold" style="width:100%;margin-top:10px" data-act="toast" data-msg="Almanac file exported (demo)">${ic('download')} Export file</button>`}
+    </div>
+    <div class="tip">${ic('spark')}<div><b>AI copilot</b> ${tierPill('ai')} reads everything here — narrative, custom sections and all — to pre-load role questions and spot what's missing.</div></div>
+  </aside>`;
+}
+function QAlmanacEdit(c,side,q){
+  return `
+  <div class="almanac-sheet">
+    <div class="alm-cover">
+      <div class="alm-kicker">${ic('book','ic')} Onboarding almanac</div>
+      <div class="alm-cover-title serif">${c[side].name}</div>
+      <div class="alm-cover-sub">What they do · how they do it · why it works — the institutional memory, written down.</div>
+    </div>
+    <div class="alm-entries">
+      ${q.fields.map((f,i)=>`
+        <div class="alm-entry" id="qsec-${f.id}">
+          <div class="alm-entry-head">
+            ${f.custom
+              ? `<input class="alm-title-input" data-qtitle="${f.id}" value="${escAttr(f.label)}" placeholder="Section title (e.g. Key client stories)…"/>`
+              : `<div class="alm-title">${f.label}</div>`}
+            <div class="alm-actions">
+              <button class="iconbtn btn btn-sm" data-act="q-move" data-id="${f.id}" data-dir="up" ${i===0?'disabled':''} title="Move up">${ic('chev','')}<span style="display:none">up</span></button>
+              <button class="iconbtn btn btn-sm" data-act="q-move" data-id="${f.id}" data-dir="down" ${i===q.fields.length-1?'disabled':''} title="Move down">${ic('chev','')}<span style="display:none">down</span></button>
+              <button class="iconbtn btn btn-sm btn-danger" data-act="q-del" data-id="${f.id}" title="Remove section">${ic('trash')}</button>
+            </div>
+          </div>
+          <textarea class="alm-body" data-qbind="${f.id}" placeholder="${escAttr(f.hint||'Write what you know…')}">${escHTML(f.value)}</textarea>
+        </div>`).join('')}
+    </div>
+    <button class="alm-add" data-act="q-add" data-side="${side}">${ic('plus','')} Add your own section</button>
+  </div>`;
+}
+function QAlmanacFile(c,side,q){
+  const written=q.fields.filter(f=>(f.value||'').trim());
+  return `
+  <div class="almanac-file">
+    <div class="file-top">
+      <div class="file-kicker">${ic('book','ic')} Onboarding almanac · ${c.name}</div>
+      <h1 class="file-title serif">${c[side].name}</h1>
+      <div class="file-meta">Compiled by ${c.lead} · ${c.created} · feeds the Almanac knowledge base</div>
+    </div>
+    ${written.length?written.map(f=>`
+      <section class="file-sec" id="qsec-${f.id}">
+        <h3 class="serif">${f.label||'Untitled section'}</h3>
+        <p>${escHTML(f.value).replace(/\n/g,'<br>')}</p>
+      </section>`).join('') : `<div class="empty"><div class="ic">${ic('book')}</div>Nothing written yet. Switch to <b>Compile</b> to start the file.</div>`}
+    ${written.length?`<div class="file-foot">${ic('shield','ic')} This file is the seller's record of record for the transition. Client data within it is purged when the case closes.</div>`:''}
+  </div>`;
+}
+function Stepper(side,cur){
+  const steps=[['questionnaire','Questionnaire'],['roles','Roles'],['kpi','KPI capture'],['orgmap','Org map']];
+  const idx=steps.findIndex(s=>s[0]===cur);
+  return `<div class="stepper">${steps.map((s,i)=>`
+    <div class="s ${i<idx?'done':''} ${i===idx?'active':''}" data-act="nav" data-k="${side}.${s[0]}" style="cursor:pointer">
+      <span class="b">${i<idx?ic('check'):(i+1)}</span>${s[1]}
+    </div>${i<steps.length-1?`<span class="line ${i<idx?'done':''}"></span>`:''}`).join('')}</div>`;
+}
+
+/* ---------- Roles ---------- */
+function RolesPage(c,side){
+  const s=c[side];
+  return `
+  <div class="case-main-wide">
+    <div class="phead">
+      <div class="eyebrow">${side==='seller'?'Seller':'Buyer'} onboarding · Step 2 of 4</div>
+      <h2 class="serif">Roles & who's who — ${s.name}</h2>
+      <p>Map the organization: each person, their title, and what they own. You'll capture the how & why for each in the next step. ${tierPill('core')}</p>
+    </div>
+    ${Stepper(side,'roles')}
+    <div class="between" style="margin-bottom:14px">
+      <div class="muted small">${s.roles.length} role${s.roles.length!==1?'s':''} defined</div>
+      <button class="btn btn-gold btn-sm" data-act="add-role" data-side="${side}">${ic('plus')} Add person</button>
+    </div>
+    <div class="grid">
+      ${s.roles.map(r=>{
+        const done=(r.kpis||[]).filter(k=>k.done).length, tot=(r.kpis||[]).length||0;
+        return `
+        <div class="role-card" data-tier="core">
+          <div class="role-av" style="background:${r.color}">${initials(r.name)}</div>
+          <div style="flex:1">
+            <div class="between">
+              <div><span class="nm">${r.name}</span> ${r.head?`<span class="pill tier-core" style="margin-left:6px">Head</span>`:''}<div class="ti">${r.title}</div></div>
+              <div class="row">
+                <button class="iconbtn btn btn-sm" data-act="edit-role" data-side="${side}" data-id="${r.id}" title="Edit">${ic('edit')}</button>
+                <button class="iconbtn btn btn-sm btn-danger" data-act="del-role" data-side="${side}" data-id="${r.id}" title="Remove">${ic('trash')}</button>
+              </div>
+            </div>
+            <div class="chips">
+              ${(r.owns||[]).map(o=>`<span class="chip">${o}</span>`).join('')}
+              <span class="chip add" data-act="add-own" data-side="${side}" data-id="${r.id}">${ic('plus','')} responsibility</span>
+            </div>
+            <div class="kpibar"><span class="tiny muted">${done}/${tot} KPIs captured</span><div class="meter"><i style="width:${tot?done/tot*100:0}%"></i></div>
+              <button class="btn btn-sm" data-act="open-kpi" data-side="${side}" data-id="${r.id}">Capture ${ic('arrow')}</button></div>
+          </div>
+        </div>`;
+      }).join('') || `<div class="empty"><div class="ic">${ic('users')}</div>No roles yet. Add the first person in the practice.</div>`}
+    </div>
+    <div class="between" style="margin-top:20px">
+      <button class="btn btn-ghost" data-act="nav" data-k="${side}.questionnaire">${ic('back')} Questionnaire</button>
+      <button class="btn btn-primary" data-act="nav" data-k="${side}.kpi">Continue to KPI capture ${ic('arrow')}</button>
+    </div>
+  </div>`;
+}
+
+/* ---------- KPI capture (with AI copilot) ---------- */
+function activePersonId(c,side){
+  const key=c.id+'.'+side;
+  let id=state.activePerson[key];
+  if(!id || !c[side].roles.find(r=>r.id===id)) id=c[side].roles[0]?.id;
+  return id;
+}
+function KpiPage(c,side){
+  const s=c[side];
+  if(!s.roles.length) return `<div style="padding:26px 30px"><div class="phead"><h2 class="serif">KPI capture — ${s.name}</h2></div><div class="empty"><div class="ic">${ic('users')}</div>Add roles first.<div style="margin-top:12px"><button class="btn btn-primary" data-act="nav" data-k="${side}.roles">${ic('plus')} Add roles</button></div></div></div>`;
+  const pid=activePersonId(c,side);
+  const person=s.roles.find(r=>r.id===pid);
+  const flag=(person.kpis||[]).find(k=>k.flag && !state.resolvedFlags[k.id]);
+  const doneN=(person.kpis||[]).filter(k=>k.done).length, totN=(person.kpis||[]).length;
+  return `
+  <div class="case-main-wide">
+    <div class="phead">
+      <div class="eyebrow">${side==='seller'?'Seller':'Buyer'} onboarding · Step 3 of 4</div>
+      <h2 class="serif">KPI capture — ${s.name}</h2>
+      <p>For each responsibility, record the <b>what</b>, <b>how</b>, and <b>why</b> — scan the list at a glance, click any item to capture detail. ${tierPill('core')}</p>
+    </div>
+    <div class="person-tabs">
+      ${s.roles.map(r=>{
+        const done=(r.kpis||[]).every(k=>k.done)&&(r.kpis||[]).length;
+        return `<div class="ptab ${r.id===pid?'active':''}" data-act="set-person" data-side="${side}" data-id="${r.id}">
+          <span class="role-av" style="background:${r.color}">${initials(r.name)}</span>${r.name.split(' ')[0]}${done?ic('check','ck'):''}
+        </div>`;}).join('')}
+    </div>
+
+    <div class="between" style="margin-bottom:12px">
+      <div><b style="font-size:16px;color:var(--navy-ink)">${person.name}</b> <span class="muted small">· ${person.title} · ${doneN}/${totN} captured</span></div>
+      <div class="row">
+        <button class="btn btn-sm" data-act="ask-person" data-side="${side}" data-pid="${person.id}">${ic('brain')} Ask the copilot ${tierPill('ai')}</button>
+        <button class="btn btn-sm btn-gold" data-act="add-kpi" data-side="${side}" data-id="${person.id}">${ic('plus')} Add KPI</button>
+      </div>
+    </div>
+
+    ${flag?`<div class="tip" data-tier="ai" style="background:var(--red-tint);border-color:#eccfca;color:#8a3b3b;margin-bottom:14px">${ic('alert')}<div><b>The copilot flagged a contradiction</b> on “${flag.label}” — a conflicting account across roles. <a data-act="ask-flag" data-side="${side}" data-pid="${person.id}" data-kid="${flag.id}" style="color:var(--red);font-weight:700;text-decoration:underline;cursor:pointer">Open in copilot to resolve →</a></div></div>`:''}
+
+    ${(person.kpis||[]).map(k=>KpiCard(c,side,person,k)).join('') || `<div class="empty"><div class="ic">${ic('brain')}</div>No KPIs yet for ${person.name.split(' ')[0]}.<div style="margin-top:12px"><button class="btn btn-primary btn-sm" data-act="add-kpi" data-side="${side}" data-id="${person.id}">${ic('plus')} Add the first KPI</button></div></div>`}
+
+    <div class="between" style="margin-top:22px">
+      <button class="btn btn-ghost" data-act="nav" data-k="${side}.roles">${ic('back')} Roles</button>
+      <button class="btn btn-primary" data-act="nav" data-k="${side}.orgmap">Continue to org map ${ic('arrow')}</button>
+    </div>
+  </div>`;
+}
+function KpiCard(c,side,person,k){
+  const flagged = k.flag && !state.resolvedFlags[k.id];
+  const open = !!state.openKpi[k.id];
+  const has = f => (k[f]||'').trim().length>0;
+  const dot = (f,letter,title,cls)=>`<span class="whdot ${has(f)?'on '+cls:''}" title="${title}: ${has(f)?'captured':'empty'}">${letter}</span>`;
+  const statusPill = flagged
+    ? `<span class="pill flag-pill">${ic('alert','')} Contradiction</span>`
+    : (k.done?`<span class="pill ok-pill">${ic('check','')} Captured</span>`:`<span class="pill" style="background:#f3f1ea;color:#7a7565">In progress</span>`);
+  const glance = flagged
+    ? `<span class="lead">Conflict</span><span class="txt">The copilot found a conflicting account across roles — click to review.</span>`
+    : has('what')
+      ? `<span class="lead">What</span><span class="txt">${(k.what||'').replace(/</g,'&lt;')}</span>`
+      : `<span class="lead">Empty</span><span class="txt">Not captured yet — click to add the what, how &amp; why.</span>`;
+  return `
+  <div class="kpi-item ${open?'open':''} ${flagged?'flagged':''}">
+    <div class="kh" data-act="toggle-kpi" data-kid="${k.id}">
+      <span class="chev">${ic('chev','')}</span>
+      <div class="t">${k.label}</div>
+      <div class="khright">
+        <div class="whdots">${dot('what','W','What','w')}${dot('how','H','How','h')}${dot('why','Y','Why','y')}</div>
+        ${statusPill}
+        <button class="iconbtn btn btn-sm btn-danger" data-act="del-kpi" data-side="${side}" data-id="${person.id}" data-kid="${k.id}" title="Remove KPI">${ic('trash')}</button>
+      </div>
+    </div>
+    ${open?`
+    <div class="kb">
+      <div class="whyrow what"><label><span class="whytag w">WHAT</span> What they do</label>
+        <textarea class="input" data-bind="kpi.${k.id}.what" placeholder="What does this person actually do?">${k.what||''}</textarea></div>
+      <div class="whyrow how"><label><span class="whytag h">HOW</span> How they do it</label>
+        <textarea class="input" data-bind="kpi.${k.id}.how" placeholder="The method, the steps, the tools...">${k.how||''}</textarea></div>
+      <div class="whyrow why"><label><span class="whytag y">WHY</span> Why they do it this way <span class="tiny muted" style="font-weight:500;text-transform:none;letter-spacing:0">— the reasoning between the lines</span></label>
+        <textarea class="input" data-bind="kpi.${k.id}.why" placeholder="The reasoning, history, judgment behind the method...">${k.why||''}</textarea></div>
+      <div class="between">
+        <button class="btn btn-sm btn-ghost" data-act="ask-about" data-side="${side}" data-pid="${person.id}" data-kid="${k.id}">${ic('spark')} Ask copilot about this</button>
+        <button class="btn btn-sm ${k.done?'':'btn-primary'}" data-act="toggle-done" data-side="${side}" data-id="${person.id}" data-kid="${k.id}">${k.done?`${ic('check','')} Marked captured`:'Mark captured'}</button>
+      </div>
+    </div>`:`
+    <div class="kglance" data-act="toggle-kpi" data-kid="${k.id}">${glance}</div>`}
+  </div>`;
+}
+
+/* ---------- AI Copilot (independent full-page chat) ---------- */
+function ctxInfo(c,ctx){
+  if(ctx==='all') return {label:'Whole case', name:`${c.seller.name} → ${c.buyer.name}`, role:null, side:null};
+  for(const side of ['seller','buyer']){ const r=c[side].roles.find(x=>x.id===ctx); if(r) return {label:r.name, name:r.name, role:r, side}; }
+  return {label:'Whole case', name:'', role:null, side:null};
+}
+function copKey(c,ctx){ return c.id+'.cop.'+ctx; }
+function roleWithKpi(c,kid){ for(const s of ['seller','buyer']){ const r=c[s].roles.find(x=>(x.kpis||[]).some(k=>k.id===kid)); if(r) return {role:r,side:s}; } return {role:null,side:null}; }
+function suggestionsForRole(role){
+  const map={
+    'John Reyes':['What does John do that isn’t in any job description?','Which client relationships would walk if John left tomorrow?','How does he decide a plan is "ready" to sign off?'],
+    'Jack Monroe':['What controls exist if Jack is unavailable for a billing cycle?','Where are the custodian credentials stored?'],
+    'Jacob Lin':['Can Jacob’s onboarding checklist be written down today?','What breaks in onboarding when Jacob is out?'],
+    'Randy Cole':['Who actually owns each of the 15 COI relationships?','Are referrals tied to Randy personally or to the firm?'],
+  };
+  return map[role.name] || [`What does ${role.name.split(' ')[0]} do that nobody else knows?`,`What would break if ${role.name.split(' ')[0]} left tomorrow?`,`Why is it done this way and not another?`];
+}
+function copSuggestions(c,ctx){
+  const info=ctxInfo(c,ctx);
+  if(!info.role) return ['Which seller roles are hardest to hand over?','Where are the biggest transition risks in this case?','What questions am I still missing across the case?','Summarise the open contradictions for me.'];
+  return suggestionsForRole(info.role);
+}
+function defaultCopilotChat(c,ctx){
+  const info=ctxInfo(c,ctx);
+  const intro = info.role
+    ? `Focused on <b>${info.role.name}</b> — ${info.role.title} at ${c[info.side].name}. I'll suggest questions, push for the <b>why</b> between the lines, and flag anything that conflicts with other roles.`
+    : `I'm the Almanac copilot for <b>${c.name}</b>. I've read both practices, every role, and the KPIs captured so far. Ask me anything — open contradictions, transition risks, what's still missing, or how to word a question for an interview.`;
+  const msgs=[{from:'bot',text:intro}];
+  if(info.role){ const fl=(info.role.kpis||[]).find(k=>k.flag && !state.resolvedFlags[k.id]); if(fl) msgs.push({from:'bot',flag:fl.id}); }
+  return msgs;
+}
+function CopilotPage(c){
+  const ctx=state.copilotCtx||'all';
+  if(ctx!=='all' && !ctxInfo(c,ctx).role){ state.copilotCtx='all'; return CopilotPage(c); }
+  const info=ctxInfo(c,ctx);
+  const ckey=copKey(c,ctx);
+  const msgs=state.chats[ckey]||defaultCopilotChat(c,ctx);
+  const showSugg = msgs.filter(m=>m.from==='me').length===0;
+  const chip=(id,label,avatar,active)=>`<button class="cop-chip ${active?'active':''}" data-act="cop-ctx" data-ctx="${id}">${avatar}${label}</button>`;
+  return `
+  <div class="cop-page">
+    <div class="cop-head">
+      <div class="row" style="gap:12px">
+        <div class="cop-mark">${ic('brain')}</div>
+        <div style="flex:1">
+          <div class="row" style="gap:9px"><h2 class="serif" style="font-size:22px;color:var(--navy-ink)">AI Copilot</h2>${tierPill('ai')}</div>
+          <div class="small muted"><span class="live-dot"></span>Trained on Calibri methodology · context: <b>${info.label}</b></div>
+        </div>
+      </div>
+      <div class="cop-ctxbar">
+        <span class="ctx-lbl">Context</span>
+        ${chip('all','Whole case',`<span class="gl">${ic('grid','')}</span>`,ctx==='all')}
+        ${c.seller.roles.map(r=>chip(r.id,r.name.split(' ')[0],`<span class="role-av" style="background:${r.color}">${initials(r.name)}</span>`,ctx===r.id)).join('')}
+        ${c.buyer.roles.map(r=>chip(r.id,r.name.split(' ')[0],`<span class="role-av" style="background:${r.color}">${initials(r.name)}</span>`,ctx===r.id)).join('')}
+      </div>
+    </div>
+    <div class="cop-body" id="cop-body">
+      <div class="cop-inner">
+        ${msgs.map(Msg).join('')}
+        ${showSugg?`
+        <div class="suglabel tiny muted" style="font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:6px">Try asking ${tierPill('ai')}</div>
+        <div class="sug-grid">
+          ${copSuggestions(c,ctx).map(q=>`<button class="sugg" data-act="sugg" data-q="${q.replace(/"/g,'&quot;')}">${ic('question')}${q}</button>`).join('')}
+        </div>`:''}
+      </div>
+    </div>
+    <div class="cop-foot">
+      <div class="cop-inputwrap">
+        <textarea id="chat-input" placeholder="Ask the copilot anything about ${info.label.toLowerCase()}…"></textarea>
+        <button class="btn btn-primary iconbtn" style="width:46px;height:46px" data-act="send-chat">${ic('send')}</button>
+      </div>
+    </div>
+  </div>`;
+}
+function Msg(m){
+  if(m.flag){ const c=activeCase(); const {role}=roleWithKpi(c,m.flag); return FlagCard(c,role,m.flag); }
+  if(m.typing) return `<div class="msg bot"><div class="ava">${ic('brain','')}</div><div class="bubble"><div class="typing"><i></i><i></i><i></i></div></div></div>`;
+  return `<div class="msg ${m.from==='bot'?'bot':'me'}"><div class="ava">${m.from==='bot'?ic('brain',''):initials(state.user.name)}</div><div class="bubble">${m.text}</div></div>`;
+}
+function FlagCard(c,role,kid){
+  return `
+  <div class="flagcard">
+    <div class="ttl">${ic('alert','')} Contradiction detected</div>
+    <div>I'm seeing a conflict on the <b>Friday client update</b>. <b>John (CEO)</b> says he personally writes the weekly update for the top 20 clients. <b>Randy (Sales)</b> says he sends the weekly update to the <em>full</em> client base.</div>
+    <div style="margin-top:7px">Who actually owns this in practice? In a handover, the buyer needs one clear owner — and to know whether top clients get a <em>personalised</em> note vs. a templated one.</div>
+    <div class="act">
+      <button class="btn btn-sm btn-danger" data-act="resolve-flag" data-kid="${kid}">Log clarification</button>
+      <button class="btn btn-sm" data-act="sugg" data-q="Help me word the question to John and Randy to resolve who owns the Friday update.">Ask how to resolve</button>
+    </div>
+  </div>`;
+}
+
+/* ---------- Org map ---------- */
+function OrgMapPage(c,side){
+  const s=c[side];
+  const head=s.roles.find(r=>r.head)||s.roles[0];
+  const rest=s.roles.filter(r=>r!==head);
+  return `
+  <div class="case-main-wide">
+    <div class="phead">
+      <div class="eyebrow">${side==='seller'?'Seller':'Buyer'} onboarding · Step 4 of 4</div>
+      <h2 class="serif">Organization map — ${s.name}</h2>
+      <p>The captured structure at a glance. Completeness reflects how much of each role's what/how/why is recorded. ${tierPill('core')}</p>
+    </div>
+    ${Stepper(side,'orgmap')}
+    <div class="orgmap">
+      ${head?`<div class="org-top">${OrgNode(head,true)}</div><div class="connector"></div>`:''}
+      <div class="org-tier">${rest.map(r=>OrgNode(r,false)).join('')}</div>
+    </div>
+    <div class="between" style="margin-top:20px">
+      <button class="btn btn-ghost" data-act="nav" data-k="${side}.kpi">${ic('back')} KPI capture</button>
+      ${side==='seller'
+        ? `<button class="btn btn-primary" data-act="nav" data-k="buyer.questionnaire">Onboard the buyer ${ic('arrow')}</button>`
+        : `<button class="btn btn-primary" data-act="nav" data-k="mapping">Go to mapping ${ic('arrow')}</button>`}
+    </div>
+  </div>`;
+}
+function OrgNode(r,head){
+  const done=(r.kpis||[]).filter(k=>k.done).length, tot=(r.kpis||[]).length||0;
+  const pct=tot?Math.round(done/tot*100):0;
+  return `<div class="org-node ${head?'head':''}">
+    <div class="row" style="gap:9px"><div class="role-av" style="width:30px;height:30px;font-size:11px;background:${r.color}">${initials(r.name)}</div><div><div class="nm" style="font-size:13px">${r.name}</div><div class="ti">${r.title}</div></div></div>
+    <div class="co">${ic('check','ic')} ${done}/${tot} KPIs · ${pct}%</div>
+    <div class="progress" style="margin-top:7px"><i style="width:${pct}%;background:${pct===100?'var(--green)':'linear-gradient(90deg,var(--gold),var(--gold-soft))'}"></i></div>
+  </div>`;
+}
+
+/* ---------- Mapping (responsibility-level) ---------- */
+const escAttr = s => String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+// Ensure a mapping row per seller role, and an item entry per responsibility.
+function ensureMapping(c){
+  if(!c.mapping) c.mapping=[];
+  const ids=c.seller.roles.map(r=>r.id);
+  c.seller.roles.forEach(r=>{
+    let m=c.mapping.find(x=>x.sellerId===r.id);
+    if(!m){ m={sellerId:r.id,buyerId:null,note:'',items:{}}; c.mapping.push(m); }
+    m.items=m.items||{};
+    (r.owns||[]).forEach(o=>{ if(!(o in m.items)) m.items[o]=m.buyerId||''; });
+    Object.keys(m.items).forEach(o=>{ if(!(r.owns||[]).includes(o)) delete m.items[o]; });
+  });
+  c.mapping=c.mapping.filter(m=>ids.includes(m.sellerId));
+  c.mapping.sort((a,b)=>ids.indexOf(a.sellerId)-ids.indexOf(b.sellerId));
+}
+function carriedWhy(role){ return (role.kpis||[]).map(k=>(k.why||'').trim()).filter(Boolean).join(' '); }
+function sellerRole(c,m){ return c.seller.roles.find(r=>r.id===m.sellerId); }
+function ownsOf(c,m){ return sellerRole(c,m).owns||[]; }
+function coverageOf(c,m){
+  const owns=ownsOf(c,m);
+  if(!owns.length) return m.buyerId?'full':'gap';
+  const a=owns.filter(o=>m.items[o]).length;
+  return a===0?'gap':a===owns.length?'full':'partial';
+}
+function openItemsOf(c,m){ return ownsOf(c,m).filter(o=>!m.items[o]); }
+function buyerOwnersOf(c,m){
+  const counts={}; ownsOf(c,m).forEach(o=>{ const v=m.items[o]; if(v) counts[v]=(counts[v]||0)+1; });
+  return Object.entries(counts).map(([id,n])=>({role:c.buyer.roles.find(r=>r.id===id),n})).filter(x=>x.role);
+}
+const COVMETA={full:['cov-full','check','Full'],partial:['cov-partial','alert','Partial'],gap:['cov-gap','flag','Gap']};
+function covBadge(cov){ const m=COVMETA[cov]; return `<span class="cov-badge ${m[0]}">${ic(m[1],'ic')} <span>${m[2]}</span></span>`; }
+
+function MappingPage(c){
+  ensureMapping(c); save();
+  const covs=c.mapping.map(m=>coverageOf(c,m));
+  const full=covs.filter(x=>x==='full').length, partial=covs.filter(x=>x==='partial').length, gaps=covs.filter(x=>x==='gap').length;
+  const allOpen=c.mapping.flatMap(m=>openItemsOf(c,m).map(o=>({m,resp:o})));
+  const noSellers=c.seller.roles.length===0, noBuyers=c.buyer.roles.length===0;
+  const view=state.mapView||'summary';
+  return `
+  <div>
+    <div class="phead">
+      <div class="eyebrow">Transition · final step</div>
+      <h2 class="serif">Map the handover — ${c.seller.name} → ${c.buyer.name}</h2>
+      <p>Assign each seller <b>responsibility</b> to a buyer owner. Whatever is left unassigned is an <b>open item</b> that needs a different owner. Almanac carries the captured <em>why</em> across automatically. ${tierPill('core')}</p>
+    </div>
+
+    ${noSellers?`<div class="empty"><div class="ic">${ic('users')}</div>No seller roles yet.<div style="margin-top:12px"><button class="btn btn-primary" data-act="nav" data-k="seller.roles">${ic('plus')} Add seller roles</button></div></div>`:`
+
+    ${noBuyers?`<div class="tip" style="margin-bottom:16px;background:var(--red-tint);border-color:#eccfca;color:#8a3b3b">${ic('alert')}<div><b>No buyer roles yet.</b> Add the buyer's team so you can assign owners. <a data-act="nav" data-k="buyer.roles" style="color:var(--red);font-weight:700;text-decoration:underline;cursor:pointer">Add buyer roles →</a></div></div>`:''}
+
+    <div class="map-stats">
+      <div class="map-stat"><div class="mn"><span class="cov-full">${ic('check','ic')}</span> ${full}</div><div class="ml">Roles fully mapped</div></div>
+      <div class="map-stat ${partial?'warn':''}"><div class="mn"><span class="cov-partial">${ic('alert','ic')}</span> ${partial}</div><div class="ml">Partially mapped</div></div>
+      <div class="map-stat ${gaps?'danger':''}"><div class="mn"><span class="cov-gap">${ic('flag','ic')}</span> ${gaps}</div><div class="ml">Roles with no owner</div></div>
+      <div class="map-stat ${allOpen.length?'danger':''}"><div class="mn">${allOpen.length}</div><div class="ml">Open items to place</div></div>
+    </div>
+
+    <div class="map-viewtoggle">
+      <div class="seg">
+        <button class="${view==='summary'?'active':''}" data-act="map-view" data-v="summary">${ic('grid','')} Summary table</button>
+        <button class="${view==='detailed'?'active':''}" data-act="map-view" data-v="detailed">${ic('map','')} Detailed mapping</button>
+      </div>
+    </div>
+
+    ${view==='summary'?MapSummary(c,allOpen):`
+    <div class="map-board">
+      <div class="map-headrow">
+        <div>Seller role — ${c.seller.name}</div>
+        <div style="text-align:center">Coverage</div>
+        <div>Responsibility → buyer owner</div>
+      </div>
+      ${c.mapping.map(m=>MapRow(c,m)).join('')}
+    </div>`}
+
+    <div class="tip" style="margin-top:18px">${ic('bulb')}<div><b>The why travels with the role.</b> When a responsibility is assigned, Almanac carries the captured reasoning into the handover — so the buyer inherits the judgment, not just the task list. Open items are work with no home in the buyer practice yet.</div></div>
+    `}
+
+    <div class="between" style="margin-top:20px">
+      <button class="btn btn-ghost" data-act="nav" data-k="buyer.orgmap">${ic('back')} Buyer org map</button>
+      <button class="btn btn-primary" data-act="nav" data-k="close">Proceed to close & handover ${ic('arrow')}</button>
+    </div>
+  </div>`;
+}
+
+// --- Summary table view ---
+function buyerSelect(c,m,resp,sel){
+  const opts=c.buyer.roles.map(r=>`<option value="${r.id}" ${sel===r.id?'selected':''}>${r.name} — ${r.title}</option>`).join('');
+  return `<select class="input mini" data-act="assign-item" data-mid="${m.sellerId}" data-resp="${escAttr(resp)}"><option value="" ${!sel?'selected':''}>— Open —</option>${opts}</select>`;
+}
+function MapSummary(c,allOpen){
+  return `
+  <div class="card" style="overflow:hidden;margin-bottom:16px">
+    <table class="map-table">
+      <thead><tr><th>Seller role</th><th>Coverage</th><th>Mapped to (buyer)</th><th>Open items — need a different owner</th></tr></thead>
+      <tbody>
+        ${c.mapping.map(m=>{
+          const sr=sellerRole(c,m); const cov=coverageOf(c,m); const owners=buyerOwnersOf(c,m); const open=openItemsOf(c,m);
+          return `<tr class="cov-row-${cov}">
+            <td><div class="row" style="gap:8px"><span class="role-av" style="width:28px;height:28px;font-size:10px;background:${sr.color}">${initials(sr.name)}</span><div><b>${sr.name}</b><div class="ti">${sr.title}</div></div></div></td>
+            <td>${covBadge(cov)}</td>
+            <td>${owners.length?owners.map(o=>`<div class="ownerline"><span class="role-av" style="width:20px;height:20px;font-size:9px;background:${o.role.color}">${initials(o.role.name)}</span>${o.role.name} <span class="muted tiny">· ${o.n} item${o.n>1?'s':''}</span></div>`).join(''):'<span class="muted">—</span>'}</td>
+            <td>${open.length?open.map(o=>`<span class="open-chip">${o}</span>`).join(''):`<span class="pill ok-pill">${ic('check','')} All mapped</span>`}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card card-p" style="${allOpen.length?'border-color:#eccfca':''}">
+    <div class="row" style="gap:8px;margin-bottom:4px">${ic(allOpen.length?'flag':'check', allOpen.length?'cov-gap':'cov-full')}<b style="font-family:var(--serif);font-size:18px;color:var(--navy-ink)">Open items ${allOpen.length?`(${allOpen.length})`:''}</b></div>
+    <p class="small muted" style="margin-bottom:14px">Responsibilities with no buyer owner yet. Assign each to whoever will absorb it — or flag it for a new hire.</p>
+    ${allOpen.length?allOpen.map(({m,resp})=>{
+      const sr=sellerRole(c,m);
+      return `<div class="openrow">
+        <div><b>${resp}</b> <span class="muted tiny">· from ${sr.name} (${sr.title})</span></div>
+        ${c.buyer.roles.length?buyerSelect(c,m,resp,''):`<span class="tiny muted">Add buyer roles first</span>`}
+      </div>`;
+    }).join(''):`<div class="row" style="color:var(--green);gap:8px">${ic('check')}<b>Every responsibility has a buyer owner.</b> Nothing will be dropped in the handover.</div>`}
+  </div>`;
+}
+
+// --- Detailed per-responsibility board ---
+function MapRow(c,m){
+  const sr=sellerRole(c,m); const cov=coverageOf(c,m); const why=carriedWhy(sr);
+  const owns=ownsOf(c,m); const open=openItemsOf(c,m);
+  const allSel=c.buyer.roles.map(r=>`<option value="${r.id}" ${m.buyerId===r.id?'selected':''}>${r.name} — ${r.title}</option>`).join('');
+  return `
+  <div class="map-row ${cov==='gap'?'is-gap':''}" data-tier="core">
+    <div class="map-cell sell">
+      <div class="row" style="gap:9px"><div class="role-av" style="width:34px;height:34px;font-size:12px;background:${sr.color}">${initials(sr.name)}</div><div><div class="nm">${sr.name}</div><div class="ti">${sr.title}</div></div></div>
+      ${why?`<div class="whymini">${ic('spark','ic')} <span><b>Captured why:</b> ${why.length>160?why.slice(0,160)+'…':why}</span></div>`:`<div class="whymini empty">${ic('alert','ic')} <span>No “why” captured yet — finish KPI capture so the reasoning transfers.</span></div>`}
+    </div>
+
+    <div class="map-mid">
+      ${covBadge(cov)}
+      <div class="tiny muted" style="text-align:center">${owns.length-open.length}/${owns.length} mapped</div>
+    </div>
+
+    <div class="map-cell buy">
+      ${c.buyer.roles.length?`<label class="reassign" style="margin-top:0">Assign all responsibilities to
+        <select class="input" data-act="assign-all" data-mid="${m.sellerId}"><option value="">— choose owner —</option>${allSel}</select>
+      </label>`:`<div class="gapbox">${ic('alert','ic')} <span>Add buyer roles before assigning owners.</span></div>`}
+      <div class="itemmap">
+        ${owns.length?owns.map(o=>{
+          const v=m.items[o]; const br=v?c.buyer.roles.find(r=>r.id===v):null;
+          return `<div class="itemrow ${br?'':'open'}">
+            <div class="il">${br?ic('check','cov-full'):ic('flag','cov-gap')} <span>${o}</span></div>
+            ${c.buyer.roles.length?buyerSelect(c,m,o,v):''}
+          </div>`;
+        }).join(''):'<div class="tiny muted">No responsibilities listed for this role.</div>'}
+      </div>
+      ${open.length?`<div class="gapbox" style="background:var(--amber-tint);border-color:#e8dab0;color:#7a611c">${ic('alert','ic')} <span><b>${open.length} open item${open.length>1?'s':''}:</b> ${open.join(', ')} — needs a different owner or a new hire.</span></div>`:''}
+    </div>
+  </div>`;
+}
+
+/* ---------- Methodology base (Notion knowledge) ---------- */
+function KnowledgePage(c){
+  return `
+  <div class="case-main-wide">
+    <div class="phead">
+      <div class="eyebrow">Knowledge</div>
+      <h2 class="serif">Methodology base</h2>
+      <p>The core knowledge — Calibri's interview methodology, question banks, and contradiction patterns — exported from Notion. This layer is the same for every case; per-case context is layered on top. ${tierPill('ai')}</p>
+    </div>
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
+      <div class="card card-p" data-tier="ai">
+        <div class="eyebrow">Part 1 · Core knowledge</div>
+        <div style="font-family:var(--serif);font-size:18px;color:var(--navy-ink);margin:4px 0 10px">Imported from Notion</div>
+        ${[['Interview methodology — 6 layers','book'],['Role question banks (per function)','question'],['Contradiction patterns','alert'],['Handover risk checklist','shield']].map(([t,i])=>`
+          <div class="notion-row"><div class="ic">${ic(i)}</div><div style="flex:1"><b>${t}</b></div><span class="pill ok-pill">${ic('check','')} Synced</span></div>`).join('')}
+        <button class="btn btn-sm" style="margin-top:6px" data-act="toast" data-msg="Re-syncing methodology from Notion…">${ic('reset')} Re-sync from Notion</button>
+      </div>
+      <div class="card card-p" data-tier="adaptive">
+        <div class="eyebrow">Part 2 · Adaptive learning</div>
+        <div style="font-family:var(--serif);font-size:18px;color:var(--navy-ink);margin:4px 0 10px">Lessons learned from closed cases ${tierPill('adaptive')}</div>
+        <ul class="linelist">
+          ${(state.cases.find(c=>c.id==='c-meridian').lessons).map(l=>`<li><span class="ic cov-full">${ic('trend','ic')}</span><div>${l}</div></li>`).join('')}
+        </ul>
+        <div class="tip" style="margin-top:14px">${ic('shield')}<div><b>Lessons, not client data.</b> Only abstracted methodology improvements are kept. The client records that produced them are purged at case close.</div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- Close & handover ---------- */
+function ClosePage(c){
+  const closed=c.stage==='closed';
+  const totalKpis=c.seller.roles.flatMap(r=>r.kpis||[]).length;
+  return `
+  <div class="case-main-wide">
+    <div class="phead">
+      <div class="eyebrow">Transition</div>
+      <h2 class="serif">Close & handover — ${c.name}</h2>
+      <p>Generate the handover summary for the buyer, then close the case. On close, client data is purged; only abstracted methodology lessons are retained. ${tierPill('core')} ${tierPill('adaptive')}</p>
+    </div>
+
+    <div class="card card-p" style="margin-bottom:16px">
+      <div class="between"><b style="font-family:var(--serif);font-size:18px;color:var(--navy-ink)">Handover package</b><button class="btn btn-gold btn-sm" data-act="toast" data-msg="Handover summary exported (demo)">${ic('download')} Export summary</button></div>
+      <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px">
+        <div class="stat" style="box-shadow:none"><div class="n serif" style="font-size:26px">${c.seller.roles.length}</div><div class="l">seller roles documented</div></div>
+        <div class="stat" style="box-shadow:none"><div class="n serif" style="font-size:26px">${totalKpis}</div><div class="l">KPIs with what/how/why</div></div>
+        <div class="stat" style="box-shadow:none"><div class="n serif" style="font-size:26px;color:var(--red)">${(c.mapping||[]).filter(m=>m&&m.sellerId&&c.seller.roles.find(r=>r.id===m.sellerId)).filter(m=>coverageOf(c,m)!=='full').length}</div><div class="l">risks flagged for buyer</div></div>
+      </div>
+    </div>
+
+    <div class="close-sum">
+      <div class="keepbox" data-tier="adaptive">
+        <h3>${ic('trend')} Kept after close <span class="pill tier-adaptive">Adaptive</span></h3>
+        <p class="small muted" style="margin:6px 0 2px">Abstracted lessons that improve the methodology for future cases.</p>
+        <ul class="linelist">
+          <li><span class="ic cov-full">${ic('check','ic')}</span> Methodology refinements & new questions surfaced</li>
+          <li><span class="ic cov-full">${ic('check','ic')}</span> Contradiction patterns (e.g. stated vs. actual comms ownership)</li>
+          <li><span class="ic cov-full">${ic('check','ic')}</span> Anonymised handover-risk heuristics</li>
+        </ul>
+      </div>
+      <div class="purgebox" data-tier="core">
+        <h3>${ic('shield')} Purged at close</h3>
+        <p class="small muted" style="margin:6px 0 2px">All identifiable client & practice data leaves the system.</p>
+        <ul class="linelist">
+          <li><span class="ic cov-gap">${ic('trash','ic')}</span> Client names, AUM, household records</li>
+          <li><span class="ic cov-gap">${ic('trash','ic')}</span> Individual KPI entries & notes</li>
+          <li><span class="ic cov-gap">${ic('trash','ic')}</span> Questionnaire responses</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card card-p" style="margin-top:16px;text-align:center">
+      ${closed
+        ? `<div class="row" style="justify-content:center;color:var(--green)">${ic('check')}<b>This case is closed. Client data was purged ${c.closedMeta?.purgedOn||''}.</b></div>`
+        : `<p class="muted" style="margin-bottom:14px">Closing is irreversible. Confirm the handover package has been delivered to ${c.buyer.name}.</p>
+           <button class="btn btn-primary btn-lg" data-act="close-case">${ic('shield')} Close case & purge client data</button>`}
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   AI RESPONSE ENGINE (localized / scripted)
+   ============================================================ */
+function aiReply(text, person){
+  const t=text.toLowerCase();
+  if(t.includes('friday')||t.includes('resolve')||t.includes('update'))
+    return `Good. I'd ask both directly: <b>"For the Friday client note — who drafts it, who hits send, and do the top-20 households get a personalised paragraph or the same template as everyone else?"</b> Log the answer under whichever role truly owns it, and note the personalisation rule — that's the part the buyer will drop first.`;
+  if(t.includes('job description')||t.includes('nobody')||t.includes("isn't")||t.includes('isnt'))
+    return `That's the highest-value question in the methodology. For ${person.name.split(' ')[0]}, probe the invisible work: judgment calls, informal client reassurance, the "I just know to check X" habits. Capture those as KPIs with a strong <b>why</b> — they rarely survive a handover because no one documents them.`;
+  if(t.includes('credential')||t.includes('login')||t.includes('password'))
+    return `Flagging this as a continuity risk. Capture where custodian/CRM credentials live and whether anyone besides ${person.name.split(' ')[0]} can access them. A single-holder credential is a classic transition failure point.`;
+  if(t.includes('why'))
+    return `Push one level deeper. "Because that's how we've always done it" isn't a why — ask what went wrong the one time it was done differently. The story behind the habit is what the buyer needs to inherit.`;
+  if(t.includes('referral')||t.includes('coi')||t.includes('relationship'))
+    return `Key question: are these relationships tied to ${person.name.split(' ')[0]} personally or to the firm? List each COI by name and ask who else has met them. If the answer is "no one," that's a gap to raise in mapping.`;
+  if(t.includes('walk')||t.includes('left')||t.includes('leave'))
+    return `Make a concrete list. For each relationship at risk, capture the <b>why</b> behind the loyalty — fee sensitivity, a personal history, a specific promise. The buyer can only protect what's been made explicit.`;
+  return `Noted — I've added that to ${person.name.split(' ')[0]}'s context. Based on the ${person.title.toLowerCase()} role and Calibri's methodology, I'd also ask: what's the one task here that has <b>no backup</b> if ${person.name.split(' ')[0]} is unavailable? That tends to be where handover risk hides.`;
+}
+
+/* ============================================================
+   EVENT HANDLING (delegation)
+   ============================================================ */
+function setByPath(path, val){
+  const parts=path.split('.');
+  if(parts[0]==='kpi'){ // kpi.<id>.<field>
+    const id=parts[1], field=parts[2];
+    for(const c of state.cases) for(const side of ['seller','buyer']) for(const r of (c[side].roles||[]))
+      for(const k of (r.kpis||[])) if(k.id===id){ k[field]=val; if((k.what||k.how||k.why)) {} }
+    return;
+  }
+  // <side>.questionnaire.<field>
+  const c=activeCase(); if(!c)return;
+  let o=c; for(let i=0;i<parts.length-1;i++){ o=o[parts[i]]=o[parts[i]]||{}; }
+  o[parts[parts.length-1]]=val;
+}
+
+// live-bind inputs without re-render (preserve focus)
+function autoGrow(el){ el.style.height='auto'; el.style.height=Math.max(el.scrollHeight,46)+'px'; }
+function qField(c,side,id){ const q=c[side].questionnaire; return q&&q.fields?q.fields.find(f=>f.id===id):null; }
+document.addEventListener('input', e=>{
+  const el=e.target;
+  if(el.dataset.bind){ setByPath(el.dataset.bind, el.value); save(); return; }
+  if(el.dataset.qbind!=null){ const c=activeCase(); const f=qField(c,navSide(),el.dataset.qbind); if(f){f.value=el.value;} autoGrow(el); save(); return; }
+  if(el.dataset.qtitle!=null){ const c=activeCase(); const f=qField(c,navSide(),el.dataset.qtitle); if(f){f.label=el.value;} save(); return; }
+});
+
+document.addEventListener('click', e=>{
+  // close user menu on outside click
+  if(state.menuOpen && !e.target.closest('[data-act="usermenu"]') && !e.target.closest('.menu')){ state.menuOpen=false; render(); }
+  const el=e.target.closest('[data-act]'); if(!el)return;
+  const a=el.dataset.act;
+  const c=activeCase();
+  switch(a){
+    case 'login':{ state.user=TEAM.find(u=>u.id===el.dataset.u)||TEAM[0]; state.view='app'; state.appView='dashboard'; save(); render(); break; }
+    case 'logout':{ state.view='login'; state.menuOpen=false; save(); render(); break; }
+    case 'usermenu': state.menuOpen=!state.menuOpen; render(); break;
+    case 'reset': resetDemo(); break;
+    case 'tier': state.tier=el.dataset.v; save(); render(); break;
+    case 'go-dash': state.appView='dashboard'; state.activeCaseId=null; save(); render(); break;
+    case 'open-case': state.activeCaseId=el.dataset.id; state.appView='case'; state.nav='overview'; save(); render(); break;
+    case 'new-case': openNewCase(); break;
+    case 'nav': state.nav=el.dataset.k; save(); render(); break;
+    case 'save-q':{ toast('Almanac saved — copilot context updated'); const next=el.dataset.side+'.roles'; state.nav=next; save(); render(); break; }
+    case 'q-view': state.qView=el.dataset.v; save(); render(); break;
+    case 'q-add':{ const q=ensureQuestionnaire(c,el.dataset.side); q.fields.push({id:'qf-'+Math.random().toString(36).slice(2,7),label:'',value:'',hint:'Write what you know…',custom:true}); toast('Section added'); save(); render(); break; }
+    case 'q-del':{ const q=ensureQuestionnaire(c,navSide()); q.fields=q.fields.filter(f=>f.id!==el.dataset.id); toast('Section removed'); save(); render(); break; }
+    case 'q-move':{ const q=ensureQuestionnaire(c,navSide()); const i=q.fields.findIndex(f=>f.id===el.dataset.id); const j=el.dataset.dir==='up'?i-1:i+1; if(i>=0&&j>=0&&j<q.fields.length){ const t=q.fields[i]; q.fields[i]=q.fields[j]; q.fields[j]=t; } save(); render(); break; }
+    case 'q-jump':{ const elx=document.getElementById('qsec-'+el.dataset.id); if(elx){ elx.scrollIntoView({behavior:'smooth',block:'center'}); const ta=elx.querySelector('.alm-body'); if(ta) setTimeout(()=>ta.focus(),300); } break; }
+    case 'add-role': openRoleModal(el.dataset.side); break;
+    case 'edit-role': openRoleModal(el.dataset.side, el.dataset.id); break;
+    case 'del-role':{ const s=c[el.dataset.side]; s.roles=s.roles.filter(r=>r.id!==el.dataset.id); toast('Role removed'); save(); render(); break; }
+    case 'add-own': openOwnModal(el.dataset.side, el.dataset.id); break;
+    case 'open-kpi': case 'set-person':{ state.activePerson[c.id+'.'+el.dataset.side]=el.dataset.id; if(a==='open-kpi') state.nav=el.dataset.side+'.kpi'; save(); render(); break; }
+    case 'add-kpi': openKpiModal(el.dataset.side, el.dataset.id); break;
+    case 'toggle-kpi':{ const id=el.dataset.kid; state.openKpi[id]=!state.openKpi[id]; save(); render(); break; }
+    case 'del-kpi':{ const r=c[el.dataset.side].roles.find(x=>x.id===el.dataset.id); r.kpis=r.kpis.filter(k=>k.id!==el.dataset.kid); delete state.openKpi[el.dataset.kid]; save(); render(); break; }
+    case 'toggle-done':{ const r=c[el.dataset.side].roles.find(x=>x.id===el.dataset.id); const k=r.kpis.find(k=>k.id===el.dataset.kid); k.done=!k.done; save(); render(); break; }
+    case 'map-view': state.mapView=el.dataset.v; save(); render(); break;
+    case 'cop-ctx': state.copilotCtx=el.dataset.ctx; save(); render(); break;
+    case 'sugg': sendChat(copKey(c,state.copilotCtx||'all'), el.dataset.q); break;
+    case 'send-chat':{ const ta=document.getElementById('chat-input'); if(ta&&ta.value.trim()){ sendChat(copKey(c,state.copilotCtx||'all'), ta.value.trim()); } break; }
+    case 'ask-person': state.copilotCtx=el.dataset.pid; state.nav='copilot'; save(); render(); break;
+    case 'ask-flag': state.copilotCtx=el.dataset.pid; state.nav='copilot'; save(); render(); break;
+    case 'ask-about':{ const pid=el.dataset.pid; const r=c[el.dataset.side].roles.find(x=>x.id===pid); const k=r.kpis.find(k=>k.id===el.dataset.kid); state.copilotCtx=pid; state.nav='copilot'; sendChat(copKey(c,pid), `Tell me what to probe on "${k.label}".`); break; }
+    case 'resolve-flag':{ state.resolvedFlags[el.dataset.kid]=true; const key=copKey(c,state.copilotCtx||'all'); state.chats[key]=(state.chats[key]||defaultCopilotChat(c,state.copilotCtx||'all')).filter(m=>!m.flag); state.chats[key].push({from:'bot',text:'Clarification logged. I’ve recorded a single owner for the Friday update and noted the personalisation rule for top clients. This will carry into the mapping step.'}); toast('Contradiction resolved & logged'); save(); render(); break; }
+    case 'close-case':{ c.stage='closed'; c.closedMeta={purgedOn:'today',records:(qget(c,'seller','clients')||'client')+' records purged',kept:(c.lessons?.length||3)+' methodology lessons'}; toast('Case closed — client data purged'); state.appView='dashboard'; save(); render(); break; }
+    case 'toast': toast(el.dataset.msg); break;
+  }
+});
+
+// selects (coverage / buyer assignment)
+document.addEventListener('change', e=>{
+  const el=e.target.closest('[data-act]'); if(!el)return;
+  const c=activeCase();
+  if(el.dataset.act==='assign-item'){
+    const m=c.mapping.find(x=>x.sellerId===el.dataset.mid);
+    m.items=m.items||{}; m.items[el.dataset.resp]=el.value||'';
+    toast(el.value?'Responsibility assigned — why carried across':'Marked as an open item'); save(); render();
+  }
+  if(el.dataset.act==='assign-all'){
+    const m=c.mapping.find(x=>x.sellerId===el.dataset.mid);
+    const v=el.value||''; m.buyerId=v||null;
+    ownsOf(c,m).forEach(o=>{ m.items[o]=v; });
+    toast(v?'All responsibilities assigned':'Cleared owners'); save(); render();
+  }
+});
+
+// enter-to-send in chat
+document.addEventListener('keydown', e=>{
+  if(e.target.id==='chat-input' && e.key==='Enter' && !e.shiftKey){
+    e.preventDefault();
+    const ta=e.target; const c=activeCase();
+    if(ta.value.trim()) sendChat(copKey(c,state.copilotCtx||'all'), ta.value.trim());
+  }
+});
+
+/* ---------- chat send with typing animation ---------- */
+// ckey identifies the conversation; context (and so the reply persona) is derived from the key.
+function sendChat(ckey, text){
+  const c=activeCase();
+  const ctx=ckey.split('.cop.')[1]||'all';
+  if(!state.chats[ckey]) state.chats[ckey]=defaultCopilotChat(c,ctx);
+  const replyRole=ctxInfo(c,ctx).role || {name:'the practice',title:'this practice'};
+  state.chats[ckey].push({from:'me',text});
+  state.chats[ckey].push({typing:true});
+  save(); render();
+  setTimeout(()=>{
+    const arr=state.chats[ckey]; const ti=arr.findIndex(m=>m.typing); if(ti>=0) arr.splice(ti,1);
+    arr.push({from:'bot',text:aiReply(text,replyRole)});
+    save(); render();
+  }, 750);
+}
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+function showModal(html){ document.getElementById('overlay').innerHTML=`<div class="scrim" data-act-scrim>${html}</div>`;
+  document.querySelector('[data-act-scrim]').addEventListener('click',ev=>{ if(ev.target.classList.contains('scrim')) closeModal(); }); }
+function closeModal(){ document.getElementById('overlay').innerHTML=''; }
+document.addEventListener('click',e=>{ if(e.target.closest('[data-mclose]')) closeModal(); });
+
+function openNewCase(){
+  showModal(`
+    <div class="modal">
+      <div class="mh"><h3>Start a new case</h3><button class="iconbtn btn" data-mclose>${ic('x')}</button></div>
+      <div class="mb">
+        <div class="field"><label>Case name</label><input class="input" id="nc-name" placeholder="e.g. Harbor Financial — Succession"/></div>
+        <div class="formgrid">
+          <div class="field"><label>Seller practice</label><input class="input" id="nc-seller" placeholder="Seller firm name"/></div>
+          <div class="field"><label>Buyer practice</label><input class="input" id="nc-buyer" placeholder="Buyer firm name"/></div>
+        </div>
+        <div class="field"><label>Engagement lead</label>
+          <select class="input" id="nc-lead">${TEAM.map(u=>`<option ${u.id===state.user.id?'selected':''}>${u.name}</option>`).join('')}</select></div>
+        <div class="tip">${ic('spark')}<div>A blank case starts at the seller questionnaire. The AI copilot ${tierPill('ai')} loads the core methodology automatically.</div></div>
+      </div>
+      <div class="mf"><button class="btn" data-mclose>Cancel</button><button class="btn btn-primary" data-act="create-case">Create case ${ic('arrow')}</button></div>
+    </div>`);
+  document.querySelector('[data-act="create-case"]').addEventListener('click', ()=>{
+    const name=val('nc-name')||'Untitled case';
+    const seller=val('nc-seller')||'Seller practice';
+    const buyer=val('nc-buyer')||'Buyer practice';
+    const id='c-'+Math.random().toString(36).slice(2,7);
+    const newCase={id,name,created:'Jun 2026',lead:val('nc-lead')||state.user.name,stage:'seller',
+      seller:{name:seller,questionnaire:{},roles:[]},
+      buyer:{name:buyer,questionnaire:{},roles:[]},
+      mapping:[],lessons:[]};
+    state.cases.unshift(newCase); state.activeCaseId=id; state.appView='case'; state.nav='seller.questionnaire';
+    closeModal(); toast('Case created'); save(); render();
+  });
+}
+
+function openRoleModal(side, id){
+  const c=activeCase(); const r=id?c[side].roles.find(x=>x.id===id):null;
+  showModal(`
+    <div class="modal">
+      <div class="mh"><h3>${r?'Edit role':'Add person'}</h3><button class="iconbtn btn" data-mclose>${ic('x')}</button></div>
+      <div class="mb">
+        <div class="formgrid">
+          <div class="field"><label>Full name</label><input class="input" id="rm-name" value="${r?r.name:''}" placeholder="e.g. Jane Doe"/></div>
+          <div class="field"><label>Title</label><input class="input" id="rm-title" value="${r?r.title:''}" placeholder="e.g. CFO"/></div>
+        </div>
+        <div class="field"><label>Responsibilities (comma separated)</label><input class="input" id="rm-owns" value="${r?(r.owns||[]).join(', '):''}" placeholder="Client relationships, Compliance, ..."/></div>
+        <label class="hl small" style="font-weight:600"><input type="checkbox" id="rm-head" ${r?.head?'checked':''}/> Mark as practice head</label>
+      </div>
+      <div class="mf"><button class="btn" data-mclose>Cancel</button><button class="btn btn-primary" data-act="save-role">${r?'Save':'Add person'}</button></div>
+    </div>`);
+  document.querySelector('[data-act="save-role"]').addEventListener('click',()=>{
+    const name=val('rm-name'); if(!name){toast('Name required');return;}
+    const owns=val('rm-owns').split(',').map(s=>s.trim()).filter(Boolean);
+    const head=document.getElementById('rm-head').checked;
+    if(head) c[side].roles.forEach(x=>x.head=false);
+    if(r){ r.name=name; r.title=val('rm-title'); r.owns=owns; r.head=head; }
+    else c[side].roles.push({id:'r-'+Math.random().toString(36).slice(2,7),name,title:val('rm-title'),color:COLORS[c[side].roles.length%COLORS.length],owns,head,kpis:[]});
+    closeModal(); toast(r?'Role updated':'Person added'); save(); render();
+  });
+}
+function openOwnModal(side,id){
+  const c=activeCase(); const r=c[side].roles.find(x=>x.id===id);
+  showModal(`<div class="modal"><div class="mh"><h3>Add responsibility</h3><button class="iconbtn btn" data-mclose>${ic('x')}</button></div>
+    <div class="mb"><div class="field"><label>Responsibility for ${r.name}</label><input class="input" id="ow" placeholder="e.g. Quarterly reviews"/></div></div>
+    <div class="mf"><button class="btn" data-mclose>Cancel</button><button class="btn btn-primary" data-act="save-own">Add</button></div></div>`);
+  document.querySelector('[data-act="save-own"]').addEventListener('click',()=>{
+    const v=val('ow'); if(v){ r.owns=r.owns||[]; r.owns.push(v); } closeModal(); save(); render();
+  });
+}
+function openKpiModal(side,id){
+  const c=activeCase(); const r=c[side].roles.find(x=>x.id===id);
+  showModal(`<div class="modal"><div class="mh"><h3>Add KPI for ${r.name}</h3><button class="iconbtn btn" data-mclose>${ic('x')}</button></div>
+    <div class="mb">
+      <div class="field"><label>KPI / responsibility name</label><input class="input" id="kp" placeholder="e.g. Client review meetings"/></div>
+      ${r.owns?.length?`<div class="tiny muted">Quick add from responsibilities:</div><div class="chips" style="margin-top:6px">${r.owns.map(o=>`<span class="chip add" data-fill="${o}">${o}</span>`).join('')}</div>`:''}
+    </div>
+    <div class="mf"><button class="btn" data-mclose>Cancel</button><button class="btn btn-primary" data-act="save-kpi">Add KPI</button></div></div>`);
+  document.querySelectorAll('[data-fill]').forEach(ch=>ch.addEventListener('click',()=>{document.getElementById('kp').value=ch.dataset.fill;}));
+  document.querySelector('[data-act="save-kpi"]').addEventListener('click',()=>{
+    const v=val('kp'); if(!v){toast('Name required');return;}
+    const nid='k-'+Math.random().toString(36).slice(2,7);
+    r.kpis=r.kpis||[]; r.kpis.push({id:nid,label:v,what:'',how:'',why:'',done:false});
+    state.openKpi[nid]=true;
+    closeModal(); toast('KPI added'); save(); render();
+  });
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function val(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
+let toastT;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.innerHTML=`<div class="toast">${ic('check')}${msg}</div>`;
+  clearTimeout(toastT); toastT=setTimeout(()=>t.innerHTML='',2600);
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+render();
+</script>
+</body>
+</html>
