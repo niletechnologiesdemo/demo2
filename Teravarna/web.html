@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TERAVARNA — Web App Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3/dist/tabler-icons.min.css" rel="stylesheet">
+<style>
+  :root{
+    --canvas:#E8E5DD; --ink:#1b1a15; --muted:#6c685e; --faint:#9b978b;
+    --paper:#ffffff; --paper2:#faf8f4; --line:#ece9e1; --line2:#e2ddd2; --hair:#d6d1c5;
+    --spectrum:linear-gradient(90deg,#d4625a,#dca04e,#e0c95a,#6fae7a,#5aa3cf,#8a82c0,#b07ad0);
+    --serif:'Fraunces',Georgia,serif; --sans:'Inter',-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--canvas);color:var(--ink);letter-spacing:-.005em}
+  ::selection{background:var(--ink);color:#fff}
+  .ti{font-size:20px;line-height:1;display:inline-flex}
+  a{color:inherit;text-decoration:none;cursor:pointer}
+  button{font-family:inherit;cursor:pointer}
+  [hidden]{display:none!important}
+
+  /* presentation chrome */
+  .ptop{position:sticky;top:0;z-index:80;display:flex;align-items:center;gap:18px;padding:16px 34px;
+    background:rgba(232,229,221,.86);backdrop-filter:blur(16px);border-bottom:1px solid var(--hair)}
+  .brand{display:flex;align-items:center;gap:13px}
+  .brand img{height:22px}
+  .brand .dv{width:1px;height:20px;background:var(--hair)}
+  .brand small{font-size:10.5px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;font-weight:600}
+  .seg{margin-left:auto;display:flex;gap:4px;background:#ded9cf;padding:4px;border-radius:12px}
+  .seg button{font-size:13px;font-weight:600;color:var(--muted);background:none;border:0;padding:9px 18px;border-radius:9px;display:flex;align-items:center;gap:8px}
+  .seg button .ti{font-size:16px}
+  .seg button.on{background:var(--ink);color:#fff}
+
+  .intro{max-width:1240px;margin:0 auto;padding:34px 34px 6px}
+  .intro .ov{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .intro h1{font-family:var(--serif);font-size:30px;font-weight:500;letter-spacing:-.02em;margin-top:10px}
+  .intro p{color:var(--muted);font-size:14.5px;margin-top:10px;max-width:680px;line-height:1.6}
+
+  /* browser window */
+  .wrap{max-width:1240px;margin:22px auto 60px;padding:0 24px}
+  .win{border-radius:16px;overflow:hidden;background:#fff;border:1px solid #d8d3c8;box-shadow:0 30px 70px -32px rgba(40,36,28,.5),0 2px 8px rgba(40,36,28,.08)}
+  .chrome{height:48px;background:#f0ece4;border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:8px;padding:0 16px}
+  .chrome .dots{display:flex;gap:7px} .chrome .dots i{width:12px;height:12px;border-radius:50%}
+  .chrome .url{margin:0 auto;background:#fff;border:1px solid var(--line2);color:var(--muted);font-size:12.5px;padding:7px 20px;border-radius:8px;display:flex;align-items:center;gap:8px;min-width:320px;justify-content:center}
+  .chrome .url .ti{font-size:13px;color:#5a9b6f}
+
+  /* ===== USER web app ===== */
+  .unav{display:flex;align-items:center;gap:30px;padding:0 32px;height:64px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);z-index:20}
+  .unav .lg{height:18px}
+  .unav .links{display:flex;gap:26px;margin-left:8px}
+  .unav .links a{font-size:14px;font-weight:500;color:var(--muted);padding:6px 0;border-bottom:2px solid transparent}
+  .unav .links a.on{color:var(--ink);border-color:var(--ink)}
+  .unav .links a:hover{color:var(--ink)}
+  .unav .act{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .unav .ib{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:var(--ink);border:1px solid var(--line2)}
+  .unav .ib .ti{font-size:19px}
+  .unav .avt{width:38px;height:38px;border-radius:50%;background-size:cover;background-position:center}
+
+  .page{padding:34px 40px 56px;min-height:600px}
+  .phd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px}
+  .phd .ov{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .phd h1{font-family:var(--serif);font-size:34px;font-weight:500;letter-spacing:-.02em;margin-top:9px}
+  .phd .tools{display:flex;gap:10px;align-items:center}
+  .selct{border:1px solid var(--line2);border-radius:11px;padding:10px 14px;font-size:13px;font-weight:500;color:var(--ink);display:flex;align-items:center;gap:8px;background:#fff} .selct .ti{font-size:15px;color:var(--muted)}
+
+  /* hero */
+  .hero{position:relative;border-radius:18px;overflow:hidden;height:380px;margin-bottom:34px}
+  .hero .img{position:absolute;inset:0;background-size:cover;background-position:center}
+  .hero .gr{position:absolute;inset:0;background:linear-gradient(105deg,rgba(20,18,12,.86) 0%,rgba(20,18,12,.5) 42%,transparent 72%)}
+  .hero .ct{position:absolute;left:46px;top:50%;transform:translateY(-50%);color:#fff;max-width:460px}
+  .hero .ov{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.82);font-weight:600}
+  .hero h2{font-family:var(--serif);font-size:46px;font-weight:500;letter-spacing:-.02em;margin-top:12px;line-height:1}
+  .hero p{font-size:14.5px;color:rgba(255,255,255,.86);margin-top:14px;line-height:1.6}
+  .hero .mr{display:flex;gap:18px;margin:18px 0 22px;font-size:13px;color:rgba(255,255,255,.9)}
+  .hero .mr span{display:flex;align-items:center;gap:6px} .hero .mr .ti{font-size:16px}
+
+  .btn{font-weight:600;font-size:14px;background:var(--ink);color:#fff;border:0;padding:14px 24px;border-radius:12px;display:inline-flex;align-items:center;gap:8px}
+  .btn .ti{font-size:17px}
+  .btn.o{background:transparent;color:var(--ink);border:1px solid var(--line2)}
+  .btn.lt{background:#fff;color:var(--ink)}
+  .btn.full{width:100%;justify-content:center}
+
+  .sct{display:flex;align-items:baseline;justify-content:space-between;margin:8px 0 18px}
+  .sct h3{font-family:var(--serif);font-size:21px;font-weight:500;letter-spacing:-.01em}
+  .sct a{font-size:13px;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:4px} .sct a .ti{font-size:15px}
+
+  /* art grid */
+  .agrid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .agrid.c3{grid-template-columns:repeat(3,1fr)}
+  .tile{cursor:pointer}
+  .tile .img{aspect-ratio:4/5;border-radius:10px;background-size:cover;background-position:center;position:relative;transition:.2s}
+  .tile:hover .img{transform:translateY(-3px)}
+  .tile .img .fav{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--ink)} .tile .img .fav .ti{font-size:16px}
+  .tile .t{font-family:var(--serif);font-style:italic;font-size:15.5px;margin-top:12px;letter-spacing:-.01em}
+  .tile .a{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+  .tile .p{font-size:14px;font-weight:500;margin-top:6px;font-variant-numeric:tabular-nums}
+
+  /* two-up teasers */
+  .twoup{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:38px}
+  .teaser{border:1px solid var(--line2);border-radius:18px;padding:26px;display:flex;flex-direction:column;justify-content:space-between;min-height:200px;background:var(--paper2)}
+  .teaser .ic{width:46px;height:46px;border-radius:13px;background:var(--ink);color:#fff;display:grid;place-items:center} .teaser .ic .ti{font-size:23px}
+  .teaser h3{font-family:var(--serif);font-size:23px;font-weight:500;margin-top:18px;letter-spacing:-.01em}
+  .teaser p{font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.55}
+  .teaser a{font-size:13px;font-weight:600;margin-top:16px;display:flex;align-items:center;gap:5px} .teaser a .ti{font-size:16px}
+
+  /* marketplace layout */
+  .mkt{display:grid;grid-template-columns:230px 1fr;gap:34px;align-items:start}
+  .filters{position:sticky;top:88px}
+  .fgrp{margin-bottom:26px}
+  .fgrp .fh{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:12px}
+  .fgrp label{display:flex;align-items:center;gap:10px;font-size:13.5px;padding:6px 0;color:var(--ink)}
+  .fgrp .cb{width:17px;height:17px;border-radius:5px;border:1.5px solid var(--line2);display:grid;place-items:center}
+  .fgrp .cb.on{background:var(--ink);border-color:var(--ink);color:#fff} .fgrp .cb .ti{font-size:12px}
+  .fgrp .pr{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+  .fgrp .pr input{flex:1}
+
+  /* artwork detail */
+  .adt{display:grid;grid-template-columns:1.35fr 1fr;gap:44px;align-items:start}
+  .adt .big{border-radius:14px;background-size:cover;background-position:center;aspect-ratio:1}
+  .adt .side h1{font-family:var(--serif);font-size:32px;font-weight:500;letter-spacing:-.02em;line-height:1.05}
+  .adt .arow{display:flex;align-items:center;gap:12px;margin:18px 0}
+  .adt .av{width:46px;height:46px;border-radius:50%;background-size:cover;background-position:center;background-color:#ddd6c8}
+  .adt .arow b{font-size:14.5px;font-weight:600;display:block} .adt .arow span{font-size:12.5px;color:var(--muted)}
+  .adt .fol{margin-left:auto;font-size:13px;font-weight:600;border:1px solid var(--ink);padding:9px 17px;border-radius:21px;display:flex;align-items:center;gap:6px} .adt .fol .ti{font-size:15px}
+  .adt .price{font-family:var(--serif);font-size:30px;font-weight:500;margin:6px 0 16px;font-variant-numeric:tabular-nums}
+  .adt .arbtn{display:flex;align-items:center;justify-content:center;gap:9px;background:var(--paper2);border:1px solid var(--line2);padding:14px;border-radius:13px;font-size:13.5px;font-weight:600;margin-bottom:14px} .adt .arbtn .ti{font-size:18px}
+  .adt .row2{display:flex;gap:12px;margin-bottom:22px}
+  .spec .li{display:flex;justify-content:space-between;font-size:14px;padding:13px 0;border-bottom:1px solid var(--line)} .spec .li span{color:var(--muted)} .spec .li b{font-weight:500}
+  .adt .ab{font-size:14px;color:var(--muted);line-height:1.7;margin-top:18px}
+
+  /* competition cards */
+  .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .ccard{border:1px solid var(--line2);border-radius:18px;overflow:hidden;display:flex;cursor:pointer;transition:.2s;background:#fff}
+  .ccard:hover{box-shadow:0 14px 30px -20px rgba(40,36,28,.4)}
+  .ccard .im{width:150px;flex:0 0 150px;background-size:cover;background-position:center}
+  .ccard .bd{padding:20px 22px;flex:1}
+  .ccard .ov{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:6px} .ccard .ov .ti{font-size:13px}
+  .ccard h3{font-family:var(--serif);font-size:22px;font-weight:500;margin-top:9px;letter-spacing:-.01em}
+  .ccard .mt{display:flex;gap:16px;margin-top:14px;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .ccard .mt span{display:flex;align-items:center;gap:5px} .ccard .mt .ti{font-size:14px}
+
+  /* competition detail */
+  .cdt{display:grid;grid-template-columns:1.5fr 1fr;gap:34px;align-items:start}
+  .chero{border-radius:18px;overflow:hidden;position:relative;height:300px;margin-bottom:26px}
+  .chero .img{position:absolute;inset:0;background-size:cover;background-position:center} .chero .gr{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,18,12,.9),transparent 70%)}
+  .chero .ct{position:absolute;left:30px;bottom:26px;color:#fff}
+  .chero .ov{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.82);font-weight:600}
+  .chero h1{font-family:var(--serif);font-size:40px;font-weight:500;margin-top:8px}
+  .ins{border:1px solid var(--line2);border-radius:16px;overflow:hidden;margin-bottom:22px}
+  .ins .h{background:var(--paper2);padding:14px 18px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;display:flex;justify-content:space-between;border-bottom:1px solid var(--line)}
+  .ins .r{display:flex;justify-content:space-between;align-items:center;padding:15px 18px;font-size:14px;border-bottom:1px solid var(--line)} .ins .r:last-child{border:0} .ins .r b{font-weight:600;font-variant-numeric:tabular-nums} .ins .r span{color:var(--muted);display:flex;align-items:center;gap:10px} .ins .r span .ti{font-size:17px;color:var(--ink)}
+  .enter{border:1px solid var(--line2);border-radius:18px;padding:24px;position:sticky;top:88px;background:var(--paper2)}
+  .enter .stk{display:flex;gap:24px;margin-bottom:18px}
+  .enter .stk div b{font-family:var(--serif);font-size:24px;font-weight:500;display:block} .enter .stk div span{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .enter .up{border:1.5px dashed var(--line2);border-radius:13px;padding:22px;text-align:center;color:var(--muted);margin-bottom:14px}
+  .enter .up .ti{font-size:26px;color:var(--ink)} .enter .up b{display:block;color:var(--ink);font-size:14px;font-weight:600;margin-top:6px;font-family:var(--serif)} .enter .up small{font-size:11.5px}
+  .prose{font-size:14.5px;color:var(--muted);line-height:1.75;margin-bottom:22px}
+  .prose b{color:var(--ink);font-weight:600}
+
+  /* results */
+  .winner{position:relative;border-radius:18px;overflow:hidden;height:300px;margin-bottom:34px}
+  .winner .img{position:absolute;inset:0;background-size:cover;background-position:center} .winner .gr{position:absolute;inset:0;background:linear-gradient(95deg,rgba(20,18,12,.85),transparent 65%)}
+  .winner .ct{position:absolute;left:40px;top:50%;transform:translateY(-50%);color:#fff}
+  .winner .ov{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.82);font-weight:600}
+  .winner h2{font-family:var(--serif);font-size:38px;font-weight:500;margin-top:10px}
+  .winner .by{font-size:13.5px;color:rgba(255,255,255,.86);margin-top:10px;display:flex;align-items:center;gap:8px}
+  .notify{display:flex;align-items:center;gap:16px;border:1px solid var(--line2);border-radius:16px;padding:20px 24px;margin-top:36px;background:var(--paper2)}
+  .notify .ic{width:46px;height:46px;border-radius:13px;background:var(--ink);color:#fff;display:grid;place-items:center} .notify .ic .ti{font-size:22px}
+  .notify .tx{flex:1} .notify .tx b{font-size:15px;font-weight:600;display:block} .notify .tx span{font-size:13px;color:var(--muted)}
+  .sw{width:48px;height:28px;border-radius:20px;background:var(--ink);position:relative} .sw i{position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:#fff}
+
+  /* foundation */
+  .fhero{background:var(--ink);color:#fff;border-radius:18px;padding:48px;margin-bottom:36px}
+  .fhero .ov{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:600}
+  .fhero h1{font-family:var(--serif);font-size:44px;font-weight:500;margin-top:14px;letter-spacing:-.02em}
+  .fhero .q{font-family:var(--serif);font-style:italic;font-size:20px;margin-top:16px;color:#fff}
+  .fhero p{font-size:15px;color:rgba(255,255,255,.82);margin-top:14px;max-width:620px;line-height:1.65}
+  .fstats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:36px}
+  .fstat{border:1px solid var(--line2);border-radius:16px;padding:24px;text-align:center}
+  .fstat b{font-family:var(--serif);font-size:34px;font-weight:500;display:block;letter-spacing:-.02em} .fstat span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:6px;display:block}
+  .fcontrib{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+  .prog2{border:1px solid var(--line2);border-radius:16px;padding:22px;background:var(--paper2)}
+  .prog2 h3{font-family:var(--serif);font-size:18px;font-weight:500;margin-bottom:6px}
+  .prog2 p{font-size:13px;color:var(--muted);line-height:1.55}
+  .donate{border:1px solid var(--line2);border-radius:18px;padding:26px}
+  .seg2{display:flex;gap:6px;background:var(--paper2);border:1px solid var(--line2);border-radius:12px;padding:4px;margin-bottom:18px}
+  .seg2 div{flex:1;text-align:center;font-size:13px;font-weight:600;padding:10px;border-radius:9px;color:var(--muted)} .seg2 div.on{background:var(--ink);color:#fff}
+  .tiers{display:flex;gap:10px;margin-bottom:18px}
+  .tiers div{flex:1;border:1px solid var(--line2);border-radius:13px;padding:16px 8px;text-align:center} .tiers div.on{border-color:var(--ink);background:var(--ink);color:#fff}
+  .tiers div b{font-family:var(--serif);font-size:20px;font-weight:500;display:block;font-variant-numeric:tabular-nums} .tiers div span{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)} .tiers div.on span{color:rgba(255,255,255,.7)}
+
+  /* account */
+  .acc{display:grid;grid-template-columns:280px 1fr;gap:34px;align-items:start}
+  .accs{border:1px solid var(--line2);border-radius:18px;padding:26px;text-align:center;position:sticky;top:88px}
+  .accs .av{width:84px;height:84px;border-radius:50%;margin:0 auto 14px;background-size:cover;background-position:center}
+  .accs b{font-family:var(--serif);font-size:20px;font-weight:500} .accs .lo{font-size:12.5px;color:var(--muted);margin-top:5px;display:flex;align-items:center;gap:5px;justify-content:center} .accs .lo .ti{font-size:14px}
+  .accs .row{display:flex;justify-content:center;gap:22px;margin:18px 0}
+  .accs .row div b{font-family:var(--serif);font-size:18px;display:block} .accs .row div span{font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .tabs2{display:flex;gap:24px;border-bottom:1px solid var(--line);margin-bottom:24px}
+  .tabs2 a{font-size:14px;font-weight:500;color:var(--muted);padding:0 0 14px;border-bottom:2px solid transparent} .tabs2 a.on{color:var(--ink);border-color:var(--ink)}
+  .listrow{display:grid;grid-template-columns:64px 1fr auto auto;gap:18px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+  .listrow .im{width:64px;height:64px;border-radius:11px;background-size:cover;background-position:center}
+  .listrow .t{font-family:var(--serif);font-style:italic;font-size:16px} .listrow .m{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .listrow .pr{font-weight:600;font-variant-numeric:tabular-nums}
+  .badge{font-size:10px;font-weight:700;padding:6px 11px;border-radius:7px;letter-spacing:.05em;text-transform:uppercase} .badge.k{background:var(--ink);color:#fff} .badge.m{background:var(--paper2);color:var(--muted);border:1px solid var(--line2)}
+
+  /* ===== JURY web app ===== */
+  .jlay{display:grid;grid-template-columns:236px 1fr;min-height:660px}
+  .jside{border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;background:var(--paper2)}
+  .jside .lg{height:19px;margin:6px 12px 8px}
+  .jside .who{display:flex;align-items:center;gap:11px;padding:12px;margin:6px 0 16px;border:1px solid var(--line2);border-radius:13px;background:#fff}
+  .jside .who .av{width:36px;height:36px;border-radius:50%;background-size:cover;background-position:center} .jside .who b{font-size:13px;font-weight:600;display:block} .jside .who span{font-size:11px;color:var(--muted)}
+  .jnav{font-size:14px;font-weight:500;color:var(--muted);padding:11px 13px;border-radius:11px;display:flex;align-items:center;gap:12px} .jnav .ti{font-size:19px}
+  .jnav.on{background:var(--ink);color:#fff}
+  .jside .out{margin-top:auto;font-size:13px;color:var(--muted);padding:11px 13px;display:flex;align-items:center;gap:12px} .jside .out .ti{font-size:18px}
+  .jmain{padding:32px 38px}
+
+  .jpanels{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .jpc{border:1px solid var(--line2);border-radius:18px;overflow:hidden;cursor:pointer;transition:.2s} .jpc:hover{box-shadow:0 14px 30px -20px rgba(40,36,28,.4)}
+  .jpc .im{height:150px;background-size:cover;background-position:center}
+  .jpc .bd{padding:20px 22px}
+  .jpc h3{font-family:var(--serif);font-size:22px;font-weight:500;display:flex;justify-content:space-between;align-items:baseline}
+  .jpc h3 .st{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .jpc .due{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .jpc .pbar{margin-top:16px;background:var(--line);border-radius:20px;height:7px;overflow:hidden} .jpc .pbar i{display:block;height:100%;background:var(--ink);border-radius:20px}
+  .jpc .pn{font-size:11.5px;color:var(--muted);margin-top:8px;display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+
+  .anon{display:inline-flex;align-items:center;gap:9px;background:var(--paper2);border:1px solid var(--line2);font-size:13px;padding:11px 15px;border-radius:12px;margin-bottom:24px} .anon .ti{font-size:18px}
+  .qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .qc{border:1px solid var(--line2);border-radius:14px;overflow:hidden;cursor:pointer;transition:.2s} .qc:hover{box-shadow:0 12px 26px -18px rgba(40,36,28,.4)}
+  .qc .im{aspect-ratio:4/3;background-size:150%;background-position:center 38%;background-repeat:no-repeat}
+  .qc .bd{padding:13px 15px;display:flex;align-items:center;justify-content:space-between}
+  .qc .bd b{font-size:13.5px;font-weight:600} .qc .bd span{font-size:11px;color:var(--muted);display:block;margin-top:2px}
+  .qc .bd .go{font-size:12px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:3px} .qc .bd .go .ti{font-size:15px}
+
+  /* jury rate split */
+  .rate{display:grid;grid-template-columns:1.4fr 1fr;gap:34px;align-items:start}
+  .rate .stage{background:var(--paper2);border:1px solid var(--line2);border-radius:16px;padding:20px}
+  .rate .stage .img{aspect-ratio:4/3;border-radius:10px;background-size:170%;background-position:center 32%;background-repeat:no-repeat}
+  .rate .stage .meta{display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-size:13px;color:var(--muted)} .rate .stage .meta b{color:var(--ink);font-weight:600}
+  .rate .scard{border:1px solid var(--line2);border-radius:16px;padding:24px}
+  .rate .scard .ov{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .rate .scard h2{font-family:var(--serif);font-size:24px;font-weight:500;margin:8px 0 6px}
+  .crit{padding:8px 0 0}
+  .crit .c{padding:16px 0;border-bottom:1px solid var(--line)}
+  .crit .c .rt{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600;margin-bottom:11px}
+  .crit .c .rt .stv{display:flex;gap:5px;color:var(--ink)} .crit .c .rt .stv .ti{font-size:21px;cursor:pointer} .crit .c .rt .stv .e{color:var(--line2)}
+  .note{background:var(--paper2);border:1px solid var(--line2);border-radius:12px;padding:14px;font-size:13.5px;color:var(--faint);margin:18px 0}
+  .rnav{display:flex;gap:12px}
+
+  .rk-tbl{border:1px solid var(--line2);border-radius:16px;overflow:hidden}
+  .rk-row{display:grid;grid-template-columns:50px 70px 1fr repeat(4,90px) 90px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line);font-size:13.5px}
+  .rk-row.h{background:var(--paper2);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+  .rk-row:last-child{border:0}
+  .rk-row .rk{font-family:var(--serif);font-size:18px;font-weight:500}
+  .rk-row .im{width:46px;height:46px;border-radius:9px;background-size:150%;background-position:center 38%}
+  .rk-row .sc{font-family:var(--serif);font-size:17px;font-weight:500;font-variant-numeric:tabular-nums}
+
+  .jhd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px}
+  .jhd .ov{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .jhd h1{font-family:var(--serif);font-size:30px;font-weight:500;letter-spacing:-.02em;margin-top:8px}
+  .jhd .prog{width:260px} .jhd .prog .pb{background:var(--line);border-radius:20px;height:8px;overflow:hidden} .jhd .prog .pb i{display:block;height:100%;background:var(--ink)} .jhd .prog .pn{font-size:11.5px;color:var(--muted);margin-top:7px;display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+
+  .foot{max-width:1240px;margin:24px auto 0;padding:18px 34px 60px;color:var(--muted);font-size:11.5px;line-height:1.7;border-top:1px solid var(--hair)} .foot b{color:var(--ink);font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="ptop">
+  <div class="brand"><img src="https://static.wixstatic.com/media/3cedd7_393a042bd6934cfab391118db3b3d804~mv2.png/v1/crop/x_0,y_529,w_1563,h_484/fill/w_500,h_155,al_c,q_90,enc_auto/logo.png" alt="TERAVARNA"/><div class="dv"></div><small>Web&nbsp;App&nbsp;Concept</small></div>
+  <div class="seg" id="seg"></div>
+</div>
+
+<div class="intro">
+  <div class="ov">TERAVARNA · Responsive web</div>
+  <h1 id="introTitle">The User web app</h1>
+  <p id="introText">The same product on the desktop — one account to collect &amp; sell on the marketplace, enter juried competitions, follow results, and support the Foundation. The navigation is live: click through the pages.</p>
+</div>
+
+<div class="wrap">
+  <div class="win">
+    <div class="chrome"><div class="dots"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
+      <div class="url"><i class="ti ti-lock"></i> <span id="url">app.teravarna.com/discover</span></div></div>
+    <div id="appUser"></div>
+    <div id="appJury" hidden></div>
+  </div>
+</div>
+
+<div class="foot"><b>Notes.</b> Logo, artworks, competition names, deadlines and the $20/artwork entry fee are real (teravarna.com, Jun 2026). Marketplace titles, artist names and prices are illustrative. Navigation is interactive — click the top nav (User) or the left sidebar (Jury).</div>
+
+<script>
+const LOGO="https://static.wixstatic.com/media/3cedd7_393a042bd6934cfab391118db3b3d804~mv2.png/v1/crop/x_0,y_529,w_1563,h_484/fill/w_500,h_155,al_c,q_90,enc_auto/logo.png";
+const G=id=>`https://static.wixstatic.com/media/${id}/v1/fill/w_900,h_900,al_c,q_85,enc_auto/i.jpg`;
+const A={blue:G("0e316a_b8ebcd94601c43cc8d96e3bbe637f744~mv2.jpg"),animal:G("0e316a_cd3f84999b6a4918a9036d6e4f0d8fd9~mv2.jpg"),orange:G("0e316a_fc195706f0844349b8f5e2bbc7bdba37~mv2.jpg"),apple:G("516e52_d04f23e071bc4a05aeb575683acf741e~mv2.jpg"),arch:G("0e316a_19a66a4688c948548b9c663abefeaa34~mv2.jpg"),yellow:G("0e316a_60cd1d8a20014af7a783519297b6da84~mv2.jpg"),warm:G("0e316a_ce1bb0c89cbf4253849be3f475badead~mv2.jpg"),face:G("9b1f9f_c2ab1406939144b3b511f97465c363a1~mv2.jpeg")};
+const i=n=>`<i class="ti ti-${n}"></i>`;
+const ARTS=[['Submerged Hues','Abibat Adedayo','$1,450',A.blue],['Quiet Tides','Elena Marró','$980',A.warm],['Fragments of Spring','Devang Rao','$2,200',A.orange],['Inner Bloom','Sofia Vance','$760',A.yellow],['Crimson Field','Marc Dubois','$1,120',A.animal],['Echoes','Yuki Tanaka','$1,890',A.arch],['Tideline','Liora Costa','$1,180',A.apple],['Horizon Line','Aisha Bello','$640',A.face]];
+const tile=a=>`<div class="tile" data-go="artwork"><div class="img" style="background-image:url('${a[3]}')"><div class="fav">${i('heart')}</div></div><div class="t">${a[0]}</div><div class="a">${a[1]}</div><div class="p">${a[2]}</div></div>`;
+const stars=n=>Array.from({length:5},(_,k)=>`<i class="ti ti-star${k<n?'':' e'}"></i>`).join('');
+
+/* ---------- USER PAGES ---------- */
+const P_discover=`
+  <div class="page">
+    <div class="hero"><div class="img" style="background-image:url('${A.blue}')"></div><div class="gr"></div>
+      <div class="ct"><div class="ov">Open call · ends Jun 30</div><h2>13th Portrait</h2>
+        <p>Merge figurative art with portraiture. Capture the gazes, creases and quiet emotion — in any medium.</p>
+        <div class="mr"><span>${i('trophy')} Up to $5,000</span><span>${i('ticket')} $20 / artwork</span><span>${i('world')} 129 countries</span></div>
+        <button class="btn lt" data-go="competition">Enter competition ${i('arrow-right')}</button></div></div>
+    <div class="sct"><h3>New to the marketplace</h3><a data-go="marketplace">Browse all ${i('arrow-right')}</a></div>
+    <div class="agrid">${ARTS.slice(0,4).map(tile).join('')}</div>
+    <div class="twoup">
+      <div class="teaser"><div><div class="ic">${i('trophy')}</div><h3>Competitions, monthly</h3><p>Two new theme- and location-based calls every month. Enter, upload, and let the jury decide.</p></div><a data-go="competitions">See open calls ${i('arrow-right')}</a></div>
+      <div class="teaser"><div><div class="ic">${i('plant-2')}</div><h3>The Foundation</h3><p>Art. Unwalled. Our 501(c)(3) funds artists in 129+ nations through mentorship and outreach.</p></div><a data-go="foundation">Learn &amp; contribute ${i('arrow-right')}</a></div>
+    </div>
+  </div>`;
+
+const P_marketplace=`
+  <div class="page">
+    <div class="phd"><div><div class="ov">Buy &amp; sell</div><h1>Marketplace</h1></div>
+      <div class="tools"><div class="selct">${i('arrows-sort')} Recently added</div><div class="selct">${i('layout-grid')} Grid</div></div></div>
+    <div class="mkt">
+      <div class="filters">
+        <div class="fgrp"><div class="fh">Theme</div>
+          ${['Abstract','Figurative','Landscape','Portrait','Still life'].map((t,k)=>`<label><span class="cb ${k==0?'on':''}">${k==0?i('check'):''}</span> ${t}</label>`).join('')}</div>
+        <div class="fgrp"><div class="fh">Medium</div>
+          ${['Oil','Acrylic','Watercolor','Photography','Mixed media'].map(t=>`<label><span class="cb"></span> ${t}</label>`).join('')}</div>
+        <div class="fgrp"><div class="fh">Price</div><div class="pr">$0 <input type="range" min="0" max="100" value="60"> $5k+</div></div>
+      </div>
+      <div><div class="agrid c3">${ARTS.map(tile).join('')}</div></div>
+    </div>
+  </div>`;
+
+const P_artwork=`
+  <div class="page">
+    <div style="margin-bottom:22px"><a data-go="marketplace" style="font-size:13px;color:var(--muted);font-weight:500;display:inline-flex;align-items:center;gap:5px">${i('chevron-left')} Back to marketplace</a></div>
+    <div class="adt">
+      <div class="big" style="background-image:url('${A.blue}')"></div>
+      <div class="side">
+        <h1>Submerged Hues</h1>
+        <div class="arow"><div class="av" style="background-image:url('${A.face}')"></div><div><b>Abibat Adedayo</b><span>United Kingdom</span></div><div class="fol">${i('plus')} Follow</div></div>
+        <div class="price">$1,450</div>
+        <div class="arbtn">${i('cube')} View in your room (AR)</div>
+        <div class="row2"><button class="btn o" style="flex:1;justify-content:center">${i('heart')} Save</button><button class="btn" style="flex:1.6;justify-content:center">Add to cart</button></div>
+        <div class="spec">
+          <div class="li"><span>Medium</span><b>Acrylic on canvas</b></div>
+          <div class="li"><span>Dimensions</span><b>90 × 70 cm</b></div>
+          <div class="li"><span>Year</span><b>2025</b></div>
+          <div class="li"><span>Provenance</span><b>16th Abstract — Winner</b></div>
+        </div>
+        <div class="ab">A non-representational study in fluid blues, awarded Best in Show in TERAVARNA's 16th Abstract competition. Sold with a certificate of authenticity; packaging, insured shipping and secure payment handled by the gallery.</div>
+      </div>
+    </div>
+  </div>`;
+
+const COMPS=[['Theme','13th Portrait',A.blue,'$20 / artwork','Ends Jun 30','palette'],['Theme','Color',A.yellow,'$20 / artwork','Ends Jul 15','palette'],['Location','Seattle Art Fair',A.arch,'By selection','Jul 17–20','map-pin'],['Location','Paris Exhibition',A.warm,'By selection','Ends Jul 31','map-pin'],['Theme','Animal',A.animal,'$20 / artwork','Ends Aug 15','palette'],['Theme','15th Open',A.apple,'$20 / artwork','Ends Sep 15','palette']];
+const P_competitions=`
+  <div class="page">
+    <div class="phd"><div><div class="ov">Open calls · 2 new this month</div><h1>Competitions</h1></div>
+      <div class="tools"><div class="selct">${i('palette')} Theme</div><div class="selct">${i('map-pin')} Location</div><div class="selct">${i('calendar')} This month</div></div></div>
+    <div class="cgrid">
+      ${COMPS.map(c=>`<div class="ccard" data-go="competition"><div class="im" style="background-image:url('${c[2]}')"></div>
+        <div class="bd"><div class="ov">${i(c[5])} ${c[0]}-based</div><h3>${c[1]}</h3>
+          <div class="mt"><span>${i('clock')} ${c[4]}</span><span>${i('ticket')} ${c[3]}</span></div></div></div>`).join('')}
+    </div>
+  </div>`;
+
+const P_competition=`
+  <div class="page">
+    <div class="chero"><div class="img" style="background-image:url('${A.blue}')"></div><div class="gr"></div>
+      <div class="ct"><div class="ov">International juried competition</div><h1>13th Portrait</h1></div></div>
+    <div class="cdt">
+      <div>
+        <div class="prose">Portraits are dialogue-makers. In the 13th Portrait we merge figurative art with portraiture — take creative risks and capture the gazes, creases and subtle emotion in any style or medium. <b>Winners receive a 6-month Artsy feature, an immersive VR showcase, press coverage and a certificate.</b></div>
+        <div class="ins"><div class="h"><span>Prize pool</span><span>up to $5,000</span></div>
+          <div class="r"><span>${i('trophy')} First prize</span><b>$300–750</b></div>
+          <div class="r"><span>${i('award')} Runner-up</span><b>$150–500</b></div>
+          <div class="r"><span>${i('star')} Merit · Talent</span><b>$25–250</b></div></div>
+      </div>
+      <div class="enter">
+        <div class="stk"><div><b>Jun 30</b><span>Deadline</span></div><div><b>$20</b><span>Per artwork</span></div></div>
+        <div class="up">${i('photo-up')}<b>Upload artwork</b><small>JPG · up to 10 works</small></div>
+        <button class="btn full" data-go="submit">Enter this competition ${i('arrow-right')}</button>
+        <div style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:12px">Entry fee is non-refundable</div>
+      </div>
+    </div>
+  </div>`;
+
+const P_submit=`
+  <div class="page">
+    <div class="phd"><div><div class="ov">13th Portrait · Step 1 of 2</div><h1>Submit your work</h1></div></div>
+    <div class="cdt">
+      <div>
+        <div class="enter" style="position:static"><div class="up" style="padding:46px">${i('photo-up')}<b>Drag &amp; drop, or browse</b><small>JPG · under 5MB each · cleanly cropped, no frame</small></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px">
+          <div><div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px">Title</div><div style="border:1px solid var(--line2);border-radius:12px;padding:13px 14px;font-size:14px">Quiet Gaze, No. 3</div></div>
+          <div><div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px">Medium</div><div style="border:1px solid var(--line2);border-radius:12px;padding:13px 14px;font-size:14px;display:flex;justify-content:space-between">Oil on canvas ${i('chevron-down')}</div></div>
+        </div>
+      </div>
+      <div class="enter">
+        <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:14px">Order summary</div>
+        <div class="ins" style="border:0"><div class="r" style="padding:10px 0"><span>2 artworks × $20</span><b>$40.00</b></div><div class="r" style="padding:10px 0"><span>Processing</span><b>$0.00</b></div><div class="r" style="padding:10px 0"><span style="color:var(--ink);font-weight:600">Total</span><b>$40.00</b></div></div>
+        <button class="btn full" data-go="confirm" style="margin-top:8px">${i('lock')} Pay $40 &amp; submit</button>
+        <div style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:12px">Visa · PayPal · Apple Pay</div>
+      </div>
+    </div>
+  </div>`;
+
+const P_confirm=`
+  <div class="page" style="display:flex;align-items:center;justify-content:center;min-height:560px">
+    <div style="text-align:center;max-width:440px">
+      <div style="width:84px;height:84px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;margin:0 auto 22px"><i class="ti ti-check" style="font-size:42px"></i></div>
+      <div style="height:2px;width:50px;background:var(--spectrum);border-radius:2px;margin:0 auto 22px"></div>
+      <h1 style="font-family:var(--serif);font-size:32px;font-weight:500;letter-spacing:-.02em">You're entered</h1>
+      <p style="font-size:14.5px;color:var(--muted);margin-top:12px;line-height:1.6">Your work is in for the 13th Portrait. Results are announced by Jul 30 — we'll email you the moment the jury decides.</p>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:26px"><button class="btn" data-go="results">View results</button><button class="btn o" data-go="discover">Back to discover</button></div>
+    </div>
+  </div>`;
+
+const P_results=`
+  <div class="page">
+    <div class="phd"><div><div class="ov">Juried outcomes</div><h1>Results</h1></div></div>
+    <div class="winner"><div class="img" style="background-image:url('${A.blue}')"></div><div class="gr"></div>
+      <div class="ct"><div class="ov">Best in Show · 16th Abstract “Water”</div><h2>Submerged Hues</h2><div class="by">${i('user')} Abibat Adedayo · United Kingdom</div>
+        <button class="btn lt" style="margin-top:18px" data-go="artwork">View work ${i('arrow-right')}</button></div></div>
+    <div class="sct"><h3>Winners' gallery</h3><a>Filter by competition ${i('chevron-down')}</a></div>
+    <div class="agrid">${[['Quiet Tides','Runner-up',A.warm],['Echoes','Merit',A.arch],['Crimson Field','Talent',A.animal],['Horizon Line','Finalist',A.yellow]].map(c=>`<div class="tile"><div class="img" style="background-image:url('${c[2]}')"></div><div class="t">${c[0]}</div><div class="a">${c[1]}</div></div>`).join('')}</div>
+    <div class="notify"><div class="ic">${i('bell')}</div><div class="tx"><b>Notify me of new competitions &amp; results</b><span>Be the first to know when calls open and winners are announced.</span></div><div class="sw"><i></i></div></div>
+  </div>`;
+
+const P_foundation=`
+  <div class="page">
+    <div class="fhero"><div class="ov">501(c)(3) public charity</div><h1>The Foundation</h1><div class="q">“Art. Unwalled.”</div>
+      <p>Funding and elevating a global community of artists who are underrepresented or live in remote areas — across 129+ nations — so they can create, grow and thrive.</p></div>
+    <div class="fstats"><div class="fstat"><b>129+</b><span>Nations reached</span></div><div class="fstat"><b>15,115</b><span>Artists supported</span></div><div class="fstat"><b>$186,425</b><span>Awarded to date</span></div></div>
+    <div class="sct"><h3>Our programs</h3></div>
+    <div class="fcontrib" style="margin-bottom:36px">
+      <div class="prog2"><h3>Mentorship</h3><p>Pairing emerging artists with established guides and curators to build professional portfolios.</p></div>
+      <div class="prog2"><h3>Outreach</h3><p>Working with local community leaders to reach creative talent in remote and underserved regions.</p></div>
+    </div>
+    <div class="fcontrib">
+      <div class="prog2" style="background:var(--ink);color:#fff;border:0"><h3 style="color:#fff">Where your gift goes</h3><p style="color:rgba(255,255,255,.8)">$50 funds a month of materials and mentorship for an emerging artist in a remote community. 100% of public gifts go to programs.</p></div>
+      <div class="donate">
+        <div class="seg2"><div class="on">One-time</div><div>Monthly</div></div>
+        <div class="tiers"><div><b>$25</b><span>Gift</span></div><div class="on"><b>$50</b><span>Patron</span></div><div><b>$100</b><span>Benefactor</span></div></div>
+        <button class="btn full">${i('heart')} Donate $50</button>
+      </div>
+    </div>
+  </div>`;
+
+const P_account=`
+  <div class="page">
+    <div class="acc">
+      <div class="accs"><div class="av" style="background-image:url('${A.face}')"></div><b>Abibat Adedayo</b><div class="lo">${i('map-pin')} United Kingdom</div>
+        <div class="row"><div><b>24</b><span>Works</span></div><div><b>7</b><span>Entries</span></div><div><b>9</b><span>Sales</span></div></div>
+        <button class="btn full">${i('plus')} List new work</button></div>
+      <div>
+        <div class="tabs2"><a class="on">Selling</a><a>Collected</a><a>Entries</a></div>
+        ${[['Submerged Hues','Acrylic · 90×70cm','$1,450','k','Live'],['Tideline','Oil on linen','$1,180','k','Live'],['Drift','Watercolor','$890','m','Sold'],['Undertow','Mixed media','$2,050','k','Live']].map(r=>`
+          <div class="listrow"><div class="im" style="background-image:url('${A.warm}')"></div><div><div class="t">${r[0]}</div><div class="m">${r[1]}</div></div><div class="pr">${r[2]}</div><span class="badge ${r[3]}">${r[4]}</span></div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+
+const U_PAGES={discover:P_discover,marketplace:P_marketplace,artwork:P_artwork,competitions:P_competitions,competition:P_competition,submit:P_submit,confirm:P_confirm,results:P_results,foundation:P_foundation,account:P_account};
+const U_NAV=[['discover','Discover'],['marketplace','Marketplace'],['competitions','Competitions'],['results','Results'],['foundation','Foundation']];
+const U_NAVOF={discover:'discover',marketplace:'marketplace',artwork:'marketplace',competitions:'competitions',competition:'competitions',submit:'competitions',confirm:'competitions',results:'results',foundation:'foundation',account:'discover'};
+
+function buildUser(){
+  const nav=`<div class="unav"><img class="lg" src="${LOGO}"/><div class="links">${U_NAV.map(n=>`<a data-go="${n[0]}">${n[1]}</a>`).join('')}</div>
+    <div class="act"><div class="ib">${i('search')}</div><div class="ib">${i('shopping-bag')}</div><div class="avt" data-go="account" style="background-image:url('${A.face}')"></div></div></div>`;
+  document.getElementById('appUser').innerHTML=nav+`<div id="uPage"></div>`;
+}
+function showUser(page){
+  document.getElementById('uPage').innerHTML=U_PAGES[page]||P_discover;
+  document.querySelectorAll('#appUser .links a').forEach(a=>a.classList.toggle('on',a.dataset.go===U_NAVOF[page]));
+  document.getElementById('url').textContent='app.teravarna.com/'+page;
+  wire(document.getElementById('uPage'),showUser);
+  document.querySelectorAll('#appUser .links a, #appUser .avt').forEach(el=>el.onclick=()=>showUser(el.dataset.go));
+  document.querySelector('.win').scrollIntoView({block:'start',behavior:'auto'});
+}
+
+/* ---------- JURY PAGES ---------- */
+const J_panels=`
+  <div class="jmain">
+    <div class="jhd"><div><div class="ov">Appointed to you</div><h1>Your panels</h1></div></div>
+    <div class="jpanels">
+      ${[['15th Open',A.apple,42,120,'Due Sep 18','35'],['13th Portrait',A.blue,0,86,'Opens Jul 1','0'],['Color',A.yellow,18,64,'Due Jul 20','28'],['16th Abstract',A.arch,120,120,'Completed','100']]
+        .map(p=>`<div class="jpc" data-jgo="queue"><div class="im" style="background-image:url('${p[1]}')"></div>
+          <div class="bd"><h3>${p[0]} <span class="st">${p[2]==p[3]?'Done':'Scoring'}</span></h3><div class="due">${p[4]}</div>
+            <div class="pbar"><i style="width:${p[5]}%"></i></div><div class="pn"><span>${p[2]} of ${p[3]} scored</span><span>${p[5]}%</span></div></div></div>`).join('')}
+    </div>
+  </div>`;
+
+const J_queue=`
+  <div class="jmain">
+    <div class="jhd"><div><div class="ov">15th Open · scoring</div><h1>Review queue</h1></div>
+      <div class="prog"><div class="pb"><i style="width:35%"></i></div><div class="pn"><span>42 of 120 scored</span><span>Panel of 5</span></div></div></div>
+    <div class="anon">${i('lock')} Entries are anonymous — no artist names or countries are shown until scores are locked.</div>
+    <div class="qgrid">
+      ${[['A-0427',A.arch],['A-0428',A.yellow],['A-0429',A.warm],['A-0431',A.face],['A-0433',A.orange],['A-0435',A.animal],['A-0436',A.apple],['A-0438',A.arch]]
+        .map(e=>`<div class="qc" data-jgo="rate"><div class="im" style="background-image:url('${e[1]}')"></div><div class="bd"><div><b>Entry ${e[0]}</b><span>Mixed media · 2D</span></div><div class="go">Score ${i('chevron-right')}</div></div></div>`).join('')}
+    </div>
+  </div>`;
+
+const J_rate=`
+  <div class="jmain">
+    <div class="jhd"><div><div class="ov">15th Open · entry 43 of 120</div><h1>Rate artwork</h1></div>
+      <div class="rnav"><button class="btn o">${i('chevron-left')} Previous</button><button class="btn o">Skip ${i('chevron-right')}</button></div></div>
+    <div class="anon">${i('lock')} Anonymous review — you are scoring the work, not the artist.</div>
+    <div class="rate">
+      <div class="stage"><div class="img" style="background-image:url('${A.arch}')"></div>
+        <div class="meta"><span>Entry <b>#A-0427</b></span><span>Mixed media · 88 × 64 cm</span></div></div>
+      <div class="scard">
+        <div class="ov">Score this entry</div><h2>Your rating</h2>
+        <div class="crit">
+          ${[['Originality',4],['Technique',5],['Composition',4],['Theme fit',3]].map(c=>`<div class="c"><div class="rt"><span>${c[0]}</span><span class="stv">${stars(c[1])}</span></div></div>`).join('')}
+        </div>
+        <div class="note">Private note — strong tonal control; theme reading is a little loose…</div>
+        <button class="btn full" data-jgo="done">Submit &amp; next entry ${i('arrow-right')}</button>
+      </div>
+    </div>
+  </div>`;
+
+const J_done=`
+  <div class="jmain" style="display:flex;align-items:center;justify-content:center;min-height:520px">
+    <div style="text-align:center;max-width:420px">
+      <div style="width:80px;height:80px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;margin:0 auto 20px"><i class="ti ti-check" style="font-size:40px"></i></div>
+      <h1 style="font-family:var(--serif);font-size:30px;font-weight:500;letter-spacing:-.02em">Score recorded</h1>
+      <p style="font-size:14px;color:var(--muted);margin-top:12px;line-height:1.6">Entry #A-0427 scored 4.2 / 5. 43 of 120 complete — you're ahead of schedule.</p>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:24px"><button class="btn" data-jgo="rate">Score next entry ${i('arrow-right')}</button><button class="btn o" data-jgo="queue">Back to queue</button></div>
+    </div>
+  </div>`;
+
+const J_results=`
+  <div class="jmain">
+    <div class="jhd"><div><div class="ov">15th Open · your sheet</div><h1>Your ranking</h1></div>
+      <button class="btn">${i('lock')} Lock &amp; submit scores</button></div>
+    <div class="anon">${i('lock')} Final ranking combines all jurors. Identities are revealed only after the panel locks.</div>
+    <div class="rk-tbl">
+      <div class="rk-row h"><span>Rank</span><span></span><span>Entry</span><span>Orig.</span><span>Tech.</span><span>Comp.</span><span>Theme</span><span>Score</span></div>
+      ${[['A-0512',A.face,5,5,5,4,'4.8'],['A-0427',A.arch,4,5,4,3,'4.6'],['A-0488',A.yellow,5,4,4,4,'4.5'],['A-0433',A.orange,4,4,4,3,'4.3'],['A-0461',A.warm,4,4,3,4,'4.1']]
+        .map((r,k)=>`<div class="rk-row"><span class="rk">${k+1}</span><span><span class="im" style="background-image:url('${r[1]}')"></span></span><span>Entry ${r[0]}</span><span>${r[2]}</span><span>${r[3]}</span><span>${r[4]}</span><span>${r[5]}</span><span class="sc">${r[6]}</span></div>`).join('')}
+    </div>
+  </div>`;
+
+const J_PAGES={panels:J_panels,queue:J_queue,rate:J_rate,done:J_done,results:J_results};
+const J_NAV=[['panels','Panels','stack-2'],['queue','Review','star'],['results','Results','chart-bar']];
+const J_NAVOF={panels:'panels',queue:'queue',rate:'queue',done:'queue',results:'results'};
+
+function buildJury(){
+  const side=`<div class="jside"><img class="lg" src="${LOGO}"/>
+    <div class="who"><div class="av" style="background-image:url('${A.warm}')"></div><div><b>Dr. M. Halvorsen</b><span>Appointed juror</span></div></div>
+    <div id="jNavWrap">${J_NAV.map(n=>`<div class="jnav" data-jgo="${n[0]}">${i(n[2])} ${n[1]}</div>`).join('')}</div>
+    <div class="out">${i('logout')} Sign out</div></div>`;
+  document.getElementById('appJury').innerHTML=`<div class="jlay">${side}<div id="jPage"></div></div>`;
+}
+function showJury(page){
+  document.getElementById('jPage').innerHTML=J_PAGES[page]||J_panels;
+  document.querySelectorAll('#jNavWrap .jnav').forEach(a=>a.classList.toggle('on',a.dataset.jgo===J_NAVOF[page]));
+  document.getElementById('url').textContent='jury.teravarna.com/'+page;
+  wireJ(document.getElementById('jPage'));
+  document.querySelectorAll('#jNavWrap .jnav').forEach(el=>el.onclick=()=>showJury(el.dataset.jgo));
+  document.querySelector('.win').scrollIntoView({block:'start',behavior:'auto'});
+}
+function wire(root,fn){root.querySelectorAll('[data-go]').forEach(el=>el.onclick=()=>fn(el.dataset.go));}
+function wireJ(root){root.querySelectorAll('[data-jgo]').forEach(el=>el.onclick=()=>showJury(el.dataset.jgo));}
+
+/* ---------- toggle ---------- */
+const seg=document.getElementById('seg');
+seg.innerHTML=[['user','photo','User app'],['jury','gavel','Jury app']].map((t,k)=>`<button data-r="${t[0]}" class="${k==0?'on':''}">${i(t[1])} ${t[2]}</button>`).join('');
+buildUser();buildJury();showUser('discover');
+seg.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+  seg.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  const u=b.dataset.r==='user';
+  document.getElementById('appUser').hidden=!u;document.getElementById('appJury').hidden=u;
+  document.getElementById('introTitle').textContent=u?'The User web app':'The Jury web app';
+  document.getElementById('introText').textContent=u
+    ?'The same product on the desktop — one account to collect & sell on the marketplace, enter juried competitions, follow results, and support the Foundation. The navigation is live: click through the pages.'
+    :'A private, non-public console for appointed jurors. Open a panel, work through an anonymized review queue, rate each work on the large canvas, and lock your ranking. Use the left sidebar to navigate.';
+  if(u){showUser('discover');}else{showJury('panels');}
+});
+</script>
+</body>
+</html>
