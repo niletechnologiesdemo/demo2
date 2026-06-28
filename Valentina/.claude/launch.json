@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vmr-demo",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["/Users/aadityanilesiphone/Documents/GitHub/demo2/Valentina/demo/server.js"],
+      "port": 4178
+    }
+  ]
+}
