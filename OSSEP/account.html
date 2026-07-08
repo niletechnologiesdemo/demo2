@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Account — OSSEP</title>
+  <meta name="description" content="Sign in to your OSSEP account or create one to track orders, save your details and get early access to new releases." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Oswald:wght@500;600;700&family=Pixelify+Sans:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <!-- ===== SVG sprite ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="logo" viewBox="0 0 150 32"><circle cx="16" cy="16" r="14" /><text x="37" y="25" font-family="Oswald, 'Arial Narrow', sans-serif" font-weight="700" font-size="30" letter-spacing="1">SSEP</text></symbol>
+      <symbol id="u-return" viewBox="0 0 22 22"><path d="M4 9h10a5 5 0 0 1 0 10H6M7 5 4 9l3 4"/></symbol>
+      <symbol id="u-chat" viewBox="0 0 22 22"><path d="M3 4h16v10h-9l-4 4v-4H3z"/></symbol>
+      <symbol id="u-star" viewBox="0 0 22 22"><path d="M11 3l2.4 4.9 5.4.8-3.9 3.8.9 5.3L11 15.3 6.2 17.8l.9-5.3L3.2 8.7l5.4-.8z"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        <span>Domestic shipping on us</span><span>Knit with precision</span><span>Woven to perfection</span><span>Seamless · Reversible</span><span>The perfect sock</span><span>#theperfectsock</span>
+        <span>Domestic shipping on us</span><span>Knit with precision</span><span>Woven to perfection</span><span>Seamless · Reversible</span><span>The perfect sock</span><span>#theperfectsock</span>
+      </div>
+    </div>
+    <nav class="nav wrap" aria-label="Primary">
+      <div class="nav__group nav__group--left">
+        <a class="nav__link" href="index.html">Home</a>
+        <a class="nav__link" href="collections.html">Collections</a>
+        <a class="nav__link" href="technology.html">Technology</a>
+        <a class="nav__link" href="about.html">About</a>
+      </div>
+      <a class="nav__logo" href="index.html" aria-label="OSSEP home"><img class="logo-img" src="assets/img/logo.png" alt="OSSEP" /></a>
+      <div class="nav__group nav__group--right">
+        <a class="nav__link" href="account.html">Account</a>
+        <a class="nav__link" href="bag.html">Bag&nbsp;<span data-bag-count>(0)</span></a>
+      </div>
+      <button class="nav__toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="ihero">
+      <div class="wrap">
+        <p class="ihero__eyebrow">Your account</p>
+        <h1>Account</h1>
+      </div>
+    </section>
+
+    <section class="section" style="border-top:0">
+      <div class="wrap auth">
+        <!-- Sign in -->
+        <div class="auth__col">
+          <h2>Sign in</h2>
+          <p class="auth__sub">Welcome back. Enter your details to continue.</p>
+          <form data-auth-form novalidate>
+            <div class="field"><label for="si-email">Email</label><input id="si-email" type="email" placeholder="your@email.com" autocomplete="email" /></div>
+            <div class="field"><label for="si-pass">Password</label><input id="si-pass" type="password" placeholder="••••••••" autocomplete="current-password" /></div>
+            <div class="auth__row">
+              <label class="mono" style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;color:var(--gray-700)"><input type="checkbox" style="width:auto" /> Remember me</label>
+              <a class="underline-link" href="#">Forgot password?</a>
+            </div>
+            <button type="submit" class="btn btn--block">Sign In <span class="btn__plus">→</span></button>
+          </form>
+        </div>
+
+        <!-- Create account -->
+        <div class="auth__col">
+          <h2>Create account</h2>
+          <p class="auth__sub">New to OSSEP? Set up an account in seconds.</p>
+          <form data-auth-form novalidate>
+            <div class="field"><label for="cr-name">Full name</label><input id="cr-name" type="text" placeholder="Jane Doe" autocomplete="name" /></div>
+            <div class="field"><label for="cr-email">Email</label><input id="cr-email" type="email" placeholder="your@email.com" autocomplete="email" /></div>
+            <div class="field"><label for="cr-pass">Password</label><input id="cr-pass" type="password" placeholder="Choose a password" autocomplete="new-password" /></div>
+            <button type="submit" class="btn btn--block" style="margin-top:8px">Create Account <span class="btn__plus">+</span></button>
+          </form>
+          <ul class="benefits" style="margin-top:32px">
+            <li>Track orders and returns in one place</li>
+            <li>Faster checkout with saved details</li>
+            <li>Early access to new Essentials releases</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="util-bar">
+      <div class="wrap util-bar__grid">
+        <div class="util-item"><svg><use href="#u-return"/></svg><p><span class="t">Free returns, no questions asked</span><a class="s underline-link" href="#">Learn more</a></p></div>
+        <div class="util-item"><svg><use href="#u-chat"/></svg><p><span class="t">Need help? We’re here for you</span><a class="s underline-link" href="#">Contact us</a></p></div>
+        <div class="util-item"><svg><use href="#u-star"/></svg><p><span class="t">“Better than the best” — The Verge</span><a class="s underline-link" href="#">Read article</a></p></div>
+      </div>
+    </div>
+    <section class="signup">
+      <div class="wrap">
+        <p class="signup__eyebrow mono">Join the release list</p>
+        <form class="signup__form" novalidate>
+          <input type="email" placeholder="your@email.com" aria-label="Email address" />
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+    </section>
+    <div class="colophon">
+      <div class="wrap colophon__grid">
+        <img class="logo-img" src="assets/img/logo.png" alt="OSSEP" />
+        <span class="mono" style="font-size:10px">Knit with Precision. Woven to Perfection.™</span>
+        <span class="mono" style="font-size:10px">© 2024 OSSEP — Los Angeles, CA</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

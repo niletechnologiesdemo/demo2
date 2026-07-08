@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OSSEP — The Perfect Sock</title>
+  <meta name="description" content="OSSEP — the next step in technical foot apparel. Seamless, reversible, engineered socks that treat your feet as the foundation of your wellbeing." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Oswald:wght@500;600;700&family=Pixelify+Sans:wght@400;500;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <!-- ===== SVG sprite (icons/logo/sock) ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="logo" viewBox="0 0 150 32">
+        <circle cx="16" cy="16" r="14" />
+        <text x="37" y="25" font-family="Oswald, 'Arial Narrow', sans-serif" font-weight="700" font-size="30" letter-spacing="1">SSEP</text>
+      </symbol>
+      <symbol id="sock" viewBox="0 0 120 140">
+        <path d="M40 10 L80 10 Q84 10 84 14 L84 78 Q84 96 100 100 L108 102 Q116 104 116 116 Q116 128 104 128 L52 128 Q36 128 36 110 L36 14 Q36 10 40 10 Z" />
+      </symbol>
+      <!-- stitch icons -->
+      <symbol id="i-loops" viewBox="0 0 40 32"><path d="M9 11h22M9 16h22M9 21h22"/></symbol>
+      <symbol id="i-zig" viewBox="0 0 40 32"><path d="M8 21l4-9 4 9 4-9 4 9 4-9 4 9"/></symbol>
+      <symbol id="i-bars" viewBox="0 0 40 32"><path d="M11 22v-5M17 22v-8M23 22v-11M29 22v-14"/></symbol>
+      <symbol id="i-wave" viewBox="0 0 40 32"><path d="M7 16q3-8 6 0t6 0 6 0 6 0"/></symbol>
+      <symbol id="i-rose" viewBox="0 0 40 32"><circle cx="20" cy="16" r="3"/><circle cx="20" cy="9" r="3"/><circle cx="26" cy="12.5" r="3"/><circle cx="26" cy="19.5" r="3"/><circle cx="20" cy="23" r="3"/><circle cx="14" cy="19.5" r="3"/><circle cx="14" cy="12.5" r="3"/></symbol>
+      <symbol id="i-mesh" viewBox="0 0 40 32"><path d="M14 16l6-8 6 8-6 8zM20 8v16M14 16h12M11 12l18 8M11 20l18-8"/></symbol>
+      <symbol id="i-tri" viewBox="0 0 40 32"><path d="M12 12l3 5h-6zM26 9l3 5h-6zM20 21l3 5h-6z"/></symbol>
+      <symbol id="i-dots" viewBox="0 0 40 32"><path d="M11 11h.5M17 9h.5M24 11h.5M29 14h.5M13 17h.5M20 16h.5M27 19h.5M15 22h.5M23 22h.5"/></symbol>
+      <!-- utility icons -->
+      <symbol id="u-return" viewBox="0 0 22 22"><path d="M4 9h10a5 5 0 0 1 0 10H6M7 5 4 9l3 4"/></symbol>
+      <symbol id="u-chat" viewBox="0 0 22 22"><path d="M3 4h16v10h-9l-4 4v-4H3z"/></symbol>
+      <symbol id="u-star" viewBox="0 0 22 22"><path d="M11 3l2.4 4.9 5.4.8-3.9 3.8.9 5.3L11 15.3 6.2 17.8l.9-5.3L3.2 8.7l5.4-.8z"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header site-header--over-hero">
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        <span>Domestic shipping on us</span><span>Knit with precision</span><span>Woven to perfection</span><span>Seamless · Reversible</span><span>The perfect sock</span><span>#theperfectsock</span>
+        <span>Domestic shipping on us</span><span>Knit with precision</span><span>Woven to perfection</span><span>Seamless · Reversible</span><span>The perfect sock</span><span>#theperfectsock</span>
+      </div>
+    </div>
+    <nav class="nav wrap" aria-label="Primary">
+      <div class="nav__group nav__group--left">
+        <a class="nav__link" href="index.html">Home</a>
+        <a class="nav__link" href="collections.html">Collections</a>
+        <a class="nav__link" href="technology.html">Technology</a>
+        <a class="nav__link" href="about.html">About</a>
+      </div>
+      <a class="nav__logo" href="index.html" aria-label="OSSEP home">
+        <img class="logo-img" src="assets/img/logo.png" alt="OSSEP" />
+      </a>
+      <div class="nav__group nav__group--right">
+        <a class="nav__link" href="account.html">Account</a>
+        <a class="nav__link" href="bag.html">Bag&nbsp;<span data-bag-count>(0)</span></a>
+      </div>
+      <button class="nav__toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ===== Hero (photographic background extracted from the brand deck) ===== -->
+    <section class="hero" role="img" aria-label="Exploration — 2022 Essentials Release. The next step in technical foot apparel.">
+      <h1 class="sr-only">OSSEP — Exploration, 2022 Essentials Release</h1>
+    </section>
+
+    <!-- ===== Intro ===== -->
+    <section class="intro">
+      <div class="wrap intro__grid">
+        <div>
+          <h2 class="intro__title">Exploration essentials, engineered to pair performance and lifestyle.</h2>
+          <a class="intro__cta underline-link" href="collections.html">Shop Collection</a>
+        </div>
+        <div class="intro__diagram" aria-hidden="true">
+          <img src="assets/img/sphere.png" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Product mosaic ===== -->
+    <section class="mosaic" aria-label="Featured colorways">
+      <a class="tile" href="product.html"><img src="assets/img/m1.jpg" alt="Essential Sock colorway" /><span class="tile__cap"><span>Essential Sock</span><span>$24</span></span></a>
+      <a class="tile" href="product.html"><img src="assets/img/m2.jpg" alt="Essential Sock colorway" /><span class="tile__cap"><span>Essential Sock</span><span>$24</span></span></a>
+      <a class="tile" href="product.html"><img src="assets/img/m3.jpg" alt="Essential Sock colorway" /><span class="tile__cap"><span>Essential Sock</span><span>$24</span></span></a>
+      <a class="tile" href="product.html"><img src="assets/img/m4.jpg" alt="Essential Sock colorway" /><span class="tile__cap"><span>Essential Sock</span><span>$24</span></span></a>
+      <a class="tile" href="product.html"><img src="assets/img/m5.jpg" alt="Essential Sock colorway" /><span class="tile__cap"><span>Essential Sock</span><span>$24</span></span></a>
+      <a class="tile" href="product.html"><img src="assets/img/m6.jpg" alt="Essential Sock colorway" /><span class="tile__cap"><span>Essential Sock</span><span>$24</span></span></a>
+      <a class="tile" href="product.html"><img src="assets/img/m7.jpg" alt="Essential Sock colorway" /><span class="tile__cap"><span>Essential Sock</span><span>$24</span></span></a>
+      <a class="tile" href="product.html"><img src="assets/img/m8.jpg" alt="Essential Sock colorway" /><span class="tile__cap"><span>Essential Sock</span><span>$24</span></span></a>
+    </section>
+
+    <!-- ===== Editorial: Prolen ===== -->
+    <section class="editorial">
+      <div class="wrap editorial__grid">
+        <div class="editorial__media">
+          <img src="assets/img/prolen.jpg" alt="Prolen polypropylene knit detail with OSSEP wordmark" />
+        </div>
+        <div>
+          <p class="editorial__kicker mono">02 — Material</p>
+          <h3 class="editorial__h">(Pro)len™</h3>
+          <p class="editorial__p">The special polypropylene yarn at the core of every pair. Its low conductivity makes Prolen an incredibly effective wicking material, so your feet stay dry regardless of your activity level or the outdoor conditions.</p>
+          <a class="btn" href="product.html">Learn more <span class="btn__plus">+</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Editorial: Silver Drystat ===== -->
+    <section class="editorial">
+      <div class="wrap editorial__grid">
+        <div>
+          <p class="editorial__kicker mono">03 — Technology</p>
+          <h3 class="editorial__h">Silver DryStat®</h3>
+          <p class="editorial__p">We weave silver ions directly into our patented Silver DryStat® fabric to inhibit bacteria growth and reduce unpleasant odors. Moisture-wicking polypropylene keeps skin dry and comfortable.</p>
+          <dl class="spec">
+            <div><dt>20&ndash;30</dt><dd>Elasticity</dd></div>
+            <div><dt>22.5 fps</dt><dd>Weaving</dd></div>
+            <div><dt>2.24 cm</dt><dd>Stitching</dd></div>
+            <div><dt>1250</dt><dd>Thread count</dd></div>
+          </dl>
+          <a class="btn" href="product.html">Learn more <span class="btn__plus">+</span></a>
+        </div>
+        <div class="editorial__media dark">
+          <img src="assets/img/drystat.jpg" alt="Silver DryStat knit heel detail" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Manufacturing band ===== -->
+    <section class="mfg">
+      <div class="wrap mfg__grid">
+        <h2 class="mfg__title">Italian manufacturing, our history and tried and true yarn stitching process.</h2>
+        <div class="mfg__right">
+          <div class="icon-grid" aria-hidden="true">
+            <svg><use href="#i-loops"/></svg><svg><use href="#i-zig"/></svg><svg><use href="#i-bars"/></svg><svg><use href="#i-wave"/></svg>
+            <svg><use href="#i-rose"/></svg><svg><use href="#i-mesh"/></svg><svg><use href="#i-tri"/></svg><svg><use href="#i-dots"/></svg>
+          </div>
+          <div class="mfg__copy">
+            <p>Except a special synthetic yarn, every fiber comes from Italian mills certified to Oeko-Tex Standard 100 — the know-how, the best knitting machines, the best yarns, stitch by skillful stitch.</p>
+            <a class="underline-link" href="collections.html">About Ossep</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="util-bar">
+      <div class="wrap util-bar__grid">
+        <div class="util-item"><svg><use href="#u-return"/></svg><p><span class="t">Free returns, no questions asked</span><a class="s underline-link" href="#">Learn more</a></p></div>
+        <div class="util-item"><svg><use href="#u-chat"/></svg><p><span class="t">Need help? We’re here for you</span><a class="s underline-link" href="#">Contact us</a></p></div>
+        <div class="util-item"><svg><use href="#u-star"/></svg><p><span class="t">“Better than the best” — The Verge</span><a class="s underline-link" href="#">Read article</a></p></div>
+      </div>
+    </div>
+    <section class="signup">
+      <div class="wrap">
+        <p class="signup__eyebrow mono">Join the release list</p>
+        <form class="signup__form" novalidate>
+          <input type="email" placeholder="your@email.com" aria-label="Email address" />
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+    </section>
+    <div class="colophon">
+      <div class="wrap colophon__grid">
+        <img class="logo-img" src="assets/img/logo.png" alt="OSSEP" />
+        <span class="mono" style="font-size:10px">Knit with Precision. Woven to Perfection.™</span>
+        <span class="mono" style="font-size:10px">© 2024 OSSEP — Los Angeles, CA</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
