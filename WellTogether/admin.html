@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WellTogether — Care Team Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="wt.css">
+<style>
+  body { display: flex; min-height: 100vh; background: var(--bg); }
+  .ic { vertical-align: -3px; }
+
+  /* Sidebar */
+  .side {
+    width: 236px; flex-shrink: 0; background: var(--teal-dark); color: #fff;
+    display: flex; flex-direction: column; padding: 22px 14px; position: sticky; top: 0; height: 100vh;
+  }
+  .side img { width: 152px; margin: 4px 10px 26px; }
+  .side .sec { font-size: 10.5px; font-weight: 900; letter-spacing: .14em; color: hsla(186,50%,80%,.45); padding: 0 14px; margin: 14px 0 6px; }
+  .side nav button {
+    display: flex; align-items: center; gap: 11px; width: 100%; background: none; border: none;
+    color: hsla(186, 60%, 88%, .8); font-size: 14px; font-weight: 700; padding: 10px 14px;
+    border-radius: 10px; margin-bottom: 2px; text-align: left;
+  }
+  .side nav button .ic { flex-shrink: 0; opacity: .85; }
+  .side nav button.on { background: hsla(186, 100%, 36%, .35); color: #fff; }
+  .side nav button:hover:not(.on) { background: hsla(0,0%,100%,.07); }
+  .side nav button .cnt { margin-left: auto; background: var(--orange); color: #fff; font-size: 11px; font-weight: 900; border-radius: 999px; padding: 1px 8px; }
+  .side .foot { margin-top: auto; font-size: 12px; color: hsla(186,50%,80%,.55); padding: 0 14px; }
+  .side .user { display: flex; align-items: center; gap: 10px; padding: 12px 14px; margin-top: 12px; background: hsla(0,0%,100%,.07); border-radius: 12px; }
+  .side .user .av { width: 34px; height: 34px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 13px; flex-shrink: 0; }
+  .side .user b { font-size: 13px; display: block; }
+  .side .user span { font-size: 11.5px; color: hsla(186,50%,85%,.6); }
+
+  /* Main */
+  .main { flex: 1; padding: 26px 32px 48px; min-width: 0; }
+  .topbar { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 22px; gap: 16px; flex-wrap: wrap; }
+  .topbar h1 { font-size: 25px; }
+  .topbar .clinic { font-size: 13.5px; color: var(--ink-soft); margin-top: 2px; }
+  .topbar .clinic b { color: var(--teal-dark); }
+  .topbar .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .topbar .btn { padding: 12px 22px; font-size: 14.5px; }
+  .live { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 700; color: var(--green); background: var(--green-soft); padding: 8px 14px; border-radius: 999px; }
+  .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 1.6s infinite; font-style: normal; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .3 } }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+  @media (max-width: 1100px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  .stat { padding: 18px 20px; border-left: 5px solid var(--teal); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .stat.o { border-left-color: var(--orange); } .stat.g { border-left-color: var(--green); } .stat.d { border-left-color: var(--teal-dark); }
+  .stat .n { font-family: var(--font-head); font-size: 29px; font-weight: 700; color: var(--teal-dark); line-height: 1.1; }
+  .stat .l { font-size: 12.5px; color: var(--ink-soft); font-weight: 700; }
+  .stat .ic { color: hsl(188, 20%, 78%); flex-shrink: 0; }
+
+  /* Tables */
+  .panel { padding: 0; overflow: hidden; }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px 14px; gap: 10px; flex-wrap: wrap; }
+  .panel-head h2 { font-size: 17px; }
+  .panel-head .hint { font-size: 12.5px; color: var(--ink-soft); }
+  .tbl-wrap { overflow-x: auto; }
+  table.q { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.q th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); padding: 10px 22px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  table.q td { padding: 13px 22px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  table.q tr.row { cursor: pointer; transition: background .1s; }
+  table.q tr.row:hover { background: var(--teal-soft); }
+  table.q tr.new-row { animation: flashIn 1.6s ease; }
+  @keyframes flashIn { 0% { background: var(--orange-soft); } 100% { background: transparent; } }
+  .pname { font-weight: 900; color: var(--teal-dark); white-space: nowrap; }
+  .pmeta { font-size: 12px; color: var(--ink-soft); }
+  .svc-codes { display: flex; gap: 5px; flex-wrap: wrap; }
+  .src-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; color: var(--ink-soft); }
+  .src-tag .ic { color: hsl(188, 15%, 62%); }
+
+  /* Demand view */
+  .demand-grid { display: grid; grid-template-columns: 340px 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 1100px) { .demand-grid { grid-template-columns: 1fr; } }
+  .demand-card { padding: 20px 22px; }
+  .demand-card h2 { font-size: 16px; margin-bottom: 4px; }
+  .demand-card .hint { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 16px; }
+  .bar-row { margin-bottom: 13px; }
+  .bar-row .bt { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--teal-dark); margin-bottom: 5px; }
+  .bar-row .bt small { color: var(--ink-soft); font-weight: 400; }
+  .bar-row .track { height: 10px; border-radius: 99px; background: var(--teal-mist); overflow: hidden; }
+  .bar-row .fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--teal), hsl(186,100%,30%)); }
+  .bar-row.hot .fill { background: linear-gradient(90deg, var(--orange), hsl(20,90%,50%)); }
+  .top-tests { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 14px; }
+  .top-tests .tt { display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0; color: var(--ink-soft); }
+  .top-tests .tt b { color: var(--teal-dark); }
+
+  /* Drawer */
+  .overlay { position: fixed; inset: 0; background: hsla(188, 60%, 10%, .45); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 90; }
+  .overlay.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: -580px; width: 560px; max-width: 96vw; height: 100vh; background: #fff;
+    z-index: 100; box-shadow: -18px 0 50px rgba(0,0,0,.25); transition: right .25s ease; display: flex; flex-direction: column;
+  }
+  .drawer.open { right: 0; }
+  .drawer-head { background: var(--teal-dark); color: #fff; padding: 22px 26px; }
+  .drawer-head .top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .drawer-head h2 { color: #fff; font-size: 22px; }
+  .drawer-head .meta { font-size: 13px; color: hsla(186,60%,88%,.8); margin-top: 5px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .drawer-head button.x { background: hsla(0,0%,100%,.12); border: none; color: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .drawer-body { flex: 1; overflow-y: auto; padding: 22px 26px 30px; }
+  .drawer h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; margin: 22px 0 10px; color: var(--ink-soft); font-family: var(--font-body); }
+  .drawer h3:first-child { margin-top: 0; }
+
+  .id-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .id-cell { background: var(--bg); border-radius: 10px; padding: 10px 14px; }
+  .id-cell small { display: block; font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-soft); font-weight: 700; }
+  .id-cell b { font-size: 14.5px; color: var(--teal-dark); }
+
+  .flow { display: flex; margin: 14px 0 6px; }
+  .flow .fstep { flex: 1; text-align: center; font-size: 11px; font-weight: 700; color: var(--ink-soft); position: relative; padding-top: 26px; }
+  .flow .fstep::before { content: ''; width: 18px; height: 18px; border-radius: 50%; background: var(--line); position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; }
+  .flow .fstep::after { content: ''; position: absolute; top: 8px; left: -50%; width: 100%; height: 3px; background: var(--line); }
+  .flow .fstep:first-child::after { display: none; }
+  .flow .fstep.done::before { background: var(--teal); box-shadow: 0 0 0 3px var(--teal-mist); }
+  .flow .fstep.done::after { background: var(--teal); }
+  .flow .fstep.done { color: var(--teal-dark); }
+
+  /* Labels */
+  .labels-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .vial-label {
+    border: 1.5px solid #333; border-radius: 6px; background: #fff; padding: 8px 10px;
+    font-family: 'Courier New', monospace; font-size: 10.5px; line-height: 1.35; color: #111;
+    box-shadow: 0 2px 6px rgba(0,0,0,.12);
+  }
+  .vial-label .lb-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #999; padding-bottom: 3px; margin-bottom: 4px; }
+  .vial-label .lb-org { font-weight: bold; font-size: 9.5px; letter-spacing: .04em; }
+  .vial-label .tube { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: bold; }
+  .vial-label .tube i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; border: 1px solid #555; font-style: normal; }
+  .vial-label .lb-name { font-size: 12.5px; font-weight: bold; }
+  .vial-label svg.bar { width: 100%; height: 30px; margin-top: 3px; }
+  .vial-label .lb-id { text-align: center; font-size: 10px; letter-spacing: .12em; }
+
+  .drawer .actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+  .drawer .actions .btn { font-size: 14px; padding: 11px 20px; }
+
+  /* Results entry */
+  .res-svc { border: 1.5px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+  .res-svc h4 { font-size: 14.5px; margin-bottom: 10px; }
+  .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .res-field label { display: block; font-size: 12px; font-weight: 700; color: var(--ink-soft); margin-bottom: 3px; }
+  .res-field .unit-wrap { display: flex; align-items: center; gap: 7px; }
+  .res-field input { width: 100%; padding: 9px 11px; border: 1.5px solid var(--line); border-radius: 9px; font-size: 14.5px; font-family: var(--font-body); }
+  .res-field input:focus { outline: none; border-color: var(--teal); }
+  .res-field input.out { border-color: var(--red); background: var(--red-soft); }
+  .res-field small { font-size: 11px; color: var(--ink-soft); white-space: nowrap; }
+  .res-field .flagtxt { font-size: 11.5px; font-weight: 700; min-height: 15px; color: var(--red); }
+
+  /* SMS preview */
+  .sms-preview { background: var(--bg); border-radius: 14px; padding: 16px; margin-top: 14px; }
+  .sms-preview .sp-head { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 10px; }
+  .sms-preview .sp-head .ic { color: var(--teal); }
+  .sms-bubble { background: var(--teal); color: #fff; border-radius: 16px 16px 16px 4px; padding: 12px 15px; font-size: 13.5px; line-height: 1.5; max-width: 92%; }
+  .sms-bubble a { color: #fff; font-weight: 700; }
+  .sms-to { font-size: 12px; color: var(--ink-soft); margin-top: 7px; }
+
+  /* Onboard modal */
+  .modal-wrap { position: fixed; inset: 0; z-index: 110; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal-wrap.open { display: flex; }
+  .modal-bg { position: absolute; inset: 0; background: hsla(188, 60%, 10%, .5); }
+  .modal { position: relative; background: #fff; border-radius: 18px; width: 640px; max-width: 96vw; max-height: 92vh; display: flex; flex-direction: column; box-shadow: 0 30px 80px rgba(0,0,0,.35); }
+  .modal-head { display: flex; justify-content: space-between; align-items: center; padding: 20px 26px 0; }
+  .modal-head h2 { font-size: 20px; display: flex; align-items: center; gap: 10px; }
+  .modal-head h2 .ic { color: var(--orange); }
+  .modal-head button { background: var(--bg); border: none; width: 34px; height: 34px; border-radius: 50%; color: var(--teal-dark); display: flex; align-items: center; justify-content: center; }
+  .modal-sub { padding: 4px 26px 0; font-size: 13.5px; color: var(--ink-soft); }
+  .modal-body { padding: 6px 26px 10px; overflow-y: auto; }
+  .modal-foot { padding: 14px 26px 22px; display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid var(--line); }
+  label.f { display: block; font-weight: 700; font-size: 12.5px; color: var(--teal-dark); margin: 13px 0 5px; }
+  input.f, select.f { width: 100%; padding: 11px 13px; font-size: 15px; font-family: var(--font-body); border: 1.5px solid var(--line); border-radius: 10px; color: var(--ink); background: #fff; }
+  input.f:focus, select.f:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-mist); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .ob-svcs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+  .ob-svc { display: flex; align-items: center; gap: 9px; border: 1.5px solid var(--line); border-radius: 10px; padding: 9px 12px; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--ink); }
+  .ob-svc input { width: 17px; height: 17px; accent-color: var(--teal); }
+  .ob-svc.on { border-color: var(--teal); background: var(--teal-soft); }
+
+  .toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translate(-50%, 90px); z-index: 300;
+    background: var(--teal-dark); color: #fff; font-weight: 700; font-size: 14px;
+    padding: 13px 24px; border-radius: 999px; box-shadow: 0 10px 30px rgba(0,0,0,.3);
+    transition: transform .25s ease; display: flex; gap: 10px; align-items: center; max-width: 90vw;
+  }
+  .toast.show { transform: translate(-50%, 0); }
+  .toast .ic { color: hsl(186, 90%, 65%); flex-shrink: 0; }
+
+  /* Print: only labels */
+  #print-area { display: none; }
+  @media print {
+    body > *:not(#print-area) { display: none !important; }
+    body { background: #fff; display: block; }
+    #print-area { display: block; padding: 10mm; }
+    #print-area .vial-label { width: 62mm; margin-bottom: 6mm; box-shadow: none; page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="side">
+  <img src="assets/logo-white.png" alt="WellTogether">
+  <nav id="nav"></nav>
+  <div class="foot">Concept demo · fictional data</div>
+  <div class="user"><div class="av">DK</div><div><b>Denise Kohler, RN</b><span>Mobile Unit #2</span></div></div>
+</aside>
+
+<main class="main" id="main"></main>
+
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer"></div>
+
+<div class="modal-wrap" id="ob-wrap">
+  <div class="modal-bg" onclick="closeOnboard()"></div>
+  <div class="modal" id="ob-modal"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div id="print-area"></div>
+
+<script src="wt-icons.js"></script>
+<script src="wt-data.js"></script>
+<script>
+let page = 'queue';
+let openId = null;
+let knownIds = new Set(WT.load().map(x => x.id));
+let knownReqIds = new Set(WT.loadReq().map(x => x.id));
+const ob = { services: [] };
+const $ = id => document.getElementById(id);
+
+/* ---------- Chrome ---------- */
+function renderNav() {
+  const newReqs = WT.loadReq().filter(r => r.status === 'new').length;
+  $('nav').innerHTML = `
+    <div class="sec">TODAY'S CLINIC</div>
+    <button class="${page === 'queue' ? 'on' : ''}" onclick="goPage('queue')">${icon('listChecks', 18)} Intake Queue</button>
+    <div class="sec">PLANNING</div>
+    <button class="${page === 'requests' ? 'on' : ''}" onclick="goPage('requests')">${icon('mapPin', 18)} Test Requests <span class="cnt">${newReqs}</span></button>
+    <button class="${page === 'orgs' ? 'on' : ''}" onclick="goPage('orgs')">${icon('building', 18)} Organizations</button>
+    <button class="${page === 'schedule' ? 'on' : ''}" onclick="goPage('schedule')">${icon('calendar', 18)} Clinic Schedule</button>
+    <div class="sec">DEMO</div>
+    <button onclick="window.location='patient.html'">${icon('smartphone', 18)} Patient App</button>
+    <button onclick="window.location='index.html'">${icon('home', 18)} Demo Home</button>`;
+}
+
+function goPage(p) { page = p; render(); }
+
+function toast(msg, ic) {
+  const el = $('toast');
+  el.innerHTML = icon(ic || 'checkCircle', 19) + '<span>' + msg + '</span>';
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function fmtDob(d) {
+  if (!d) return '—';
+  const [y, m, dd] = d.split('-');
+  return `${m}/${dd}/${y}`;
+}
+function age(d) {
+  if (!d) return '';
+  const b = new Date(d), now = new Date('2026-07-18');
+  let a = now.getFullYear() - b.getFullYear();
+  if (now < new Date(now.getFullYear(), b.getMonth(), b.getDate())) a--;
+  return a + ' yrs';
+}
+
+function barcodeSVG(seed) {
+  let n = 0;
+  for (const ch of seed) n = (n * 33 + ch.charCodeAt(0)) >>> 0;
+  let bars = '', x = 2;
+  while (x < 196) {
+    n = (n * 1103515245 + 12345) >>> 0;
+    const w = 1 + (n >>> 20) % 3;
+    bars += `<rect x="${x}" y="0" width="${w}" height="30" fill="#111"/>`;
+    x += w + 1 + (n >>> 8) % 3;
+  }
+  return `<svg class="bar" viewBox="0 0 200 30" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">${bars}</svg>`;
+}
+
+const TUBE_COLORS = { Lavender: '#b89ae0', Gold: '#e8c34a', Gray: '#b7bcc2' };
+
+function labelHTML(p, svcKey) {
+  const s = WT.SERVICES[svcKey];
+  const tube = s.tube ? `<span class="tube"><i style="background:${TUBE_COLORS[s.tube] || '#ccc'}"></i>${s.tube.toUpperCase()}</span>` : '';
+  return `<div class="vial-label">
+    <div class="lb-top"><span class="lb-org">WELLTOGETHER · MU-2</span>${tube}</div>
+    <div class="lb-name">${p.last.toUpperCase()}, ${p.first}</div>
+    <div>DOB ${fmtDob(p.dob)} · SSN •••-••-${p.ssn4}</div>
+    <div>TEST: <b>${s.code}</b> — ${s.name}</div>
+    <div>COLL 07/18/2026 · RN D. KOHLER</div>
+    ${barcodeSVG(p.id + svcKey)}
+    <div class="lb-id">${p.id}-${s.code}</div>
+  </div>`;
+}
+
+/* ---------- Queue page ---------- */
+function statsHTML(list) {
+  const total = list.length;
+  const waiting = list.filter(x => x.status === 'checkedin').length;
+  const samples = list.filter(x => ['collected', 'resulted', 'reported'].includes(x.status)).length;
+  const reported = list.filter(x => x.status === 'reported').length;
+  return `<div class="stats wt-in">
+    <div class="card stat d"><div><div class="n">${total}</div><div class="l">Patients checked in</div></div>${icon('user', 26)}</div>
+    <div class="card stat o"><div><div class="n">${waiting}</div><div class="l">Waiting to be seen</div></div>${icon('clock', 26)}</div>
+    <div class="card stat"><div><div class="n">${samples}</div><div class="l">Samples collected</div></div>${icon('testTube', 26)}</div>
+    <div class="card stat g"><div><div class="n">${reported}</div><div class="l">Results published</div></div>${icon('send', 26)}</div>
+  </div>`;
+}
+
+function queuePage() {
+  const list = WT.load();
+  const rows = list.map(p => {
+    const st = WT.STATUS[p.status];
+    const codes = p.services.map(k => `<span class="chip teal">${WT.SERVICES[k].code}</span>`).join('');
+    const src = p.source === 'walkup'
+      ? `<span class="src-tag">${icon('userPlus', 14)} Walk-up</span>`
+      : `<span class="src-tag">${icon('smartphone', 14)} App</span>`;
+    return `<tr class="row ${p._new ? 'new-row' : ''}" onclick="openDrawer('${p.id}')">
+      <td><div class="pname">${p.first} ${p.last}</div><div class="pmeta">${p.id}${p.lang === 'es' ? ' · Español' : ''}</div></td>
+      <td>${fmtDob(p.dob)}<div class="pmeta">${age(p.dob)}</div></td>
+      <td>•••-••-${p.ssn4}</td>
+      <td>${src}</td>
+      <td><div class="svc-codes">${codes}</div></td>
+      <td>${p.checkedInAt}</td>
+      <td><span class="chip ${st.chip}">${st.label}</span></td>
+    </tr>`;
+  }).join('');
+  const C = WT.CLINIC;
+  return `
+    <div class="topbar">
+      <div><h1>Today's Clinic</h1><div class="clinic"><b>${C.name}</b> · ${C.unit} · ${C.date} · ${C.hours}</div></div>
+      <div class="actions">
+        <span class="live"><i></i> Live — app check-ins appear automatically</span>
+        <button class="btn btn-primary" onclick="openOnboard()">${icon('userPlus', 17)} Onboard Walk-Up</button>
+      </div>
+    </div>
+    ${statsHTML(list)}
+    <div class="card panel wt-in">
+      <div class="panel-head"><h2>Intake Queue</h2><span class="hint">Click a patient to print labels, enter results & publish</span></div>
+      <div class="tbl-wrap"><table class="q">
+        <thead><tr><th>Patient</th><th>DOB</th><th>SSN</th><th>Source</th><th>Requested</th><th>Checked In</th><th>Status</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table></div>
+    </div>`;
+}
+
+/* ---------- Requests (demand) page ---------- */
+function requestsPage() {
+  const reqs = WT.loadReq();
+  const byArea = {};
+  for (const r of reqs) {
+    const k = `${r.area} · ${r.zip}`;
+    (byArea[k] = byArea[k] || []).push(r);
+  }
+  const areas = Object.entries(byArea).sort((a, b) => b[1].length - a[1].length);
+  const max = areas.length ? areas[0][1].length : 1;
+
+  const svcCount = {};
+  reqs.forEach(r => r.services.forEach(s => svcCount[s] = (svcCount[s] || 0) + 1));
+  const topSvcs = Object.entries(svcCount).sort((a, b) => b[1] - a[1]).slice(0, 4);
+
+  const bars = areas.map(([area, list], i) => `
+    <div class="bar-row ${i === 0 ? 'hot' : ''}">
+      <div class="bt"><span>${area}</span><small>${list.length} request${list.length > 1 ? 's' : ''}</small></div>
+      <div class="track"><div class="fill" style="width:${Math.round(list.length / max * 100)}%"></div></div>
+    </div>`).join('');
+
+  const rows = reqs.slice().reverse().map(r => {
+    const st = WT.RSTATUS[r.status] || WT.RSTATUS.new;
+    const codes = r.services.map(k => `<span class="chip teal">${WT.SERVICES[k].code}</span>`).join('');
+    return `<tr class="${r._new ? 'new-row' : ''}">
+      <td><div class="pname">${r.first} ${r.last}</div><div class="pmeta">${r.id} · ${r.phone}</div></td>
+      <td><b>${r.area}</b><div class="pmeta">${r.zip}</div></td>
+      <td><div class="svc-codes">${codes}</div></td>
+      <td>${r.date}</td>
+      <td>${r.note ? `<span class="pmeta">${r.note}</span>` : '<span class="pmeta">—</span>'}</td>
+      <td><span class="chip ${st.chip}">${st.label}</span></td>
+      <td>${r.status === 'new' ? `<button class="btn btn-ghost" style="padding:7px 14px;font-size:12.5px" onclick="planReq('${r.id}')">Mark Planned</button>` : ''}</td>
+    </tr>`;
+  }).join('');
+
+  return `
+    <div class="topbar">
+      <div><h1>Test Requests</h1><div class="clinic">General requests from the app — <b>not tied to a clinic day</b>. This is where demand for new routes comes from.</div></div>
+      <div class="actions">
+        <span class="live"><i></i> Live — new requests appear automatically</span>
+        <button class="btn btn-primary" onclick="toast('In the full build: creates a clinic day pre-filled from the highest-demand area', 'calendar')">${icon('calendar', 17)} Plan Clinic Day</button>
+      </div>
+    </div>
+    <div class="stats wt-in" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card stat o"><div><div class="n">${reqs.filter(r => r.status === 'new').length}</div><div class="l">Open requests</div></div>${icon('clipboard', 26)}</div>
+      <div class="card stat d"><div><div class="n">${areas.length}</div><div class="l">Areas requesting service</div></div>${icon('mapPin', 26)}</div>
+      <div class="card stat"><div><div class="n">${topSvcs.length ? WT.SERVICES[topSvcs[0][0]].code : '—'}</div><div class="l">Most requested test</div></div>${icon('testTube', 26)}</div>
+    </div>
+    <div class="demand-grid wt-in">
+      <div class="card demand-card">
+        <h2>Demand by area</h2>
+        <div class="hint">Where should the next clinic day go?</div>
+        ${bars}
+        <div class="top-tests">
+          <div class="hint" style="margin-bottom:6px">Most requested services</div>
+          ${topSvcs.map(([k, n]) => `<div class="tt"><span>${WT.SERVICES[k].name}</span><b>${n}</b></div>`).join('')}
+        </div>
+      </div>
+      <div class="card panel">
+        <div class="panel-head"><h2>All Requests</h2><span class="hint">Submitted from the Patient App — any area, any time</span></div>
+        <div class="tbl-wrap"><table class="q">
+          <thead><tr><th>Requester</th><th>Area</th><th>Tests</th><th>Date</th><th>Note</th><th>Status</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table></div>
+      </div>
+    </div>`;
+}
+
+function planReq(id) {
+  WT.updateReq(id, { status: 'planned' });
+  render();
+  toast('Request marked for the next route plan', 'calendar');
+}
+
+/* ---------- Orgs & Schedule ---------- */
+function orgsPage() {
+  const orgs = [
+    { name: 'Cedar Creek Community Center', type: 'Community hub · Ashland County', visits: 6, patients: 214, next: 'Jul 18' },
+    { name: 'Harvest Ridge Farm Workers Assoc.', type: 'Workplace program · Rural south', visits: 4, patients: 156, next: 'Jul 24' },
+    { name: 'St. Brigid Shelter Network', type: 'Shelter partner · 3 sites', visits: 9, patients: 388, next: 'Jul 29' },
+    { name: 'Lakeview Unified Schools', type: 'School district · back-to-school drive', visits: 2, patients: 95, next: 'Aug 11' }
+  ];
+  return `<div class="topbar"><div><h1>Partner Organizations</h1><div class="clinic">Sites WellTogether serves on a recurring cycle</div></div>
+    <button class="btn btn-primary" onclick="toast('In the full build: guided onboarding for a new partner site', 'building')">${icon('plus', 16)} Onboard Organization</button></div>
+    <div class="demand-grid wt-in" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">${orgs.map(o => `
+      <div class="card demand-card"><h2>${o.name}</h2><div class="hint">${o.type}</div>
+        <div class="top-tests" style="margin-top:8px;padding-top:8px">
+          <div class="tt"><span>Clinic visits to date</span><b>${o.visits}</b></div>
+          <div class="tt"><span>Patients served</span><b>${o.patients}</b></div>
+          <div class="tt"><span>Next visit</span><b>${o.next}, 2026</b></div>
+        </div>
+      </div>`).join('')}</div>`;
+}
+
+function schedulePage() {
+  const rows = [
+    { d: '18', m: 'JUL', site: 'Cedar Creek Community Center', unit: 'Mobile Unit #2 · 9:00 AM – 3:00 PM', focus: 'Blood panels · vaccines · BP', chip: '<span class="chip orange">Today</span>' },
+    { d: '24', m: 'JUL', site: 'Harvest Ridge Farm Workers Assoc.', unit: 'Mobile Unit #1 · 7:00 AM – 1:00 PM', focus: 'A1C cycle · heat-safety education', chip: '<span class="chip teal">Scheduled</span>' },
+    { d: '29', m: 'JUL', site: 'St. Brigid Shelter — Downtown', unit: 'Mobile Unit #2 · 10:00 AM – 4:00 PM', focus: 'Full panel cycle · flu shots', chip: '<span class="chip teal">Scheduled</span>' },
+    { d: '11', m: 'AUG', site: 'Lakeview Unified Schools', unit: 'Both units · 8:00 AM – 2:00 PM', focus: 'Back-to-school screenings', chip: '<span class="chip gray">Planning</span>' }
+  ];
+  return `<div class="topbar"><div><h1>Clinic Schedule</h1><div class="clinic">Upcoming mobile unit deployments & test cycles</div></div>
+    <button class="btn btn-primary" onclick="toast('In the full build: schedule a new clinic day & test cycle', 'calendar')">${icon('plus', 16)} Schedule Clinic Day</button></div>
+    <div class="wt-in">${rows.map(r => `
+      <div class="card" style="display:flex;align-items:center;gap:16px;padding:15px 20px;margin-bottom:10px">
+        <div style="text-align:center;background:var(--teal-soft);border-radius:11px;padding:8px 14px;flex-shrink:0">
+          <span style="font-size:11px;font-weight:900;letter-spacing:.06em;color:var(--teal)">${r.m}</span>
+          <b style="display:block;font-family:var(--font-head);font-size:19px;color:var(--teal-dark)">${r.d}</b>
+        </div>
+        <div style="flex:1"><b style="font-family:var(--font-head);color:var(--teal-dark)">${r.site}</b>
+        <span style="display:block;font-size:13px;color:var(--ink-soft)">${r.unit} · ${r.focus}</span></div>${r.chip}</div>`).join('')}</div>`;
+}
+
+/* ---------- Drawer ---------- */
+function openDrawer(id) {
+  openId = id;
+  renderDrawer();
+  $('overlay').classList.add('open');
+  $('drawer').classList.add('open');
+}
+function closeDrawer() {
+  openId = null;
+  $('overlay').classList.remove('open');
+  $('drawer').classList.remove('open');
+}
+
+function smsText(p) {
+  return `WellTogether: Hi ${p.first}, your results from the ${WT.CLINIC.name} clinic on Jul 18 are ready. View them securely: wlt.gr/r/${p.id.slice(-4)} — Reply CALL and a navigator will phone you.`;
+}
+
+function renderDrawer() {
+  const p = WT.load().find(x => x.id === openId);
+  if (!p) return;
+  const order = ['checkedin', 'labeled', 'collected', 'resulted', 'reported'];
+  const idx = order.indexOf(p.status);
+  const flow = ['Checked In', 'Labels', 'Collected', 'Results', 'Published'].map((l, i) =>
+    `<div class="fstep ${i <= idx ? 'done' : ''}">${l}</div>`).join('');
+
+  const bloodSvcs = p.services.filter(k => WT.SERVICES[k].group === 'blood');
+  const labelSvcs = bloodSvcs.length ? bloodSvcs : p.services;
+
+  let body = `
+    <h3>Identity</h3>
+    <div class="id-grid">
+      <div class="id-cell"><small>Date of birth</small><b>${fmtDob(p.dob)} · ${age(p.dob)}</b></div>
+      <div class="id-cell"><small>SSN (masked)</small><b>•••-••-${p.ssn4}</b></div>
+      <div class="id-cell"><small>Phone</small><b>${p.phone || '—'}</b></div>
+      <div class="id-cell"><small>Preferred language</small><b>${p.lang === 'es' ? 'Español' : 'English'}</b></div>
+    </div>
+    <h3>Visit Progress</h3>
+    <div class="flow">${flow}</div>
+    <h3>Vial Labels — ${labelSvcs.length} to print</h3>
+    <div class="labels-wrap">${labelSvcs.map(k => labelHTML(p, k)).join('')}</div>
+    <div class="actions">
+      <button class="btn btn-primary" onclick="printLabels('${p.id}')">${icon('printer', 16)} Print Labels</button>
+      ${idx === 1 ? `<button class="btn btn-teal" onclick="setStatus('${p.id}','collected')">${icon('check', 16)} Mark Sample Collected</button>` : ''}
+    </div>`;
+
+  if (idx >= 2) {
+    body += `<h3>Enter Results</h3>`;
+    for (const k of p.services) {
+      const fields = WT.RESULT_FIELDS[k] || [];
+      const saved = (p.results || {})[k] || {};
+      body += `<div class="res-svc"><h4>${WT.SERVICES[k].name}</h4><div class="res-grid">` +
+        fields.map(f => {
+          const val = saved[f.id] || '';
+          const range = f.low !== null ? `<small>Range ${f.low}–${f.high} ${f.unit}</small>` : '<small>&nbsp;</small>';
+          return `<div class="res-field"><label>${f.label}</label>
+            <div class="unit-wrap"><input data-svc="${k}" data-fid="${f.id}" data-low="${f.low}" data-high="${f.high}" value="${val}" oninput="flagField(this)">${range}</div>
+            <div class="flagtxt" id="flag-${k}-${f.id}"></div></div>`;
+        }).join('') + '</div></div>';
+    }
+    body += `<div class="actions">
+      <button class="btn btn-teal" onclick="saveResults('${p.id}')">${icon('check', 16)} Save Results</button>
+      ${idx >= 3 && p.status !== 'reported' ? `<button class="btn btn-primary" onclick="publish('${p.id}')">${icon('send', 15)} Publish — App + Text Message</button>` : ''}
+    </div>`;
+    if (idx >= 3) {
+      body += `<div class="sms-preview">
+        <div class="sp-head">${icon('message', 15)} ${p.status === 'reported' ? 'Text message sent' : 'Text message preview'}</div>
+        <div class="sms-bubble">${smsText(p)}</div>
+        <div class="sms-to">To ${p.phone || '(no phone on file)'}${p.lang === 'es' ? ' · will be sent in Spanish' : ''}</div>
+      </div>`;
+    }
+  }
+  if (p.status === 'reported') {
+    body += `<div style="display:flex;gap:10px;margin-top:16px;background:var(--green-soft);color:var(--green);border-radius:12px;padding:13px 14px;font-size:13.5px;align-items:flex-start">${icon('checkCircle', 18)}<div><b>Published.</b> Results are live in ${p.first}'s Patient App and the text message above was delivered.</div></div>`;
+  }
+
+  $('drawer').innerHTML = `
+    <div class="drawer-head"><div class="top"><div>
+      <h2>${p.first} ${p.last}</h2>
+      <div class="meta">${p.id} · Checked in ${p.checkedInAt} · <span class="chip ${WT.STATUS[p.status].chip}">${WT.STATUS[p.status].label}</span></div>
+    </div><button class="x" onclick="closeDrawer()">${icon('x', 16)}</button></div></div>
+    <div class="drawer-body">${body}</div>`;
+}
+
+function flagField(input) {
+  const low = parseFloat(input.dataset.low), high = parseFloat(input.dataset.high);
+  const el = $('flag-' + input.dataset.svc + '-' + input.dataset.fid);
+  const v = parseFloat(input.value);
+  if (isNaN(low) || input.value === '' || isNaN(v)) { input.classList.remove('out'); if (el) el.textContent = ''; return; }
+  const out = v < low || v > high;
+  input.classList.toggle('out', out);
+  if (el) el.textContent = out ? (v > high ? 'Above typical range' : 'Below typical range') : '';
+}
+
+function setStatus(id, status) {
+  WT.update(id, { status });
+  renderDrawer(); render();
+  if (status === 'collected') toast('Sample marked collected — results entry unlocked', 'testTube');
+}
+
+function saveResults(id) {
+  const results = {};
+  document.querySelectorAll('.res-field input').forEach(inp => {
+    if (inp.value === '') return;
+    (results[inp.dataset.svc] = results[inp.dataset.svc] || {})[inp.dataset.fid] = inp.value;
+  });
+  const p = WT.load().find(x => x.id === id);
+  WT.update(id, { results, status: Object.keys(results).length ? 'resulted' : p.status });
+  renderDrawer(); render();
+  toast('Results saved & flagged against reference ranges', 'check');
+}
+
+function publish(id) {
+  WT.update(id, { status: 'reported' });
+  renderDrawer(); render();
+  const p = WT.load().find(x => x.id === id);
+  toast(`Published — live in ${p.first}'s app, text sent to ${p.phone || 'patient'}`, 'send');
+}
+
+function printLabels(id) {
+  const p = WT.load().find(x => x.id === id);
+  const bloodSvcs = p.services.filter(k => WT.SERVICES[k].group === 'blood');
+  const labelSvcs = bloodSvcs.length ? bloodSvcs : p.services;
+  $('print-area').innerHTML = labelSvcs.map(k => labelHTML(p, k)).join('');
+  if (p.status === 'checkedin') { WT.update(id, { status: 'labeled' }); renderDrawer(); render(); }
+  window.print();
+  toast('Labels sent to the label printer', 'printer');
+}
+
+/* ---------- Walk-up onboarding ---------- */
+function openOnboard() {
+  ob.first = ''; ob.last = ''; ob.dob = ''; ob.phone = ''; ob.ssn = ''; ob.lang = 'en'; ob.services = [];
+  renderOnboard();
+  $('ob-wrap').classList.add('open');
+}
+function closeOnboard() { $('ob-wrap').classList.remove('open'); }
+
+/* Format digits while typing; mask on blur (masking mid-typing would destroy
+   the digits on re-parse, since the display is re-read each keystroke) */
+function fmtSsn(d) {
+  let o = '';
+  for (let i = 0; i < d.length; i++) o += (i === 3 || i === 5 ? '-' : '') + d[i];
+  return o;
+}
+function obSsnInput(el) {
+  ob.ssn = el.value.replace(/\D/g, '').slice(0, 9);
+  el.value = fmtSsn(ob.ssn);
+  syncObBtn();
+}
+function obSsnBlur(el) { if (ob.ssn.length === 9) el.value = '•••-••-' + ob.ssn.slice(-4); }
+function obSsnFocus(el) { el.value = fmtSsn(ob.ssn); }
+
+function toggleObSvc(key, el) {
+  const i = ob.services.indexOf(key);
+  if (i > -1) ob.services.splice(i, 1); else ob.services.push(key);
+  el.classList.toggle('on', i === -1);
+  el.querySelector('input').checked = i === -1;
+  syncObBtn();
+}
+
+function canOnboard() {
+  return ob.first.trim() && ob.last.trim() && ob.dob && ob.ssn.length === 9 && ob.services.length > 0;
+}
+function syncObBtn() { const b = $('ob-submit'); if (b) b.disabled = !canOnboard(); }
+
+function renderOnboard() {
+  const svcs = Object.keys(WT.SERVICES).map(k =>
+    `<label class="ob-svc ${ob.services.includes(k) ? 'on' : ''}" onclick="event.preventDefault();toggleObSvc('${k}', this)">
+      <input type="checkbox" ${ob.services.includes(k) ? 'checked' : ''}>${WT.SERVICES[k].name}</label>`).join('');
+  $('ob-modal').innerHTML = `
+    <div class="modal-head"><h2>${icon('userPlus', 22)} Onboard Walk-Up Patient</h2><button onclick="closeOnboard()">${icon('x', 16)}</button></div>
+    <div class="modal-sub">Same details the app collects — for neighbors who arrive without a phone or need a hand.</div>
+    <div class="modal-body">
+      <div class="row2">
+        <div><label class="f">First name</label><input class="f" oninput="ob.first=this.value;syncObBtn()"></div>
+        <div><label class="f">Last name</label><input class="f" oninput="ob.last=this.value;syncObBtn()"></div>
+      </div>
+      <div class="row3">
+        <div><label class="f">Date of birth</label><input class="f" type="date" oninput="ob.dob=this.value;syncObBtn()"></div>
+        <div><label class="f">Mobile phone (for results)</label><input class="f" type="tel" placeholder="(555) 000-0000" oninput="ob.phone=this.value"></div>
+        <div><label class="f">Preferred language</label><select class="f" onchange="ob.lang=this.value"><option value="en">English</option><option value="es">Español</option></select></div>
+      </div>
+      <label class="f">Social Security Number ${icon('lock', 13)}</label>
+      <input class="f" inputmode="numeric" autocomplete="off" placeholder="123-45-6789" style="letter-spacing:.12em" oninput="obSsnInput(this)" onblur="obSsnBlur(this)" onfocus="obSsnFocus(this)">
+      <label class="f">Services requested</label>
+      <div class="ob-svcs">${svcs}</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeOnboard()">Cancel</button>
+      <button class="btn btn-primary" id="ob-submit" disabled onclick="submitOnboard()">${icon('check', 16)} Onboard & Prep Labels</button>
+    </div>`;
+}
+
+function submitOnboard() {
+  const p = WT.add({
+    first: ob.first.trim(), last: ob.last.trim(), dob: ob.dob, phone: ob.phone,
+    ssn4: ob.ssn.slice(-4), services: [...ob.services], lang: ob.lang,
+    source: 'walkup', site: WT.CLINIC.name
+  });
+  knownIds.add(p.id);
+  closeOnboard();
+  render();
+  openDrawer(p.id);
+  toast(`${p.first} ${p.last} onboarded — labels ready to print`, 'userPlus');
+}
+
+/* ---------- Render + live updates ---------- */
+function render() {
+  renderNav();
+  $('main').innerHTML = page === 'queue' ? queuePage()
+    : page === 'requests' ? requestsPage()
+    : page === 'orgs' ? orgsPage()
+    : schedulePage();
+}
+
+function checkNew() {
+  let dirty = false;
+  const list = WT.load();
+  for (const p of list) if (!knownIds.has(p.id)) {
+    knownIds.add(p.id); p._new = true; dirty = true;
+    WT.save(list);
+    toast(`New app check-in: ${p.first} ${p.last} — ${p.services.map(k => WT.SERVICES[k].code).join(', ')}`, 'bell');
+  }
+  const reqs = WT.loadReq();
+  for (const r of reqs) if (!knownReqIds.has(r.id)) {
+    knownReqIds.add(r.id); r._new = true; dirty = true;
+    WT.saveReq(reqs);
+    toast(`New test request from ${r.area} ${r.zip} — ${r.services.map(k => WT.SERVICES[k].code).join(', ')}`, 'mapPin');
+  }
+  if (dirty) render();
+}
+window.addEventListener('storage', checkNew);
+setInterval(checkNew, 1500);
+
+render();
+</script>
+</body>
+</html>

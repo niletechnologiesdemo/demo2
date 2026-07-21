@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WellTogether — Patient App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="wt.css">
+<style>
+  body { background: hsl(188, 30%, 90%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 26px 12px; }
+
+  .stage { display: flex; gap: 40px; align-items: center; }
+  .aside { max-width: 300px; }
+  .aside h2 { font-size: 22px; margin-bottom: 10px; }
+  .aside p { color: var(--ink-soft); font-size: 14.5px; margin-bottom: 16px; }
+  .aside a.back { font-size: 13.5px; font-weight: 700; }
+  @media (max-width: 900px) { .aside { display: none; } }
+
+  /* Phone frame */
+  .phone {
+    width: 390px; max-width: 100vw; height: 800px; max-height: 94vh;
+    background: #fff; border-radius: 44px; box-shadow: 0 0 0 10px #10222a, 0 30px 70px rgba(0,0,0,.4);
+    overflow: hidden; display: flex; flex-direction: column; position: relative;
+  }
+  .notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 120px; height: 26px; background: #10222a; border-radius: 999px; z-index: 50; }
+
+  .app-head {
+    background: linear-gradient(160deg, var(--teal-dark), hsl(187, 90%, 22%));
+    color: #fff; padding: 50px 20px 14px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  }
+  .app-head img { height: 28px; display: block; }
+  .lang-toggle { display: flex; background: hsla(0,0%,100%,.14); border-radius: 999px; padding: 3px; }
+  .lang-toggle button { border: none; background: transparent; color: hsla(0,0%,100%,.75); font-weight: 700; font-size: 12px; padding: 5px 12px; border-radius: 999px; }
+  .lang-toggle button.on { background: #fff; color: var(--teal-dark); }
+
+  .screen { flex: 1; overflow-y: auto; padding: 20px 22px 30px; }
+  .screen h1 { font-size: 22px; margin-bottom: 6px; letter-spacing: -.01em; }
+  .screen .sub { color: var(--ink-soft); font-size: 14px; margin-bottom: 18px; }
+
+  /* Flow header (check-in) */
+  .flow-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .flow-head button { background: var(--bg); border: none; width: 38px; height: 38px; border-radius: 12px; color: var(--teal-dark); display: flex; align-items: center; justify-content: center; }
+  .flow-head .fh-site { font-size: 12.5px; font-weight: 700; color: var(--ink-soft); }
+  .flow-head .fh-title { font-family: var(--font-head); font-weight: 700; color: var(--teal-dark); font-size: 15px; line-height: 1.15; }
+  .progress { display: flex; gap: 6px; margin-bottom: 20px; }
+  .progress i { flex: 1; height: 5px; border-radius: 99px; background: var(--line); }
+  .progress i.done { background: var(--teal); }
+
+  label.f { display: block; font-weight: 700; font-size: 13px; color: var(--teal-dark); margin: 15px 0 6px; }
+  input.f, select.f, textarea.f {
+    width: 100%; padding: 13px 15px; font-size: 16px; font-family: var(--font-body);
+    border: 1.5px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink);
+  }
+  input.f:focus, select.f:focus, textarea.f:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-mist); }
+  textarea.f { resize: none; height: 84px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .secure-note { display: flex; gap: 11px; background: var(--teal-soft); border-radius: 12px; padding: 13px 14px; font-size: 12.5px; color: hsl(186, 80%, 24%); margin-top: 14px; align-items: flex-start; }
+  .secure-note .ic { flex-shrink: 0; margin-top: 1px; }
+  .secure-note b { display: block; font-size: 13px; }
+
+  .svc-group { display: flex; align-items: center; gap: 8px; font-family: var(--font-head); font-weight: 700; color: var(--teal-dark); font-size: 12.5px; margin: 18px 0 8px; letter-spacing: .06em; text-transform: uppercase; }
+  .svc-group .ic { color: var(--teal); }
+  .svc { display: flex; align-items: center; gap: 12px; border: 1.5px solid var(--line); border-radius: 13px; padding: 12px 14px; margin-bottom: 8px; cursor: pointer; transition: border-color .12s, background .12s; }
+  .svc input { width: 19px; height: 19px; accent-color: var(--teal); flex-shrink: 0; }
+  .svc span.nm { font-size: 14.5px; font-weight: 700; color: var(--ink); }
+  .svc.on { border-color: var(--teal); background: var(--teal-soft); }
+  .free { margin-left: auto; }
+
+  .review-block { border: 1.5px solid var(--line); border-radius: 13px; padding: 13px 16px; margin-bottom: 11px; }
+  .review-block h4 { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); margin-bottom: 4px; font-family: var(--font-body); }
+  .review-block div { font-size: 14.5px; font-weight: 700; }
+  .consent { display: flex; gap: 11px; align-items: flex-start; font-size: 12.5px; color: var(--ink-soft); margin: 16px 0 6px; }
+  .consent input { width: 19px; height: 19px; margin-top: 1px; accent-color: var(--teal); flex-shrink: 0; }
+
+  .cta-bar { padding: 13px 22px calc(16px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); background: #fff; display: flex; gap: 10px; flex-shrink: 0; }
+  .cta-bar .btn { flex: 1; padding: 14px 10px; font-size: 15.5px; }
+  .cta-bar .btn-back { flex: 0 0 auto; width: 52px; padding: 0; }
+
+  .tabbar { display: flex; border-top: 1px solid var(--line); background: #fff; flex-shrink: 0; }
+  .tabbar button { flex: 1; background: none; border: none; padding: 9px 0 calc(11px + env(safe-area-inset-bottom)); font-size: 10.5px; font-weight: 700; color: hsl(188, 12%, 55%); display: flex; flex-direction: column; align-items: center; gap: 4px; letter-spacing: .02em; }
+  .tabbar button.on { color: var(--teal); }
+  .tabbar button.on .ic { stroke-width: 2.4; }
+
+  /* Units near me */
+  .loc-pill { display: inline-flex; align-items: center; gap: 7px; background: var(--teal-soft); color: hsl(186, 100%, 26%); font-size: 12.5px; font-weight: 700; padding: 7px 14px; border-radius: 999px; margin-bottom: 16px; }
+  .unit-card { border: 1.5px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 12px; }
+  .unit-card.today { border: 2px solid var(--teal); box-shadow: 0 6px 20px hsla(186, 100%, 36%, .14); }
+  .uc-top { display: flex; gap: 14px; }
+  .uc-date { flex-shrink: 0; width: 52px; text-align: center; background: var(--bg); border-radius: 12px; padding: 8px 0; height: fit-content; }
+  .unit-card.today .uc-date { background: var(--teal-dark); }
+  .uc-date span { display: block; font-size: 10.5px; font-weight: 900; letter-spacing: .1em; color: var(--teal); }
+  .uc-date b { display: block; font-family: var(--font-head); font-size: 21px; color: var(--teal-dark); line-height: 1.1; }
+  .unit-card.today .uc-date span { color: hsl(186, 90%, 70%); }
+  .unit-card.today .uc-date b { color: #fff; }
+  .uc-info { min-width: 0; flex: 1; }
+  .uc-info h3 { font-size: 15.5px; line-height: 1.25; margin-bottom: 3px; }
+  .uc-info .m { font-size: 12.5px; color: var(--ink-soft); display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+  .uc-info .m .ic { flex-shrink: 0; color: hsl(188, 12%, 60%); }
+  .uc-cta { margin-top: 13px; display: flex; align-items: center; gap: 10px; }
+  .uc-cta .btn { flex: 1; padding: 12px 10px; font-size: 14.5px; }
+  .here-chip { position: relative; }
+  .here-chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: currentColor; margin-right: 2px; animation: pulse 1.6s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
+
+  /* Request tests */
+  .why-card { display: flex; gap: 11px; background: var(--orange-soft); border-radius: 13px; padding: 13px 14px; font-size: 12.5px; color: hsl(30, 80%, 28%); margin-bottom: 16px; align-items: flex-start; }
+  .why-card .ic { flex-shrink: 0; color: var(--orange); margin-top: 1px; }
+  .why-card b { display: block; font-size: 13px; }
+  .chips-select { display: flex; flex-wrap: wrap; gap: 8px; }
+  .req-mark { color: var(--red); font-weight: 900; }
+  input.f.err { border-color: var(--red); background: var(--red-soft); }
+  .chips-select.err-ring { outline: 2px solid var(--red); outline-offset: 6px; border-radius: 10px; }
+  .err-note { display: flex; gap: 10px; align-items: flex-start; background: var(--red-soft); color: var(--red); border-radius: 12px; padding: 12px 14px; font-size: 13px; margin-top: 16px; }
+  .err-note .ic { flex-shrink: 0; margin-top: 1px; }
+  .err-note b { display: block; font-size: 13.5px; }
+  .tchip { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 700; color: var(--ink-soft); cursor: pointer; transition: all .12s; }
+  .tchip.on { border-color: var(--teal); background: var(--teal-soft); color: hsl(186, 100%, 26%); }
+
+  /* Confirmation */
+  .conf { text-align: center; padding-top: 10px; }
+  .conf .big { width: 76px; height: 76px; margin: 0 auto 16px; border-radius: 50%; background: var(--green-soft); color: var(--green); display: flex; align-items: center; justify-content: center; }
+  .queue-card { background: var(--teal-dark); color: #fff; border-radius: 18px; padding: 20px; margin: 18px 0; }
+  .queue-card small { color: hsla(186,70%,85%,.85); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+  .queue-card .qid { font-family: var(--font-head); font-size: 30px; font-weight: 700; letter-spacing: .04em; margin: 4px 0 14px; }
+  .qr { width: 112px; height: 112px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 8px; }
+  .qr svg { width: 100%; height: 100%; }
+  .next-steps { text-align: left; margin-top: 16px; }
+  .next-steps li { display: flex; gap: 11px; font-size: 13.5px; color: var(--ink-soft); margin-bottom: 10px; list-style: none; align-items: flex-start; }
+  .next-steps li .n { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--teal-soft); color: hsl(186,100%,28%); font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+
+  /* Results */
+  .visit { border: 1.5px solid var(--line); border-radius: 15px; padding: 15px 16px; margin-bottom: 13px; }
+  .visit-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; gap: 8px; }
+  .visit-head b { font-family: var(--font-head); color: var(--teal-dark); font-size: 15px; }
+  .visit .meta { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 9px; }
+  table.res { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.res td { padding: 7px 4px; border-top: 1px solid var(--line); }
+  table.res td:last-child { text-align: right; font-weight: 700; white-space: nowrap; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-left: 7px; vertical-align: 1px; }
+  .dot.ok { background: var(--green); } .dot.hi { background: var(--red); }
+  .res-note { display: flex; gap: 9px; border-radius: 10px; padding: 10px 12px; font-size: 12px; margin-top: 10px; align-items: flex-start; }
+  .res-note.warn { background: var(--orange-soft); color: hsl(30,80%,28%); }
+  .res-note.good { background: var(--green-soft); color: var(--green); }
+  .res-note .ic { flex-shrink: 0; margin-top: 1px; }
+  .sms-line { display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--ink-soft); margin-top: 9px; padding-top: 9px; border-top: 1px dashed var(--line); }
+  .sms-line .ic { color: var(--teal); flex-shrink: 0; }
+
+  .empty { text-align: center; padding: 40px 20px; color: var(--ink-soft); font-size: 14px; }
+  .empty .ic { color: hsl(188, 15%, 75%); margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="aside wt-in">
+    <h2>The patient's side</h2>
+    <p>What a community member sees on their own phone — find a mobile unit nearby and check in, or request tests from anywhere so WellTogether knows where demand is.</p>
+    <p>Try it — check-ins and requests appear instantly on the <a href="admin.html">Care Team Dashboard</a>.</p>
+    <a class="back" href="index.html">← Back to demo home</a>
+  </div>
+
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="app-head">
+      <img src="assets/logo-white.png" alt="WellTogether">
+      <div class="lang-toggle">
+        <button id="lang-en" class="on" onclick="setLang('en')">EN</button>
+        <button id="lang-es" onclick="setLang('es')">ES</button>
+      </div>
+    </div>
+
+    <div class="screen" id="screen"></div>
+    <div class="cta-bar" id="ctabar" style="display:none"></div>
+    <div class="tabbar" id="tabbar"></div>
+  </div>
+</div>
+
+<script src="wt-icons.js"></script>
+<script src="wt-data.js"></script>
+<script>
+const T = {
+  en: {
+    tabUnits: 'Near Me', tabRequest: 'Request Tests', tabResults: 'My Results',
+    unitsTitle: 'Mobile units near you', unitsSub: 'Free health services — no insurance, no appointment needed.',
+    nearLoc: 'Near you · Cedar Creek, OH',
+    hereToday: 'Here today', upcoming: 'Upcoming',
+    checkInNow: 'Check In & Request Tests', remindMe: 'Remind Me',
+    reminded: 'We will text you a reminder before this clinic day.',
+    checkIn: 'Check In',
+    aboutTitle: 'About you', aboutSub: 'We only ask for what is needed to label your samples safely.',
+    firstName: 'First name', lastName: 'Last name', dob: 'Date of birth', phone: 'Mobile phone',
+    idTitle: 'Verify your identity', idSub: 'Your Social Security Number links your samples and results to you — and only you.',
+    ssn: 'Social Security Number',
+    secureT: 'Encrypted — hidden after entry', secureB: 'Stored to federal HIPAA standards. Staff only ever see the last 4 digits.',
+    svcTitle: 'What would you like today?', svcSub: 'Everything is 100% free. Choose as many as you like.',
+    gBlood: 'Blood tests', gScreen: 'Health screenings', gVax: 'Vaccinations', gOther: 'Support',
+    reviewTitle: 'Review & confirm', reviewSub: 'Make sure everything looks right.',
+    rName: 'Name', rDob: 'Date of birth', rSsn: 'SSN', rSvc: 'Services requested', rWhere: 'Clinic',
+    consent: 'I consent to receive the selected free health services from WellTogether and understand my information is protected under HIPAA.',
+    confirm: 'Confirm Check-In', next: 'Continue',
+    doneTitle: 'You are checked in', doneSub: 'Show this screen to the care team at the van window.',
+    yourNumber: 'Your check-in ID',
+    ns1: 'A nurse will call your name shortly.',
+    ns2: 'Your vial labels print automatically — no paperwork.',
+    ns3: 'You will get a text message when results are ready, usually within 3–5 days.',
+    done: 'Done',
+    reqTitle: 'Request tests anywhere', reqSub: 'No unit near you yet? Tell us what you need and where you are.',
+    whyT: 'Your request shapes our route', whyB: 'WellTogether schedules mobile units where requests are highest. Every request counts, even if a clinic is not nearby yet.',
+    zip: 'ZIP code', town: 'Town / area', notes: 'Anything we should know? (optional)',
+    whichTests: 'Which services do you need?',
+    sendReq: 'Send Request',
+    errTitle: 'Almost there — please complete:',
+    errPickOne: 'Select at least one service',
+    reqDoneTitle: 'Request received', reqDoneSub: 'Thank you — this helps us decide where to send our units next.',
+    reqDoneB1: 'Your request was added to the demand map for your area.',
+    reqDoneB2: 'We will text you as soon as a mobile unit is scheduled near',
+    newReq: 'New Request',
+    resultsTitle: 'My Results', resultsSub: 'Results from your WellTogether visits.',
+    ready: 'Results Ready', pending: 'In Progress', sent: 'Published',
+    noVisits: 'No visits yet. Check in at a mobile unit and your results will appear here.',
+    resNote: 'Some values are outside the typical range. A WellTogether navigator will call you to arrange free follow-up care.',
+    allOk: 'All values within typical ranges.',
+    smsSent: 'Also sent by text message to',
+    freeTag: 'FREE'
+  },
+  es: {
+    tabUnits: 'Cerca de Mí', tabRequest: 'Solicitar', tabResults: 'Resultados',
+    unitsTitle: 'Unidades móviles cerca de usted', unitsSub: 'Servicios de salud gratuitos — sin seguro y sin cita.',
+    nearLoc: 'Cerca de usted · Cedar Creek, OH',
+    hereToday: 'Aquí hoy', upcoming: 'Próxima',
+    checkInNow: 'Registrarse y Solicitar Pruebas', remindMe: 'Recordarme',
+    reminded: 'Le enviaremos un recordatorio por mensaje de texto antes de este día de clínica.',
+    checkIn: 'Registro',
+    aboutTitle: 'Sobre usted', aboutSub: 'Solo pedimos lo necesario para etiquetar sus muestras con seguridad.',
+    firstName: 'Nombre', lastName: 'Apellido', dob: 'Fecha de nacimiento', phone: 'Teléfono móvil',
+    idTitle: 'Verifique su identidad', idSub: 'Su Número de Seguro Social vincula sus muestras y resultados con usted — y solo con usted.',
+    ssn: 'Número de Seguro Social',
+    secureT: 'Cifrado — se oculta al terminar', secureB: 'Protegido según los estándares federales HIPAA. El personal solo ve los últimos 4 dígitos.',
+    svcTitle: '¿Qué desea hoy?', svcSub: 'Todo es 100% gratuito. Elija todos los que quiera.',
+    gBlood: 'Análisis de sangre', gScreen: 'Chequeos de salud', gVax: 'Vacunas', gOther: 'Apoyo',
+    reviewTitle: 'Revisar y confirmar', reviewSub: 'Verifique que todo esté correcto.',
+    rName: 'Nombre', rDob: 'Fecha de nacimiento', rSsn: 'NSS', rSvc: 'Servicios solicitados', rWhere: 'Clínica',
+    consent: 'Doy mi consentimiento para recibir los servicios de salud gratuitos seleccionados de WellTogether y entiendo que mi información está protegida por HIPAA.',
+    confirm: 'Confirmar Registro', next: 'Continuar',
+    doneTitle: 'Registro completado', doneSub: 'Muestre esta pantalla al equipo de salud en la ventanilla.',
+    yourNumber: 'Su número de registro',
+    ns1: 'Una enfermera le llamará por su nombre en breve.',
+    ns2: 'Sus etiquetas se imprimen automáticamente — sin papeleo.',
+    ns3: 'Recibirá un mensaje de texto cuando sus resultados estén listos, normalmente en 3 a 5 días.',
+    done: 'Listo',
+    reqTitle: 'Solicite pruebas desde cualquier lugar', reqSub: '¿No hay una unidad cerca? Díganos qué necesita y dónde está.',
+    whyT: 'Su solicitud define nuestra ruta', whyB: 'WellTogether programa sus unidades móviles donde hay más solicitudes. Cada solicitud cuenta, aunque todavía no haya una clínica cerca.',
+    zip: 'Código postal', town: 'Ciudad / área', notes: '¿Algo que debamos saber? (opcional)',
+    whichTests: '¿Qué servicios necesita?',
+    sendReq: 'Enviar Solicitud',
+    errTitle: 'Casi listo — por favor complete:',
+    errPickOne: 'Seleccione al menos un servicio',
+    reqDoneTitle: 'Solicitud recibida', reqDoneSub: 'Gracias — esto nos ayuda a decidir adónde enviar nuestras unidades.',
+    reqDoneB1: 'Su solicitud se agregó al mapa de demanda de su área.',
+    reqDoneB2: 'Le enviaremos un mensaje en cuanto se programe una unidad móvil cerca de',
+    newReq: 'Nueva Solicitud',
+    resultsTitle: 'Mis Resultados', resultsSub: 'Resultados de sus visitas a WellTogether.',
+    ready: 'Resultados Listos', pending: 'En Proceso', sent: 'Publicado',
+    noVisits: 'Aún no hay visitas. Regístrese en una unidad móvil y sus resultados aparecerán aquí.',
+    resNote: 'Algunos valores están fuera del rango típico. Un navegador de WellTogether le llamará para coordinar atención de seguimiento gratuita.',
+    allOk: 'Todos los valores dentro de los rangos típicos.',
+    smsSent: 'También enviado por mensaje de texto a',
+    freeTag: 'GRATIS'
+  }
+};
+
+const SVC_ES = {
+  cbc: 'Hemograma Completo (CBC)', lipid: 'Panel de Lípidos (Colesterol)', a1c: 'Hemoglobina A1C (Diabetes)',
+  glucose: 'Glucosa en Sangre', bp: 'Presión Arterial', bmi: 'Altura, Peso e IMC',
+  flu: 'Vacuna contra la Gripe', covid: 'Vacuna COVID-19', consult: 'Consulta de Bienestar'
+};
+
+let lang = 'en';
+let view = 'units';            // units | checkin | request | results
+let step = 1;                  // check-in flow: 1 about, 2 ssn, 3 services, 4 review, 5 done
+let checkinUnit = null;
+// note: named `ci`, not `form` — inline on* handlers resolve `form` to the
+// element's own .form property (null outside a <form>), shadowing a global
+const ci = { first: '', last: '', dob: '', phone: '', ssn: '', services: [] };
+const req = { first: '', last: '', phone: '', zip: '', area: '', notes: '', services: [] };
+let submitted = null;
+let reqDone = null;
+let reqErr = null;
+
+const t = k => T[lang][k];
+const svcName = k => lang === 'es' ? SVC_ES[k] : WT.SERVICES[k].name;
+const $ = id => document.getElementById(id);
+
+function setLang(l) {
+  lang = l;
+  $('lang-en').classList.toggle('on', l === 'en');
+  $('lang-es').classList.toggle('on', l === 'es');
+  render();
+}
+
+function goTab(which) { view = which; render(); }
+
+function startCheckin(unitId) {
+  checkinUnit = WT.UNITS.find(u => u.id === unitId);
+  view = 'checkin'; step = 1;
+  render();
+}
+function exitCheckin() { view = 'units'; render(); }
+
+function nav(dir) { step += dir; if (step < 1) return exitCheckin(); render(); }
+
+function toggleSvc(key, el) {
+  const i = ci.services.indexOf(key);
+  if (i > -1) ci.services.splice(i, 1); else ci.services.push(key);
+  el.classList.toggle('on', i === -1);
+  el.querySelector('input').checked = i === -1;
+  renderCta();
+}
+
+function toggleReqSvc(key, el) {
+  const i = req.services.indexOf(key);
+  if (i > -1) req.services.splice(i, 1); else req.services.push(key);
+  el.classList.toggle('on', i === -1);
+}
+
+function submit() {
+  submitted = WT.add({
+    first: ci.first.trim(), last: ci.last.trim(), dob: ci.dob, phone: ci.phone,
+    ssn4: ci.ssn.replace(/\D/g, '').slice(-4) || '0000',
+    services: [...ci.services], lang, source: 'app',
+    site: checkinUnit ? checkinUnit.site : WT.CLINIC.name
+  });
+  step = 5;
+  render();
+}
+
+function submitReq() {
+  // validate on click and point at what's missing, rather than a silently
+  // disabled button the user can't diagnose
+  const missing = [];
+  if (!req.first.trim()) missing.push(t('firstName'));
+  if (!req.phone.trim()) missing.push(t('phone'));
+  if (!/^\d{5}$/.test(req.zip)) missing.push(t('zip'));
+  if (!req.services.length) missing.push(t('errPickOne'));
+  if (missing.length) {
+    reqErr = missing;
+    render();
+    const note = document.getElementById('req-err-note');
+    if (note) note.scrollIntoView({ block: 'center' });
+    return;
+  }
+  reqErr = null;
+  reqDone = WT.addReq({
+    first: req.first.trim(), last: req.last.trim(), phone: req.phone,
+    zip: req.zip, area: req.area.trim() || 'Unknown', services: [...req.services],
+    note: req.notes.trim(), lang
+  });
+  render();
+}
+
+/* SSN: show formatted digits while typing (masking mid-typing would destroy
+   the digits on re-parse), then mask to •••-••-1234 when the field loses focus */
+function fmtSsn(d) {
+  let o = '';
+  for (let i = 0; i < d.length; i++) o += (i === 3 || i === 5 ? '-' : '') + d[i];
+  return o;
+}
+function maskSsn(d) { return '•••-••-' + d.slice(-4); }
+function ssnInput(el) {
+  ci.ssn = el.value.replace(/\D/g, '').slice(0, 9);
+  el.value = fmtSsn(ci.ssn);
+  renderCta();
+}
+function ssnBlur(el) { if (ci.ssn.length === 9) el.value = maskSsn(ci.ssn); }
+function ssnFocus(el) { el.value = fmtSsn(ci.ssn); }
+
+function canNext() {
+  if (step === 1) return ci.first.trim() && ci.last.trim() && ci.dob;
+  if (step === 2) return ci.ssn.replace(/\D/g, '').length === 9;
+  if (step === 3) return ci.services.length > 0;
+  if (step === 4) { const c = $('consent-cb'); return c && c.checked; }
+  return true;
+}
+
+
+function progress() {
+  let h = '<div class="progress">';
+  for (let i = 1; i <= 4; i++) h += `<i class="${i <= step ? 'done' : ''}"></i>`;
+  return h + '</div>';
+}
+
+function flowHead() {
+  return `<div class="flow-head">
+    <button onclick="nav(-1)" aria-label="Back">${icon('arrowLeft', 19)}</button>
+    <div><div class="fh-site">${t('checkIn')}</div><div class="fh-title">${checkinUnit ? checkinUnit.site : ''}</div></div>
+  </div>`;
+}
+
+function fakeQr(seed) {
+  let cells = '';
+  let n = 0;
+  for (const ch of seed) n = (n * 31 + ch.charCodeAt(0)) >>> 0;
+  for (let y = 0; y < 13; y++) for (let x = 0; x < 13; x++) {
+    n = (n * 1103515245 + 12345) >>> 0;
+    const corner = (x < 4 && y < 4) || (x > 8 && y < 4) || (x < 4 && y > 8);
+    if (corner || (n >>> 16) % 5 < 2) cells += `<rect x="${x * 10}" y="${y * 10}" width="9" height="9" fill="${corner ? '#00525c' : '#10222a'}"/>`;
+  }
+  return `<svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">${cells}</svg>`;
+}
+
+/* ---------- Views ---------- */
+function unitsView() {
+  let h = `<div class="wt-in">
+    <h1>${t('unitsTitle')}</h1><p class="sub">${t('unitsSub')}</p>
+    <div class="loc-pill">${icon('mapPin', 15)} ${t('nearLoc')}</div>`;
+  for (const u of WT.UNITS) {
+    h += `<div class="unit-card ${u.today ? 'today' : ''}">
+      <div class="uc-top">
+        <div class="uc-date"><span>${u.m}</span><b>${u.d}</b></div>
+        <div class="uc-info">
+          <h3>${u.site}</h3>
+          <div class="m">${icon('mapPin', 14)} ${u.address} · ${u.dist}</div>
+          <div class="m">${icon('clock', 14)} ${u.hours} · ${u.unit}</div>
+        </div>
+      </div>
+      <div class="uc-cta">` +
+      (u.today
+        ? `<span class="chip green here-chip">${t('hereToday')}</span>
+           <button class="btn btn-primary" onclick="startCheckin('${u.id}')">${t('checkInNow')}</button>`
+        : `<span class="chip gray">${t('upcoming')}</span>
+           <button class="btn btn-ghost" onclick="remind(this)">${t('remindMe')}</button>`) +
+      `</div></div>`;
+  }
+  return h + '</div>';
+}
+
+function remind(btn) {
+  btn.outerHTML = `<span class="chip teal" style="padding:9px 14px">${icon('bell', 13)}&nbsp;${t('reminded')}</span>`;
+}
+
+function checkinView() {
+  if (step === 1) return `${flowHead()}${progress()}<div class="wt-in">
+      <h1>${t('aboutTitle')}</h1><p class="sub">${t('aboutSub')}</p>
+      <div class="row2">
+        <div><label class="f">${t('firstName')}</label><input class="f" value="${ci.first}" oninput="ci.first=this.value;renderCta()"></div>
+        <div><label class="f">${t('lastName')}</label><input class="f" value="${ci.last}" oninput="ci.last=this.value;renderCta()"></div>
+      </div>
+      <label class="f">${t('dob')}</label><input class="f" type="date" value="${ci.dob}" oninput="ci.dob=this.value;renderCta()">
+      <label class="f">${t('phone')}</label><input class="f" type="tel" placeholder="(555) 000-0000" value="${ci.phone}" oninput="ci.phone=this.value">
+    </div>`;
+  if (step === 2) return `${flowHead()}${progress()}<div class="wt-in">
+      <h1>${t('idTitle')}</h1><p class="sub">${t('idSub')}</p>
+      <label class="f">${t('ssn')}</label>
+      <input class="f" id="in-ssn" inputmode="numeric" autocomplete="off" placeholder="123-45-6789" style="letter-spacing:.15em;font-size:19px" value="${ci.ssn.length === 9 ? maskSsn(ci.ssn) : fmtSsn(ci.ssn)}" oninput="ssnInput(this)" onblur="ssnBlur(this)" onfocus="ssnFocus(this)">
+      <div class="secure-note">${icon('lock', 19)}<div><b>${t('secureT')}</b>${t('secureB')}</div></div>
+    </div>`;
+  if (step === 3) {
+    const groups = [['blood', 'gBlood', 'droplet'], ['screen', 'gScreen', 'activity'], ['vax', 'gVax', 'shieldPlus'], ['other', 'gOther', 'heart']];
+    let h = `${flowHead()}${progress()}<div class="wt-in"><h1>${t('svcTitle')}</h1><p class="sub">${t('svcSub')}</p>`;
+    for (const [g, label, ic] of groups) {
+      h += `<div class="svc-group">${icon(ic, 15)} ${t(label)}</div>`;
+      for (const key in WT.SERVICES) {
+        if (WT.SERVICES[key].group !== g) continue;
+        const on = ci.services.includes(key);
+        h += `<div class="svc ${on ? 'on' : ''}" onclick="toggleSvc('${key}', this)">
+                <input type="checkbox" ${on ? 'checked' : ''} onclick="event.stopPropagation();toggleSvc('${key}', this.parentElement)">
+                <span class="nm">${svcName(key)}</span><span class="chip green free">${t('freeTag')}</span>
+              </div>`;
+      }
+    }
+    return h + '</div>';
+  }
+  if (step === 4) return `${flowHead()}${progress()}<div class="wt-in">
+      <h1>${t('reviewTitle')}</h1><p class="sub">${t('reviewSub')}</p>
+      <div class="review-block"><h4>${t('rWhere')}</h4><div>${checkinUnit.site} · ${checkinUnit.hours}</div></div>
+      <div class="review-block"><h4>${t('rName')}</h4><div>${ci.first} ${ci.last}</div></div>
+      <div class="review-block"><h4>${t('rDob')} · ${t('rSsn')}</h4><div>${ci.dob || '—'} · •••-••-${ci.ssn.slice(-4)}</div></div>
+      <div class="review-block"><h4>${t('rSvc')}</h4><div>${ci.services.map(svcName).join('<br>')}</div></div>
+      <label class="consent"><input type="checkbox" id="consent-cb" onchange="renderCta()"><span>${t('consent')}</span></label>
+    </div>`;
+  // step 5 — confirmation
+  return `<div class="conf wt-in">
+      <div class="big">${icon('check', 38)}</div>
+      <h1>${t('doneTitle')}</h1><p class="sub">${t('doneSub')}</p>
+      <div class="queue-card">
+        <small>${t('yourNumber')}</small>
+        <div class="qid">${submitted.id}</div>
+        <div class="qr">${fakeQr(submitted.id)}</div>
+      </div>
+      <ul class="next-steps">
+        <li><span class="n">1</span><span>${t('ns1')}</span></li>
+        <li><span class="n">2</span><span>${t('ns2')}</span></li>
+        <li><span class="n">3</span><span>${t('ns3')}</span></li>
+      </ul>
+    </div>`;
+}
+
+function requestView() {
+  if (reqDone) return `<div class="conf wt-in">
+      <div class="big">${icon('send', 32)}</div>
+      <h1>${t('reqDoneTitle')}</h1><p class="sub">${t('reqDoneSub')}</p>
+      <div class="review-block" style="text-align:left"><h4>${reqDone.id}</h4>
+        <div style="font-weight:400;font-size:13.5px;color:var(--ink-soft)">
+          ${t('reqDoneB1')}<br><br>${t('reqDoneB2')} <b>${reqDone.area} ${reqDone.zip}</b>.
+        </div>
+      </div>
+      <button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="reqDone=null;render()">${t('newReq')}</button>
+    </div>`;
+  const chipRow = Object.keys(WT.SERVICES).map(k =>
+    `<button class="tchip ${req.services.includes(k) ? 'on' : ''}" onclick="toggleReqSvc('${k}', this)">${svcName(k)}</button>`).join('');
+  const e = f => reqErr && !f ? 'err' : '';   // red-border class once validation has run
+  const reqMark = `<span class="req-mark">*</span>`;
+  return `<div class="wt-in">
+    <h1>${t('reqTitle')}</h1><p class="sub">${t('reqSub')}</p>
+    <div class="why-card">${icon('mapPin', 18)}<div><b>${t('whyT')}</b>${t('whyB')}</div></div>
+    <div class="row2">
+      <div><label class="f">${t('firstName')} ${reqMark}</label><input class="f ${e(req.first.trim())}" value="${req.first}" oninput="req.first=this.value"></div>
+      <div><label class="f">${t('lastName')}</label><input class="f" value="${req.last}" oninput="req.last=this.value"></div>
+    </div>
+    <label class="f">${t('phone')} ${reqMark}</label><input class="f ${e(req.phone.trim())}" type="tel" placeholder="(555) 000-0000" value="${req.phone}" oninput="req.phone=this.value">
+    <div class="row2">
+      <div><label class="f">${t('zip')} ${reqMark}</label><input class="f ${e(/^\d{5}$/.test(req.zip))}" inputmode="numeric" maxlength="5" value="${req.zip}" oninput="req.zip=this.value.replace(/\\D/g,'')"></div>
+      <div><label class="f">${t('town')}</label><input class="f" value="${req.area}" oninput="req.area=this.value"></div>
+    </div>
+    <label class="f">${t('whichTests')} ${reqMark}</label>
+    <div class="chips-select ${reqErr && !req.services.length ? 'err-ring' : ''}">${chipRow}</div>
+    <label class="f">${t('notes')}</label><textarea class="f" oninput="req.notes=this.value">${req.notes}</textarea>
+    ${reqErr ? `<div class="err-note" id="req-err-note">${icon('alert', 16)}<div><b>${t('errTitle')}</b>${reqErr.join(' · ')}</div></div>` : ''}
+    <button class="btn btn-primary" id="btn-sendreq" style="width:100%;margin-top:16px" onclick="submitReq()">${t('sendReq')}</button>
+  </div>`;
+}
+
+function resultsView() {
+  const mine = WT.load().slice().reverse();
+  let h = `<div class="wt-in"><h1>${t('resultsTitle')}</h1><p class="sub">${t('resultsSub')}</p>`;
+  if (!mine.length) return h + `<div class="empty">${icon('fileText', 34)}<br>${t('noVisits')}</div></div>`;
+  for (const v of mine) {
+    const hasResults = v.results && Object.keys(v.results).length;
+    const chip = v.status === 'reported' ? `<span class="chip green">${t('sent')}</span>`
+      : hasResults ? `<span class="chip teal">${t('ready')}</span>`
+      : `<span class="chip orange">${t('pending')}</span>`;
+    h += `<div class="visit"><div class="visit-head"><b>${v.first} ${v.last}</b>${chip}</div>
+          <div class="meta">${WT.CLINIC.date} · ${v.site || WT.CLINIC.name} · ${v.id}</div>`;
+    if (hasResults) {
+      let anyFlag = false;
+      h += '<table class="res">';
+      for (const svc in v.results) {
+        const fields = WT.RESULT_FIELDS[svc] || [];
+        for (const f of fields) {
+          const val = v.results[svc][f.id];
+          if (val === undefined || val === '') continue;
+          let dot = '';
+          if (f.low !== null && !isNaN(parseFloat(val))) {
+            const n = parseFloat(val);
+            const out = n < f.low || n > f.high;
+            if (out) anyFlag = true;
+            dot = `<span class="dot ${out ? 'hi' : 'ok'}"></span>`;
+          }
+          h += `<tr><td>${f.label}</td><td>${val} ${f.unit}${dot}</td></tr>`;
+        }
+      }
+      h += '</table>';
+      h += anyFlag
+        ? `<div class="res-note warn">${icon('alert', 15)}<span>${t('resNote')}</span></div>`
+        : `<div class="res-note good">${icon('checkCircle', 15)}<span>${t('allOk')}</span></div>`;
+      if (v.status === 'reported' && v.phone) h += `<div class="sms-line">${icon('message', 14)} ${t('smsSent')} ${v.phone}</div>`;
+    } else {
+      h += `<div class="meta" style="margin:0">${v.services.map(svcName).join(' · ')}</div>`;
+    }
+    h += '</div>';
+  }
+  return h + '</div>';
+}
+
+/* ---------- Chrome ---------- */
+function ctaHTML() {
+  if (view !== 'checkin') return '';
+  if (step === 5) return `<button class="btn btn-teal" onclick="ci.services=[];ci.ssn='';exitCheckin()">${t('done')}</button>`;
+  const nextFn = step === 4 ? 'submit()' : 'nav(1)';
+  const label = step === 4 ? t('confirm') : t('next');
+  const cls = step === 4 ? 'btn-primary' : 'btn-teal';
+  return `<button class="btn ${cls}" id="btn-next" onclick="${nextFn}" ${canNext() ? '' : 'disabled'}>${label}</button>`;
+}
+
+function renderCta() {
+  const h = ctaHTML();
+  $('ctabar').innerHTML = h;
+  $('ctabar').style.display = h ? 'flex' : 'none';
+}
+
+function renderTabs() {
+  const inFlow = view === 'checkin';
+  $('tabbar').style.display = inFlow ? 'none' : 'flex';
+  if (inFlow) return;
+  const tabs = [
+    ['units', 'mapPin', t('tabUnits')],
+    ['request', 'clipboard', t('tabRequest')],
+    ['results', 'fileText', t('tabResults')]
+  ];
+  $('tabbar').innerHTML = tabs.map(([k, ic, label]) =>
+    `<button class="${view === k ? 'on' : ''}" onclick="goTab('${k}')">${icon(ic, 21)}<span>${label}</span></button>`).join('');
+}
+
+function render() {
+  $('screen').innerHTML = view === 'units' ? unitsView()
+    : view === 'checkin' ? checkinView()
+    : view === 'request' ? requestView()
+    : resultsView();
+  renderCta();
+  renderTabs();
+  $('screen').scrollTop = 0;
+}
+
+render();
+</script>
+</body>
+</html>

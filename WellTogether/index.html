@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WellTogether — Mobile Clinic Platform Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="wt.css">
+<style>
+  body { background: var(--bg); }
+  .hero {
+    background: linear-gradient(160deg, var(--teal-dark) 0%, hsl(188,100%,14%) 60%, hsl(186,80%,20%) 100%);
+    color: #fff; text-align: center; padding: 72px 24px 150px; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content: ''; position: absolute; inset: auto -10% -55% -10%; height: 320px;
+    background: hsla(186, 100%, 36%, .18); border-radius: 50%;
+  }
+  .hero img.logo { width: 280px; max-width: 70vw; margin-bottom: 28px; }
+  .hero h1 { color: #fff; font-size: clamp(28px, 4.5vw, 44px); margin-bottom: 14px; }
+  .hero p { color: hsla(186, 70%, 90%, .9); max-width: 620px; margin: 0 auto; font-size: 18px; }
+  .hero .tag { display: inline-block; margin-bottom: 22px; background: hsla(30,96%,48%,.16); border: 1px solid hsla(30,96%,60%,.5); color: hsl(30,96%,72%); font-weight: 700; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; padding: 6px 16px; border-radius: 999px; }
+
+  .apps { max-width: 940px; margin: -90px auto 0; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; position: relative; z-index: 2; }
+  @media (max-width: 760px) { .apps { grid-template-columns: 1fr; } }
+  .app-card { padding: 34px 30px; text-align: left; display: flex; flex-direction: column; gap: 14px; border-top: 6px solid var(--teal); }
+  .app-card.orange-top { border-top-color: var(--orange); }
+  .app-card .icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: var(--teal-soft); color: var(--teal); }
+  .app-card.orange-top .icon { background: var(--orange-soft); color: var(--orange); }
+  .app-card h2 { font-size: 24px; }
+  .app-card p { color: var(--ink-soft); flex: 1; }
+  .app-card ul { list-style: none; color: var(--ink-soft); font-size: 14.5px; display: grid; gap: 7px; margin-bottom: 6px; }
+  .app-card ul li { display: flex; gap: 9px; align-items: flex-start; }
+  .app-card ul li .ic { flex-shrink: 0; color: var(--teal); margin-top: 1px; }
+  .app-card.orange-top ul li .ic { color: var(--orange); }
+
+  .story { max-width: 1020px; margin: 64px auto; padding: 0 24px; }
+  .story h3 { text-align: center; font-size: 26px; margin-bottom: 8px; }
+  .story > p { text-align: center; color: var(--ink-soft); margin-bottom: 36px; }
+  .steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 13px; }
+  @media (max-width: 960px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  .step { padding: 22px 16px; text-align: center; }
+  .step .num { width: 34px; height: 34px; margin: 0 auto 12px; border-radius: 50%; background: var(--teal-dark); color: #fff; font-family: var(--font-head); font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .step b { display: block; font-family: var(--font-head); color: var(--teal-dark); margin-bottom: 6px; font-size: 14.5px; }
+  .step span { font-size: 13px; color: var(--ink-soft); }
+
+  footer { text-align: center; padding: 34px 24px 44px; color: var(--ink-soft); font-size: 13.5px; border-top: 1px solid var(--line); background: #fff; }
+  footer b { color: var(--teal-dark); }
+  .reset { background: none; border: none; color: hsl(188, 15%, 70%); font-size: 12px; text-decoration: underline; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="tag">Interactive Concept Demo</span><br>
+  <img class="logo" src="assets/logo-white.png" alt="WellTogether">
+  <h1>One platform for every mobile clinic day</h1>
+  <p>From the moment a neighbor finds a unit near them — or asks for one — to the moment their results reach their phone. No paper, no handwritten labels, no lost samples.</p>
+</div>
+
+<div class="apps">
+  <a class="card app-card wt-in" href="patient.html" style="text-decoration:none">
+    <div class="icon" id="ic-patient"></div>
+    <h2>Patient App</h2>
+    <p>What the community member sees — on their own phone or a tablet handed to them at the van.</p>
+    <ul id="ul-patient">
+      <li><span data-ic></span>Units Near Me — see clinic days nearby & check in</li>
+      <li><span data-ic></span>Request Tests from anywhere — builds the demand map</li>
+      <li><span data-ic></span>Secure identity — SSN encrypted & masked, English/Español</li>
+      <li><span data-ic></span>Results in the app and by text message</li>
+    </ul>
+    <span class="btn btn-teal">Open Patient App</span>
+  </a>
+
+  <a class="card app-card orange-top wt-in" href="admin.html" style="text-decoration:none; animation-delay:.1s">
+    <div class="icon" id="ic-admin"></div>
+    <h2>Care Team Dashboard</h2>
+    <p>What the WellTogether nurses and coordinators see inside the mobile unit.</p>
+    <ul id="ul-admin">
+      <li><span data-ic></span>Live intake queue, plus one-tap walk-up onboarding</li>
+      <li><span data-ic></span>Test Requests view — demand by area guides the route</li>
+      <li><span data-ic></span>One-click printed vial labels with barcodes</li>
+      <li><span data-ic></span>Enter results, then publish to the app + text message</li>
+    </ul>
+    <span class="btn btn-primary">Open Dashboard</span>
+  </a>
+</div>
+
+<div class="story">
+  <h3>A clinic day, start to finish</h3>
+  <p>Try it live: check in as a patient, then watch yourself appear in the care team's queue.</p>
+  <div class="steps">
+    <div class="card step"><div class="num">1</div><b>Find or request</b><span>Patients check in at a unit near them — or request tests from anywhere.</span></div>
+    <div class="card step"><div class="num">2</div><b>Demand maps the route</b><span>Requests roll up by area, so units go where the need is.</span></div>
+    <div class="card step"><div class="num">3</div><b>Queue updates live</b><span>App check-ins and walk-up onboarding land in one queue.</span></div>
+    <div class="card step"><div class="num">4</div><b>Labels print</b><span>Barcode vial labels in one click. No handwriting, no mix-ups.</span></div>
+    <div class="card step"><div class="num">5</div><b>Results entered</b><span>Values flagged against healthy ranges automatically.</span></div>
+    <div class="card step"><div class="num">6</div><b>Published</b><span>Results reach the patient's app and phone by text.</span></div>
+  </div>
+</div>
+
+<footer>
+  Concept demonstration prepared for <b>WellTogether.org</b> by <b>Nile Technologies</b> · July 2026<br>
+  All patient data shown is fictional. Not a live medical system.
+  <br><button class="reset" onclick="localStorage.removeItem('wt_intakes_v1');localStorage.removeItem('wt_requests_v1');alert('Demo data has been reset.')">Reset demo data</button>
+</footer>
+
+<script src="wt-icons.js"></script>
+<script>
+  document.getElementById('ic-patient').innerHTML = icon('smartphone', 28);
+  document.getElementById('ic-admin').innerHTML = icon('activity', 28);
+  document.querySelectorAll('[data-ic]').forEach(el => { el.outerHTML = icon('check', 16); });
+</script>
+</body>
+</html>
