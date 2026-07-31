@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessories | TCH Arms</title>
+<meta name="description" content="Magazines, apparel and optics mounts for the VAMPIR RS9 and RS9 X.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tch.css?v=1">
+</head>
+<body data-page="accessories">
+
+<main>
+  <header class="page-head">
+    <div class="shell">
+      <div class="crumbs" data-reveal><a href="index.html">Home</a><span>/</span>Accessories</div>
+      <h1 data-reveal>Accessories</h1>
+      <p data-reveal data-delay="80">
+        Factory magazines, apparel and optics hardware for the VAMPIR line. Accessories ship
+        directly to you and do not require a dealer transfer.
+      </p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="shell">
+      <div class="grid-3" id="grid"></div>
+
+      <div class="notice" style="margin-top:44px" data-reveal>
+        <h4>Check your local rules first</h4>
+        <p id="restrictCopy"></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/tch-data.js?v=1"></script>
+<script src="js/tch.js?v=1"></script>
+<script>
+function pageInit() {
+  const ids = ["tee", "mag18", "mag10", "mount"];
+
+  document.getElementById("grid").innerHTML = ids.map((id, i) => {
+    const p = TCH.products[id];
+    const tag = p.stock === "out"
+      ? '<span class="tag tag-out">Out of Stock</span>'
+      : p.stock === "disc"
+        ? '<span class="tag tag-disc">Discontinuing</span>'
+        : '<span class="tag tag-stock">In Stock</span>';
+
+    // A tee needs a size chosen first, so it routes to its detail page.
+    const action = p.stock === "out"
+      ? '<button class="btn btn-ghost btn-sm btn-block" disabled>Out of Stock</button>'
+      : id === "tee"
+        ? `<a href="product.html?id=tee" class="btn btn-primary btn-sm btn-block">View Product</a>`
+        : `<button class="btn btn-primary btn-sm btn-block" data-add="${id}">Add to Cart</button>`;
+
+    return `
+      <article class="product-card" data-reveal="scale" data-delay="${i * 90}">
+        ${tag}
+        <a class="product-figure" href="product.html?id=${id}">
+          <img src="${p.img}" alt="${p.name}" loading="lazy">
+        </a>
+        <div class="product-body">
+          <h4>${p.name}</h4>
+          <div class="brand">${p.line}</div>
+          <div class="cal">${p.caliber || "&nbsp;"}</div>
+          <div class="product-price">${tchMoney(p.price)}</div>
+          ${action}
+        </div>
+      </article>`;
+  }).join("");
+
+  document.getElementById("restrictCopy").textContent = TCH.legal.restrict;
+}
+</script>
+</body>
+</html>

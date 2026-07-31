@@ -1,0 +1,212 @@
+/*----------------------------
+   Downloads page
+----------------------------*/
+.downloads-section { background: var(--black); padding: 70px 0 80px; }
+
+.downloads-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 26px;
+}
+
+.download-card {
+  background: linear-gradient(135deg, #000000 0%, #101010 100%);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 28px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.download-card:hover { border-color: rgba(0,182,208,0.45); transform: translateY(-4px); }
+
+.download-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.download-kind {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--black);
+  background: var(--cyan);
+  padding: 4px 10px;
+}
+.download-meta {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--gray);
+}
+
+.download-title {
+  font-family: "Teko", sans-serif;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1;
+  color: var(--white);
+  margin: 0 0 6px;
+  padding: 0;
+}
+.download-sub {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--cyan);
+  margin-bottom: 16px;
+}
+.download-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--gray);
+  margin-bottom: 26px;
+  flex-grow: 1;
+}
+
+.download-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+  background: transparent;
+  padding: 13px 26px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s, color 0.25s;
+}
+.download-btn:hover { background: var(--cyan); color: var(--white); }
+.download-btn-solid { background: var(--cyan); color: var(--white); }
+.download-btn-solid:hover { background: transparent; color: var(--cyan); }
+
+.downloads-note {
+  margin-top: 56px;
+  padding: 36px 34px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: url(../images/ser-bg.svg) var(--black);
+}
+.downloads-note h3 {
+  font-family: "Teko", sans-serif;
+  font-weight: 500;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--white);
+  margin: 0 0 10px;
+  padding: 0;
+}
+.downloads-note p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--gray);
+  max-width: 720px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 575px) {
+  .downloads-section { padding: 46px 0 56px; }
+  .downloads-grid { grid-template-columns: 1fr; }
+  .download-title { font-size: 34px; }
+  .downloads-note { padding: 28px 22px; }
+  .downloads-note h3 { font-size: 34px; }
+}
+
+/* ============ Download email gate (toast) ============ */
+.dlgate-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  background: rgba(4, 7, 8, 0.62);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.dlgate-overlay.dlgate-open { display: flex; }
+.dlgate-card {
+  background: var(--white, #fff);
+  width: 420px;
+  max-width: 100%;
+  border-top: 4px solid var(--cyan, #00B6D0);
+  box-shadow: 0 20px 60px rgba(4, 7, 8, 0.4);
+  padding: 26px 26px 24px;
+  position: relative;
+}
+.dlgate-card h3 {
+  font-family: "Teko", sans-serif;
+  font-size: 30px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 4px;
+  color: var(--black, #040708);
+}
+.dlgate-file {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--cyan, #00B6D0);
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
+}
+.dlgate-card p.dlgate-sub {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+.dlgate-card label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--black, #040708);
+  margin-bottom: 6px;
+}
+.dlgate-card input[type="email"] {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  padding: 12px 14px;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 4px;
+}
+.dlgate-card input[type="email"]:focus { border-color: var(--cyan, #00B6D0); }
+.dlgate-error {
+  display: none;
+  font-size: 12px;
+  color: #DC2626;
+  margin-bottom: 4px;
+}
+.dlgate-error.dlgate-show { display: block; }
+.dlgate-actions { display: flex; gap: 10px; margin-top: 14px; }
+.dlgate-actions .dlgate-go {
+  flex: 1 1 auto;
+  background: var(--cyan, #00B6D0);
+  color: #fff;
+  border: none;
+  padding: 13px 20px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+.dlgate-actions .dlgate-go:hover { background: #009BB2; }
+.dlgate-x {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  color: #9ca3af;
+  cursor: pointer;
+}
+.dlgate-x:hover { color: var(--black, #040708); }
+.dlgate-note { font-size: 11.5px; color: #9ca3af; margin: 10px 0 0; }

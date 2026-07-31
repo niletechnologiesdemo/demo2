@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order Here | TCH Arms</title>
+<meta name="description" content="Order the VAMPIR RS9 or RS9 X. Firearms ship to a Federal Firearms License holder of your choosing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tch.css?v=1">
+</head>
+<body data-page="order">
+
+<main>
+  <header class="page-head">
+    <div class="shell">
+      <div class="crumbs" data-reveal><a href="index.html">Home</a><span>/</span>Order Here</div>
+      <h1 data-reveal>Be one of the first to own the <span class="text-vampir">VAMPIR</span></h1>
+      <p data-reveal data-delay="80">
+        We will contact you for shipping method and local FFL information for transfer once your
+        weapon is ready for shipment. Shipping and tax will be added at that time.
+      </p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="shell">
+
+      <div class="order-grid" id="orderGrid"></div>
+
+      <div class="notice" style="margin-top:44px" data-reveal>
+        <h4>Federal and state regulations</h4>
+        <p id="l1"></p>
+        <p id="l2"></p>
+        <p id="l3"></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================ how it works -->
+  <section class="section">
+    <div class="shell">
+      <div class="sec-head" data-reveal>
+        <div class="eyebrow">The Process</div>
+        <h2>What happens after you order</h2>
+        <p>Five steps from checkout to collection. We handle the shipping, your dealer handles the transfer.</p>
+      </div>
+
+      <div class="flow" id="flow"></div>
+    </div>
+  </section>
+
+  <section class="section-tight" style="padding-bottom:88px">
+    <div class="shell">
+      <div class="grid-2">
+        <div class="panel" data-reveal="left">
+          <div class="panel-head">Federal Firearms License</div>
+          <ul class="bullets" id="fflList"></ul>
+        </div>
+        <div class="panel" data-reveal="right" data-delay="90">
+          <div class="panel-head">Warranty</div>
+          <p style="color:var(--muted);font-size:.94rem" id="warranty"></p>
+          <p style="color:var(--muted);font-size:.94rem;margin-bottom:0">
+            Questions before you order? Call <a href="tel:13142663361">1-314-266-3361</a> or use the
+            <a href="contact.html">contact form</a> and we will get back to you.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/tch-data.js?v=1"></script>
+<script src="js/tch.js?v=1"></script>
+<script>
+function pageInit() {
+  const order = ["rs9", "rs9x", "mount"];
+
+  document.getElementById("orderGrid").innerHTML = order.map((id, i) => {
+    const p = TCH.products[id];
+    const firearm = id === "rs9" || id === "rs9x";
+    const tag = p.stock === "disc"
+      ? '<span class="tag tag-disc">Discontinuing</span>'
+      : '<span class="tag tag-stock">In Stock</span>';
+
+    return `
+      <article class="product-card ${firearm ? "is-firearm" : ""}" id="${id}"
+               data-reveal="scale" data-delay="${i * 100}">
+        ${tag}
+        <div class="product-figure" style="height:262px">
+          <img src="${p.img}" alt="${p.name}" loading="lazy">
+        </div>
+        <div class="product-body">
+          <h4>${firearm ? p.short + " - Order Full Payment" : p.name}</h4>
+          <div class="brand">${p.line}</div>
+          <div class="cal">${p.caliber || "&nbsp;"}</div>
+          <p style="font-size:.9rem;color:var(--muted);margin-bottom:14px">${p.blurb}</p>
+          <div class="product-price">${tchMoney(p.price)}</div>
+          <button class="btn btn-primary btn-block" data-add="${id}">Add to Cart</button>
+          <div class="ffl-flag">${firearm
+            ? TCHIcons.lock + " Ships to your FFL dealer"
+            : TCHIcons.check + " Ships direct, no transfer needed"}</div>
+        </div>
+      </article>`;
+  }).join("");
+
+  document.getElementById("l1").textContent = TCH.legal.regs + " " + TCH.legal.restrict;
+  document.getElementById("l2").textContent = TCH.legal.age;
+  document.getElementById("l3").textContent = TCH.legal.warranty;
+  document.getElementById("warranty").textContent = TCH.legal.warranty;
+  document.getElementById("fflList").innerHTML = TCH.ffl.map(f => "<li>" + f + "</li>").join("");
+
+  const steps = [
+    ["Place your order", "Add the model you want and pay in full at checkout. Tax, shipping and the 3.5% card fee are calculated before you confirm."],
+    ["Nominate your dealer", "Give us the name, phone and address of the FFL you want the pistol sent to. You can do this at checkout or when we contact you."],
+    ["We contact you", "Once your VAMPIR is ready we confirm the shipping method and the dealer details before anything leaves the shop."],
+    ["Transfer at the dealer", "Your FFL runs the background check and completes the paperwork with you. Ask them about any transfer fee they charge."],
+    ["Collect", "Once the transfer clears, the pistol is yours. It ships in the original box with magazines, accessories and warranty."]
+  ];
+  document.getElementById("flow").innerHTML = steps.map((s, i) => `
+    <div class="flow-step" data-reveal data-delay="${i * 80}">
+      <div class="flow-num">${String(i + 1).padStart(2, "0")}</div>
+      <div class="flow-copy">
+        <h4>${s[0]}</h4>
+        <p>${s[1]}</p>
+      </div>
+    </div>`).join("");
+
+  // deep links from the nav dropdown
+  if (location.hash) {
+    const t = document.querySelector(location.hash);
+    if (t) setTimeout(() => t.scrollIntoView({ block: "center" }), 220);
+  }
+}
+</script>
+<style>
+/* stretch so the three cards end level and the buttons line up */
+.order-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.order-grid .product-body .btn{margin-top:auto}
+.order-grid .product-price{margin-top:auto;padding-top:6px}
+.product-card.is-firearm{border-color:rgba(0,150,252,.3)}
+.ffl-flag{
+  display:flex;align-items:center;gap:8px;margin-top:13px;padding-top:13px;
+  border-top:1px solid var(--line-soft);font-size:.8rem;color:var(--dim);
+}
+.ffl-flag svg{color:var(--blue);flex:none}
+
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line-soft);border-radius:4px;overflow:hidden}
+.flow-step{padding:26px 22px;background:var(--surface);border-right:1px solid var(--line-soft);transition:background .3s}
+.flow-step:last-child{border-right:0}
+.flow-step:hover{background:var(--raised)}
+.flow-num{
+  font-family:var(--display);font-size:1.5rem;color:var(--blue);font-weight:600;
+  margin-bottom:11px;line-height:1;
+}
+.flow-copy h4{font-family:var(--display);font-size:.92rem;color:var(--white);text-transform:uppercase;
+  letter-spacing:.05em;margin:0 0 8px}
+.flow-copy p{font-size:.86rem;color:var(--muted);margin:0;line-height:1.55}
+
+@media (max-width:1000px){
+  .order-grid{grid-template-columns:1fr 1fr}
+  .flow{grid-template-columns:1fr 1fr}
+  .flow-step{border-bottom:1px solid var(--line-soft)}
+  .flow-step:nth-child(2n){border-right:0}
+}
+@media (max-width:680px){
+  .order-grid{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .flow-step{border-right:0}
+}
+</style>
+</body>
+</html>

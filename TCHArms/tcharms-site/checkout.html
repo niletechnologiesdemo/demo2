@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout | TCH Arms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tch.css?v=1">
+</head>
+<body data-page="cart">
+
+<main>
+  <header class="page-head" style="padding-bottom:34px">
+    <div class="shell">
+      <div class="crumbs" data-reveal>
+        <a href="index.html">Home</a><span>/</span><a href="cart.html">Cart</a><span>/</span>Checkout
+      </div>
+      <h1 data-reveal>Checkout</h1>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top:44px;padding-bottom:88px">
+    <div class="shell">
+
+      <div class="steps" id="steps">
+        <div class="step is-active" data-step="1"><span class="num">1</span><span class="lbl">Your Details</span></div>
+        <div class="step" data-step="2"><span class="num">2</span><span class="lbl">FFL Dealer</span></div>
+        <div class="step" data-step="3"><span class="num">3</span><span class="lbl">Review</span></div>
+        <div class="step" data-step="4"><span class="num">4</span><span class="lbl">Payment</span></div>
+      </div>
+
+      <div class="cart-layout">
+        <div id="stage"></div>
+
+        <aside class="panel cart-summary">
+          <div class="panel-head">Order Summary</div>
+          <div id="sumLines" class="sum-lines"></div>
+          <div class="totals" id="sumTotals"></div>
+        </aside>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script src="js/tch-data.js?v=1"></script>
+<script src="js/tch.js?v=1"></script>
+<script>
+let step = 1;
+const buyer = {};
+const ffl = {};
+
+function hasFirearm() { return TCHCart.totals().hasFirearm; }
+
+function setStep(n) {
+  // step 2 only applies when the order contains a firearm
+  if (n === 2 && !hasFirearm()) n = step < 2 ? 3 : 1;
+  step = n;
+  document.querySelectorAll(".step").forEach(s => {
+    const v = +s.dataset.step;
+    s.classList.toggle("is-active", v === step);
+    s.classList.toggle("is-done", v < step);
+    s.style.display = (v === 2 && !hasFirearm()) ? "none" : "";
+  });
+  render();
+  window.scrollTo({ top: 180, behavior: "smooth" });
+}
+
+function render() {
+  const stage = document.getElementById("stage");
+
+  if (step === 1) {
+    stage.innerHTML = `
+      <form class="panel" id="f1">
+        <div class="panel-head">Your Details</div>
+        <div class="two-col">
+          <div class="field"><label>Full Name <span class="req">*</span></label>
+            <input class="input" name="name" required value="${buyer.name || ""}" placeholder="John Smith">
+            <div class="err-msg">Please enter your name.</div></div>
+          <div class="field"><label>Phone <span class="req">*</span></label>
+            <input class="input" name="phone" required value="${buyer.phone || ""}" placeholder="888-888-8888">
+            <div class="err-msg">Please enter a phone number.</div></div>
+        </div>
+        <div class="field"><label>Email <span class="req">*</span></label>
+          <input class="input" type="email" name="email" required value="${buyer.email || ""}" placeholder="email@email.com">
+          <div class="err-msg">Please enter a valid email address.</div></div>
+        <div class="field"><label>Street Address <span class="req">*</span></label>
+          <input class="input" name="street" required value="${buyer.street || ""}" placeholder="703 Rolling Wind">
+          <div class="err-msg">Please enter your address.</div></div>
+        <div class="three-col">
+          <div class="field"><label>City <span class="req">*</span></label>
+            <input class="input" name="city" required value="${buyer.city || ""}">
+            <div class="err-msg">Required.</div></div>
+          <div class="field"><label>State <span class="req">*</span></label>
+            <input class="input" name="state" required value="${buyer.state || ""}" maxlength="2" placeholder="MO">
+            <div class="err-msg">Required.</div></div>
+          <div class="field"><label>ZIP <span class="req">*</span></label>
+            <input class="input" name="zip" required value="${buyer.zip || ""}">
+            <div class="err-msg">Required.</div></div>
+        </div>
+        <button class="btn btn-primary" type="submit">Continue</button>
+      </form>`;
+    wire("f1", data => { Object.assign(buyer, data); setStep(hasFirearm() ? 2 : 3); });
+  }
+
+  if (step === 2) {
+    stage.innerHTML = `
+      <form class="panel" id="f2">
+        <div class="panel-head">Your FFL Dealer</div>
+        <div class="form-note" style="margin-bottom:22px">
+          <b>Firearms cannot ship to a home address.</b> Enter the licensed dealer you want your
+          VAMPIR sent to. If you do not have one yet you can leave this with us and we will contact
+          you before the pistol ships.
+        </div>
+        <div class="field"><label>Dealer Business Name <span class="req">*</span></label>
+          <input class="input" name="dealer" required value="${ffl.dealer || ""}" placeholder="Midwest Firearms LLC">
+          <div class="err-msg">Please enter the dealer name.</div></div>
+        <div class="two-col">
+          <div class="field"><label>Dealer Phone <span class="req">*</span></label>
+            <input class="input" name="dphone" required value="${ffl.dphone || ""}" placeholder="888-888-8888">
+            <div class="err-msg">Required.</div></div>
+          <div class="field"><label>FFL Number</label>
+            <input class="input" name="fflno" value="${ffl.fflno || ""}" placeholder="Optional at this stage">
+          </div>
+        </div>
+        <div class="field"><label>Dealer Address <span class="req">*</span></label>
+          <input class="input" name="daddr" required value="${ffl.daddr || ""}">
+          <div class="err-msg">Required.</div></div>
+        <div class="three-col">
+          <div class="field"><label>City <span class="req">*</span></label>
+            <input class="input" name="dcity" required value="${ffl.dcity || ""}"><div class="err-msg">Required.</div></div>
+          <div class="field"><label>State <span class="req">*</span></label>
+            <input class="input" name="dstate" required maxlength="2" value="${ffl.dstate || ""}"><div class="err-msg">Required.</div></div>
+          <div class="field"><label>ZIP <span class="req">*</span></label>
+            <input class="input" name="dzip" required value="${ffl.dzip || ""}"><div class="err-msg">Required.</div></div>
+        </div>
+        <ul class="bullets amber" style="margin:22px 0">
+          <li>Any background checks are conducted by the FFL dealer of your choosing, and completed by you.</li>
+          <li>It is recommended that you inquire about any possible transfer fees they may charge.</li>
+        </ul>
+        <div style="display:flex;gap:11px;flex-wrap:wrap">
+          <button class="btn btn-ghost" type="button" onclick="setStep(1)">Back</button>
+          <button class="btn btn-primary" type="submit">Continue</button>
+        </div>
+      </form>`;
+    wire("f2", data => { Object.assign(ffl, data); setStep(3); });
+  }
+
+  if (step === 3) {
+    const t = TCHCart.totals();
+    stage.innerHTML = `
+      <div class="panel">
+        <div class="panel-head">Review Your Order</div>
+
+        <div class="review-block">
+          <h5>Shipping to</h5>
+          <p>${buyer.name || ""}<br>${buyer.street || ""}<br>
+             ${buyer.city || ""}, ${(buyer.state || "").toUpperCase()} ${buyer.zip || ""}<br>
+             ${buyer.phone || ""} &middot; ${buyer.email || ""}</p>
+          <button class="btn btn-ghost btn-sm" onclick="setStep(1)">Edit</button>
+        </div>
+
+        ${hasFirearm() ? `
+          <div class="review-block">
+            <h5>Transfer dealer</h5>
+            <p>${ffl.dealer || ""}<br>${ffl.daddr || ""}<br>
+               ${ffl.dcity || ""}, ${(ffl.dstate || "").toUpperCase()} ${ffl.dzip || ""}<br>
+               ${ffl.dphone || ""}${ffl.fflno ? " &middot; FFL " + ffl.fflno : ""}</p>
+            <button class="btn btn-ghost btn-sm" onclick="setStep(2)">Edit</button>
+          </div>` : ""}
+
+        <div class="review-block" style="border-bottom:0;padding-bottom:0">
+          <h5>Charges</h5>
+          <div class="totals" style="margin-bottom:0">
+            <div class="total-row"><span>Subtotal</span><span>${tchMoney(t.sub)}</span></div>
+            <div class="total-row"><span>Shipping${t.hasFirearm ? " to dealer" : ""}</span><span>${tchMoney(t.shipping)}</span></div>
+            <div class="total-row"><span>Sales tax</span><span>${tchMoney(t.tax)}</span></div>
+            <div class="total-row"><span>Card processing fee <span class="fee">3.5%</span></span><span>${tchMoney(t.ccFee)}</span></div>
+            <div class="total-row grand"><span>Amount due</span><span>${tchMoney(t.total)}</span></div>
+          </div>
+        </div>
+
+        <label class="check" style="margin:24px 0">
+          <input type="checkbox" id="agree" required>
+          <span>I have read and understand the store policies and privacy policies on this website,
+          and I confirm I am legally eligible to purchase this item in my state.</span>
+        </label>
+
+        <div style="display:flex;gap:11px;flex-wrap:wrap">
+          <button class="btn btn-ghost" onclick="setStep(${hasFirearm() ? 2 : 1})">Back</button>
+          <button class="btn btn-primary" id="toPay">Continue to Payment</button>
+        </div>
+      </div>`;
+
+    document.getElementById("toPay").addEventListener("click", () => {
+      const cb = document.getElementById("agree");
+      if (!cb.checked) {
+        cb.closest(".check").classList.add("field-error");
+        tchToast("Please confirm the store policies to continue");
+        return;
+      }
+      setStep(4);
+    });
+  }
+
+  if (step === 4) {
+    const t = TCHCart.totals();
+    stage.innerHTML = `
+      <div class="panel">
+        <div class="panel-head">Payment</div>
+
+        <div class="handoff">
+          <div class="handoff-mark">${TCHIcons.lock}</div>
+          <h3 style="margin-bottom:10px">You are being handed to our secure card processor</h3>
+          <p style="color:var(--muted);max-width:520px;margin:0 auto 8px">
+            Card details are never entered on this website. The amount below, including tax,
+            shipping and the 3.5% card processing fee, has already been calculated and will be
+            carried across.
+          </p>
+          <div class="handoff-total">${tchMoney(t.total)}</div>
+          <a class="btn btn-primary" id="payLink">Open Secure Payment Page ${TCHIcons.ext}</a>
+          <p style="color:var(--dim);font-size:.82rem;margin:18px auto 0;max-width:520px">
+            On the payment page you will confirm your name, address, email and phone, along with the
+            name, phone and address of the FFL dealer receiving your firearm.
+          </p>
+        </div>
+
+        <div style="display:flex;gap:11px;flex-wrap:wrap;margin-top:26px">
+          <button class="btn btn-ghost" onclick="setStep(3)">Back to Review</button>
+        </div>
+      </div>`;
+
+    document.getElementById("payLink").addEventListener("click", e => {
+      e.preventDefault();
+      tchToast("Demo build. This is where the live card processor opens.");
+    });
+  }
+
+  paintSummary();
+}
+
+function wire(id, done) {
+  const form = document.getElementById(id);
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    let ok = true;
+    form.querySelectorAll("[required]").forEach(f => {
+      const good = f.value.trim() !== "" &&
+        (f.type !== "email" || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value));
+      f.closest(".field").classList.toggle("field-error", !good);
+      if (!good) ok = false;
+    });
+    if (!ok) { tchToast("Please complete the highlighted fields"); return; }
+    const data = {};
+    form.querySelectorAll("input").forEach(f => data[f.name] = f.value.trim());
+    done(data);
+  });
+  form.querySelectorAll("[required]").forEach(f =>
+    f.addEventListener("input", () => f.closest(".field").classList.remove("field-error")));
+}
+
+function paintSummary() {
+  const t = TCHCart.totals();
+  document.getElementById("sumLines").innerHTML = TCHCart.items.map(i => {
+    const p = TCH.products[i.id];
+    return `<div class="sum-line">
+      <div class="line-thumb" style="width:46px;height:46px"><img src="${p.img}" alt=""></div>
+      <div><div class="sl-name">${p.name}</div>
+           <div class="sl-meta">${i.variant ? i.variant + " &middot; " : ""}Qty ${i.qty}</div></div>
+      <div class="sl-price">${tchMoney(p.price * i.qty)}</div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("sumTotals").innerHTML = `
+    <div class="total-row"><span>Subtotal</span><span>${tchMoney(t.sub)}</span></div>
+    <div class="total-row"><span>Shipping</span><span>${tchMoney(t.shipping)}</span></div>
+    <div class="total-row"><span>Tax</span><span>${tchMoney(t.tax)}</span></div>
+    <div class="total-row"><span>Card fee 3.5%</span><span>${tchMoney(t.ccFee)}</span></div>
+    <div class="total-row grand"><span>Total</span><span>${tchMoney(t.total)}</span></div>`;
+}
+
+function pageInit() {
+  if (!TCHCart.items.length) { location.replace("cart.html"); return; }
+  setStep(1);
+}
+</script>
+<style>
+.cart-layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start}
+.cart-summary{position:sticky;top:calc(var(--nav-h) + 22px)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three-col{display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px}
+.review-block{padding:18px 0;border-bottom:1px solid var(--line-soft)}
+.review-block h5{font-family:var(--display);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 9px}
+.review-block p{color:var(--text);font-size:.94rem;margin-bottom:12px;line-height:1.6}
+.sum-lines{margin-bottom:18px}
+.sum-line{display:flex;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line-soft)}
+.sum-line > div:nth-child(2){flex:1;min-width:0}
+.sl-name{font-size:.88rem;color:var(--text)}
+.sl-meta{font-size:.78rem;color:var(--dim)}
+.sl-price{font-family:var(--display);font-size:.94rem;color:var(--white)}
+.handoff{text-align:center;padding:34px 20px;border:1px dashed var(--line);border-radius:4px;
+  background:radial-gradient(70% 100% at 50% 0%,rgba(0,150,252,.1),transparent 70%)}
+.handoff-mark{width:52px;height:52px;border-radius:50%;background:var(--blue-wash);border:1px solid rgba(0,150,252,.4);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:var(--blue-bright)}
+.handoff-total{font-family:var(--display);font-size:2.4rem;color:var(--white);margin:16px 0 20px}
+@media (max-width:900px){
+  .cart-layout{grid-template-columns:1fr}
+  .cart-summary{position:static}
+  .two-col,.three-col{grid-template-columns:1fr}
+}
+</style>
+</body>
+</html>

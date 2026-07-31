@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Media Manager | TCH Arms</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tch.css?v=1">
+</head>
+<body data-page="admin">
+
+<main>
+  <header class="page-head" style="padding-bottom:36px">
+    <div class="shell">
+      <div class="crumbs" data-reveal><a href="index.html">Home</a><span>/</span>Media Manager</div>
+      <h1 data-reveal>Media Manager</h1>
+      <p data-reveal data-delay="80">
+        Add and remove gallery photography, product video and review links yourself, without
+        going back to a developer. Changes here drive the gallery page directly.
+      </p>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top:40px;padding-bottom:88px">
+    <div class="shell">
+
+      <div class="admin-bar" data-reveal>
+        <div class="tab-heads" id="tabs">
+          <button class="is-active" data-tab="photos">Photos</button>
+          <button data-tab="videos">Video</button>
+          <button data-tab="reviews">Reviews</button>
+        </div>
+        <div class="admin-count" id="count"></div>
+        <button class="btn btn-ghost btn-sm" id="resetBtn">Reset to Defaults</button>
+      </div>
+
+      <!-- ------------------------------------------------------ photos -->
+      <div class="admin-panel is-active" data-panel="photos">
+        <div class="dropzone" id="dropPhoto">
+          <input type="file" id="filePhoto" accept="image/*" multiple hidden>
+          <div class="dz-mark" id="dzMark"></div>
+          <h4>Drop photographs here</h4>
+          <p>JPG, PNG or WEBP. Drag files in, or <button class="linkish" id="browsePhoto">browse your computer</button>.</p>
+        </div>
+        <div class="media-grid" id="photoGrid"></div>
+      </div>
+
+      <!-- ------------------------------------------------------ videos -->
+      <div class="admin-panel" data-panel="videos">
+        <div class="panel" style="margin-bottom:22px">
+          <div class="panel-head">Add a Video</div>
+          <div class="two-col">
+            <div class="field"><label>Title</label>
+              <input class="input" id="vTitle" placeholder="RS9 X at the range"></div>
+            <div class="field"><label>Runtime</label>
+              <input class="input" id="vMeta" placeholder="2:12"></div>
+          </div>
+          <div class="field"><label>Description</label>
+            <input class="input" id="vDesc" placeholder="Extended barrel, 18 round magazine, steel plate."></div>
+          <div class="field"><label>Video file or URL</label>
+            <input class="input" id="vSrc" placeholder="vampir-range.mp4"></div>
+          <button class="btn btn-primary" id="addVideo">Add Video</button>
+        </div>
+        <div class="media-grid" id="videoGrid"></div>
+      </div>
+
+      <!-- ------------------------------------------------------ reviews -->
+      <div class="admin-panel" data-panel="reviews">
+        <div class="panel" style="margin-bottom:22px">
+          <div class="panel-head">Add a Reviewer</div>
+          <div class="two-col">
+            <div class="field"><label>Channel Name</label>
+              <input class="input" id="rName" placeholder="Range Time Review"></div>
+            <div class="field"><label>Handle</label>
+              <input class="input" id="rHandle" placeholder="@rangetimereview"></div>
+          </div>
+          <div class="field"><label>Description</label>
+            <input class="input" id="rDesc" placeholder="Full teardown and 500 round reliability run."></div>
+          <div class="field"><label>Channel URL</label>
+            <input class="input" id="rUrl" placeholder="https://..."></div>
+          <button class="btn btn-primary" id="addReview">Add Reviewer</button>
+        </div>
+        <div class="media-grid" id="reviewGrid"></div>
+      </div>
+
+      <div class="form-note" style="margin-top:34px">
+        <b>Demo build.</b> Uploads are held in this browser so you can try the workflow end to end.
+        On the live site the same screen writes to the server, and the gallery page updates for
+        every visitor.
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script src="js/tch-data.js?v=1"></script>
+<script src="js/tch.js?v=1"></script>
+<script>
+const KEY = "tch_media_v1";
+let state = null;
+
+function defaults() {
+  return {
+    photos: TCH.gallery.map(g => ({ id: g.id, src: "assets/gallery/" + g.id + "-t.webp",
+                                    caption: g.caption, w: g.w, h: g.h, stock: true })),
+    videos: TCH.videos.map(v => ({ id: v.id, title: v.title, desc: v.desc, meta: v.meta,
+                                   poster: v.poster, stock: true })),
+    reviews: TCH.influencers.map(f => ({ id: f.id, name: f.name, handle: f.handle,
+                                         desc: f.desc, poster: f.poster, url: f.url, stock: true }))
+  };
+}
+
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    state = raw ? JSON.parse(raw) : defaults();
+  } catch (e) { state = defaults(); }
+}
+
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(state));
+  } catch (e) {
+    // full-size uploads overflow the storage quota, so keep those in memory only
+    tchToast("Saved for this session. Full-size files go to the server on the live site.");
+  }
+  paint();
+}
+
+function uid() { return "m" + Math.random().toString(36).slice(2, 9); }
+
+/* ---------------------------------------------------------------- paint */
+function paint() {
+  const p = state.photos, v = state.videos, r = state.reviews;
+  document.getElementById("count").textContent =
+    p.length + " photos, " + v.length + " videos, " + r.length + " reviews";
+
+  document.getElementById("photoGrid").innerHTML = p.map(m => `
+    <figure class="media-item">
+      <div class="media-thumb"><img src="${m.src}" alt="${m.caption || ""}" loading="lazy"></div>
+      <figcaption>
+        <span class="mi-name">${m.caption || "Untitled"}</span>
+        <span class="mi-meta">${m.stock ? "Supplied" : "Uploaded"}${m.w ? " &middot; " + m.w + "x" + m.h : ""}</span>
+      </figcaption>
+      <button class="media-del" data-del="photos" data-id="${m.id}" aria-label="Delete">${TCHIcons.trash}</button>
+    </figure>`).join("") || emptyMsg("No photographs yet.");
+
+  document.getElementById("videoGrid").innerHTML = v.map(m => `
+    <figure class="media-item">
+      <div class="media-thumb"><img src="${m.poster}" alt="" loading="lazy">
+        <span class="media-badge">${m.meta || "video"}</span></div>
+      <figcaption>
+        <span class="mi-name">${m.title}</span>
+        <span class="mi-meta">${m.desc || ""}</span>
+      </figcaption>
+      <button class="media-del" data-del="videos" data-id="${m.id}" aria-label="Delete">${TCHIcons.trash}</button>
+    </figure>`).join("") || emptyMsg("No video yet.");
+
+  document.getElementById("reviewGrid").innerHTML = r.map(m => `
+    <figure class="media-item">
+      <div class="media-thumb"><img src="${m.poster}" alt="" loading="lazy"></div>
+      <figcaption>
+        <span class="mi-name">${m.name}</span>
+        <span class="mi-meta">${m.handle} &middot; ${m.desc || ""}</span>
+      </figcaption>
+      <button class="media-del" data-del="reviews" data-id="${m.id}" aria-label="Delete">${TCHIcons.trash}</button>
+    </figure>`).join("") || emptyMsg("No reviewers yet.");
+
+  document.querySelectorAll("[data-del]").forEach(b => b.addEventListener("click", () => {
+    const list = b.dataset.del;
+    state[list] = state[list].filter(x => x.id !== b.dataset.id);
+    save();
+    tchToast("Removed");
+  }));
+}
+
+function emptyMsg(t) {
+  return '<div class="empty-state" style="grid-column:1/-1"><p>' + t + '</p></div>';
+}
+
+/* ---------------------------------------------------------------- upload */
+function ingest(files) {
+  const imgs = Array.from(files).filter(f => f.type.startsWith("image/"));
+  if (!imgs.length) { tchToast("Please choose image files"); return; }
+
+  let pending = imgs.length;
+  imgs.forEach(f => {
+    const fr = new FileReader();
+    fr.onload = e => {
+      const probe = new Image();
+      probe.onload = () => {
+        state.photos.unshift({
+          id: uid(), src: e.target.result,
+          caption: f.name.replace(/\.[^.]+$/, ""),
+          w: probe.naturalWidth, h: probe.naturalHeight, stock: false
+        });
+        if (--pending === 0) { save(); tchToast(imgs.length + " photo" + (imgs.length > 1 ? "s" : "") + " added"); }
+      };
+      probe.src = e.target.result;
+    };
+    fr.readAsDataURL(f);
+  });
+}
+
+/* ---------------------------------------------------------------- init */
+function pageInit() {
+  load();
+
+  document.getElementById("dzMark").innerHTML =
+    '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v13"/></svg>';
+
+  // tabs
+  const tabs = document.getElementById("tabs");
+  tabs.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click", () => {
+    tabs.querySelectorAll("[data-tab]").forEach(x => x.classList.toggle("is-active", x === b));
+    document.querySelectorAll("[data-panel]").forEach(x =>
+      x.classList.toggle("is-active", x.dataset.panel === b.dataset.tab));
+  }));
+
+  // drag and drop
+  const dz = document.getElementById("dropPhoto");
+  const input = document.getElementById("filePhoto");
+  document.getElementById("browsePhoto").addEventListener("click", () => input.click());
+  dz.addEventListener("click", e => { if (e.target === dz || e.target.tagName === "H4") input.click(); });
+  input.addEventListener("change", () => { ingest(input.files); input.value = ""; });
+
+  ["dragenter", "dragover"].forEach(ev =>
+    dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.add("is-over"); }));
+  ["dragleave", "drop"].forEach(ev =>
+    dz.addEventListener(ev, e => { e.preventDefault(); dz.classList.remove("is-over"); }));
+  dz.addEventListener("drop", e => ingest(e.dataTransfer.files));
+
+  // video
+  document.getElementById("addVideo").addEventListener("click", () => {
+    const title = document.getElementById("vTitle").value.trim();
+    if (!title) { tchToast("Give the video a title"); return; }
+    state.videos.unshift({
+      id: uid(), title,
+      desc: document.getElementById("vDesc").value.trim(),
+      meta: document.getElementById("vMeta").value.trim() || "video",
+      src: document.getElementById("vSrc").value.trim(),
+      poster: "assets/gallery/g6-t.webp", stock: false
+    });
+    ["vTitle", "vDesc", "vMeta", "vSrc"].forEach(i => document.getElementById(i).value = "");
+    save();
+    tchToast("Video added");
+  });
+
+  // reviews
+  document.getElementById("addReview").addEventListener("click", () => {
+    const name = document.getElementById("rName").value.trim();
+    if (!name) { tchToast("Give the reviewer a name"); return; }
+    state.reviews.unshift({
+      id: uid(), name,
+      handle: document.getElementById("rHandle").value.trim(),
+      desc: document.getElementById("rDesc").value.trim(),
+      url: document.getElementById("rUrl").value.trim() || "#",
+      poster: "assets/gallery/g3-t.webp", stock: false
+    });
+    ["rName", "rHandle", "rDesc", "rUrl"].forEach(i => document.getElementById(i).value = "");
+    save();
+    tchToast("Reviewer added");
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    state = defaults();
+    save();
+    tchToast("Reset to the supplied media");
+  });
+
+  paint();
+}
+</script>
+<style>
+.admin-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:26px;
+  padding-bottom:20px;border-bottom:1px solid var(--line-soft)}
+.admin-count{font-family:var(--display);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);margin-left:auto}
+.tab-heads{display:flex;gap:6px}
+.tab-heads button{
+  background:none;border:1px solid var(--line-soft);border-radius:2px;color:var(--muted);cursor:pointer;
+  font-family:var(--display);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;padding:9px 18px;
+  transition:all .25s;
+}
+.tab-heads button:hover{color:var(--text);border-color:var(--line)}
+.tab-heads button.is-active{background:var(--blue-wash);border-color:var(--blue);color:var(--blue-bright)}
+.admin-panel{display:none}
+.admin-panel.is-active{display:block;animation:fadeIn .34s var(--ease)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.dropzone{
+  border:1.5px dashed var(--line);border-radius:4px;padding:44px 24px;text-align:center;
+  background:rgba(255,255,255,.02);margin-bottom:26px;transition:all .3s var(--ease);cursor:pointer;
+}
+.dropzone:hover{border-color:var(--blue);background:var(--blue-wash)}
+.dropzone.is-over{border-color:var(--blue);background:var(--blue-wash);transform:scale(1.008)}
+.dz-mark{color:var(--blue);margin-bottom:14px}
+.dropzone h4{font-family:var(--display);font-size:1.05rem;color:var(--white);text-transform:uppercase;
+  letter-spacing:.05em;margin:0 0 7px}
+.dropzone p{color:var(--muted);font-size:.9rem;margin:0}
+.linkish{background:none;border:0;color:var(--blue-bright);cursor:pointer;font:inherit;
+  text-decoration:underline;padding:0}
+
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.media-item{
+  position:relative;margin:0;background:var(--surface);border:1px solid var(--line-soft);
+  border-radius:4px;overflow:hidden;transition:all .3s var(--ease);
+}
+.media-item:hover{border-color:rgba(0,150,252,.42);transform:translateY(-3px)}
+.media-thumb{
+  position:relative;height:150px;background:linear-gradient(158deg,#333944,#272C34);
+  display:flex;align-items:center;justify-content:center;padding:8px;
+}
+/* contained so nothing is cropped, whatever shape gets uploaded */
+.media-thumb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.media-badge{
+  position:absolute;bottom:7px;right:7px;background:rgba(20,23,28,.86);color:var(--text);
+  font-family:var(--display);font-size:.62rem;letter-spacing:.1em;padding:3px 8px;border-radius:2px;
+}
+.media-item figcaption{padding:12px 14px;border-top:1px solid var(--line-soft)}
+.mi-name{display:block;font-size:.88rem;color:var(--text);margin-bottom:3px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mi-meta{display:block;font-size:.76rem;color:var(--dim);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.media-del{
+  position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:2px;
+  background:rgba(20,23,28,.8);border:1px solid var(--line);color:var(--muted);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;opacity:0;transition:all .25s;
+}
+.media-item:hover .media-del{opacity:1}
+.media-del:hover{background:rgba(246,0,0,.2);border-color:var(--vampir);color:#FF6161}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:700px){ .two-col{grid-template-columns:1fr} .admin-count{margin-left:0} }
+</style>
+</body>
+</html>

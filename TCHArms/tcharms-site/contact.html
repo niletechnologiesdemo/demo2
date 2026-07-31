@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us | TCH Arms</title>
+<meta name="description" content="Contact TCH Arms in O'Fallon, Missouri about the VAMPIR RS9 and RS9 X.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tch.css?v=1">
+</head>
+<body data-page="contact">
+
+<main>
+  <header class="page-head">
+    <div class="shell">
+      <div class="crumbs" data-reveal><a href="index.html">Home</a><span>/</span>Contact Us</div>
+      <h1 data-reveal>Contact Us</h1>
+      <p data-reveal data-delay="80">
+        Questions about the VAMPIR, an order in progress, or dealer enquiries. We answer the phone
+        during business hours and reply to messages the same day where we can.
+      </p>
+    </div>
+  </header>
+
+  <section class="section" style="padding-bottom:88px">
+    <div class="shell">
+      <div class="contact-layout">
+
+        <form class="panel" data-validate="contact" data-reveal="left">
+          <div class="panel-head">Send a Message</div>
+          <div class="field">
+            <label for="cname">Name <span class="req">*</span></label>
+            <input class="input" id="cname" name="name" required placeholder="John Smith">
+            <div class="err-msg">Please enter your name.</div>
+          </div>
+          <div class="field">
+            <label for="cemail">Email <span class="req">*</span></label>
+            <input class="input" id="cemail" type="email" name="email" required placeholder="email@email.com">
+            <div class="err-msg">Please enter a valid email address.</div>
+          </div>
+          <div class="field">
+            <label for="cphone">Phone <span class="req">*</span></label>
+            <input class="input" id="cphone" name="phone" required placeholder="888-888-8888">
+            <div class="err-msg">Please enter a phone number.</div>
+          </div>
+          <div class="field">
+            <label for="cmsg">Message <span class="req">*</span></label>
+            <textarea class="input" id="cmsg" name="message" required placeholder="Your message here..."></textarea>
+            <div class="err-msg">Please enter a message.</div>
+          </div>
+
+          <label class="check" style="margin-bottom:20px">
+            <input type="checkbox" required>
+            <span>I have read and understand the store policies and privacy policies on this website,
+            and consent to receive email, text, and phone communications such as newsletters,
+            product offerings, and other special promotions.</span>
+          </label>
+
+          <button class="btn btn-primary" type="submit">Send Message</button>
+        </form>
+
+        <aside data-reveal="right" data-delay="90">
+          <div class="panel">
+            <div class="panel-head">Reach Us Directly</div>
+            <ul class="contact-list" id="contactList"></ul>
+          </div>
+
+          <div class="panel" style="margin-top:22px">
+            <div class="panel-head">Before You Call About an Order</div>
+            <ul class="bullets">
+              <li>Firearms ship to a licensed dealer, never to a home address.</li>
+              <li>We contact you for your dealer's details before anything ships.</li>
+              <li>Background checks are handled by your dealer, not by us.</li>
+              <li>Ask your dealer about their transfer fee, it is separate from our price.</li>
+            </ul>
+          </div>
+
+          <div class="panel" style="margin-top:22px">
+            <div class="panel-head">Business Hours</div>
+            <div class="hours">
+              <div><span>Monday to Friday</span><span>9:00 AM - 5:00 PM CT</span></div>
+              <div><span>Saturday</span><span>By appointment</span></div>
+              <div><span>Sunday</span><span>Closed</span></div>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/tch-data.js?v=1"></script>
+<script src="js/tch.js?v=1"></script>
+<script>
+function pageInit() {
+  const c = TCH.company;
+  document.getElementById("contactList").innerHTML = `
+    <li>${TCHIcons.phone}<div><span class="cl-k">Phone</span>
+      <a class="cl-v" href="tel:13142663361">${c.phone}</a></div></li>
+    <li>${TCHIcons.mail}<div><span class="cl-k">Email</span>
+      <a class="cl-v" href="mailto:${c.email}">${c.email}</a></div></li>
+    <li>${TCHIcons.pin}<div><span class="cl-k">Address</span>
+      <span class="cl-v">${c.street}<br>${c.city}</span></div></li>`;
+}
+</script>
+<style>
+.contact-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:start}
+.contact-list{list-style:none;padding:0;margin:0}
+.contact-list li{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--line-soft);align-items:flex-start}
+.contact-list li:last-child{border-bottom:0}
+.contact-list svg{color:var(--blue);flex:none;margin-top:5px}
+.cl-k{display:block;font-family:var(--display);font-size:.68rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.cl-v{color:var(--text);font-size:.96rem}
+a.cl-v:hover{color:var(--blue-bright)}
+.hours div{display:flex;justify-content:space-between;padding:8px 0;font-size:.92rem;
+  border-bottom:1px solid var(--line-soft);color:var(--muted)}
+.hours div:last-child{border-bottom:0}
+.hours span:last-child{color:var(--text)}
+@media (max-width:900px){ .contact-layout{grid-template-columns:1fr} }
+</style>
+</body>
+</html>

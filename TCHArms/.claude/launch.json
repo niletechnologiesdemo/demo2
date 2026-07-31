@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "tcharms",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "/Users/aadityanilesiphone/Documents/GitHub/demo2/TCHArms/dev-server.py",
+        "8731"
+      ],
+      "port": 8731
+    }
+  ]
+}

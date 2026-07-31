@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RS9 X Vampir Specifications | TCH Arms</title>
+<meta name="description" content="Full technical specifications for the VAMPIR RS9 X, the extended threaded-barrel variant of the RS9.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tch.css?v=1">
+</head>
+<body data-page="rs9x" data-model="rs9x">
+
+<main>
+  <header class="page-head">
+    <div class="shell">
+      <div class="crumbs" data-reveal>
+        <a href="index.html">Home</a><span>/</span>Specs RS9 X Vampir
+      </div>
+      <h1 data-reveal id="phTitle">RS9 X Vampir</h1>
+      <p data-reveal data-delay="80" id="phBlurb"></p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="shell">
+      <div class="spec-layout">
+
+        <div class="spec-visual" data-reveal="left">
+          <div class="viewer" id="viewer">
+            <span class="viewer-badge" id="viewerBadge">6 angles</span>
+            <div class="viewer-stage"></div>
+            <div class="viewer-hint"><span id="dragIcon"></span> Drag or use the bars to rotate</div>
+            <div class="viewer-dots"></div>
+          </div>
+
+          <div class="panel" style="margin-top:22px">
+            <div class="panel-head">Order this model</div>
+            <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:16px">
+              <span style="font-family:var(--display);font-size:2rem;color:var(--white)" id="price"></span>
+              <span class="tag" style="position:static" id="stockTag"></span>
+            </div>
+            <button class="btn btn-primary btn-block" id="addBtn">Add to Cart</button>
+            <p style="font-size:.84rem;color:var(--dim);margin:14px 0 0">
+              Shipped to a Federal Firearms License holder of your choosing. We will contact you for
+              your dealer's details before the pistol leaves our shop.
+            </p>
+          </div>
+        </div>
+
+        <div class="spec-data" data-reveal="right" data-delay="90">
+          <div id="specs"></div>
+
+          <div class="notice" style="margin-top:30px">
+            <h4>Sold in accordance with federal regulations</h4>
+            <p id="legalRestrict"></p>
+            <p id="legalAge"></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="shell">
+      <div class="stat-strip" data-reveal id="stats"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="panel" style="display:flex;gap:30px;align-items:center;flex-wrap:wrap" data-reveal>
+        <img id="otherImg" src="assets/guns/rs9-right.webp" alt="" style="width:300px;max-width:100%;height:auto;flex:none">
+        <div style="flex:1;min-width:260px">
+          <div class="eyebrow">Also Available</div>
+          <h3 style="margin-bottom:10px" id="otherName"></h3>
+          <p style="color:var(--muted);margin-bottom:18px" id="otherBlurb"></p>
+          <a class="btn btn-ghost btn-sm" id="otherLink">View Specifications</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/tch-data.js?v=1"></script>
+<script src="js/tch.js?v=1"></script>
+<script src="js/spec-page.js?v=1"></script>
+</body>
+</html>

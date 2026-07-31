@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product | TCH Arms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tch.css?v=1">
+</head>
+<body data-page="accessories">
+
+<main>
+  <header class="page-head" style="padding-bottom:34px">
+    <div class="shell">
+      <div class="crumbs" data-reveal>
+        <a href="index.html">Home</a><span>/</span>
+        <a href="accessories.html">Accessories</a><span>/</span>
+        <span id="crumbName"></span>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top:44px">
+    <div class="shell">
+      <div class="product-detail" id="detail"></div>
+    </div>
+  </section>
+
+  <section class="section-tight" style="padding-bottom:88px">
+    <div class="shell">
+      <div class="sec-head" data-reveal><h3>More accessories</h3></div>
+      <div class="grid-3" id="more"></div>
+    </div>
+  </section>
+</main>
+
+<script src="js/tch-data.js?v=1"></script>
+<script src="js/tch.js?v=1"></script>
+<script>
+function pageInit() {
+  const id = new URLSearchParams(location.search).get("id") || "tee";
+  const p = TCH.products[id];
+
+  if (!p) { location.replace("accessories.html"); return; }
+
+  document.title = p.name + " | TCH Arms";
+  document.getElementById("crumbName").textContent = p.name;
+
+  const sizeField = p.sizes ? `
+    <div class="field">
+      <label for="size">Select Size <span class="req">*</span></label>
+      <select class="input" id="size">
+        <option value="">Choose a size</option>
+        ${p.sizes.map(s => `<option>${s}</option>`).join("")}
+      </select>
+      <div class="err-msg">Please choose a size before adding to the cart.</div>
+    </div>` : "";
+
+  const soldOut = p.stock === "out";
+  const stockTag = soldOut
+    ? '<span class="tag tag-out" style="position:static">Out of Stock</span>'
+    : p.stock === "disc"
+      ? '<span class="tag tag-disc" style="position:static">Discontinuing</span>'
+      : '<span class="tag tag-stock" style="position:static">In Stock</span>';
+
+  document.getElementById("detail").innerHTML = `
+    <div class="product-hero" data-reveal="left">
+      <img src="${p.img}" alt="${p.name}">
+    </div>
+    <div data-reveal="right" data-delay="80">
+      <div class="eyebrow">${p.line}</div>
+      <h1 style="font-size:clamp(2rem,4vw,2.9rem);margin-bottom:8px">${p.name}</h1>
+      <div style="color:var(--dim);font-family:var(--display);font-size:.78rem;letter-spacing:.16em;
+                  text-transform:uppercase;margin-bottom:20px">
+        Product Code : Not Specified
+      </div>
+
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px">
+        <span style="font-family:var(--display);font-size:2.2rem;color:var(--white)">${tchMoney(p.price)}</span>
+        ${stockTag}
+      </div>
+
+      <p style="color:var(--muted)">${p.blurb}</p>
+
+      ${sizeField}
+
+      <div class="field" style="max-width:150px">
+        <label for="qty">Quantity</label>
+        <input class="input" type="number" id="qty" value="1" min="1" max="10">
+      </div>
+
+      <button class="btn btn-primary btn-block" id="addBtn"
+              data-add="${id}" ${p.sizes ? 'data-variant-from="#size"' : ""} data-qty-from="#qty"
+              ${soldOut ? "disabled" : ""}>
+        ${soldOut ? "Out of Stock" : "Add to Cart"}
+      </button>
+
+      <ul class="bullets" style="margin-top:24px">
+        <li>Available in store and online</li>
+        <li>Secure online ordering</li>
+        <li>Ships direct, no dealer transfer required for accessories</li>
+      </ul>
+
+      <div class="tabs" id="tabs">
+        <div class="tab-heads">
+          <button class="is-active" data-tab="details">Details</button>
+          <button data-tab="shipping">Shipping</button>
+        </div>
+        <div class="tab-body is-active" data-panel="details">
+          <p>${p.detail || p.blurb}</p>
+        </div>
+        <div class="tab-body" data-panel="shipping">
+          <p>Accessories ship by standard carrier within two business days. Firearms are handled
+          separately and are sent to the Federal Firearms License holder you nominate.</p>
+          <p style="margin-bottom:0">${TCH.legal.restrict}</p>
+        </div>
+      </div>
+    </div>`;
+
+  // tabs
+  const tabs = document.getElementById("tabs");
+  tabs.querySelectorAll("[data-tab]").forEach(b => b.addEventListener("click", () => {
+    tabs.querySelectorAll("[data-tab]").forEach(x => x.classList.toggle("is-active", x === b));
+    tabs.querySelectorAll("[data-panel]").forEach(x =>
+      x.classList.toggle("is-active", x.dataset.panel === b.dataset.tab));
+  }));
+
+  // related
+  const others = ["tee", "mag18", "mag10", "mount"].filter(x => x !== id);
+  document.getElementById("more").innerHTML = others.map((oid, i) => {
+    const o = TCH.products[oid];
+    return `
+      <a class="product-card" href="product.html?id=${oid}" data-reveal="scale" data-delay="${i * 90}">
+        <span class="product-figure"><img src="${o.img}" alt="${o.name}" loading="lazy"></span>
+        <span class="product-body">
+          <h4>${o.name}</h4>
+          <span class="brand">${o.line}</span>
+          <span class="product-price" style="margin-top:8px">${tchMoney(o.price)}</span>
+        </span>
+      </a>`;
+  }).join("");
+}
+</script>
+<style>
+.product-detail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:52px;align-items:start}
+.product-hero{
+  background:linear-gradient(168deg,#333944,#272C34);border:1px solid var(--line-soft);border-radius:4px;
+  padding:40px;display:flex;align-items:center;justify-content:center;min-height:400px;
+}
+/* contained, so the product is never clipped by its frame */
+.product-hero img{max-width:100%;max-height:460px;width:auto;height:auto;object-fit:contain;
+  filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}
+.tabs{margin-top:30px;border-top:1px solid var(--line-soft);padding-top:22px}
+.tab-heads{display:flex;gap:6px;margin-bottom:16px}
+.tab-heads button{
+  background:none;border:1px solid var(--line-soft);border-radius:2px;color:var(--muted);cursor:pointer;
+  font-family:var(--display);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;padding:9px 18px;
+  transition:all .25s;
+}
+.tab-heads button:hover{color:var(--text);border-color:var(--line)}
+.tab-heads button.is-active{background:var(--blue-wash);border-color:var(--blue);color:var(--blue-bright)}
+.tab-body{display:none;color:var(--muted);font-size:.93rem}
+.tab-body.is-active{display:block;animation:fadeIn .34s var(--ease)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (max-width:900px){
+  .product-detail{grid-template-columns:1fr;gap:30px}
+  .product-hero{min-height:280px;padding:26px}
+}
+</style>
+</body>
+</html>

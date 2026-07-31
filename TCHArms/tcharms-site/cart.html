@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart | TCH Arms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tch.css?v=1">
+</head>
+<body data-page="cart">
+
+<main>
+  <header class="page-head" style="padding-bottom:36px">
+    <div class="shell">
+      <div class="crumbs" data-reveal><a href="index.html">Home</a><span>/</span>Cart</div>
+      <h1 data-reveal>Your Cart</h1>
+    </div>
+  </header>
+
+  <section class="section" style="padding-top:46px;padding-bottom:88px">
+    <div class="shell">
+      <div class="cart-layout" id="cartLayout"></div>
+    </div>
+  </section>
+</main>
+
+<script src="js/tch-data.js?v=1"></script>
+<script src="js/tch.js?v=1"></script>
+<script>
+function renderCart() {
+  const wrap = document.getElementById("cartLayout");
+  const items = TCHCart.items;
+
+  if (!items.length) {
+    wrap.innerHTML = `
+      <div class="panel" style="grid-column:1/-1;text-align:center;padding:64px 30px">
+        <h3 style="margin-bottom:11px">Your cart is empty</h3>
+        <p style="color:var(--muted);margin-bottom:24px">
+          Both VAMPIR models and the full accessory range are available to order.
+        </p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a href="order.html" class="btn btn-primary">Order a VAMPIR</a>
+          <a href="accessories.html" class="btn btn-ghost">Browse Accessories</a>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const t = TCHCart.totals();
+
+  wrap.innerHTML = `
+    <div class="panel">
+      <div class="panel-head">${TCHCart.count()} item${TCHCart.count() === 1 ? "" : "s"}</div>
+      <div id="lines"></div>
+    </div>
+
+    <aside class="panel cart-summary">
+      <div class="panel-head">Order Summary</div>
+      <div class="totals">
+        <div class="total-row"><span>Subtotal</span><span>${tchMoney(t.sub)}</span></div>
+        <div class="total-row">
+          <span>Shipping${t.hasFirearm ? " (to your FFL)" : ""}</span><span>${tchMoney(t.shipping)}</span>
+        </div>
+        <div class="total-row"><span>Estimated tax</span><span>${tchMoney(t.tax)}</span></div>
+        <div class="total-row">
+          <span>Card processing <span class="fee">3.5%</span></span><span>${tchMoney(t.ccFee)}</span>
+        </div>
+        <div class="total-row grand"><span>Total</span><span>${tchMoney(t.total)}</span></div>
+      </div>
+
+      <a href="checkout.html" class="btn btn-primary btn-block">Proceed to Checkout</a>
+      <a href="accessories.html" class="btn btn-ghost btn-block" style="margin-top:10px">Continue Shopping</a>
+
+      ${t.hasFirearm ? `
+        <div class="form-note" style="margin-top:20px">
+          <b>FFL required.</b> Your order contains a firearm. We will ship it to the licensed dealer
+          you nominate at checkout, never to a home address.
+        </div>` : ""}
+    </aside>`;
+
+  // reuse the drawer's line item markup so both views stay identical
+  document.getElementById("lines").innerHTML =
+    items.map((i, x) => TCHCart.lineHTML(i, x)).join("");
+
+  document.querySelectorAll("#lines [data-qty]").forEach(b => b.addEventListener("click", () => {
+    const idx = +b.dataset.qty;
+    TCHCart.setQty(idx, TCHCart.items[idx].qty + (+b.dataset.d));
+  }));
+  document.querySelectorAll("#lines [data-remove]").forEach(b =>
+    b.addEventListener("click", () => TCHCart.remove(+b.dataset.remove)));
+}
+
+function pageInit() {
+  renderCart();
+  document.addEventListener("cart:change", renderCart);
+}
+</script>
+<style>
+.cart-layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start}
+.cart-summary{position:sticky;top:calc(var(--nav-h) + 22px)}
+@media (max-width:900px){
+  .cart-layout{grid-template-columns:1fr}
+  .cart-summary{position:static}
+}
+</style>
+</body>
+</html>

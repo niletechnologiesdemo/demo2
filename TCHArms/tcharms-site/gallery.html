@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gallery | TCH Arms</title>
+<meta name="description" content="Studio and range photography of the VAMPIR RS9 and RS9 X, plus product video and reviews.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tch.css?v=1">
+</head>
+<body data-page="gallery">
+
+<main>
+  <header class="page-head">
+    <div class="shell">
+      <div class="crumbs" data-reveal><a href="index.html">Home</a><span>/</span>Gallery</div>
+      <h1 data-reveal>Gallery</h1>
+      <p data-reveal data-delay="80" id="finishNote"></p>
+    </div>
+  </header>
+
+  <!-- ============================================================ stills -->
+  <section class="section">
+    <div class="shell">
+      <div class="masonry" id="masonry"></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================ video -->
+  <section class="section">
+    <div class="shell">
+      <div class="sec-head" data-reveal>
+        <div class="eyebrow">Video</div>
+        <h2>See it run</h2>
+        <p>Product footage from the workshop and the range.</p>
+      </div>
+      <div class="grid-2" id="videos"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================ reviews -->
+  <section class="section" style="background:linear-gradient(180deg,transparent,rgba(0,0,0,.14))">
+    <div class="shell">
+      <div class="sec-head" data-reveal>
+        <div class="eyebrow">Independent Reviews</div>
+        <h2>What reviewers are saying</h2>
+        <p>Channels that have spent time with the VAMPIR. Each card links out to their own coverage.</p>
+        <div class="form-note" style="margin-top:18px">
+          <b>Sample entries.</b> The three cards below are layout placeholders, not real
+          endorsements. Swap them for actual reviewers in the Media Manager.
+        </div>
+      </div>
+      <div class="grid-3" id="influencers"></div>
+    </div>
+  </section>
+
+  <section class="section-tight" style="padding-bottom:92px">
+    <div class="shell">
+      <div class="panel" style="text-align:center;padding:44px 30px" data-reveal>
+        <h3 style="margin-bottom:12px">Ready to order?</h3>
+        <p style="color:var(--muted);max-width:520px;margin:0 auto 22px">
+          Both models are available now. Shipping goes to the Federal Firearms License holder of your choosing.
+        </p>
+        <a href="order.html" class="btn btn-primary">Order Here</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/tch-data.js?v=1"></script>
+<script src="js/tch.js?v=1"></script>
+<script>
+function pageInit() {
+  document.getElementById("finishNote").textContent = TCH.finishNote;
+
+  // Masonry keeps each frame at its true aspect ratio, so nothing is cropped.
+  document.getElementById("masonry").innerHTML = TCH.gallery.map((g, i) => `
+    <figure class="masonry-item" data-reveal="scale" data-delay="${(i % 3) * 90}" data-shot="${i}">
+      <img src="assets/gallery/${g.id}-t.webp" alt="${g.caption}"
+           width="${g.w}" height="${g.h}" loading="lazy">
+      <figcaption class="masonry-cap">${g.caption}</figcaption>
+    </figure>`).join("");
+
+  const shots = TCH.gallery.map(g => ({ src: "assets/gallery/" + g.id + ".webp", caption: g.caption }));
+  document.querySelectorAll("[data-shot]").forEach(el =>
+    el.addEventListener("click", () => window.tchLightbox(shots, +el.dataset.shot)));
+
+  // Video. The client holds the masters on WeTransfer, so each card carries a
+  // poster frame and takes a src once those files are supplied.
+  document.getElementById("videos").innerHTML = TCH.videos.map((v, i) => `
+    <article class="video-card" data-reveal data-delay="${i * 110}">
+      <div class="video-frame">
+        <img src="${v.poster}" alt="">
+        <button class="video-play" data-video="${v.id}" aria-label="Play ${v.title}">${TCHIcons.play}</button>
+      </div>
+      <div class="video-meta">
+        <h4>${v.title}</h4>
+        <p>${v.desc}</p>
+        <div class="chan">${TCHIcons.play}<span>Runtime ${v.meta}</span></div>
+      </div>
+    </article>`).join("");
+
+  document.getElementById("influencers").innerHTML = TCH.influencers.map((f, i) => `
+    <article class="video-card" data-reveal data-delay="${i * 100}">
+      <div class="video-frame">
+        <img src="${f.poster}" alt="">
+        <span class="sample-flag">Sample</span>
+        <button class="video-play" data-video="${f.id}" aria-label="Play ${f.name}">${TCHIcons.play}</button>
+      </div>
+      <div class="video-meta">
+        <h4>${f.name}</h4>
+        <p>${f.desc}</p>
+        <a class="chan" href="${f.url}">${TCHIcons.ext}<span>${f.handle}</span></a>
+      </div>
+    </article>`).join("");
+
+  document.querySelectorAll("[data-video]").forEach(b =>
+    b.addEventListener("click", () =>
+      tchToast("Video player is wired up and waiting on the master files")));
+}
+</script>
+</body>
+</html>
