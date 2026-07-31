@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Asian Voyage — Customer App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  body { background: var(--paper-3); }
+
+  /* --- device frame: shown on desktop, dropped on a real phone --- */
+  .stage { min-height: 100vh; display: grid; place-items: center; padding: 28px 16px; gap: 30px; grid-auto-flow: column; }
+  .stage-copy { max-width: 300px; }
+  .stage-copy h1 { font-size: 27px; margin: 10px 0 10px; }
+  .stage-copy p { color: var(--ink-soft); font-size: 14.5px; margin-bottom: 16px; }
+  .storebtn {
+    display: flex; align-items: center; gap: 10px; background: var(--ink); color: #fff;
+    border-radius: 11px; padding: 9px 15px; margin-bottom: 8px; width: 190px;
+  }
+  .storebtn small { display: block; font-size: 9.5px; opacity: .72; letter-spacing: .04em; }
+  .storebtn b { font-size: 14px; font-weight: 600; }
+
+  .phone {
+    width: 390px; height: 800px; background: var(--ink); border-radius: 46px; padding: 11px;
+    box-shadow: var(--shadow-lg); flex: 0 0 auto; position: relative;
+  }
+  .screen {
+    width: 100%; height: 100%; background: var(--paper); border-radius: 36px; overflow: hidden;
+    position: relative; display: flex; flex-direction: column;
+  }
+  .notch {
+    position: absolute; top: 11px; left: 50%; transform: translateX(-50%);
+    width: 116px; height: 27px; background: var(--ink); border-radius: 0 0 16px 16px; z-index: 30;
+  }
+  .statusbar {
+    height: 42px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px 0 26px; font-size: 12.5px; font-weight: 600; flex: 0 0 auto; color: var(--ink);
+  }
+
+  .scroller { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .pad { padding: 0 18px; }
+
+  /* bottom tab bar */
+  .tabbar {
+    display: flex; border-top: 1px solid var(--line); background: var(--paper-2);
+    padding: 7px 4px 11px; flex: 0 0 auto;
+  }
+  .tabbar button {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    font-size: 10px; font-weight: 600; color: var(--ink-soft); padding: 3px 0; position: relative;
+  }
+  .tabbar button[aria-current="true"] { color: var(--clay); }
+  .tabbar .dot-badge {
+    position: absolute; top: 0; right: 50%; margin-right: -17px; background: var(--red);
+    color: #fff; font-size: 9px; font-weight: 700; border-radius: 999px; min-width: 15px; padding: 0 4px; line-height: 15px;
+  }
+
+  .app-head { padding: 4px 18px 12px; }
+  .app-head h2 { font-size: 22px; }
+
+  /* wallet */
+  .wallet-card {
+    background: linear-gradient(140deg, #2A1C12 0%, #4A2C16 55%, var(--clay-deep) 100%);
+    color: #fff; border-radius: 20px; padding: 20px; position: relative; overflow: hidden;
+  }
+  .wallet-card::after {
+    content: ''; position: absolute; right: -46px; top: -46px; width: 168px; height: 168px;
+    border-radius: 50%; background: rgba(255,255,255,.06);
+  }
+  .wallet-bal { font-family: var(--display); font-size: 46px; line-height: 1; margin: 6px 0 2px; }
+  .wallet-sub { font-size: 12.5px; opacity: .76; }
+  .progress { height: 6px; background: rgba(255,255,255,.2); border-radius: 999px; margin-top: 14px; overflow: hidden; }
+  .progress i { display: block; height: 100%; background: #F0C36B; border-radius: 999px; transition: width .5s; }
+
+  .rule-card { display: flex; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line-soft); }
+  .rule-ic { width: 36px; height: 36px; border-radius: 10px; background: var(--clay-wash); color: var(--clay); display: grid; place-items: center; flex: 0 0 auto; }
+
+  .led { display: flex; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--line-soft); align-items: center; }
+  .led-ic { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; }
+  .led-earn { background: var(--green-wash); color: var(--green); }
+  .led-burn { background: var(--clay-wash); color: var(--clay); }
+
+  .mode-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
+  .mode-toggle button {
+    flex: 1; border: 1.5px solid var(--line); border-radius: var(--radius); padding: 12px 8px;
+    display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 13px; font-weight: 600;
+    background: var(--paper-2); transition: all .15s;
+  }
+  .mode-toggle button[aria-pressed="true"] { border-color: var(--clay); background: var(--clay-wash); color: var(--clay); }
+
+  .tile {
+    display: flex; gap: 12px; align-items: center; padding: 13px; background: var(--paper-2);
+    border: 1px solid var(--line-soft); border-radius: var(--radius); width: 100%; text-align: left; margin-bottom: 9px;
+  }
+  .tile:hover { border-color: var(--clay); }
+
+  .m-item { display: flex; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line-soft); align-items: flex-start; width: 100%; text-align: left; }
+  .m-name { font-weight: 600; font-size: 14.5px; }
+  .m-desc { font-size: 12.5px; color: var(--ink-soft); margin-top: 2px; }
+
+  .otpbox { display: flex; gap: 8px; justify-content: center; margin: 18px 0; }
+  .otpbox input {
+    width: 46px; height: 56px; text-align: center; font-size: 22px; font-weight: 700;
+    border: 1.5px solid var(--line); border-radius: 12px; background: var(--paper-2);
+  }
+  .otpbox input:focus { outline: none; border-color: var(--clay); box-shadow: 0 0 0 3px rgba(184,83,27,.12); }
+
+  @media (max-width: 980px) {
+    .stage { grid-auto-flow: row; padding: 16px 0; gap: 18px; }
+    .stage-copy { display: none; }
+    .phone { width: 100%; max-width: 420px; height: calc(100vh - 32px); border-radius: 0; padding: 0; box-shadow: none; }
+    .screen { border-radius: 0; } .notch { display: none; } .statusbar { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="stage-copy">
+    <img src="Logo.jpeg" alt="Asian Voyage" style="height:44px">
+    <h1>The Asian Voyage app</h1>
+    <p>Order for dine-in or pickup, track your points, and skip the queue. This is the Tier&nbsp;2 build — the same screens ship to iOS and Android from one codebase.</p>
+    <div id="storeBtns"></div>
+    <a class="btn btn-quiet small" href="index.html" style="padding-left:0">← All demos</a>
+  </div>
+
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="statusbar"><span id="clock">7:24</span><span class="row" style="gap:5px" id="sbIcons"></span></div>
+      <div class="scroller" id="screen"></div>
+      <nav class="tabbar" id="tabbar" hidden></nav>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="assets/menu-data.js"></script>
+<script src="assets/av-icons.js"></script>
+<script src="assets/store.js"></script>
+<script src="assets/loyalty.js"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const money = AV.money;
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  /* store buttons in the marketing column */
+  $('#storeBtns').innerHTML =
+    `<button class="storebtn">${icon('apple', 22)}<span><small>Download on the</small><b>App Store</b></span></button>
+     <button class="storebtn">${icon('android', 22)}<span><small>Get it on</small><b>Google Play</b></span></button>`;
+  $('#sbIcons').innerHTML = icon('trending', 13) + icon('phone', 13);
+  const now = new Date();
+  $('#clock').textContent = now.getHours() % 12 + ':' + String(now.getMinutes()).padStart(2, '0');
+
+  /* ------------------------------ state --------------------------------- */
+  let me = null;                 // logged-in customer
+  let tab = 'home';
+  let mode = 'dine-in';
+  let branch = AV_CONFIG.branches[0].id;
+  let cart = [];
+  let cat = AV_SECTIONS[0].cats[0];
+  let redeem = 0;
+  let pendingPhone = '';
+
+  const TABS = [
+    { id: 'home',   label: 'Home',   icon: 'home'    },
+    { id: 'menu',   label: 'Menu',   icon: 'bowl'    },
+    { id: 'wallet', label: 'Wallet', icon: 'wallet'  },
+    { id: 'orders', label: 'Orders', icon: 'receipt' },
+    { id: 'me',     label: 'Profile',icon: 'user'    }
+  ];
+
+  function toast(msg, kind) {
+    const el = document.createElement('div');
+    el.className = 'toast' + (kind ? ' ' + kind : '');
+    el.innerHTML = (kind === 'good' ? icon('check', 15) : '') + '<span>' + esc(msg) + '</span>';
+    $('#toasts').appendChild(el);
+    setTimeout(() => el.remove(), 2400);
+  }
+
+  const branchObj = () => AV_CONFIG.branches.find(b => b.id === branch);
+  const cartCount = () => cart.reduce((a, l) => a + l.qty, 0);
+  const draft = () => ({ mode, items: cart, pointsRedeemed: redeem, tip: 0 });
+
+  /* ------------------------------ login --------------------------------- */
+  function loginScreen() {
+    $('#tabbar').hidden = true;
+    $('#screen').innerHTML = `
+      <div class="pad" style="padding-top:44px;text-align:center">
+        <img src="Logo.jpeg" alt="" style="height:56px;margin:0 auto 26px">
+        <h2 style="font-size:25px">Welcome</h2>
+        <p class="muted small" style="margin:8px 0 26px">Sign in with your mobile number to order and collect points.</p>
+        <label class="field" style="text-align:left"><span>Mobile number</span>
+          <input class="input" id="lgPhone" type="tel" inputmode="numeric" placeholder="268 555 0000" value="2687231188"></label>
+        <button class="btn btn-primary btn-block btn-lg" id="lgGo">Send me a code</button>
+        <p class="tiny muted" style="margin-top:16px">Demo: any number works. Try <b>268 723 1188</b> for a member with points, or a new number to see sign-up.</p>
+      </div>`;
+    $('#lgGo').onclick = () => {
+      const p = AV.normPhone($('#lgPhone').value);
+      if (p.length < 7) return toast('Enter a mobile number');
+      pendingPhone = p; otpScreen();
+    };
+  }
+
+  function otpScreen() {
+    $('#screen').innerHTML = `
+      <div class="pad" style="padding-top:44px;text-align:center">
+        <div style="width:54px;height:54px;border-radius:50%;background:var(--clay-wash);color:var(--clay);display:grid;place-items:center;margin:0 auto 18px">${icon('lock', 24)}</div>
+        <h2 style="font-size:22px">Enter your code</h2>
+        <p class="muted small" style="margin-top:7px">Sent to ${esc(AV.fmtPhone(pendingPhone))}</p>
+        <div class="otpbox" id="otp">
+          ${[0, 1, 2, 3].map(i => `<input inputmode="numeric" maxlength="1" value="${'4821'[i]}">`).join('')}
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" id="otpGo">Verify</button>
+        <button class="btn btn-quiet btn-block" id="otpBack" style="margin-top:6px">Use another number</button>
+        <p class="tiny muted" style="margin-top:14px">Demo code is pre-filled.</p>
+      </div>`;
+    $('#otpBack').onclick = loginScreen;
+    $('#otpGo').onclick = async () => {
+      me = await AV.customers.get(pendingPhone);
+      if (!me) {
+        me = await AV.customers.upsert(pendingPhone, { name: 'New Guest', points: 0, lifetimePoints: 0, visits: 0 });
+        toast('Welcome to Asian Voyage', 'good');
+      } else toast('Welcome back, ' + me.name.split(' ')[0], 'good');
+      localStorage.setItem('av.app.phone', pendingPhone);
+      tab = 'home'; render();
+    };
+  }
+
+  /* ------------------------------ chrome -------------------------------- */
+  function paintTabs() {
+    $('#tabbar').hidden = false;
+    $('#tabbar').innerHTML = TABS.map(t => `
+      <button data-t="${t.id}" aria-current="${t.id === tab}">
+        ${icon(t.icon, 21)}<span>${t.label}</span>
+        ${t.id === 'menu' && cartCount() ? `<span class="dot-badge">${cartCount()}</span>` : ''}
+      </button>`).join('');
+  }
+  $('#tabbar').addEventListener('click', e => {
+    const b = e.target.closest('[data-t]'); if (!b) return;
+    tab = b.dataset.t; render();
+  });
+
+  /* ------------------------------ render -------------------------------- */
+  async function render() {
+    if (!me) return loginScreen();
+    me = await AV.customers.get(me.phone) || me;
+    paintTabs();
+    $('#screen').scrollTop = 0;
+    if (tab === 'home')   return homeView();
+    if (tab === 'menu')   return menuView();
+    if (tab === 'wallet') return walletView();
+    if (tab === 'orders') return ordersView();
+    if (tab === 'me')     return profileView();
+  }
+
+  /* -------------------------------- home -------------------------------- */
+  async function homeView() {
+    const mine = await AV.orders.list({ phone: me.phone });
+    const live = mine.filter(o => ['new', 'preparing', 'ready'].includes(o.status))[0];
+    const picks = ['asian-voyage-house-roll', 'kung-pao-chicken', 'crab-rangoon', 'nasi-goreng']
+      .map(id => AV_MENU.find(i => i.id === id)).filter(Boolean);
+
+    $('#screen').innerHTML = `
+      <div class="app-head">
+        <p class="muted small">${greeting()},</p>
+        <h2>${esc((me.name || 'Guest').split(' ')[0])}</h2>
+      </div>
+      <div class="pad">
+        ${live ? `<button class="tile" data-go="orders" style="border-color:var(--clay);background:var(--clay-wash)">
+          <span class="led-ic led-burn">${icon('clock', 17)}</span>
+          <span class="grow"><b style="font-size:14px">${esc(live.code)} · ${statusLabel(live.status)}</b>
+          <span class="small muted" style="display:block">${live.mode === 'pickup' ? 'Pickup' : 'Table ' + live.table} · ${esc(branchName(live.branch))}</span></span>
+          ${icon('chevronRight', 17)}</button>` : ''}
+
+        <button class="tile" data-go="wallet" style="background:linear-gradient(135deg,var(--gold-wash),#FDF7E8);border-color:#EBD9A8">
+          <span class="led-ic" style="background:#F3E3B8;color:#8A6414">${icon('star', 17)}</span>
+          <span class="grow"><b style="font-size:14px">${me.points} points</b>
+          <span class="small muted" style="display:block">Worth ${money(me.points * AV.settings.getSync().loyalty.pointValue)} off your next bill</span></span>
+          ${icon('chevronRight', 17)}</button>
+
+        <h3 style="font-size:15px;margin:20px 0 10px">Start an order</h3>
+        <div class="mode-toggle">
+          <button data-mode="dine-in" aria-pressed="${mode === 'dine-in'}">${icon('table', 20)} Dine-in</button>
+          <button data-mode="pickup" aria-pressed="${mode === 'pickup'}">${icon('bag', 20)} Pickup</button>
+        </div>
+        <label class="field"><span>Branch</span>
+          <select class="input" id="hBranch">${AV_CONFIG.branches.map(b =>
+            `<option value="${b.id}"${b.id === branch ? ' selected' : ''}>${esc(b.name)} — ${esc(b.area)}</option>`).join('')}</select></label>
+        <p class="tiny muted" style="margin:-6px 0 16px">${esc(branchObj().hours)} · ${esc(branchObj().phone)}</p>
+        <button class="btn btn-primary btn-block" data-go="menu">Browse the menu</button>
+
+        <h3 style="font-size:15px;margin:24px 0 10px">Chef's picks</h3>
+        ${picks.map(i => `<button class="m-item" data-add="${i.id}">
+          <span class="grow"><span class="m-name">${esc(i.name)}</span>
+          ${i.desc ? `<span class="m-desc">${esc(i.desc)}</span>` : ''}</span>
+          <span style="text-align:right"><span class="price">${money(i.price)}</span><br>
+          <span class="add-btn" style="display:inline-grid;width:28px;height:28px;border-radius:50%;background:var(--clay-wash);color:var(--clay);place-items:center;margin-top:5px">${icon('plus', 15)}</span></span>
+        </button>`).join('')}
+        <div style="height:26px"></div>
+      </div>`;
+
+    $('#screen').addEventListener('click', e => {
+      const g = e.target.closest('[data-go]'), m = e.target.closest('[data-mode]'), a = e.target.closest('[data-add]');
+      if (g) { tab = g.dataset.go; return render(); }
+      if (m) { mode = m.dataset.mode; return render(); }
+      if (a) { addItem(a.dataset.add); toast('Added', 'good'); paintTabs(); }
+    }, { once: true });
+    const sel = $('#hBranch'); if (sel) sel.onchange = e => { branch = e.target.value; render(); };
+  }
+
+  function greeting() {
+    const h = new Date().getHours();
+    return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  }
+  const branchName = id => (AV_CONFIG.branches.find(b => b.id === id) || {}).name || id;
+  const statusLabel = s => ({ new: 'Received', preparing: 'In the kitchen', ready: 'Ready', served: 'Served', paid: 'Completed' }[s] || s);
+
+  function addItem(id) {
+    const it = AV_MENU.find(i => i.id === id);
+    const variant = it.variants ? it.variants[0].l : null;
+    const price = it.variants ? it.variants[0].p : it.price;
+    const key = id + '|' + (variant || '');
+    const f = cart.find(l => l.key === key);
+    if (f) f.qty++; else cart.push({ key, id, name: it.name, variant, qty: 1, price });
+  }
+
+  /* -------------------------------- menu -------------------------------- */
+  function menuView() {
+    const cats = AV_SECTIONS.reduce((a, s) => a.concat(s.cats), []);
+    const items = AV_MENU.filter(i => i.cat === cat && AV.settings.isAvailable(branch, i.id));
+    const t = AV.totals(draft());
+
+    $('#screen').innerHTML = `
+      <div class="app-head between">
+        <div><h2 style="font-size:19px">Menu</h2>
+        <p class="tiny muted">${esc(branchObj().name)} · ${mode === 'pickup' ? 'Pickup' : 'Dine-in'}</p></div>
+      </div>
+      <div style="display:flex;gap:5px;overflow-x:auto;padding:0 18px 10px">
+        ${cats.map(c => `<button class="filt" data-c="${esc(c)}" aria-pressed="${c === cat}" style="font-size:12px;padding:5px 12px">${esc(c)}</button>`).join('')}
+      </div>
+      <div class="pad">
+        ${items.map(i => {
+          const n = cart.filter(l => l.id === i.id).reduce((a, l) => a + l.qty, 0);
+          return `<button class="m-item" data-add="${i.id}">
+            <span class="grow"><span class="m-name">${esc(i.name)}
+              ${i.veg ? '<span class="mark mark-veg"></span>' : ''}${i.spicy ? icon('fire', 12) : ''}</span>
+              ${i.desc ? `<span class="m-desc">${esc(i.desc)}</span>` : ''}</span>
+            <span style="text-align:right;flex:0 0 auto">
+              <span class="price">${i.price != null ? money(i.price) : 'from ' + money(Math.min.apply(null, i.variants.map(v => v.p)))}</span><br>
+              <span style="display:inline-grid;width:28px;height:28px;border-radius:50%;place-items:center;margin-top:5px;font-size:12px;font-weight:700;${n ? 'background:var(--clay);color:#fff' : 'background:var(--clay-wash);color:var(--clay)'}">${n || icon('plus', 15)}</span>
+            </span></button>`;
+        }).join('')}
+        <div style="height:${cart.length ? 96 : 26}px"></div>
+      </div>
+      ${cart.length ? `<div style="position:absolute;left:0;right:0;bottom:64px;padding:10px 16px;background:var(--paper);border-top:1px solid var(--line)">
+        <button class="btn btn-primary btn-block" id="goCart" style="justify-content:space-between">
+          <span>${cartCount()} item${cartCount() > 1 ? 's' : ''}</span><span>${money(t.total)} · Review</span></button></div>` : ''}`;
+
+    $('#screen').addEventListener('click', e => {
+      const c = e.target.closest('[data-c]'), a = e.target.closest('[data-add]');
+      if (c) { cat = c.dataset.c; return menuView(); }
+      if (a) { addItem(a.dataset.add); menuView(); paintTabs(); return; }
+      if (e.target.closest('#goCart')) return cartView();
+    }, { once: true });
+  }
+
+  function cartView() {
+    const t = AV.totals(draft());
+    const opts = Loyalty.redeemOptions(me, draft());
+    $('#screen').innerHTML = `
+      <div class="app-head row"><button class="icon-btn" id="bk">${icon('arrowLeft', 19)}</button><h2 style="font-size:19px">Your order</h2></div>
+      <div class="pad">
+        <div class="notice" style="margin-bottom:14px">${mode === 'pickup'
+          ? 'Pickup from <b>' + esc(branchObj().name) + '</b> — ready in about 20 minutes.'
+          : 'Dine-in at <b>' + esc(branchObj().name) + '</b>. Give your name at the door.'}</div>
+        ${cart.map(l => `<div class="led" style="align-items:flex-start">
+          <span class="grow"><b style="font-size:14px">${esc(l.name)}</b>
+            ${l.variant ? `<span class="tiny muted" style="display:block">${esc(l.variant)}</span>` : ''}
+            <span class="qty" style="margin-top:6px">
+              <button data-d="${esc(l.key)}">${icon('minus', 14)}</button><span>${l.qty}</span>
+              <button data-i="${esc(l.key)}">${icon('plus', 14)}</button></span></span>
+          <span class="price">${money(l.price * l.qty)}</span></div>`).join('')}
+
+        ${opts.length ? `<label class="field" style="margin-top:16px"><span>${icon('star', 12)} Use your ${me.points} points</span>
+          <select class="input" id="cRedeem"><option value="0">Save them for later</option>
+          ${opts.map(o => `<option value="${o.points}"${o.points === redeem ? ' selected' : ''}>${o.points} points — ${money(o.value)} off</option>`).join('')}</select></label>`
+        : `<p class="small muted" style="margin-top:14px">${icon('star', 12)} ${me.points} points — ${AV.settings.getSync().loyalty.minRedeem} needed before you can redeem.</p>`}
+
+        <div class="totals">
+          <div class="between"><span class="muted">Subtotal</span><span class="num">${money(t.subtotal)}</span></div>
+          ${t.service ? `<div class="between"><span class="muted">Service (${t.servicePct}%)</span><span class="num">${money(t.service)}</span></div>` : ''}
+          ${t.discount ? `<div class="between" style="color:var(--green)"><span>Points</span><span class="num">−${money(t.discount)}</span></div>` : ''}
+          <div class="between grand"><span>Total</span><span class="price">${money(t.total)}</span></div>
+        </div>
+        <p class="tiny muted" style="margin-top:8px">You'll earn <b>${Loyalty.earnedFor(draft(), me)}</b> points on this order.</p>
+        <button class="btn btn-primary btn-block btn-lg" id="place" style="margin-top:14px">Place order · ${money(t.total)}</button>
+        <div style="height:26px"></div>
+      </div>`;
+
+    $('#bk').onclick = menuView;
+    const rs = $('#cRedeem'); if (rs) rs.onchange = e => { redeem = +e.target.value || 0; cartView(); };
+    $('#screen').addEventListener('click', e => {
+      const i = e.target.closest('[data-i]'), d = e.target.closest('[data-d]');
+      const key = (i && i.dataset.i) || (d && d.dataset.d);
+      if (key) {
+        const l = cart.find(x => x.key === key); l.qty += i ? 1 : -1;
+        cart = cart.filter(x => x.qty > 0);
+        redeem = Math.min(redeem, Loyalty.maxRedeemable(me, draft()));
+        paintTabs();
+        return cart.length ? cartView() : menuView();
+      }
+    }, { once: true });
+    $('#place').onclick = async () => {
+      const o = await AV.orders.create({
+        branch, table: mode === 'pickup' ? null : 1 + Math.floor(Math.random() * branchObj().tables),
+        mode, source: 'app', customer: { name: me.name, phone: me.phone },
+        items: cart.map(l => ({ id: l.id, name: l.name, variant: l.variant, qty: l.qty, price: l.price })),
+        pointsRedeemed: redeem
+      });
+      cart = []; redeem = 0;
+      toast('Order ' + o.code + ' sent', 'good');
+      tab = 'orders'; render();
+    };
+  }
+
+  /* ------------------------------- wallet ------------------------------- */
+  function walletView() {
+    const cfg = AV.settings.getSync().loyalty;
+    const tier = Loyalty.tierFor(me);
+    const prog = Loyalty.tierProgress(me);
+    const exp = Loyalty.expiringSoon(me, 60);
+
+    $('#screen').innerHTML = `
+      <div class="app-head"><h2>Wallet</h2></div>
+      <div class="pad">
+        <div class="wallet-card">
+          <div class="between" style="position:relative;z-index:1">
+            <div>
+              <div style="font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.7">Points balance</div>
+              <div class="wallet-bal">${me.points}</div>
+              <div class="wallet-sub">Worth ${money(me.points * cfg.pointValue)} off your bill</div>
+            </div>
+            ${icon('star', 28)}
+          </div>
+          ${cfg.tiersEnabled ? `<div style="position:relative;z-index:1;margin-top:16px">
+            <div class="between" style="font-size:12px"><span>${esc(tier.name)}</span>
+              ${prog.next ? `<span style="opacity:.8">${prog.need} pts to ${esc(prog.next.name)}</span>` : '<span style="opacity:.8">Top tier</span>'}</div>
+            <div class="progress"><i style="width:${prog.pct}%"></i></div></div>` : ''}
+        </div>
+
+        ${Loyalty.canRedeem(me)
+          ? `<div class="notice" style="margin-top:14px;background:var(--green-wash);border-left:3px solid var(--green)">
+              ${icon('gift', 14)} You can redeem up to <b>${Math.floor(me.points / cfg.redeemBlock) * cfg.redeemBlock}</b> points on your next order.</div>`
+          : `<div class="notice" style="margin-top:14px">${cfg.minRedeem - me.points} more points and you can start redeeming.</div>`}
+
+        ${exp.points ? `<p class="tiny" style="color:var(--clay);margin-top:10px">${icon('clock', 11)} ${exp.points} points expire around ${exp.on.toLocaleDateString()}.</p>` : ''}
+
+        <h3 style="font-size:15px;margin:22px 0 4px">How points work</h3>
+        ${Loyalty.rules().map(r => `<div class="rule-card">
+          <span class="rule-ic">${icon(r.icon, 17)}</span>
+          <span><b style="font-size:14px">${esc(r.title)}</b>
+          <span class="small muted" style="display:block;margin-top:2px">${esc(r.body)}</span></span></div>`).join('')}
+
+        <h3 style="font-size:15px;margin:22px 0 4px">Activity</h3>
+        ${(me.ledger || []).length ? me.ledger.map(l => `<div class="led">
+          <span class="led-ic ${l.points > 0 ? 'led-earn' : 'led-burn'}">${icon(l.points > 0 ? 'plus' : 'gift', 15)}</span>
+          <span class="grow"><b style="font-size:13.5px">${l.points > 0 ? 'Earned' : 'Redeemed'}</b>
+            <span class="tiny muted" style="display:block">${esc(l.note || '')} · ${esc(l.orderCode || '')}</span></span>
+          <span style="text-align:right"><b style="color:${l.points > 0 ? 'var(--green)' : 'var(--clay)'}">${l.points > 0 ? '+' : ''}${l.points}</b>
+            <span class="tiny muted" style="display:block">${new Date(l.ts).toLocaleDateString()}</span></span></div>`).join('')
+          : `<p class="small muted">No activity yet — your first order will start it off.</p>`}
+        <div style="height:26px"></div>
+      </div>`;
+  }
+
+  /* ------------------------------- orders ------------------------------- */
+  async function ordersView() {
+    const mine = await AV.orders.list({ phone: me.phone });
+    const live = mine.filter(o => ['new', 'preparing', 'ready', 'served'].includes(o.status));
+    const past = mine.filter(o => ['paid', 'cancelled'].includes(o.status));
+    const FLOW = ['new', 'preparing', 'ready', 'served'];
+
+    $('#screen').innerHTML = `
+      <div class="app-head"><h2>Orders</h2></div>
+      <div class="pad">
+        ${live.length ? `<h3 style="font-size:14px;color:var(--clay);margin-bottom:8px">In progress</h3>
+          ${live.map(o => {
+            const t = AV.totals(o), idx = FLOW.indexOf(o.status);
+            return `<div class="card card-pad" style="margin-bottom:11px;border-color:var(--clay-tint)">
+              <div class="between"><b>${esc(o.code)}</b><span class="chip clay">${statusLabel(o.status)}</span></div>
+              <p class="tiny muted" style="margin-top:2px">${esc(branchName(o.branch))} · ${o.mode === 'pickup' ? 'Pickup' : 'Table ' + o.table}</p>
+              <div class="track" style="margin:14px 0 6px">
+                ${FLOW.map((f, i) => `<div class="step ${i < idx ? 'done' : i === idx ? 'now' : ''}">
+                  <div class="dot" style="width:22px;height:22px">${i < idx ? icon('check', 12) : icon('dot', 8)}</div>
+                  <small style="font-size:9.5px">${statusLabel(f)}</small></div>`).join('')}
+              </div>
+              <div class="between" style="margin-top:10px;padding-top:9px;border-top:1px solid var(--line-soft)">
+                <span class="small muted">${o.items.reduce((n, l) => n + l.qty, 0)} items</span><b class="price">${money(t.total)}</b></div>
+            </div>`;
+          }).join('')}` : ''}
+
+        ${past.length ? `<h3 style="font-size:14px;margin:${live.length ? '20px' : '0'} 0 8px">Past orders</h3>
+          ${past.map(o => { const t = AV.totals(o); return `<div class="led">
+            <span class="led-ic led-earn">${icon('check', 15)}</span>
+            <span class="grow"><b style="font-size:13.5px">${esc(o.code)}</b>
+              <span class="tiny muted" style="display:block">${esc(branchName(o.branch))} · ${new Date(o.placedAt).toLocaleDateString()}</span></span>
+            <span style="text-align:right"><b>${money(t.total)}</b>
+              ${o.pointsEarned ? `<span class="tiny" style="display:block;color:var(--green)">+${o.pointsEarned} pts</span>` : ''}</span></div>`; }).join('')}` : ''}
+
+        ${!live.length && !past.length ? `<div class="empty">${icon('receipt', 34)}<h3>No orders yet</h3>
+          <p class="small">Your orders will show up here with live status.</p>
+          <button class="btn btn-primary" style="margin-top:14px" id="startOrder">Browse the menu</button></div>` : ''}
+        <div style="height:26px"></div>
+      </div>`;
+    const so = $('#startOrder'); if (so) so.onclick = () => { tab = 'menu'; render(); };
+  }
+
+  /* ------------------------------ profile ------------------------------- */
+  function profileView() {
+    const cfg = AV.settings.getSync().loyalty;
+    $('#screen').innerHTML = `
+      <div class="app-head"><h2>Profile</h2></div>
+      <div class="pad">
+        <div class="card card-pad" style="text-align:center">
+          <div style="width:62px;height:62px;border-radius:50%;background:var(--clay-wash);color:var(--clay);display:grid;place-items:center;margin:0 auto 10px">${icon('user', 28)}</div>
+          <b style="font-size:17px">${esc(me.name)}</b>
+          <p class="small muted">${esc(AV.fmtPhone(me.phone))}</p>
+          <div class="row" style="justify-content:center;gap:7px;margin-top:10px">
+            <span class="chip gold">${me.points} points</span>
+            <span class="chip gray">${me.visits || 0} visits</span>
+            ${cfg.tiersEnabled ? `<span class="chip clay">${esc(Loyalty.tierFor(me).name)}</span>` : ''}
+          </div>
+        </div>
+
+        <h3 style="font-size:15px;margin:20px 0 8px">Our restaurants</h3>
+        ${AV_CONFIG.branches.map(b => `<div class="tile" style="cursor:default">
+          <span class="led-ic led-burn">${icon('mapPin', 16)}</span>
+          <span class="grow"><b style="font-size:13.5px">${esc(b.name)}</b>
+            <span class="tiny muted" style="display:block">${esc(b.area)} · ${esc(b.hours)}</span>
+            <span class="tiny muted">${esc(b.phone)}</span></span></div>`).join('')}
+
+        <h3 style="font-size:15px;margin:20px 0 8px">Account</h3>
+        <div class="tile" style="cursor:default"><span class="led-ic led-burn">${icon('bell', 16)}</span>
+          <span class="grow"><b style="font-size:13.5px">Order notifications</b>
+          <span class="tiny muted" style="display:block">Texts when your order is ready</span></span>
+          <label class="switch"><input type="checkbox" checked><span></span></label></div>
+
+        <button class="btn btn-ghost btn-block" style="margin-top:16px" id="signout">Sign out</button>
+        <p class="tiny muted center" style="margin-top:16px">${esc(AV_CONFIG.name)} · ${esc(AV_CONFIG.operator)}<br>${esc(AV_CONFIG.taxNote)}</p>
+        <div style="height:26px"></div>
+      </div>`;
+    $('#signout').onclick = () => { me = null; localStorage.removeItem('av.app.phone'); cart = []; redeem = 0; render(); };
+  }
+
+  /* live updates from the admin console */
+  AV.subscribe(() => { if (me) render(); });
+
+  (async function boot() {
+    const saved = localStorage.getItem('av.app.phone');
+    if (saved) me = await AV.customers.get(saved);
+    render();
+  })();
+})();
+</script>
+</body>
+</html>

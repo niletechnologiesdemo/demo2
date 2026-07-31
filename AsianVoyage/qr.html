@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asian Voyage — Table QR Codes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .page { max-width: 1080px; margin: 0 auto; padding: 30px 20px 60px; }
+  .head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 6px; }
+  .head img { height: 46px; }
+  .controls {
+    display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;
+    background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--radius);
+    padding: 16px; margin: 20px 0 26px;
+  }
+  .controls .field { margin: 0; }
+
+  .tents { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 16px; }
+
+  /* A table tent, sized to be guillotined from A4 */
+  .tent {
+    background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 20px 16px 16px; text-align: center; position: relative; overflow: hidden;
+  }
+  .tent .corner { position: absolute; width: 26px; height: 26px; color: var(--red); opacity: .5; }
+  .tent .corner.a { top: 9px; left: 9px; }
+  .tent .corner.b { top: 9px; right: 9px; transform: scaleX(-1); }
+  .tent-brand { font-family: var(--display); font-size: 15px; color: var(--clay); letter-spacing: .1em; text-transform: uppercase; }
+  .tent-sub { font-size: 10px; color: var(--ink-soft); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
+  .tent-qr { width: 148px; margin: 13px auto 11px; }
+  .tent-qr svg { width: 100%; height: auto; display: block; }
+  .tent-table { font-family: var(--display); font-size: 24px; }
+  .tent-cta { font-size: 11px; color: var(--ink-soft); margin-top: 5px; line-height: 1.45; }
+  .tent-url { font-size: 8.5px; color: #B9AFA8; margin-top: 7px; word-break: break-all; }
+
+  .note {
+    background: var(--clay-wash); border-left: 3px solid var(--clay); padding: 13px 16px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 13.5px; margin-bottom: 22px;
+  }
+
+  @media print {
+    body { background: #fff; }
+    .no-print { display: none !important; }
+    .page { padding: 0; max-width: none; }
+    .tents { grid-template-columns: repeat(3, 1fr); gap: 6mm; }
+    .tent { border: 1px dashed #CCC; border-radius: 0; page-break-inside: avoid; padding: 12mm 4mm 8mm; }
+    @page { size: A4 portrait; margin: 10mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="no-print">
+    <div class="head">
+      <img src="Logo.jpeg" alt="Asian Voyage">
+      <div>
+        <h1 style="font-size:26px">Table QR codes</h1>
+        <p class="muted small">Print, guillotine and stand one on every table. Scanning opens the menu with the branch and table already known — the guest never types a table number.</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <label class="field"><span>Branch</span>
+        <select class="input" id="branch" style="width:210px"></select></label>
+      <label class="field"><span>Include</span>
+        <select class="input" id="what" style="width:180px">
+          <option value="tables">Table tents</option>
+          <option value="pickup">Pickup counter card</option>
+          <option value="app">App download card</option>
+        </select></label>
+      <button class="btn btn-primary" id="print"></button>
+      <a class="btn btn-ghost" href="index.html">All demos</a>
+    </div>
+
+    <div class="note" id="note"></div>
+  </div>
+
+  <div class="tents" id="tents"></div>
+</div>
+
+<script src="assets/menu-data.js"></script>
+<script src="assets/av-icons.js"></script>
+<script src="assets/qr-codes.js"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  $('#print').innerHTML = icon('printer', 16) + ' Print sheet';
+  $('#print').onclick = () => window.print();
+  $('#branch').innerHTML = AV_CONFIG.branches.map(b =>
+    `<option value="${b.id}">${esc(b.name)} — ${b.tables} tables</option>`).join('');
+
+  const corner = () => `<span class="corner a">${bracketSVG()}</span><span class="corner b">${bracketSVG()}</span>`;
+
+  function tent(key, url, title, cta) {
+    return `<div class="tent">
+      ${corner()}
+      <div class="tent-brand">Asian Voyage</div>
+      <div class="tent-sub">Scan to order</div>
+      <div class="tent-qr">${QR.svg(key, { quiet: 2 })}</div>
+      <div class="tent-table">${esc(title)}</div>
+      <div class="tent-cta">${cta}</div>
+      <div class="tent-url">${esc(url)}</div>
+    </div>`;
+  }
+
+  function render() {
+    const b = AV_CONFIG.branches.find(x => x.id === $('#branch').value);
+    const what = $('#what').value;
+
+    if (what === 'tables') {
+      $('#note').innerHTML = `Each code encodes <code>?b=${b.id}&amp;t=&lt;table&gt;</code>. ` +
+        `<b>${b.tables}</b> codes for ${esc(b.name)} — all pre-verified as scannable. ` +
+        `The demo menu opens from these parameters, so you can try it by scanning a printout or by ` +
+        `<a href="menu.html?b=${b.id}&t=7">opening table 7 directly</a>.`;
+      $('#tents').innerHTML = Array.from({ length: b.tables }, (_, i) => {
+        const t = i + 1, key = `${b.id}-${t}`;
+        return QR.has(key) ? tent(key, `asianvoyage.ag/m?b=${b.id}&t=${t}`, 'Table ' + t,
+          `Scan for the full menu<br>and order from your seat`) : '';
+      }).join('');
+    } else if (what === 'pickup') {
+      $('#note').innerHTML = `A counter card for takeaway orders at ${esc(b.name)} — no table number, order marked as pickup.`;
+      $('#tents').innerHTML = tent(`${b.id}-pickup`, `asianvoyage.ag/m?b=${b.id}&mode=pickup`,
+        'Pickup', `Order ahead and<br>collect at the counter`);
+    } else {
+      $('#note').innerHTML = `A card for the app — the Tier&nbsp;2 build with the loyalty wallet.`;
+      $('#tents').innerHTML = tent('app', 'asianvoyage.ag/app', 'Get the app',
+        `Collect points on<br>every order`);
+    }
+  }
+
+  $('#branch').onchange = render;
+  $('#what').onchange = render;
+  render();
+})();
+</script>
+</body>
+</html>

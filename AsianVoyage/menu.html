@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Asian Voyage — Order</title>
+<meta name="theme-color" content="#FDF9F6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  body { padding-bottom: 96px; }
+  .wrap { max-width: 560px; margin: 0 auto; background: var(--paper); min-height: 100vh; }
+
+  /* header */
+  .top { position: sticky; top: 0; z-index: 40; background: var(--paper); }
+  .top-bar {
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px 10px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .brand-mark { height: 34px; width: auto; }
+  .seat {
+    display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25; margin-left: auto;
+  }
+  .seat b { font-size: 14px; }
+  .seat span { font-size: 11px; color: var(--ink-soft); }
+
+  .searchbar { padding: 10px 16px; display: flex; gap: 8px; align-items: center; }
+  .searchbox { position: relative; flex: 1; }
+  .searchbox .ic { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-soft); }
+  .searchbox input { padding-left: 38px; }
+
+  .filters { display: flex; gap: 7px; padding: 0 16px 10px; overflow-x: auto; scrollbar-width: none; }
+  .filters::-webkit-scrollbar { display: none; }
+  .filt {
+    border: 1.5px solid var(--line); background: var(--paper-2); border-radius: 999px;
+    padding: 6px 14px; font-size: 13px; font-weight: 600; color: var(--ink-2); white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 6px; transition: all .15s;
+  }
+  .filt[aria-pressed="true"] { background: var(--clay); border-color: var(--clay); color: #fff; }
+  .filt[aria-pressed="true"] .mark-veg { border-color: #fff; }
+  .filt[aria-pressed="true"] .mark-veg::after { background: #fff; }
+
+  .tabs { display: flex; gap: 4px; padding: 0 16px 8px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--line-soft); }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 7px 12px 9px; font-size: 13.5px; font-weight: 600; color: var(--ink-soft);
+    border-bottom: 2.5px solid transparent; white-space: nowrap; margin-bottom: -1px;
+  }
+  .tab[aria-selected="true"] { color: var(--clay); border-color: var(--clay); }
+
+  /* menu list */
+  .cat { padding: 22px 16px 4px; }
+  .cat h2 {
+    font-size: 20px; color: var(--clay); text-transform: uppercase; letter-spacing: .08em;
+    text-align: center;
+  }
+  .cat .portion { text-align: center; font-size: 11.5px; color: var(--ink-soft); margin-top: 3px; letter-spacing: .05em; }
+
+  .item {
+    display: flex; gap: 12px; align-items: flex-start; width: 100%; text-align: left;
+    padding: 14px 16px; border-bottom: 1px solid var(--line-soft); transition: background .15s;
+  }
+  .item:hover { background: var(--paper-2); }
+  .item.out { opacity: .45; }
+  .item-main { flex: 1; min-width: 0; }
+  .item-name { font-weight: 600; font-size: 15.5px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .item-desc { font-size: 13px; color: var(--ink-soft); margin-top: 3px; line-height: 1.45; }
+  .item-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex: 0 0 auto; }
+  .item-price { font-family: var(--display); font-size: 15px; color: var(--clay); white-space: nowrap; }
+  .add-btn {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--clay-wash); color: var(--clay);
+    display: grid; place-items: center; border: 1.5px solid var(--clay-tint); transition: all .15s;
+  }
+  .item:hover .add-btn { background: var(--clay); color: #fff; border-color: var(--clay); }
+  .in-cart { background: var(--clay); color: #fff; border-color: var(--clay); font-size: 12.5px; font-weight: 700; }
+
+  /* cart bar */
+  .cartbar {
+    position: fixed; left: 50%; transform: translateX(-50%) translateY(120%); bottom: 0; z-index: 50;
+    width: min(560px, 100%); padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: var(--paper); border-top: 1px solid var(--line); transition: transform .28s cubic-bezier(.22,.9,.3,1);
+  }
+  .cartbar.show { transform: translateX(-50%) translateY(0); }
+  .cartbar .btn { width: 100%; justify-content: space-between; padding: 14px 20px; }
+  .cartbar .cb-count { background: rgba(255,255,255,.22); border-radius: 999px; padding: 2px 9px; font-size: 13px; }
+
+  /* cart lines */
+  .line { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line-soft); align-items: flex-start; }
+  .line:last-child { border-bottom: 0; }
+  .line-name { font-weight: 600; font-size: 14.5px; }
+  .line-sub { font-size: 12.5px; color: var(--ink-soft); margin-top: 2px; }
+  .line-price { font-family: var(--display); color: var(--clay); font-size: 14.5px; white-space: nowrap; }
+
+  .totals { border-top: 1px dashed var(--line); margin-top: 14px; padding-top: 12px; }
+  .totals .between { padding: 4px 0; font-size: 14px; }
+  .totals .grand { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 10px; font-size: 17px; font-weight: 700; }
+  .totals .grand .price { font-size: 20px; }
+
+  /* points */
+  .points-card {
+    background: linear-gradient(135deg, var(--gold-wash), #FDF7E8);
+    border: 1px solid #EBD9A8; border-radius: var(--radius); padding: 14px; margin-bottom: 14px;
+  }
+  .points-bal { font-family: var(--display); font-size: 24px; color: #8A6414; line-height: 1; }
+
+  /* status tracker */
+  .track { display: flex; gap: 0; margin: 22px 0; }
+  .step { flex: 1; text-align: center; position: relative; }
+  .step::before {
+    content: ''; position: absolute; top: 13px; left: -50%; width: 100%; height: 2px; background: var(--line);
+  }
+  .step:first-child::before { display: none; }
+  .step.done::before { background: var(--green); }
+  .dot {
+    width: 28px; height: 28px; border-radius: 50%; background: var(--paper-2); border: 2px solid var(--line);
+    display: grid; place-items: center; margin: 0 auto 7px; position: relative; z-index: 1; color: var(--line);
+  }
+  .step.done .dot { background: var(--green); border-color: var(--green); color: #fff; }
+  .step.now .dot { border-color: var(--clay); color: var(--clay); animation: pulse 1.8s infinite; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(184,83,27,.35); } 50% { box-shadow: 0 0 0 7px rgba(184,83,27,0); } }
+  .step small { font-size: 11.5px; color: var(--ink-soft); font-weight: 600; }
+  .step.done small, .step.now small { color: var(--ink); }
+
+  .notice {
+    background: var(--clay-wash); border-left: 3px solid var(--clay); padding: 11px 14px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 13px; color: var(--ink-2);
+  }
+  .footnote { padding: 26px 16px 40px; text-align: center; font-size: 11.5px; color: var(--ink-soft); line-height: 1.7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============================ ORDERING ============================ -->
+  <div id="shop">
+    <header class="top">
+      <div class="top-bar">
+        <img src="Logo.jpeg" alt="Asian Voyage" class="brand-mark">
+        <div class="seat">
+          <b id="seatMain">Cedar Plaza</b>
+          <span id="seatSub">Table 12</span>
+        </div>
+      </div>
+      <div class="searchbar">
+        <div class="searchbox">
+          <span id="searchIcon"></span>
+          <input class="input" id="q" type="search" placeholder="Search the menu" autocomplete="off">
+        </div>
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="tabs" id="tabs"></div>
+    </header>
+    <main id="list"></main>
+    <p class="footnote" id="foot"></p>
+  </div>
+
+  <!-- ========================== CONFIRMATION ========================== -->
+  <div id="done" hidden></div>
+</div>
+
+<div class="cartbar" id="cartbar">
+  <button class="btn btn-primary" id="viewCart">
+    <span class="row" style="gap:9px"><span id="cartIcon"></span><span class="cb-count" id="cbCount">0</span> View order</span>
+    <span id="cbTotal">EC$0.00</span>
+  </button>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<!-- item detail -->
+<div class="sheet" id="itemSheet" role="dialog" aria-modal="true" aria-labelledby="isName">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><h3 id="isName">Item</h3><button class="icon-btn" data-close aria-label="Close"></button></div>
+  <div class="sheet-body" id="isBody"></div>
+  <div class="sheet-foot">
+    <button class="btn btn-primary btn-block" id="isAdd">Add to order</button>
+  </div>
+</div>
+
+<!-- cart + checkout -->
+<div class="sheet" id="cartSheet" role="dialog" aria-modal="true" aria-labelledby="csTitle">
+  <div class="sheet-grip"></div>
+  <div class="sheet-head"><h3 id="csTitle">Your order</h3><button class="icon-btn" data-close aria-label="Close"></button></div>
+  <div class="sheet-body" id="csBody"></div>
+  <div class="sheet-foot" id="csFoot"></div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="assets/menu-data.js"></script>
+<script src="assets/av-icons.js"></script>
+<script src="assets/store.js"></script>
+<script src="assets/loyalty.js"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const money = n => AV.money(n);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  /* ---------------------- seat: read the QR params ---------------------- */
+  const qs = new URLSearchParams(location.search);
+  const branch = AV_CONFIG.branches.find(b => b.id === qs.get('b')) || AV_CONFIG.branches[0];
+  const mode = qs.get('mode') === 'pickup' ? 'pickup' : 'dine-in';
+  const table = mode === 'pickup' ? null : (parseInt(qs.get('t'), 10) || 12);
+
+  $('#seatMain').textContent = branch.name;
+  $('#seatSub').textContent = mode === 'pickup' ? 'Pickup order' : 'Table ' + table;
+  $('#searchIcon').innerHTML = icon('search', 17);
+  $('#cartIcon').innerHTML = icon('cart', 18);
+  $('#foot').innerHTML = esc(AV_CONFIG.taxNote) + '<br>A ' + AV_CONFIG.serviceChargePct +
+    '% service charge is added to dine-in bills.<br><br>' + esc(AV_CONFIG.name) + ' · ' +
+    esc(branch.name) + ' · ' + esc(branch.phone);
+
+  /* ------------------------------ state -------------------------------- */
+  let cart = [];
+  let filter = 'all';
+  let query = '';
+  let activeSection = AV_SECTIONS[0].name;
+  let placed = null;
+
+  const available = it => AV.settings.isAvailable(branch.id, it.id);
+  const priceOf = it => it.price != null ? it.price : Math.min.apply(null, it.variants.map(v => v.p));
+
+  /* ------------------------------ toast -------------------------------- */
+  function toast(msg, kind) {
+    const el = document.createElement('div');
+    el.className = 'toast' + (kind ? ' ' + kind : '');
+    el.innerHTML = (kind === 'good' ? icon('check', 16) : '') + '<span>' + esc(msg) + '</span>';
+    $('#toasts').appendChild(el);
+    setTimeout(() => el.remove(), 2400);
+  }
+
+  /* ------------------------------ sheets ------------------------------- */
+  let openSheet = null;
+  function show(sel) {
+    openSheet = $(sel); openSheet.classList.add('open'); $('#scrim').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    if (openSheet) openSheet.classList.remove('open');
+    openSheet = null; $('#scrim').classList.remove('open'); document.body.style.overflow = '';
+  }
+  $('#scrim').addEventListener('click', hide);
+  document.querySelectorAll('[data-close]').forEach(b => { b.innerHTML = icon('x', 18); b.addEventListener('click', hide); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
+
+  /* ----------------------------- filters ------------------------------- */
+  $('#filters').innerHTML = [
+    ['all', 'All'], ['veg', '<span class="mark mark-veg"></span> Vegetarian'],
+    ['spicy', 'Spicy'], ['popular', 'Chef\'s picks']
+  ].map(([k, label]) =>
+    `<button class="filt" data-f="${k}" aria-pressed="${k === 'all'}">${label}</button>`).join('');
+  $('#filters').addEventListener('click', e => {
+    const b = e.target.closest('.filt'); if (!b) return;
+    filter = b.dataset.f;
+    $('#filters').querySelectorAll('.filt').forEach(x => x.setAttribute('aria-pressed', x === b));
+    render();
+  });
+
+  $('#tabs').innerHTML = AV_SECTIONS.map((s, i) =>
+    `<button class="tab" data-s="${esc(s.name)}" aria-selected="${i === 0}">${esc(s.name)}</button>`).join('');
+  $('#tabs').addEventListener('click', e => {
+    const b = e.target.closest('.tab'); if (!b) return;
+    activeSection = b.dataset.s;
+    $('#tabs').querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x === b));
+    render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  $('#q').addEventListener('input', e => { query = e.target.value.trim().toLowerCase(); render(); });
+
+  /* ------------------------------ render ------------------------------- */
+  const CHEF_PICKS = ['asian-voyage-house-roll', 'samurai-warrior-roll', 'kung-pao-chicken',
+    'salt-pepper-lobster', 'crab-rangoon', 'nasi-goreng', 'tom-yum-soup', 'crazy-monkey-roll'];
+
+  function matches(it) {
+    if (filter === 'veg' && !it.veg) return false;
+    if (filter === 'spicy' && !it.spicy) return false;
+    if (filter === 'popular' && CHEF_PICKS.indexOf(it.id) < 0) return false;
+    if (query) {
+      const hay = (it.name + ' ' + (it.desc || '') + ' ' + it.cat).toLowerCase();
+      if (hay.indexOf(query) < 0) return false;
+    }
+    return true;
+  }
+
+  function render() {
+    const searching = !!query || filter !== 'all';
+    const pool = AV_MENU.filter(it => (searching || it.section === activeSection) && matches(it));
+
+    if (!pool.length) {
+      $('#list').innerHTML = `<div class="empty">${icon('search', 34)}<h3>Nothing matched</h3>
+        <p class="small">Try another word, or clear the filters.</p></div>`;
+      return;
+    }
+
+    let html = '', cur = null;
+    pool.forEach(it => {
+      if (it.cat !== cur) {
+        cur = it.cat;
+        const portion = it.portion ? `<div class="portion">${esc(it.portion)}</div>` : '';
+        html += `<section class="cat"><h2>${esc(cur)}</h2><hr class="rule rule-clay">${portion}</section>`;
+      }
+      const out = !available(it);
+      const n = cart.filter(l => l.id === it.id).reduce((a, l) => a + l.qty, 0);
+      const marks = (it.veg ? '<span class="mark mark-veg" title="Vegetarian"></span>' : '') +
+        (it.spicy ? '<span class="mark mark-spicy" title="Spicy">' + icon('fire', 13) + '</span>' : '');
+      const price = it.price != null ? money(it.price)
+        : 'from ' + money(priceOf(it));
+      html += `<button class="item${out ? ' out' : ''}" data-id="${it.id}"${out ? ' disabled' : ''}>
+        <span class="item-main">
+          <span class="item-name">${esc(it.name)} ${marks}</span>
+          ${it.desc ? `<span class="item-desc">${esc(it.desc)}</span>` : ''}
+          ${out ? '<span class="chip gray" style="margin-top:6px">Sold out today</span>' : ''}
+        </span>
+        <span class="item-right">
+          <span class="item-price">${price}</span>
+          ${out ? '' : `<span class="add-btn${n ? ' in-cart' : ''}">${n ? n : icon('plus', 16)}</span>`}
+        </span>
+      </button>`;
+    });
+    $('#list').innerHTML = html;
+  }
+
+  $('#list').addEventListener('click', e => {
+    const b = e.target.closest('.item'); if (!b || b.disabled) return;
+    openItem(AV_MENU.find(i => i.id === b.dataset.id));
+  });
+
+  /* --------------------------- item detail ----------------------------- */
+  let draft = null;
+  function openItem(it) {
+    draft = { id: it.id, name: it.name, qty: 1, variant: it.variants ? it.variants[0].l : null, notes: '' };
+    $('#isName').textContent = it.name;
+    const marks = (it.veg ? '<span class="chip green">' + icon('leaf', 12) + ' Vegetarian</span>' : '') +
+      (it.spicy ? ' <span class="chip red">' + icon('fire', 12) + ' Spicy</span>' : '') +
+      (it.portion ? ' <span class="chip gray">' + esc(it.portion) + '</span>' : '');
+
+    $('#isBody').innerHTML = `
+      ${it.desc ? `<p class="muted" style="margin-bottom:12px">${esc(it.desc)}</p>` : ''}
+      ${marks ? `<div class="row" style="flex-wrap:wrap;gap:6px;margin-bottom:16px">${marks}</div>` : ''}
+      ${it.variants ? `<div class="field"><span>Choose one</span>
+        <div id="isVars" class="stack">${it.variants.map((v, i) => `
+          <label class="row" style="border:1.5px solid ${i ? 'var(--line)' : 'var(--clay)'};border-radius:var(--radius-sm);padding:11px 13px;cursor:pointer" data-vrow="${i}">
+            <input type="radio" name="var" value="${esc(v.l)}" ${i ? '' : 'checked'} style="accent-color:var(--clay)">
+            <span class="grow">${esc(v.l)}</span>
+            <span class="price">${money(v.p)}</span>
+          </label>`).join('')}</div></div>` : ''}
+      <label class="field"><span>Notes for the kitchen</span>
+        <input class="input" id="isNotes" placeholder="Allergies, spice level, no peanuts…" maxlength="120"></label>
+      <div class="between" style="margin-top:18px">
+        <span style="font-weight:600">Quantity</span>
+        <span class="qty">
+          <button id="isMinus" aria-label="Fewer">${icon('minus', 16)}</button>
+          <span id="isQty">1</span>
+          <button id="isPlus" aria-label="More">${icon('plus', 16)}</button>
+        </span>
+      </div>`;
+
+    const sync = () => {
+      $('#isQty').textContent = draft.qty;
+      $('#isMinus').disabled = draft.qty <= 1;
+      const v = it.variants ? it.variants.find(x => x.l === draft.variant) : null;
+      const unit = v ? v.p : it.price;
+      $('#isAdd').textContent = `Add ${draft.qty} · ${money(unit * draft.qty)}`;
+    };
+    $('#isMinus').onclick = () => { if (draft.qty > 1) { draft.qty--; sync(); } };
+    $('#isPlus').onclick = () => { if (draft.qty < 30) { draft.qty++; sync(); } };
+    if (it.variants) {
+      $('#isVars').addEventListener('change', e => {
+        draft.variant = e.target.value;
+        $('#isVars').querySelectorAll('[data-vrow]').forEach(l =>
+          l.style.borderColor = l.querySelector('input').checked ? 'var(--clay)' : 'var(--line)');
+        sync();
+      });
+    }
+    sync();
+    show('#itemSheet');
+  }
+
+  $('#isAdd').addEventListener('click', () => {
+    const it = AV_MENU.find(i => i.id === draft.id);
+    const v = it.variants ? it.variants.find(x => x.l === draft.variant) : null;
+    draft.notes = ($('#isNotes').value || '').trim();
+    const key = draft.id + '|' + (draft.variant || '') + '|' + draft.notes;
+    const found = cart.find(l => l.key === key);
+    if (found) found.qty += draft.qty;
+    else cart.push({ key, id: it.id, name: it.name, variant: draft.variant, notes: draft.notes, qty: draft.qty, price: v ? v.p : it.price });
+    hide(); syncCart(); render();
+    toast(draft.qty + ' × ' + it.name + ' added', 'good');
+  });
+
+  /* ------------------------------ cart --------------------------------- */
+  function cartCount() { return cart.reduce((a, l) => a + l.qty, 0); }
+  function draftOrder(extra) {
+    return Object.assign({ mode, items: cart, pointsRedeemed: redeem, tip: 0 }, extra || {});
+  }
+  function syncCart() {
+    const n = cartCount();
+    $('#cartbar').classList.toggle('show', n > 0 && !placed);
+    $('#cbCount').textContent = n;
+    $('#cbTotal').textContent = money(AV.totals(draftOrder()).total);
+  }
+
+  let redeem = 0, customer = null, checkout = false;
+  $('#viewCart').addEventListener('click', () => { checkout = false; drawCart(); show('#cartSheet'); });
+
+  function drawCart() {
+    $('#csTitle').textContent = checkout ? 'Confirm your order' : 'Your order';
+    const t = AV.totals(draftOrder());
+
+    const lines = cart.map(l => `
+      <div class="line">
+        <div class="grow">
+          <div class="line-name">${esc(l.name)}</div>
+          ${l.variant ? `<div class="line-sub">${esc(l.variant)}</div>` : ''}
+          ${l.notes ? `<div class="line-sub" style="color:var(--clay)">${icon('edit', 11)} ${esc(l.notes)}</div>` : ''}
+          <div class="row" style="margin-top:8px">
+            <span class="qty">
+              <button data-dec="${esc(l.key)}" aria-label="Fewer">${icon('minus', 15)}</button>
+              <span>${l.qty}</span>
+              <button data-inc="${esc(l.key)}" aria-label="More">${icon('plus', 15)}</button>
+            </span>
+            <button class="btn-quiet tiny" data-del="${esc(l.key)}">Remove</button>
+          </div>
+        </div>
+        <div class="line-price">${money(l.price * l.qty)}</div>
+      </div>`).join('');
+
+    const totals = `
+      <div class="totals">
+        <div class="between"><span class="muted">Subtotal</span><span class="num">${money(t.subtotal)}</span></div>
+        ${t.service ? `<div class="between"><span class="muted">Service charge (${t.servicePct}%)</span><span class="num">${money(t.service)}</span></div>` : ''}
+        ${t.discount ? `<div class="between" style="color:var(--green)"><span>Points redeemed (${redeem})</span><span class="num">−${money(t.discount)}</span></div>` : ''}
+        <div class="between grand"><span>Total</span><span class="price">${money(t.total)}</span></div>
+        ${mode === 'pickup' ? '' : `<p class="tiny muted" style="margin-top:8px">${esc(AV_CONFIG.taxNote)}</p>`}
+      </div>`;
+
+    if (!checkout) {
+      $('#csBody').innerHTML = cart.length ? lines + totals :
+        `<div class="empty">${icon('cart', 34)}<h3>Nothing here yet</h3></div>`;
+      $('#csFoot').innerHTML = cart.length
+        ? `<button class="btn btn-primary btn-block" id="toCheckout">Continue${icon('arrowRight', 17)}</button>`
+        : `<button class="btn btn-ghost btn-block" data-close2>Browse the menu</button>`;
+    } else {
+      $('#csBody').innerHTML = `
+        <div class="notice" style="margin-bottom:16px">
+          ${mode === 'pickup'
+            ? 'Pickup from <b>' + esc(branch.name) + '</b>. We will text you when it is ready.'
+            : 'Serving <b>Table ' + table + '</b> at <b>' + esc(branch.name) + '</b>.'}
+        </div>
+        <label class="field"><span>Your name</span>
+          <input class="input" id="coName" placeholder="Name for the order" autocomplete="name"></label>
+        <label class="field"><span>Mobile number</span>
+          <input class="input" id="coPhone" type="tel" inputmode="numeric" placeholder="268 555 0000" autocomplete="tel">
+          <span class="tiny muted" style="display:block;margin-top:6px">Used to collect your loyalty points and to reach you about this order.</span>
+        </label>
+        <div id="coPoints"></div>
+        ${lines}${totals}`;
+      $('#csFoot').innerHTML = `<button class="btn btn-primary btn-block btn-lg" id="place">Place order · ${money(t.total)}</button>
+        <button class="btn btn-quiet btn-block" id="backCart" style="margin-top:4px">Back</button>`;
+      const saved = localStorage.getItem('av.guest');
+      if (saved) { try { const g = JSON.parse(saved); $('#coName').value = g.name || ''; $('#coPhone').value = g.phone || ''; lookup(); } catch (e) {} }
+      $('#coPhone').addEventListener('input', lookup);
+    }
+  }
+
+  async function lookup() {
+    const phone = AV.normPhone($('#coPhone').value);
+    customer = phone.length >= 7 ? await AV.customers.get(phone) : null;
+    const box = $('#coPoints');
+    if (!customer || !Loyalty.canRedeem(customer)) {
+      box.innerHTML = customer
+        ? `<div class="points-card"><div class="row">${icon('star', 18)}<b>Welcome back, ${esc(customer.name.split(' ')[0])}</b></div>
+           <p class="small" style="margin-top:5px">You have <b>${customer.points}</b> points — ${Loyalty.rules()[1].body}</p></div>`
+        : '';
+      if (redeem) { redeem = 0; }
+      return;
+    }
+    const opts = Loyalty.redeemOptions(customer, draftOrder());
+    box.innerHTML = `<div class="points-card">
+      <div class="between">
+        <div><div class="tiny" style="color:#8A6414;font-weight:700;letter-spacing:.08em">POINTS BALANCE</div>
+          <div class="points-bal">${customer.points}</div></div>
+        ${icon('wallet', 26)}
+      </div>
+      <div class="field" style="margin:12px 0 0"><span>Use points on this order</span>
+        <select class="input" id="coRedeem">
+          <option value="0">Don't use points</option>
+          ${opts.map(o => `<option value="${o.points}"${o.points === redeem ? ' selected' : ''}>${o.points} points — ${money(o.value)} off</option>`).join('')}
+        </select></div></div>`;
+    $('#coRedeem').addEventListener('change', e => { redeem = parseInt(e.target.value, 10) || 0; drawCartKeepFields(); });
+  }
+
+  function drawCartKeepFields() {
+    const n = $('#coName').value, p = $('#coPhone').value;
+    drawCart();
+    $('#coName').value = n; $('#coPhone').value = p;
+    lookup();
+  }
+
+  $('#csBody').addEventListener('click', e => {
+    const inc = e.target.closest('[data-inc]'), dec = e.target.closest('[data-dec]'), del = e.target.closest('[data-del]');
+    const key = (inc && inc.dataset.inc) || (dec && dec.dataset.dec) || (del && del.dataset.del);
+    if (!key) return;
+    const l = cart.find(x => x.key === key); if (!l) return;
+    if (inc) l.qty++;
+    if (dec) l.qty = Math.max(0, l.qty - 1);
+    if (del) l.qty = 0;
+    cart = cart.filter(x => x.qty > 0);
+    if (redeem) redeem = Math.min(redeem, Loyalty.maxRedeemable(customer, draftOrder()));
+    if (!cart.length) { hide(); checkout = false; }
+    else if (checkout) drawCartKeepFields(); else drawCart();
+    syncCart(); render();
+  });
+
+  $('#csFoot').addEventListener('click', async e => {
+    if (e.target.closest('[data-close2]')) return hide();
+    if (e.target.closest('#toCheckout')) { checkout = true; return drawCart(); }
+    if (e.target.closest('#backCart')) { checkout = false; return drawCart(); }
+    if (!e.target.closest('#place')) return;
+
+    const name = $('#coName').value.trim();
+    const phone = AV.normPhone($('#coPhone').value);
+    if (!name) { $('#coName').classList.add('field-err'); $('#coName').focus(); return toast('Please add your name'); }
+    if (phone.length < 7) { $('#coPhone').classList.add('field-err'); $('#coPhone').focus(); return toast('Please add a mobile number'); }
+    localStorage.setItem('av.guest', JSON.stringify({ name, phone }));
+
+    const btn = $('#place'); btn.disabled = true; btn.textContent = 'Sending to the kitchen…';
+    placed = await AV.orders.create({
+      branch: branch.id, table, mode, source: 'qr',
+      customer: { name, phone },
+      items: cart.map(l => ({ id: l.id, name: l.name, variant: l.variant, notes: l.notes, qty: l.qty, price: l.price })),
+      pointsRedeemed: redeem
+    });
+    hide(); showConfirmation();
+  });
+
+  /* -------------------------- confirmation ----------------------------- */
+  const FLOW = [['new', 'Received'], ['preparing', 'In the kitchen'], ['ready', 'Ready'], ['served', 'Served']];
+
+  function showConfirmation() {
+    $('#shop').hidden = true; $('#done').hidden = false;
+    $('#cartbar').classList.remove('show');
+    window.scrollTo(0, 0);
+    drawConfirmation();
+  }
+
+  function drawConfirmation() {
+    const t = AV.totals(placed);
+    const idx = Math.max(0, FLOW.findIndex(f => f[0] === placed.status));
+    const isPaid = placed.status === 'paid';
+    const willEarn = Loyalty.earnedFor(placed, customer);
+
+    $('#done').innerHTML = `
+      <div class="top"><div class="top-bar">
+        <img src="Logo.jpeg" alt="Asian Voyage" class="brand-mark">
+        <div class="seat"><b>${esc(branch.name)}</b><span>${mode === 'pickup' ? 'Pickup' : 'Table ' + table}</span></div>
+      </div></div>
+
+      <div style="padding:30px 20px 0;text-align:center" class="fade-in">
+        <div style="width:62px;height:62px;border-radius:50%;background:var(--green-wash);color:var(--green);display:grid;place-items:center;margin:0 auto 16px">
+          ${icon('check', 30)}
+        </div>
+        <h1 style="font-size:25px">Order placed</h1>
+        <p class="muted small" style="margin-top:6px">The kitchen has your order. Your server will bring it over.</p>
+        <div style="font-family:var(--display);font-size:31px;color:var(--clay);margin-top:14px">${esc(placed.code)}</div>
+      </div>
+
+      <div style="padding:0 20px">
+        <div class="track">
+          ${FLOW.map((f, i) => `<div class="step ${i < idx ? 'done' : i === idx ? 'now' : ''}">
+            <div class="dot">${i < idx ? icon('check', 15) : icon('dot', 9)}</div><small>${f[1]}</small></div>`).join('')}
+        </div>
+
+        <div class="card card-pad">
+          ${placed.items.map(l => `<div class="line">
+            <div class="grow"><div class="line-name">${l.qty} × ${esc(l.name)}</div>
+              ${l.variant ? `<div class="line-sub">${esc(l.variant)}</div>` : ''}
+              ${l.notes ? `<div class="line-sub" style="color:var(--clay)">${esc(l.notes)}</div>` : ''}</div>
+            <div class="line-price">${money(l.price * l.qty)}</div></div>`).join('')}
+          <div class="totals">
+            <div class="between"><span class="muted">Subtotal</span><span class="num">${money(t.subtotal)}</span></div>
+            ${t.service ? `<div class="between"><span class="muted">Service charge (${t.servicePct}%)</span><span class="num">${money(t.service)}</span></div>` : ''}
+            ${t.discount ? `<div class="between" style="color:var(--green)"><span>Points redeemed</span><span class="num">−${money(t.discount)}</span></div>` : ''}
+            <div class="between grand"><span>${isPaid ? 'Paid' : 'Total'}</span><span class="price">${money(t.total)}</span></div>
+          </div>
+        </div>
+
+        ${willEarn > 0 ? `<div class="points-card" style="margin-top:14px">
+          <div class="row">${icon('star', 18)}<b>You'll earn ${willEarn} points</b></div>
+          <p class="small" style="margin-top:5px">Added to your balance once the bill is settled.
+          ${customer ? `You have ${customer.points} today.` : 'Your account was created with this order.'}</p>
+        </div>` : ''}
+
+        <div class="notice" style="margin-top:14px">
+          Need anything? Ask your server, or call ${esc(branch.phone)}.
+        </div>
+
+        <button class="btn btn-ghost btn-block" style="margin:18px 0 8px" id="again">Add more to this table</button>
+      </div>
+      <p class="footnote">${esc(AV_CONFIG.name)} · ${esc(branch.name)}<br>${esc(AV_CONFIG.taxNote)}</p>`;
+
+    $('#again').onclick = () => {
+      cart = []; redeem = 0; placed = null; checkout = false;
+      $('#done').hidden = true; $('#shop').hidden = false; syncCart(); render();
+    };
+  }
+
+  /* Live status — the admin console moving the order updates this screen. */
+  AV.subscribe(async () => {
+    if (placed) {
+      const fresh = await AV.orders.get(placed.id);
+      if (fresh && fresh.status !== placed.status) {
+        placed = fresh; drawConfirmation();
+        const label = (FLOW.find(f => f[0] === fresh.status) || [, 'Updated'])[1];
+        toast('Order ' + fresh.code + ': ' + label, 'good');
+      }
+    } else render();
+  });
+
+  render(); syncCart();
+})();
+</script>
+</body>
+</html>

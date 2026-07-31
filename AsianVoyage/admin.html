@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asian Voyage — Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  body { background: var(--paper-3); }
+  .app { display: grid; grid-template-columns: 224px 1fr; min-height: 100vh; }
+
+  /* sidebar */
+  .side { background: var(--ink); color: #E8DED6; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+  .side-brand { padding: 18px 18px 14px; border-bottom: 1px solid rgba(255,255,255,.09); }
+  /* The logo is a JPEG on white, so it sits on a light chip rather than being inverted. */
+  .side-brand img { height: 30px; display: block; background: #fff; padding: 5px 8px; border-radius: 7px; }
+  .side-brand .tag { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: #A2938A; margin-top: 7px; }
+  .nav { padding: 12px 10px; flex: 1; overflow-y: auto; }
+  .nav button {
+    display: flex; align-items: center; gap: 11px; width: 100%; text-align: left;
+    padding: 10px 12px; border-radius: 9px; color: #C4B7AE; font-size: 14px; font-weight: 500;
+    transition: background .15s, color .15s; margin-bottom: 2px;
+  }
+  .nav button:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .nav button[aria-current="true"] { background: var(--clay); color: #fff; font-weight: 600; }
+  .nav .badge {
+    margin-left: auto; background: var(--red); color: #fff; font-size: 11px; font-weight: 700;
+    border-radius: 999px; padding: 1px 7px; min-width: 20px; text-align: center;
+  }
+  .nav button[aria-current="true"] .badge { background: rgba(255,255,255,.28); }
+  .side-foot { padding: 12px; border-top: 1px solid rgba(255,255,255,.09); font-size: 11.5px; color: #8A7C74; }
+  .side-foot a { color: #C4B7AE; }
+
+  /* main */
+  .main { display: flex; flex-direction: column; min-width: 0; }
+  .bar {
+    display: flex; align-items: center; gap: 14px; padding: 13px 22px;
+    background: var(--paper-2); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30;
+  }
+  .bar h1 { font-size: 20px; }
+  .content { padding: 22px; flex: 1; }
+  .content-wide { max-width: 1280px; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .kpi { background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 14px 16px; }
+  .kpi .lab { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+  .kpi .val { font-family: var(--display); font-size: 27px; margin-top: 5px; line-height: 1; }
+  .kpi .val.clay { color: var(--clay); }
+
+  /* order board */
+  .board { display: grid; grid-template-columns: repeat(auto-fit, minmax(272px, 1fr)); gap: 14px; align-items: start; }
+  .col-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding: 0 2px; }
+  .col-head h3 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); font-family: var(--body); font-weight: 700; }
+  .col-head .n { background: var(--paper-2); border: 1px solid var(--line); border-radius: 999px; font-size: 11.5px; font-weight: 700; padding: 1px 8px; }
+
+  .ord { background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--radius); padding: 14px; margin-bottom: 11px; box-shadow: var(--shadow-sm); }
+  .ord.fresh { border-color: var(--clay); box-shadow: 0 0 0 3px rgba(184,83,27,.1); animation: pop .4s; }
+  @keyframes pop { from { transform: scale(.97); opacity: .6; } }
+  .ord-top { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 10px; }
+  .ord-code { font-family: var(--display); font-size: 17px; color: var(--clay); }
+  .ord-where { font-size: 12.5px; color: var(--ink-soft); margin-top: 1px; }
+  .ord-cust { background: var(--paper-3); border-radius: var(--radius-sm); padding: 9px 11px; margin-bottom: 10px; }
+  .ord-items { font-size: 13.5px; }
+  .ord-items li { display: flex; gap: 8px; padding: 3px 0; list-style: none; }
+  .ord-items .q { font-weight: 700; color: var(--clay); min-width: 22px; }
+  .ord-note { color: var(--clay); font-size: 12px; padding-left: 30px; }
+  .ord-foot { display: flex; gap: 7px; margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--line-soft); }
+
+  /* tables */
+  table.tb { width: 100%; border-collapse: collapse; background: var(--paper-2); border-radius: var(--radius); overflow: hidden; }
+  .tb th { text-align: left; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-soft); padding: 11px 14px; border-bottom: 1px solid var(--line); background: var(--paper-3); }
+  .tb td { padding: 12px 14px; border-bottom: 1px solid var(--line-soft); font-size: 14px; vertical-align: middle; }
+  .tb tr:last-child td { border-bottom: 0; }
+  .tb tbody tr:hover { background: var(--paper); }
+
+  /* POS */
+  .pos { display: grid; grid-template-columns: 1fr 372px; gap: 16px; align-items: start; }
+  .pos-menu { background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--radius); overflow: hidden; }
+  .pos-cats { display: flex; gap: 4px; padding: 10px; overflow-x: auto; border-bottom: 1px solid var(--line-soft); }
+  .pos-cats button { padding: 6px 12px; border-radius: 999px; font-size: 12.5px; font-weight: 600; color: var(--ink-soft); white-space: nowrap; }
+  .pos-cats button[aria-pressed="true"] { background: var(--clay); color: #fff; }
+  .pos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(146px, 1fr)); gap: 8px; padding: 12px; max-height: 60vh; overflow-y: auto; }
+  .pos-item {
+    border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px; text-align: left;
+    display: flex; flex-direction: column; gap: 5px; min-height: 68px; transition: all .12s; background: var(--paper-2);
+  }
+  .pos-item:hover { border-color: var(--clay); background: var(--clay-wash); }
+  .pos-item b { font-size: 12.8px; font-weight: 600; line-height: 1.3; }
+  .pos-item .price { font-size: 13px; margin-top: auto; }
+  .bill { background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--radius); position: sticky; top: 78px; }
+  .bill-head { padding: 14px; border-bottom: 1px solid var(--line-soft); }
+  .bill-lines { padding: 6px 14px; max-height: 34vh; overflow-y: auto; }
+  .bill-line { display: flex; gap: 9px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; }
+  .bill-line:last-child { border-bottom: 0; }
+  .bill-foot { padding: 14px; border-top: 1px solid var(--line); }
+  .tips { display: flex; gap: 5px; }
+  .tips button { flex: 1; padding: 7px 0; border: 1.5px solid var(--line); border-radius: var(--radius-sm); font-size: 12.5px; font-weight: 600; }
+  .tips button[aria-pressed="true"] { border-color: var(--clay); background: var(--clay-wash); color: var(--clay); }
+
+  /* KOT ticket */
+  .kot {
+    background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 16px; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13px;
+  }
+  .kot h4 { font-family: inherit; font-size: 15px; font-weight: 700; letter-spacing: .05em; }
+  .kot .krow { display: flex; gap: 10px; padding: 5px 0; border-bottom: 1px dashed var(--line); }
+  .kot .kq { font-weight: 700; min-width: 26px; }
+  .kot-note { color: var(--clay); font-size: 12px; padding-left: 36px; }
+  .kot-dash { border-top: 1px dashed var(--ink-soft); margin: 10px 0; }
+
+  .switch { position: relative; width: 42px; height: 24px; flex: 0 0 auto; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch span { position: absolute; inset: 0; background: var(--line); border-radius: 999px; transition: background .18s; cursor: pointer; }
+  .switch span::after { content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #fff; top: 3px; left: 3px; transition: transform .18s; box-shadow: var(--shadow-sm); }
+  .switch input:checked + span { background: var(--green); }
+  .switch input:checked + span::after { transform: translateX(18px); }
+
+  @media (max-width: 1080px) { .pos { grid-template-columns: 1fr; } .bill { position: static; } }
+  @media (max-width: 860px) {
+    .app { grid-template-columns: 1fr; }
+    .side { position: static; height: auto; flex-direction: row; align-items: center; overflow-x: auto; }
+    .side-brand { border: 0; padding: 12px; } .side-foot { display: none; }
+    .nav { display: flex; padding: 8px; } .nav button { white-space: nowrap; margin: 0 2px 0 0; }
+  }
+
+  /* ---------------------------- print ---------------------------------- */
+  @media print {
+    body { background: #fff; }
+    .side, .bar, .no-print { display: none !important; }
+    .app { display: block; } .content { padding: 0; }
+    .print-only { display: block !important; }
+    .kot, .card { border: 0 !important; box-shadow: none !important; page-break-inside: avoid; }
+    @page { margin: 10mm; size: 80mm auto; }
+  }
+  .print-only { display: none; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="side-brand">
+      <img src="Logo.jpeg" alt="Asian Voyage">
+      <div class="tag">Restaurant Console</div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="side-foot">
+      Demo console · <a href="index.html">All demos</a><br>
+      <a href="#" id="resetLink">Reset demo data</a>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="bar no-print">
+      <h1 id="viewTitle">Live orders</h1>
+      <div class="row" style="margin-left:auto;gap:10px">
+        <select class="input" id="branchSel" style="width:auto;padding:9px 34px 9px 13px"></select>
+        <button class="btn btn-ghost btn-sm" id="simulate"></button>
+      </div>
+    </header>
+    <div class="content content-wide" id="view"></div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="sheet-head"><h3 id="mTitle"></h3><button class="icon-btn" id="mClose" aria-label="Close"></button></div>
+  <div class="sheet-body" id="mBody"></div>
+  <div class="sheet-foot" id="mFoot"></div>
+</div>
+<div class="toasts" id="toasts"></div>
+
+<script src="assets/menu-data.js"></script>
+<script src="assets/av-icons.js"></script>
+<script src="assets/store.js"></script>
+<script src="assets/loyalty.js"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const money = AV.money;
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const ago = ts => {
+    const m = Math.round((Date.now() - new Date(ts)) / 60000);
+    return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.floor(m / 60) + 'h ' + (m % 60) + 'm ago';
+  };
+
+  const VIEWS = [
+    { id: 'orders',    label: 'Live orders',  icon: 'bell',     title: 'Live orders' },
+    { id: 'pos',       label: 'New bill',     icon: 'receipt',  title: 'New bill · POS' },
+    { id: 'kitchen',   label: 'Kitchen (KOT)',icon: 'chef',     title: 'Kitchen tickets' },
+    { id: 'customers', label: 'Customers',    icon: 'users',    title: 'Customers & loyalty' },
+    { id: 'menu',      label: 'Menu',         icon: 'list',     title: 'Menu availability' },
+    { id: 'settings',  label: 'Settings',     icon: 'settings', title: 'Loyalty settings' }
+  ];
+  let view = 'orders';
+  let branch = 'all';
+  let seen = new Set();
+  let firstPaint = true;
+
+  const STATUS = {
+    new:       { label: 'New',       chip: 'red',   next: 'preparing', nextLabel: 'Start cooking' },
+    preparing: { label: 'Preparing', chip: 'gold',  next: 'ready',     nextLabel: 'Mark ready' },
+    ready:     { label: 'Ready',     chip: 'blue',  next: 'served',    nextLabel: 'Mark served' },
+    served:    { label: 'Served',    chip: 'green', next: 'paid',      nextLabel: 'Take payment' },
+    paid:      { label: 'Paid',      chip: 'gray',  next: null },
+    cancelled: { label: 'Cancelled', chip: 'gray',  next: null }
+  };
+
+  function toast(msg, kind) {
+    const el = document.createElement('div');
+    el.className = 'toast' + (kind ? ' ' + kind : '');
+    el.innerHTML = (kind === 'good' ? icon('check', 16) : icon('bell', 16)) + '<span>' + esc(msg) + '</span>';
+    $('#toasts').appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }
+
+  /* ------------------------------ chrome -------------------------------- */
+  function paintNav(newCount) {
+    $('#nav').innerHTML = VIEWS.map(v => `
+      <button data-v="${v.id}" aria-current="${v.id === view}">
+        ${icon(v.icon, 18)}<span>${v.label}</span>
+        ${v.id === 'orders' && newCount ? `<span class="badge">${newCount}</span>` : ''}
+      </button>`).join('');
+  }
+  $('#nav').addEventListener('click', e => {
+    const b = e.target.closest('[data-v]'); if (!b) return;
+    view = b.dataset.v; render();
+  });
+
+  $('#branchSel').innerHTML = `<option value="all">All branches</option>` +
+    AV_CONFIG.branches.map(b => `<option value="${b.id}">${esc(b.name)}</option>`).join('');
+  $('#branchSel').value = branch;
+  $('#branchSel').addEventListener('change', e => { branch = e.target.value; render(); });
+
+  $('#simulate').innerHTML = icon('plus', 15) + ' Simulate order';
+  $('#simulate').addEventListener('click', simulateOrder);
+  $('#resetLink').addEventListener('click', async e => {
+    e.preventDefault();
+    if (confirm('Reset all demo data back to its starting state?')) { await AV.reset(); seen = new Set(); firstPaint = true; render(); toast('Demo data reset', 'good'); }
+  });
+
+  /* modal */
+  function openModal(title, body, foot) {
+    $('#mTitle').textContent = title; $('#mBody').innerHTML = body; $('#mFoot').innerHTML = foot || '';
+    $('#modal').classList.add('open'); $('#scrim').classList.add('open');
+  }
+  function closeModal() { $('#modal').classList.remove('open'); $('#scrim').classList.remove('open'); }
+  $('#mClose').innerHTML = icon('x', 18);
+  $('#mClose').addEventListener('click', closeModal);
+  $('#scrim').addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  /* ------------------------------ render -------------------------------- */
+  async function render() {
+    const all = await AV.orders.list({ branch });
+    const active = all.filter(o => ['new', 'preparing', 'ready', 'served'].includes(o.status));
+    paintNav(all.filter(o => o.status === 'new').length);
+    $('#viewTitle').textContent = (VIEWS.find(v => v.id === view) || {}).title;
+    $('#simulate').style.display = view === 'orders' ? '' : 'none';
+
+    if (view === 'orders')    return renderOrders(all, active);
+    if (view === 'pos')       return renderPOS();
+    if (view === 'kitchen')   return renderKitchen(active);
+    if (view === 'customers') return renderCustomers();
+    if (view === 'menu')      return renderMenu();
+    if (view === 'settings')  return renderSettings();
+  }
+
+  /* ---------------------------- live orders ----------------------------- */
+  async function renderOrders(all, active) {
+    const today = all.filter(o => o.status === 'paid');
+    const revenue = today.reduce((n, o) => n + AV.totals(o).total, 0);
+    const cust = await AV.customers.list();
+
+    const cols = ['new', 'preparing', 'ready', 'served'];
+    const byCol = c => active.filter(o => o.status === c);
+
+    $('#view').innerHTML = `
+      <div class="kpis">
+        <div class="kpi"><div class="lab">Open orders</div><div class="val clay">${active.length}</div></div>
+        <div class="kpi"><div class="lab">Settled today</div><div class="val">${today.length}</div></div>
+        <div class="kpi"><div class="lab">Revenue today</div><div class="val">${money(revenue)}</div></div>
+        <div class="kpi"><div class="lab">Loyalty members</div><div class="val">${cust.length}</div></div>
+      </div>
+      <div class="board">
+        ${cols.map(c => `
+          <div>
+            <div class="col-head">
+              <h3>${STATUS[c].label}</h3><span class="n">${byCol(c).length}</span>
+            </div>
+            ${byCol(c).map(orderCard).join('') || `<div class="card card-pad center small muted">Nothing here</div>`}
+          </div>`).join('')}
+      </div>`;
+
+    // Fetch and paint each guest's points balance — the key Tier-1 add-on.
+    active.forEach(async o => {
+      const phone = o.customer && AV.normPhone(o.customer.phone);
+      const el = document.querySelector(`[data-pts="${o.id}"]`);
+      if (!el) return;
+      const c = phone ? await AV.customers.get(phone) : null;
+      if (!c) { el.innerHTML = `<span class="chip gray">Not a member</span>`; return; }
+      const tier = Loyalty.tierFor(c);
+      const canUse = Loyalty.canRedeem(c);
+      el.innerHTML = `<span class="chip ${canUse ? 'gold' : 'gray'}">${icon('star', 12)} ${c.points} pts${canUse ? ' · can redeem' : ''}</span>` +
+        (AV.settings.getSync().loyalty.tiersEnabled ? ` <span class="chip clay">${esc(tier.name)}</span>` : '') +
+        (c.visits > 5 ? ` <span class="chip green">Regular · ${c.visits} visits</span>` : '');
+    });
+
+    active.forEach(o => seen.add(o.id));
+    firstPaint = false;
+  }
+
+  function orderCard(o) {
+    const t = AV.totals(o);
+    const st = STATUS[o.status];
+    const b = AV_CONFIG.branches.find(x => x.id === o.branch) || {};
+    const isNew = !firstPaint && !seen.has(o.id);
+    return `<article class="ord${isNew ? ' fresh' : ''}">
+      <div class="ord-top">
+        <div class="grow">
+          <div class="ord-code">${esc(o.code)}</div>
+          <div class="ord-where">${esc(b.name || o.branch)} · ${o.mode === 'pickup' ? 'Pickup' : 'Table ' + o.table} · ${ago(o.placedAt)}</div>
+        </div>
+        <span class="chip ${st.chip}">${st.label}</span>
+      </div>
+
+      <div class="ord-cust">
+        <div class="row" style="gap:7px">${icon('user', 14)}<b style="font-size:13.5px">${esc(o.customer.name || 'Walk-in')}</b>
+          <span class="chip gray" style="margin-left:auto">${esc(o.source.toUpperCase())}</span></div>
+        ${o.customer.phone ? `<div class="row small muted" style="gap:7px;margin-top:3px">${icon('phone', 13)}${esc(AV.fmtPhone(o.customer.phone))}</div>` : ''}
+        <div style="margin-top:7px;display:flex;gap:5px;flex-wrap:wrap" data-pts="${o.id}"></div>
+      </div>
+
+      <ul class="ord-items">
+        ${o.items.map(l => `<li><span class="q">${l.qty}×</span><span class="grow">${esc(l.name)}${l.variant ? ` <span class="muted">(${esc(l.variant)})</span>` : ''}</span></li>
+          ${l.notes ? `<div class="ord-note">${icon('edit', 11)} ${esc(l.notes)}</div>` : ''}`).join('')}
+      </ul>
+
+      <div class="between" style="margin-top:10px;font-size:13.5px">
+        <span class="muted">Total${o.pointsRedeemed ? ' (after ' + o.pointsRedeemed + ' pts)' : ''}</span>
+        <b class="price" style="font-size:16px">${money(t.total)}</b>
+      </div>
+
+      <div class="ord-foot">
+        ${st.next ? `<button class="btn btn-primary btn-sm grow" data-adv="${o.id}">${st.nextLabel}</button>` : ''}
+        <button class="btn btn-ghost btn-sm" data-kot="${o.id}" title="Print kitchen ticket">${icon('printer', 15)}</button>
+        <button class="btn btn-ghost btn-sm" data-bill="${o.id}" title="Open bill">${icon('receipt', 15)}</button>
+      </div>
+    </article>`;
+  }
+
+  $('#view').addEventListener('click', async e => {
+    const adv = e.target.closest('[data-adv]');
+    const kot = e.target.closest('[data-kot]');
+    const bill = e.target.closest('[data-bill]');
+
+    if (adv) {
+      const o = await AV.orders.get(adv.dataset.adv);
+      const next = STATUS[o.status].next;
+      if (next === 'paid') return openPayment(o);
+      await AV.orders.update(o.id, { status: next });
+      toast(o.code + ' → ' + STATUS[next].label, 'good');
+      return render();
+    }
+    if (kot)  return showKOT(await AV.orders.get(kot.dataset.kot));
+    if (bill) return openPayment(await AV.orders.get(bill.dataset.bill));
+  });
+
+  /* ---------------------------- payment / bill --------------------------- */
+  async function openPayment(o) {
+    const phone = o.customer && AV.normPhone(o.customer.phone);
+    const cust = phone ? await AV.customers.get(phone) : null;
+    let tip = o.tip || 0, redeem = o.pointsRedeemed || 0, method = 'card';
+
+    const draw = () => {
+      const t = AV.totals(Object.assign({}, o, { tip, pointsRedeemed: redeem }));
+      const opts = cust ? Loyalty.redeemOptions(cust, Object.assign({}, o, { pointsRedeemed: 0 })) : [];
+      $('#mBody').innerHTML = `
+        <div class="between" style="margin-bottom:12px">
+          <div><b>${esc(o.code)}</b><div class="small muted">${o.mode === 'pickup' ? 'Pickup' : 'Table ' + o.table} · ${esc((AV_CONFIG.branches.find(b => b.id === o.branch) || {}).name)}</div></div>
+          <div class="small muted">${esc(o.customer.name || 'Walk-in')}</div>
+        </div>
+        ${o.items.map(l => `<div class="bill-line"><span class="q" style="font-weight:700;color:var(--clay)">${l.qty}×</span>
+          <span class="grow">${esc(l.name)}${l.variant ? ` <span class="muted">(${esc(l.variant)})</span>` : ''}</span>
+          <span class="num">${money(l.price * l.qty)}</span></div>`).join('')}
+
+        ${cust && opts.length ? `<label class="field" style="margin-top:14px"><span>${icon('star', 12)} ${esc(cust.name)} has ${cust.points} points</span>
+          <select class="input" id="pRedeem">
+            <option value="0">Do not redeem</option>
+            ${opts.map(x => `<option value="${x.points}"${x.points === redeem ? ' selected' : ''}>${x.points} pts — ${money(x.value)} off</option>`).join('')}
+          </select></label>`
+        : cust ? `<p class="small muted" style="margin-top:12px">${icon('star', 12)} ${esc(cust.name)} has ${cust.points} points — ${AV.settings.getSync().loyalty.minRedeem} needed to redeem.</p>` : ''}
+
+        <div class="field" style="margin-top:14px"><span>Tip</span>
+          <div class="tips" id="pTips">
+            ${AV_CONFIG.tipPresets.map(p => `<button data-tip="${p}" aria-pressed="${Math.abs(tip - t.subtotal * p / 100) < .01 && (p > 0 || tip === 0)}">${p ? p + '%' : 'None'}</button>`).join('')}
+          </div>
+        </div>
+
+        <div class="totals">
+          <div class="between"><span class="muted">Subtotal</span><span class="num">${money(t.subtotal)}</span></div>
+          ${t.service ? `<div class="between"><span class="muted">Service charge (${t.servicePct}%)</span><span class="num">${money(t.service)}</span></div>` : ''}
+          ${t.discount ? `<div class="between" style="color:var(--green)"><span>Points redeemed (${redeem})</span><span class="num">−${money(t.discount)}</span></div>` : ''}
+          ${t.tip ? `<div class="between"><span class="muted">Tip</span><span class="num">${money(t.tip)}</span></div>` : ''}
+          <div class="between grand"><span>Due</span><span class="price">${money(t.total)}</span></div>
+        </div>
+
+        <div class="field" style="margin-top:14px"><span>Payment method</span>
+          <div class="tips" id="pMethod">
+            ${[['card', 'Card', 'card'], ['cash', 'Cash', 'cash'], ['mobile', 'Mobile', 'smartphone']].map(([k, l, ic]) =>
+              `<button data-m="${k}" aria-pressed="${method === k}">${icon(ic, 14)} ${l}</button>`).join('')}
+          </div>
+        </div>`;
+
+      $('#mFoot').innerHTML = `<button class="btn btn-primary btn-block btn-lg" id="pSettle">Charge ${money(t.total)} & close</button>`;
+
+      const sub = t.subtotal;
+      $('#pTips').onclick = ev => { const b = ev.target.closest('[data-tip]'); if (!b) return; tip = AV.round2(sub * (+b.dataset.tip) / 100); draw(); };
+      $('#pMethod').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; method = b.dataset.m; draw(); };
+      const rs = $('#pRedeem'); if (rs) rs.onchange = ev => { redeem = +ev.target.value || 0; draw(); };
+      $('#pSettle').onclick = async () => {
+        await AV.orders.update(o.id, { tip, pointsRedeemed: redeem, status: 'paid', paid: true, paymentMethod: method });
+        const fresh = await AV.orders.get(o.id);
+        const res = await Loyalty.settle(fresh);
+        closeModal();
+        toast(o.code + ' settled' + (res.earned ? ` · ${res.earned} points awarded` : ''), 'good');
+        showReceipt(await AV.orders.get(o.id));
+        render();
+      };
+    };
+    openModal('Bill · ' + o.code, '');
+    draw();
+  }
+
+  /* ------------------------------- KOT ---------------------------------- */
+  function showKOT(o) {
+    const b = AV_CONFIG.branches.find(x => x.id === o.branch) || {};
+    openModal('Kitchen ticket · ' + o.code, `<div class="kot" id="kotPrint">
+      <div class="center"><h4>*** KITCHEN ORDER ***</h4>
+      <div>${esc(b.name || '')}</div></div>
+      <div class="kot-dash"></div>
+      <div class="between"><b>${esc(o.code)}</b><span>${new Date(o.placedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span></div>
+      <div class="between"><span>${o.mode === 'pickup' ? 'PICKUP' : 'TABLE ' + o.table}</span><span>${esc(o.source.toUpperCase())}</span></div>
+      <div>Guest: ${esc(o.customer.name || 'Walk-in')}</div>
+      <div class="kot-dash"></div>
+      ${o.items.map(l => `<div class="krow"><span class="kq">${l.qty}</span>
+        <span class="grow">${esc(l.name.toUpperCase())}${l.variant ? `<br><span style="font-size:11.5px">→ ${esc(l.variant)}</span>` : ''}</span></div>
+        ${l.notes ? `<div class="kot-note">** ${esc(l.notes.toUpperCase())} **</div>` : ''}`).join('')}
+      <div class="kot-dash"></div>
+      <div class="center" style="font-size:11.5px">${o.items.reduce((n, l) => n + l.qty, 0)} items · printed ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+    </div>`,
+    `<button class="btn btn-primary btn-block" onclick="window.print()">${icon('printer', 16)} Print ticket</button>`);
+  }
+
+  function showReceipt(o) {
+    const t = AV.totals(o);
+    const b = AV_CONFIG.branches.find(x => x.id === o.branch) || {};
+    openModal('Receipt · ' + o.code, `<div class="kot">
+      <div class="center"><h4>${esc(AV_CONFIG.name.toUpperCase())}</h4>
+        <div style="font-size:11.5px">${esc(b.name || '')} · ${esc(b.phone || '')}</div>
+        <div style="font-size:11.5px">${esc(AV_CONFIG.operator)}</div></div>
+      <div class="kot-dash"></div>
+      <div class="between"><span>${esc(o.code)}</span><span>${new Date().toLocaleString()}</span></div>
+      <div>${o.mode === 'pickup' ? 'Pickup' : 'Table ' + o.table} · ${esc(o.customer.name || 'Walk-in')}</div>
+      <div class="kot-dash"></div>
+      ${o.items.map(l => `<div class="krow"><span class="kq">${l.qty}</span><span class="grow">${esc(l.name)}</span><span>${money(l.price * l.qty)}</span></div>`).join('')}
+      <div class="kot-dash"></div>
+      <div class="between"><span>Subtotal</span><span>${money(t.subtotal)}</span></div>
+      ${t.service ? `<div class="between"><span>Service ${t.servicePct}%</span><span>${money(t.service)}</span></div>` : ''}
+      ${t.discount ? `<div class="between"><span>Points (${o.pointsRedeemed})</span><span>−${money(t.discount)}</span></div>` : ''}
+      ${t.tip ? `<div class="between"><span>Tip</span><span>${money(t.tip)}</span></div>` : ''}
+      <div class="between" style="font-weight:700;font-size:15px;margin-top:6px"><span>TOTAL</span><span>${money(t.total)}</span></div>
+      <div class="between"><span>Paid by</span><span>${esc((o.paymentMethod || '').toUpperCase())}</span></div>
+      ${o.pointsEarned ? `<div class="kot-dash"></div><div class="center">You earned ${o.pointsEarned} points</div>` : ''}
+      <div class="kot-dash"></div>
+      <div class="center" style="font-size:11px">${esc(AV_CONFIG.taxNote)}<br>Thank you — see you again</div>
+    </div>`,
+    `<button class="btn btn-primary btn-block" onclick="window.print()">${icon('printer', 16)} Print receipt</button>`);
+  }
+
+  /* ------------------------------ kitchen ------------------------------- */
+  function renderKitchen(active) {
+    const cook = active.filter(o => ['new', 'preparing'].includes(o.status));
+    $('#view').innerHTML = cook.length ? `
+      <p class="muted small" style="margin-bottom:16px">Tickets for everything the kitchen has not yet plated. Each prints to an 80&nbsp;mm thermal roll.</p>
+      <div class="board">${cook.map(o => {
+        const b = AV_CONFIG.branches.find(x => x.id === o.branch) || {};
+        return `<div class="kot">
+          <div class="center"><h4>${esc(o.code)}</h4>
+            <div style="font-size:11.5px">${esc(b.name)} · ${o.mode === 'pickup' ? 'PICKUP' : 'TABLE ' + o.table}</div>
+            <div style="font-size:11.5px">${ago(o.placedAt)}</div></div>
+          <div class="kot-dash"></div>
+          ${o.items.map(l => `<div class="krow"><span class="kq">${l.qty}</span>
+            <span class="grow">${esc(l.name.toUpperCase())}${l.variant ? `<br><span style="font-size:11px">→ ${esc(l.variant)}</span>` : ''}</span></div>
+            ${l.notes ? `<div class="kot-note">** ${esc(l.notes.toUpperCase())} **</div>` : ''}`).join('')}
+          <div class="ord-foot no-print">
+            <button class="btn btn-primary btn-sm grow" data-adv="${o.id}">${STATUS[o.status].nextLabel}</button>
+            <button class="btn btn-ghost btn-sm" data-kot="${o.id}">${icon('printer', 15)}</button>
+          </div></div>`;
+      }).join('')}</div>`
+      : `<div class="empty">${icon('chef', 38)}<h3>Kitchen is clear</h3><p class="small">No tickets waiting.</p></div>`;
+  }
+
+  /* -------------------------------- POS --------------------------------- */
+  let posBill = [], posTable = 1, posBranch = null, posCat = null, posTip = 0, posRedeem = 0, posPhone = '';
+
+  function renderPOS() {
+    posBranch = posBranch || (branch === 'all' ? AV_CONFIG.branches[0].id : branch);
+    posCat = posCat || AV_SECTIONS[0].cats[0];
+    const bObj = AV_CONFIG.branches.find(b => b.id === posBranch);
+    const cats = AV_SECTIONS.reduce((a, s) => a.concat(s.cats), []);
+    const items = AV_MENU.filter(i => i.cat === posCat && AV.settings.isAvailable(posBranch, i.id));
+
+    $('#view').innerHTML = `<div class="pos">
+      <div class="pos-menu">
+        <div class="pos-cats">${cats.map(c => `<button data-c="${esc(c)}" aria-pressed="${c === posCat}">${esc(c)}</button>`).join('')}</div>
+        <div class="pos-grid">${items.map(i => `
+          <button class="pos-item" data-add="${i.id}">
+            <b>${esc(i.name)}</b>
+            <span class="price">${i.price != null ? money(i.price) : 'from ' + money(Math.min.apply(null, i.variants.map(v => v.p)))}</span>
+          </button>`).join('')}</div>
+      </div>
+
+      <div class="bill">
+        <div class="bill-head">
+          <div class="row" style="gap:8px;margin-bottom:10px">
+            <select class="input" id="posBranch" style="flex:1">${AV_CONFIG.branches.map(b => `<option value="${b.id}"${b.id === posBranch ? ' selected' : ''}>${esc(b.name)}</option>`).join('')}</select>
+            <select class="input" id="posTable" style="width:104px">
+              ${Array.from({ length: bObj.tables }, (_, i) => `<option value="${i + 1}"${i + 1 === posTable ? ' selected' : ''}>Table ${i + 1}</option>`).join('')}
+            </select>
+          </div>
+          <input class="input" id="posPhone" placeholder="Guest mobile (for points)" value="${esc(posPhone)}" inputmode="numeric">
+          <div id="posCust" class="small" style="margin-top:7px"></div>
+        </div>
+        <div class="bill-lines" id="posLines"></div>
+        <div class="bill-foot" id="posFoot"></div>
+      </div>
+    </div>`;
+
+    $('.pos-cats').onclick = e => { const b = e.target.closest('[data-c]'); if (b) { posCat = b.dataset.c; renderPOS(); } };
+    $('.pos-grid').onclick = e => {
+      const b = e.target.closest('[data-add]'); if (!b) return;
+      const it = AV_MENU.find(i => i.id === b.dataset.add);
+      const variant = it.variants ? it.variants[0].l : null;
+      const price = it.variants ? it.variants[0].p : it.price;
+      const key = it.id + '|' + (variant || '');
+      const f = posBill.find(l => l.key === key);
+      if (f) f.qty++; else posBill.push({ key, id: it.id, name: it.name, variant, qty: 1, price });
+      drawBill();
+    };
+    $('#posBranch').onchange = e => { posBranch = e.target.value; posTable = 1; renderPOS(); };
+    $('#posTable').onchange = e => { posTable = +e.target.value; };
+    $('#posPhone').oninput = e => { posPhone = e.target.value; lookupPos(); };
+    drawBill(); lookupPos();
+  }
+
+  let posCust = null;
+  async function lookupPos() {
+    const p = AV.normPhone(posPhone);
+    posCust = p.length >= 7 ? await AV.customers.get(p) : null;
+    const el = $('#posCust'); if (!el) return;
+    el.innerHTML = posCust
+      ? `<span class="chip gold">${icon('star', 12)} ${esc(posCust.name)} · ${posCust.points} pts</span>`
+      : (p.length >= 7 ? `<span class="chip gray">New guest — account will be created</span>` : '');
+    drawBill();
+  }
+
+  function drawBill() {
+    const linesEl = $('#posLines'); if (!linesEl) return;
+    const draft = { mode: 'dine-in', items: posBill, tip: posTip, pointsRedeemed: posRedeem };
+    const t = AV.totals(draft);
+
+    linesEl.innerHTML = posBill.length ? posBill.map(l => `
+      <div class="bill-line">
+        <span class="grow"><b style="font-weight:600">${esc(l.name)}</b>${l.variant ? `<br><span class="tiny muted">${esc(l.variant)}</span>` : ''}</span>
+        <span class="qty"><button data-d="${esc(l.key)}">${icon('minus', 14)}</button><span>${l.qty}</span><button data-i="${esc(l.key)}">${icon('plus', 14)}</button></span>
+        <span class="num" style="min-width:64px;text-align:right">${money(l.price * l.qty)}</span>
+      </div>`).join('') : `<div class="empty" style="padding:26px 10px">${icon('receipt', 30)}<p class="small">Tap menu items to build the bill</p></div>`;
+
+    const opts = posCust ? Loyalty.redeemOptions(posCust, { mode: 'dine-in', items: posBill, pointsRedeemed: 0, tip: 0 }) : [];
+    $('#posFoot').innerHTML = `
+      ${opts.length ? `<label class="field"><span>Redeem points</span>
+        <select class="input" id="posRedeem"><option value="0">No</option>
+        ${opts.map(o => `<option value="${o.points}"${o.points === posRedeem ? ' selected' : ''}>${o.points} pts — ${money(o.value)} off</option>`).join('')}</select></label>` : ''}
+      <div class="field"><span>Tip</span><div class="tips" id="posTips">
+        ${AV_CONFIG.tipPresets.map(p => `<button data-t="${p}" aria-pressed="${Math.abs(posTip - t.subtotal * p / 100) < .01 && (p > 0 || posTip === 0)}">${p ? p + '%' : 'None'}</button>`).join('')}
+      </div></div>
+      <div class="totals" style="margin-top:4px">
+        <div class="between"><span class="muted">Subtotal</span><span class="num">${money(t.subtotal)}</span></div>
+        <div class="between"><span class="muted">Service (${t.servicePct}%)</span><span class="num">${money(t.service)}</span></div>
+        ${t.discount ? `<div class="between" style="color:var(--green)"><span>Points</span><span class="num">−${money(t.discount)}</span></div>` : ''}
+        ${t.tip ? `<div class="between"><span class="muted">Tip</span><span class="num">${money(t.tip)}</span></div>` : ''}
+        <div class="between grand"><span>Total</span><span class="price">${money(t.total)}</span></div>
+      </div>
+      <button class="btn btn-primary btn-block" id="posSend" style="margin-top:12px" ${posBill.length ? '' : 'disabled'}>
+        ${icon('check', 16)} Send to kitchen & bill</button>
+      ${posBill.length ? `<button class="btn btn-quiet btn-block" id="posClear">Clear</button>` : ''}`;
+
+    linesEl.onclick = e => {
+      const i = e.target.closest('[data-i]'), d = e.target.closest('[data-d]');
+      const key = (i && i.dataset.i) || (d && d.dataset.d); if (!key) return;
+      const l = posBill.find(x => x.key === key);
+      l.qty += i ? 1 : -1;
+      posBill = posBill.filter(x => x.qty > 0);
+      posRedeem = Math.min(posRedeem, posCust ? Loyalty.maxRedeemable(posCust, { mode: 'dine-in', items: posBill, pointsRedeemed: 0, tip: 0 }) : 0);
+      drawBill();
+    };
+    $('#posTips').onclick = e => { const b = e.target.closest('[data-t]'); if (!b) return; posTip = AV.round2(t.subtotal * (+b.dataset.t) / 100); drawBill(); };
+    const rs = $('#posRedeem'); if (rs) rs.onchange = e => { posRedeem = +e.target.value || 0; drawBill(); };
+    const clr = $('#posClear'); if (clr) clr.onclick = () => { posBill = []; posTip = 0; posRedeem = 0; drawBill(); };
+    $('#posSend').onclick = async () => {
+      const o = await AV.orders.create({
+        branch: posBranch, table: posTable, mode: 'dine-in', source: 'pos',
+        customer: { name: posCust ? posCust.name : 'Walk-in', phone: AV.normPhone(posPhone) },
+        items: posBill.map(l => ({ id: l.id, name: l.name, variant: l.variant, qty: l.qty, price: l.price })),
+        pointsRedeemed: posRedeem, tip: posTip
+      });
+      posBill = []; posTip = 0; posRedeem = 0; posPhone = ''; posCust = null;
+      toast('Bill ' + o.code + ' opened', 'good');
+      renderPOS(); openPayment(o);
+    };
+  }
+
+  /* ----------------------------- customers ------------------------------ */
+  async function renderCustomers() {
+    const rows = await AV.customers.list();
+    const cfg = AV.settings.getSync().loyalty;
+    const liability = rows.reduce((n, c) => n + c.points, 0) * cfg.pointValue;
+
+    $('#view').innerHTML = `
+      <div class="kpis">
+        <div class="kpi"><div class="lab">Members</div><div class="val">${rows.length}</div></div>
+        <div class="kpi"><div class="lab">Points outstanding</div><div class="val clay">${rows.reduce((n, c) => n + c.points, 0).toLocaleString()}</div></div>
+        <div class="kpi"><div class="lab">Liability</div><div class="val">${money(liability)}</div></div>
+        <div class="kpi"><div class="lab">Programme</div><div class="val" style="font-size:15px;font-family:var(--body);font-weight:600;padding-top:6px">${esc(Loyalty.summaryLine())}</div></div>
+      </div>
+      <table class="tb">
+        <thead><tr><th>Guest</th><th>Mobile</th>${cfg.tiersEnabled ? '<th>Tier</th>' : ''}<th>Points</th><th>Lifetime</th><th>Visits</th><th>Last seen</th><th></th></tr></thead>
+        <tbody>${rows.map(c => `<tr>
+          <td><b>${esc(c.name || '—')}</b></td>
+          <td class="muted num">${esc(AV.fmtPhone(c.phone))}</td>
+          ${cfg.tiersEnabled ? `<td><span class="chip clay">${esc(Loyalty.tierFor(c).name)}</span></td>` : ''}
+          <td><span class="chip gold">${c.points}</span></td>
+          <td class="num muted">${(c.lifetimePoints || 0).toLocaleString()}</td>
+          <td class="num muted">${c.visits || 0}</td>
+          <td class="muted small">${c.lastSeen ? new Date(c.lastSeen).toLocaleDateString() : '—'}</td>
+          <td><button class="btn btn-ghost btn-sm" data-cust="${esc(c.phone)}">Ledger</button></td>
+        </tr>`).join('')}</tbody>
+      </table>`;
+
+    $('#view').addEventListener('click', async e => {
+      const b = e.target.closest('[data-cust]'); if (!b) return;
+      const c = await AV.customers.get(b.dataset.cust);
+      const exp = Loyalty.expiringSoon(c, 60);
+      openModal(c.name, `
+        <div class="kpis" style="grid-template-columns:1fr 1fr;margin-bottom:14px">
+          <div class="kpi"><div class="lab">Balance</div><div class="val clay">${c.points}</div></div>
+          <div class="kpi"><div class="lab">Worth</div><div class="val">${money(c.points * cfg.pointValue)}</div></div>
+        </div>
+        <p class="small muted" style="margin-bottom:12px">${esc(AV.fmtPhone(c.phone))} · joined ${new Date(c.joinedAt).toLocaleDateString()} · ${c.visits || 0} visits
+        ${exp.points ? `<br><span style="color:var(--clay)">${exp.points} points expire around ${exp.on.toLocaleDateString()}</span>` : ''}</p>
+        <table class="tb"><thead><tr><th>When</th><th>Order</th><th>Detail</th><th>Points</th></tr></thead>
+        <tbody>${(c.ledger || []).map(l => `<tr>
+          <td class="small muted">${new Date(l.ts).toLocaleDateString()}</td>
+          <td class="small">${esc(l.orderCode || '—')}</td>
+          <td class="small">${esc(l.note || '')}</td>
+          <td><b style="color:${l.points > 0 ? 'var(--green)' : 'var(--red)'}">${l.points > 0 ? '+' : ''}${l.points}</b></td>
+        </tr>`).join('') || '<tr><td colspan="4" class="muted small">No activity yet</td></tr>'}</tbody></table>`);
+    }, { once: true });
+  }
+
+  /* ------------------------------- menu --------------------------------- */
+  function renderMenu() {
+    const b = branch === 'all' ? AV_CONFIG.branches[0].id : branch;
+    const bName = (AV_CONFIG.branches.find(x => x.id === b) || {}).name;
+    const off = AV.settings.getSync().unavailable[b] || [];
+    $('#view').innerHTML = `
+      <p class="muted small" style="margin-bottom:16px">Switch an item off to hide it from the QR menu and the app at <b>${esc(bName)}</b> — 86ing a dish takes one tap and applies to that branch only. ${off.length ? `<b>${off.length}</b> currently off.` : ''}</p>
+      ${AV_SECTIONS.map(s => `<h3 style="margin:20px 0 8px;font-size:16px;color:var(--clay)">${esc(s.name)}</h3>
+        <table class="tb"><tbody>${AV_MENU.filter(i => i.section === s.name).map(i => `
+          <tr><td style="width:100%"><b style="font-weight:600">${esc(i.name)}</b>
+              <div class="tiny muted">${esc(i.cat)}${i.desc ? ' · ' + esc(i.desc.slice(0, 60)) : ''}</div></td>
+            <td class="num muted">${i.price != null ? money(i.price) : '—'}</td>
+            <td><label class="switch"><input type="checkbox" data-av="${i.id}" ${off.includes(i.id) ? '' : 'checked'}><span></span></label></td>
+          </tr>`).join('')}</tbody></table>`).join('')}`;
+
+    $('#view').addEventListener('change', async e => {
+      const c = e.target.closest('[data-av]'); if (!c) return;
+      await AV.settings.toggleAvailability(b, c.dataset.av);
+      toast((AV_MENU.find(i => i.id === c.dataset.av) || {}).name + (c.checked ? ' back on' : ' marked sold out'), 'good');
+    });
+  }
+
+  /* ----------------------------- settings -------------------------------- */
+  function renderSettings() {
+    const l = AV.settings.getSync().loyalty;
+    $('#view').innerHTML = `<div style="max-width:660px">
+      <div class="card card-pad" style="margin-bottom:16px">
+        <h3 style="font-size:17px;margin-bottom:4px">Loyalty programme</h3>
+        <p class="small muted" style="margin-bottom:16px">Change any rule and every screen — QR menu, app wallet and POS — follows immediately.</p>
+
+        <div class="between" style="padding:10px 0;border-bottom:1px solid var(--line-soft)">
+          <div><b>Programme enabled</b><div class="small muted">Turn off to hide points everywhere</div></div>
+          <label class="switch"><input type="checkbox" id="sEnabled" ${l.enabled ? 'checked' : ''}><span></span></label>
+        </div>
+
+        <div class="row" style="gap:12px;margin-top:16px">
+          <label class="field grow"><span>Points earned per ${AV_CONFIG.currency}1</span>
+            <input class="input" type="number" id="sEarn" value="${l.earnPerDollar}" min="0" step="0.5"></label>
+          <label class="field grow"><span>${AV_CONFIG.currency} value of 1 point</span>
+            <input class="input" type="number" id="sValue" value="${l.pointValue}" min="0.01" step="0.01"></label>
+        </div>
+        <div class="row" style="gap:12px">
+          <label class="field grow"><span>Redemption block</span>
+            <input class="input" type="number" id="sBlock" value="${l.redeemBlock}" min="1" step="10"></label>
+          <label class="field grow"><span>Minimum to redeem</span>
+            <input class="input" type="number" id="sMin" value="${l.minRedeem}" min="0" step="10"></label>
+          <label class="field grow"><span>Expiry (months)</span>
+            <input class="input" type="number" id="sExp" value="${l.expiryMonths}" min="1" step="1"></label>
+        </div>
+
+        <div class="between" style="padding:10px 0;border-top:1px solid var(--line-soft)">
+          <div><b>Tier multipliers</b><div class="small muted">Bronze / Silver / Gold with bonus earn rates</div></div>
+          <label class="switch"><input type="checkbox" id="sTiers" ${l.tiersEnabled ? 'checked' : ''}><span></span></label>
+        </div>
+        <div id="tierBox" ${l.tiersEnabled ? '' : 'hidden'}>
+          <table class="tb" style="margin-top:8px"><thead><tr><th>Tier</th><th>From</th><th>Earn</th><th>Perk</th></tr></thead>
+            <tbody>${l.tiers.map(t => `<tr><td><b>${esc(t.name)}</b></td><td class="num">${t.from}</td>
+              <td><span class="chip gold">${t.mult}×</span></td><td class="small muted">${esc(t.perk)}</td></tr>`).join('')}</tbody></table>
+        </div>
+
+        <div class="notice" style="margin-top:16px;background:var(--clay-wash);border-left:3px solid var(--clay);padding:11px 14px;border-radius:0 8px 8px 0">
+          <b>Currently:</b> ${esc(Loyalty.summaryLine())} · points post on completion · ${l.expiryMonths}-month expiry
+        </div>
+        <button class="btn btn-primary" id="sSave" style="margin-top:16px">Save rules</button>
+      </div>
+
+      <div class="card card-pad">
+        <h3 style="font-size:17px;margin-bottom:10px">Branches</h3>
+        ${AV_CONFIG.branches.map(b => `<div class="between" style="padding:9px 0;border-bottom:1px solid var(--line-soft)">
+          <div class="row" style="gap:10px">${icon('building', 17)}<div><b>${esc(b.name)}</b>
+            <div class="small muted">${esc(b.area)} · ${b.tables} tables · ${esc(b.hours)}</div></div></div>
+          <span class="chip gray">${esc(b.phone)}</span></div>`).join('')}
+        <p class="tiny muted" style="margin-top:12px">Branch two is a placeholder — swap the name, area and phone in <code>assets/menu-data.js</code>.</p>
+      </div>
+    </div>`;
+
+    $('#sTiers').onchange = e => $('#tierBox').hidden = !e.target.checked;
+    $('#sSave').onclick = async () => {
+      await AV.settings.setLoyalty({
+        enabled: $('#sEnabled').checked,
+        earnPerDollar: parseFloat($('#sEarn').value) || 1,
+        pointValue: parseFloat($('#sValue').value) || 0.1,
+        redeemBlock: parseInt($('#sBlock').value, 10) || 100,
+        minRedeem: parseInt($('#sMin').value, 10) || 100,
+        expiryMonths: parseInt($('#sExp').value, 10) || 12,
+        tiersEnabled: $('#sTiers').checked
+      });
+      toast('Loyalty rules saved', 'good'); renderSettings();
+    };
+  }
+
+  /* --------------------------- demo simulator ---------------------------- */
+  const NAMES = ['Shanice Browne', 'Terrence Hodge', 'Naomi Spencer', 'Kwame Osei', 'Leah Martin', 'Andre Gilbert'];
+  async function simulateOrder() {
+    const b = branch === 'all' ? AV_CONFIG.branches[Math.floor(Math.random() * 2)] : AV_CONFIG.branches.find(x => x.id === branch);
+    const pool = AV_MENU.filter(i => i.price != null && AV.settings.isAvailable(b.id, i.id));
+    const n = 2 + Math.floor(Math.random() * 3);
+    const items = [];
+    for (let i = 0; i < n; i++) {
+      const it = pool[Math.floor(Math.random() * pool.length)];
+      if (items.find(x => x.id === it.id)) continue;
+      items.push({ id: it.id, name: it.name, qty: 1 + Math.floor(Math.random() * 2), price: it.price });
+    }
+    const nm = NAMES[Math.floor(Math.random() * NAMES.length)];
+    const o = await AV.orders.create({
+      branch: b.id, table: 1 + Math.floor(Math.random() * b.tables), mode: 'dine-in', source: 'qr',
+      customer: { name: nm, phone: '268' + Math.floor(1000000 + Math.random() * 8999999) }, items
+    });
+    toast('New order ' + o.code + ' from Table ' + o.table);
+  }
+
+  /* Live refresh: an order placed on the QR menu or the app lands here. */
+  AV.subscribe(reason => {
+    if (reason === 'order:create' && view !== 'orders') toast('New order received');
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
