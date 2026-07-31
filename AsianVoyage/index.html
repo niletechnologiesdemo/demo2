@@ -103,10 +103,8 @@
   <h2 style="font-size:24px;margin-bottom:20px">Try the whole loop in two minutes</h2>
   <div class="flow" id="flow"></div>
 
-  <div style="background:var(--clay-wash);border-radius:var(--radius-lg);padding:24px;margin:44px 0 0">
-    <h3 style="font-size:18px;margin-bottom:8px">Notes for the client conversation</h3>
-    <ul class="feat" id="notes" style="margin:0"></ul>
-    <button class="btn btn-ghost btn-sm" id="reset" style="margin-top:14px"></button>
+  <div style="margin:40px 0 0;text-align:center">
+    <button class="btn btn-ghost btn-sm" id="reset"></button>
   </div>
 </div>
 
@@ -222,15 +220,6 @@
     ['Watch the console', 'Open the admin console in a second tab. The order appears instantly, with the guest\'s points balance.'],
     ['Cook, bill and settle', 'Move it through the kitchen, print the ticket, add a tip, take payment — points post on settlement.']
   ].map(([t, d]) => `<div><b>${esc(t)}</b><span class="muted">${d}</span></div>`).join('');
-
-  $('#notes').innerHTML = [
-    'Branch two is a placeholder — Cedar Plaza is real, the second name, area and phone need confirming.',
-    'The soup section shares one price grid (Vegetable / Chicken / Shrimp), so every soup is modelled with those three options — worth confirming that reading.',
-    'Sparkling water is listed at EC$18 against EC$8 for still — possibly a typo in the printed menu.',
-    'The printed menu lists "Vegetable Tempura Roll" twice with different descriptions; the second is shown as "Yasai Tempura Roll".',
-    'No dish photography exists yet, so the menu is designed to look deliberate without it.',
-    'Orders sync between tabs on this machine only. A real deployment swaps one file for Supabase and it works across devices.'
-  ].map(n => `<li>${icon('info', 14)}<span>${n}</span></li>`).join('');
 
   $('#reset').innerHTML = icon('refresh', 14) + ' Reset demo data';
   $('#reset').onclick = async () => {
