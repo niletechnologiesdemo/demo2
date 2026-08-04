@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en-GB" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Off That Couch Fitness — App UI Mockup</title>
+<meta name="description" content="Phase 1 high-fidelity app UI design — Off That Couch Fitness">
+<link rel="stylesheet" href="otcf.css?v=3">
+</head>
+<body>
+
+<!-- ================= TOP BAR ================= -->
+<header class="shell-top">
+  <div class="shell-top-in">
+    <div class="brandmark">
+      <img id="brandLogo" src="LogoDark.jpeg" alt="Off That Couch Fitness">
+      <div>
+        <div class="bm-t">App UI Mockup</div>
+        <div class="bm-s">Phase 1 · iOS &amp; Android</div>
+      </div>
+    </div>
+    <nav class="shell-nav">
+      <a href="#system">Design system</a>
+      <a href="#onboard">Onboarding</a>
+      <a href="#daily">Daily loop</a>
+      <a href="#library">Plans &amp; content</a>
+      <a href="#intel">Coach &amp; fuel</a>
+      <a href="#convert">Insight &amp; conversion</a>
+    </nav>
+    <button class="theme-tog" id="themeTog">
+      <span id="themeIc"></span><span id="themeTx">Light</span>
+    </button>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-copy">
+    <span class="hero-eyebrow"><span id="heroDot"></span> Phase 1 · High-fidelity UI</span>
+    <h1>One app for the plan,<br>the data, the food<br>and the <em>coach</em>.</h1>
+    <p class="lede">
+      Training plan apps don't track what you eat. Nutrition apps don't know what you're training for.
+      Fitness trackers give you numbers and no guidance. Phase 1 puts all four in one place — and lets them
+      talk to each other.
+    </p>
+    <div class="hero-meta">
+      <span>15 interconnected screens</span>
+      <span>Light &amp; dark</span>
+      <span>Brand-matched palette</span>
+      <span>Tap anything to navigate</span>
+    </div>
+    <div class="notes" style="margin-top:34px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">
+      <div class="note">
+        <div class="nh" id="n1"></div>
+        <p>Plans span triathlon, running, cycling, swimming, strength and recovery — every activity on the OTCF site.</p>
+      </div>
+      <div class="note">
+        <div class="nh" id="n2"></div>
+        <p>Each plan carries PDF, video and audio guides, all served from the admin console.</p>
+      </div>
+      <div class="note">
+        <div class="nh" id="n3"></div>
+        <p>Nutrition targets move with the day's training load. That link is the product.</p>
+      </div>
+    </div>
+  </div>
+  <div class="hero-dev">
+    <div class="phone" id="heroPhone">
+      <div class="notch"></div>
+      <div class="phone-scr" data-screen="today"></div>
+    </div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;max-width:390px;margin-top:20px" id="heroPicker"></div>
+  </div>
+</section>
+
+<!-- ================= DESIGN SYSTEM ================= -->
+<section class="sec" id="system">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <div>
+      <h2>Design system</h2>
+      <p>Built from the supplied logo. The brand green carries every primary action and doubles as the Run
+         discipline colour; the other disciplines take their own hues so charts stay readable without
+         inventing a second brand.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+
+  <div class="swatches" style="margin-bottom:34px">
+    <div class="sw"><div class="c" style="background:#3FA448"></div><div class="n">Brand green</div><div class="h">#3FA448</div></div>
+    <div class="sw"><div class="c" style="background:#55BE63"></div><div class="n">Green — dark UI</div><div class="h">#55BE63</div></div>
+    <div class="sw"><div class="c" style="background:#2F8A38"></div><div class="n">Green — light UI</div><div class="h">#2F8A38</div></div>
+    <div class="sw"><div class="c" style="background:#070A08"></div><div class="n">Ink</div><div class="h">#070A08</div></div>
+    <div class="sw"><div class="c" style="background:#29A9D4"></div><div class="n">Swim</div><div class="h">#29A9D4</div></div>
+    <div class="sw"><div class="c" style="background:#F0932B"></div><div class="n">Bike</div><div class="h">#F0932B</div></div>
+    <div class="sw"><div class="c" style="background:#8B72E0"></div><div class="n">Strength</div><div class="h">#8B72E0</div></div>
+    <div class="sw"><div class="c" style="background:#E0574B"></div><div class="n">Brick / race</div><div class="h">#E0574B</div></div>
+  </div>
+
+  <div class="notes">
+    <div class="note"><div class="nh" id="s1"></div>
+      <p><b>Dark is the primary theme.</b> The logo is dark-first, and endurance athletes use the app at 5am and
+         after dusk. Light mode is a full, equal treatment — not an afterthought — and every screen here renders
+         in both.</p></div>
+    <div class="note"><div class="nh" id="s2"></div>
+      <p><b>Green is rationed.</b> It marks the one thing that matters on each screen: today's key session, the
+         primary button, the unlock. Everything else is neutral so the green always reads as "act here".</p></div>
+    <div class="note"><div class="nh" id="s3"></div>
+      <p><b>Numbers are the hero.</b> Tabular figures, tight tracking, heavy weights. An athlete scans for
+         watts, paces and grams — the type scale is built around making those instantly findable.</p></div>
+    <div class="note"><div class="nh" id="s4"></div>
+      <p><b>No emoji anywhere.</b> Every icon is a hand-tuned inline SVG on a single stroke system, so the
+         interface reads as a serious training tool rather than a consumer toy.</p></div>
+  </div>
+</section>
+
+<!-- ================= BOARDS ================= -->
+<section class="sec" id="onboard">
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <div>
+      <h2>Onboarding — first run to first session</h2>
+      <p>Seven steps, but the athlete only ever sees one decision at a time. The plan preview does the selling:
+         it shows the real generated plan — phases, weekly shape, what's free — before asking for a card.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+  <div class="board" data-board="welcome,goal,preview"></div>
+</section>
+
+<section class="sec" id="daily">
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <div>
+      <h2>The daily loop</h2>
+      <p>The habit the whole product depends on. Open the app, see one clear session, train, and have it log
+         itself when the watch syncs. Everything else is secondary to getting this loop right.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+  <div class="board" data-board="today,session,calendar"></div>
+</section>
+
+<section class="sec" id="library">
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <div>
+      <h2>Plan library &amp; training content</h2>
+      <p>Every discipline on the OTCF site, each plan packaged as a training plan plus guides in PDF, video and
+         audio. Locked content is always visible and blurred — never a dead end, always an upsell surface.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+  <div class="board" data-board="plans,plandetail,guide"></div>
+</section>
+
+<section class="sec" id="intel">
+  <div class="sec-head">
+    <span class="sec-num">05</span>
+    <div>
+      <h2>Coach &amp; nutrition</h2>
+      <p>The differentiator, made visible. The coach answers a training question by looking at fuelling data;
+         the nutrition targets move because of what's on the plan today. Neither is possible in a single-category app.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+  <div class="board" data-board="coach,fuel,scan"></div>
+</section>
+
+<section class="sec" id="convert">
+  <div class="sec-head">
+    <span class="sec-num">06</span>
+    <div>
+      <h2>Insight &amp; conversion</h2>
+      <p>Analytics is where the three data streams finally sit on one surface. The paywall arrives after that
+         value has been felt, not before it.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+  <div class="board" data-board="analytics,paywall,me"></div>
+</section>
+
+<footer class="footer">
+  <b style="color:var(--text-2)">Off That Couch Fitness — Phase 1 app UI mockup.</b><br>
+  Prepared by Nile Technologies for discussion. Indicative design, not final production UI.
+  Data shown is illustrative. Palette derived from the supplied OTCF logo.
+</footer>
+
+<script src="otcf-icons.js?v=3"></script>
+<script src="otcf-app.js?v=3"></script>
+<script>
+(function () {
+  const I = window.otcfIcon, S = window.OTCF_SCREENS;
+
+  /* ---------- render a screen into a phone-scr element ---------- */
+  function paint(el, id) {
+    if (!S[id]) return;
+    el.dataset.screen = id;
+    el.innerHTML = S[id].fn();
+    el.scrollTop = 0;
+    swapLogos(el);
+  }
+
+  /* ---------- navigation delegation ---------- */
+  document.addEventListener('click', function (e) {
+    const t = e.target.closest('[data-go]');
+    if (!t) return;
+    const scr = t.closest('.phone-scr');
+    if (!scr) return;
+    e.preventDefault();
+    const id = t.getAttribute('data-go');
+    if (S[id]) { paint(scr, id); syncPicker(); }
+  });
+
+  /* ---------- build the boards ---------- */
+  document.querySelectorAll('[data-board]').forEach(function (board) {
+    board.getAttribute('data-board').split(',').forEach(function (id) {
+      const m = S[id];
+      const wrap = document.createElement('div');
+      wrap.className = 'dev-wrap';
+      wrap.innerHTML =
+        '<div class="dev-cap"><div class="k">' + m.k + ' — ' + m.t + '</div>' +
+        '<div class="t" style="display:none"></div><div class="d">' + m.d + '</div></div>' +
+        '<div class="phone sm"><div class="notch"></div><div class="phone-scr"></div></div>';
+      board.appendChild(wrap);
+      paint(wrap.querySelector('.phone-scr'), id);
+    });
+  });
+
+  /* ---------- hero phone + picker ---------- */
+  const heroScr = document.querySelector('#heroPhone .phone-scr');
+  paint(heroScr, 'today');
+
+  const picker = document.getElementById('heroPicker');
+  Object.keys(S).forEach(function (id) {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.textContent = S[id].t;
+    b.dataset.pick = id;
+    b.addEventListener('click', function () { paint(heroScr, id); syncPicker(); });
+    picker.appendChild(b);
+  });
+  function syncPicker() {
+    const cur = heroScr.dataset.screen;
+    picker.querySelectorAll('[data-pick]').forEach(function (b) {
+      b.classList.toggle('on', b.dataset.pick === cur);
+    });
+  }
+  syncPicker();
+
+  /* ---------- logo swap for theme ---------- */
+  function swapLogos(root) {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    (root || document).querySelectorAll('img.lg-dark').forEach(function (img) {
+      img.src = dark ? 'LogoDark.jpeg' : 'LogoWhite.jpeg';
+    });
+  }
+
+  /* ---------- theme ---------- */
+  const tog = document.getElementById('themeTog');
+  function applyTheme(mode) {
+    document.documentElement.setAttribute('data-theme', mode);
+    document.getElementById('brandLogo').src = mode === 'dark' ? 'LogoDark.jpeg' : 'LogoWhite.jpeg';
+    document.getElementById('themeIc').innerHTML = I(mode === 'dark' ? 'sun' : 'moon', { size: 15 });
+    document.getElementById('themeTx').textContent = mode === 'dark' ? 'Light' : 'Dark';
+    swapLogos();
+  }
+  tog.addEventListener('click', function () {
+    applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+  applyTheme('dark');
+
+  /* ---------- static icon slots ---------- */
+  document.getElementById('heroDot').innerHTML = I('zap', { size: 12, fill: 'currentColor' });
+  const slots = {
+    n1: ['layers', 'Every OTCF discipline'],
+    n2: ['video', 'PDF · video · audio'],
+    n3: ['apple', 'Fuelling meets load'],
+    s1: ['moon', 'Dark-first, light-equal'],
+    s2: ['zap', 'Green means act'],
+    s3: ['chart', 'Numbers lead'],
+    s4: ['shield', 'Icons, never emoji'],
+  };
+  Object.keys(slots).forEach(function (k) {
+    const el = document.getElementById(k);
+    if (el) el.innerHTML = I(slots[k][0], { size: 16 }) + '<b>' + slots[k][1] + '</b>';
+  });
+
+  /* ---------- smooth anchors ---------- */
+  document.querySelectorAll('.shell-nav a').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      const el = document.querySelector(a.getAttribute('href'));
+      if (!el) return;
+      e.preventDefault();
+      window.scrollTo({ top: el.offsetTop - 72, behavior: 'smooth' });
+    });
+  });
+})();
+</script>
+</body>
+</html>
