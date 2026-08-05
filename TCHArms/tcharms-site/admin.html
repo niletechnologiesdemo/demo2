@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/tch.css?v=1">
+<link rel="stylesheet" href="css/tch.css?v=2">
 </head>
 <body data-page="admin">
 
@@ -96,8 +96,8 @@
   </section>
 </main>
 
-<script src="js/tch-data.js?v=1"></script>
-<script src="js/tch.js?v=1"></script>
+<script src="js/tch-data.js?v=2"></script>
+<script src="js/tch.js?v=2"></script>
 <script>
 const KEY = "tch_media_v1";
 let state = null;
@@ -286,22 +286,22 @@ function pageInit() {
   transition:all .25s;
 }
 .tab-heads button:hover{color:var(--text);border-color:var(--line)}
-.tab-heads button.is-active{background:var(--blue-wash);border-color:var(--blue);color:var(--blue-bright)}
+.tab-heads button.is-active{background:var(--blue-wash);border-color:var(--blue);color:var(--blue-deep)}
 .admin-panel{display:none}
 .admin-panel.is-active{display:block;animation:fadeIn .34s var(--ease)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 .dropzone{
   border:1.5px dashed var(--line);border-radius:4px;padding:44px 24px;text-align:center;
-  background:rgba(255,255,255,.02);margin-bottom:26px;transition:all .3s var(--ease);cursor:pointer;
+  background:#FBFDFF;margin-bottom:26px;transition:all .3s var(--ease);cursor:pointer;
 }
 .dropzone:hover{border-color:var(--blue);background:var(--blue-wash)}
 .dropzone.is-over{border-color:var(--blue);background:var(--blue-wash);transform:scale(1.008)}
-.dz-mark{color:var(--blue);margin-bottom:14px}
-.dropzone h4{font-family:var(--display);font-size:1.05rem;color:var(--white);text-transform:uppercase;
+.dz-mark{color:var(--blue-ink);margin-bottom:14px}
+.dropzone h4{font-family:var(--display);font-size:1.05rem;color:var(--ink);text-transform:uppercase;
   letter-spacing:.05em;margin:0 0 7px}
 .dropzone p{color:var(--muted);font-size:.9rem;margin:0}
-.linkish{background:none;border:0;color:var(--blue-bright);cursor:pointer;font:inherit;
+.linkish{background:none;border:0;color:var(--blue-ink);cursor:pointer;font:inherit;
   text-decoration:underline;padding:0}
 
 .media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
@@ -311,13 +311,13 @@ function pageInit() {
 }
 .media-item:hover{border-color:rgba(0,150,252,.42);transform:translateY(-3px)}
 .media-thumb{
-  position:relative;height:150px;background:linear-gradient(158deg,#333944,#272C34);
+  position:relative;height:150px;background:linear-gradient(165deg,var(--fig-1),var(--fig-2));
   display:flex;align-items:center;justify-content:center;padding:8px;
 }
 /* contained so nothing is cropped, whatever shape gets uploaded */
 .media-thumb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
 .media-badge{
-  position:absolute;bottom:7px;right:7px;background:rgba(20,23,28,.86);color:var(--text);
+  position:absolute;bottom:7px;right:7px;background:rgba(255,255,255,.92);color:var(--text);border:1px solid var(--line-soft);
   font-family:var(--display);font-size:.62rem;letter-spacing:.1em;padding:3px 8px;border-radius:2px;
 }
 .media-item figcaption{padding:12px 14px;border-top:1px solid var(--line-soft)}
@@ -327,11 +327,11 @@ function pageInit() {
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .media-del{
   position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:2px;
-  background:rgba(20,23,28,.8);border:1px solid var(--line);color:var(--muted);cursor:pointer;
+  background:rgba(255,255,255,.94);border:1px solid var(--line);color:var(--muted);cursor:pointer;
   display:flex;align-items:center;justify-content:center;opacity:0;transition:all .25s;
 }
 .media-item:hover .media-del{opacity:1}
-.media-del:hover{background:rgba(246,0,0,.2);border-color:var(--vampir);color:#FF6161}
+.media-del:hover{background:#FDECEC;border-color:var(--vampir-ink);color:var(--vampir-ink)}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media (max-width:700px){ .two-col{grid-template-columns:1fr} .admin-count{margin-left:0} }
 </style>

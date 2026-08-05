@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/tch.css?v=1">
+<link rel="stylesheet" href="css/tch.css?v=2">
 </head>
 <body data-page="order">
 
@@ -73,8 +73,8 @@
   </section>
 </main>
 
-<script src="js/tch-data.js?v=1"></script>
-<script src="js/tch.js?v=1"></script>
+<script src="js/tch-data.js?v=2"></script>
+<script src="js/tch.js?v=2"></script>
 <script>
 function pageInit() {
   const order = ["rs9", "rs9x", "mount"];
@@ -146,17 +146,17 @@ function pageInit() {
   display:flex;align-items:center;gap:8px;margin-top:13px;padding-top:13px;
   border-top:1px solid var(--line-soft);font-size:.8rem;color:var(--dim);
 }
-.ffl-flag svg{color:var(--blue);flex:none}
+.ffl-flag svg{color:var(--blue-ink);flex:none}
 
 .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line-soft);border-radius:4px;overflow:hidden}
 .flow-step{padding:26px 22px;background:var(--surface);border-right:1px solid var(--line-soft);transition:background .3s}
 .flow-step:last-child{border-right:0}
 .flow-step:hover{background:var(--raised)}
 .flow-num{
-  font-family:var(--display);font-size:1.5rem;color:var(--blue);font-weight:600;
+  font-family:var(--display);font-size:1.5rem;color:var(--blue-ink);font-weight:600;
   margin-bottom:11px;line-height:1;
 }
-.flow-copy h4{font-family:var(--display);font-size:.92rem;color:var(--white);text-transform:uppercase;
+.flow-copy h4{font-family:var(--display);font-size:.92rem;color:var(--ink);text-transform:uppercase;
   letter-spacing:.05em;margin:0 0 8px}
 .flow-copy p{font-size:.86rem;color:var(--muted);margin:0;line-height:1.55}
 

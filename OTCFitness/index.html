@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Off That Couch Fitness — App UI Mockup</title>
-<meta name="description" content="Phase 1 high-fidelity app UI design — Off That Couch Fitness">
+<title>Off That Couch Fitness — App UI Mockup · Option 2</title>
+<meta name="description" content="Option 2 — guided plans, training library, wearable data, nutrition and AI coach">
 <link rel="stylesheet" href="otcf.css?v=3">
 </head>
 <body>
@@ -15,17 +15,19 @@
     <div class="brandmark">
       <img id="brandLogo" src="LogoDark.jpeg" alt="Off That Couch Fitness">
       <div>
-        <div class="bm-t">App UI Mockup</div>
-        <div class="bm-s">Phase 1 · iOS &amp; Android</div>
+        <div class="bm-t">Option 2 · App UI</div>
+        <div class="bm-s">Plan &amp; Task Led · iOS &amp; Android</div>
       </div>
     </div>
     <nav class="shell-nav">
+      <a href="#compare">Option 1 vs 2</a>
       <a href="#system">Design system</a>
       <a href="#onboard">Onboarding</a>
       <a href="#daily">Daily loop</a>
       <a href="#library">Plans &amp; content</a>
       <a href="#intel">Coach &amp; fuel</a>
       <a href="#convert">Insight &amp; conversion</a>
+      <a href="index-option1.html" style="color:var(--accent)">See Option 1 →</a>
     </nav>
     <button class="theme-tog" id="themeTog">
       <span id="themeIc"></span><span id="themeTx">Light</span>
@@ -36,7 +38,7 @@
 <!-- ================= HERO ================= -->
 <section class="hero">
   <div class="hero-copy">
-    <span class="hero-eyebrow"><span id="heroDot"></span> Phase 1 · High-fidelity UI</span>
+    <span class="hero-eyebrow"><span id="heroDot"></span> Option 2 · Plan &amp; Task Led</span>
     <h1>One app for the plan,<br>the data, the food<br>and the <em>coach</em>.</h1>
     <p class="lede">
       Training plan apps don't track what you eat. Nutrition apps don't know what you're training for.
@@ -46,7 +48,6 @@
     <div class="hero-meta">
       <span>15 interconnected screens</span>
       <span>Light &amp; dark</span>
-      <span>Brand-matched palette</span>
       <span>Tap anything to navigate</span>
     </div>
     <div class="notes" style="margin-top:34px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">
@@ -73,10 +74,58 @@
   </div>
 </section>
 
+<!-- ================= COMPARISON ================= -->
+<section class="sec" id="compare">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <div>
+      <h2>Option 2 — and how it differs from Option 1</h2>
+      <p>Both options build the same app, with the same wearable integration, the same nutrition module and the
+         same AI coach. The only question is whether the app also <em style="font-style:normal;color:var(--accent)">schedules</em>
+         the athlete, or simply gives them the material to train from.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+
+  <div class="notes" style="grid-template-columns:1fr 1fr">
+    <div class="note">
+      <div class="nh" id="c1"></div>
+      <p><b>Option 1 — the athlete chooses.</b> They browse the library, open a guide, and work through its modules
+         whenever suits. Progress is measured by what they've read and watched. There is no schedule to fall behind.</p>
+      <p style="margin-top:10px"><b>Includes:</b> training library with PDF / video / audio · Apple Health &amp;
+         Health Connect · nutrition module with AI meal logging · AI Coach · analytics · admin console.</p>
+      <p style="margin-top:12px"><a href="index-option1.html" style="color:var(--accent);font-weight:650;text-decoration:none">See the Option 1 mockup →</a></p>
+    </div>
+    <div class="note" style="border-color:color-mix(in srgb, var(--accent) 34%, var(--border));
+                             background:color-mix(in srgb, var(--accent) 5%, var(--surface))">
+      <div class="nh" id="c2"></div>
+      <p><b>Option 2 — the app prescribes.</b> Steve authors a plan per category, the athlete activates one, and the
+         app hands them weekly training tasks with structured sessions. They tick each one off, and compliance
+         becomes a real metric the coach can talk about. <b>This is the version shown below.</b></p>
+      <p style="margin-top:10px"><b>Adds:</b> plan builder in admin · plan activation &amp; personalisation ·
+         dated calendar · structured session screen · mark-as-complete · auto-match from wearable ·
+         reschedule tools · compliance analytics.</p>
+      <p style="margin-top:12px"><span style="color:var(--text-3);font-weight:650">You are viewing this option</span></p>
+    </div>
+  </div>
+
+  <div class="notes" style="margin-top:16px">
+    <div class="note"><div class="nh" id="c3"></div>
+      <p>Option 2 contains everything in Option 1 and adds the scheduled layer on top. Starting with Option 1 throws
+         nothing away — the plan engine sits above the library rather than replacing it.</p></div>
+    <div class="note"><div class="nh" id="c4"></div>
+      <p>Pushing structured workouts out to a Garmin or Wahoo is Phase 2 in both options, and only becomes possible
+         once the plan engine in Option 2 exists.</p></div>
+    <div class="note"><div class="nh" id="c5"></div>
+      <p>A scheduled programme and a content library are different propositions to sell, and support different
+         subscription prices. Worth weighing alongside the build itself.</p></div>
+  </div>
+</section>
+
 <!-- ================= DESIGN SYSTEM ================= -->
 <section class="sec" id="system">
   <div class="sec-head">
-    <span class="sec-num">01</span>
+    <span class="sec-num">02</span>
     <div>
       <h2>Design system</h2>
       <p>Built from the supplied logo. The brand green carries every primary action and doubles as the Run
@@ -117,7 +166,7 @@
 <!-- ================= BOARDS ================= -->
 <section class="sec" id="onboard">
   <div class="sec-head">
-    <span class="sec-num">02</span>
+    <span class="sec-num">03</span>
     <div>
       <h2>Onboarding — first run to first session</h2>
       <p>Seven steps, but the athlete only ever sees one decision at a time. The plan preview does the selling:
@@ -130,7 +179,7 @@
 
 <section class="sec" id="daily">
   <div class="sec-head">
-    <span class="sec-num">03</span>
+    <span class="sec-num">04</span>
     <div>
       <h2>The daily loop</h2>
       <p>The habit the whole product depends on. Open the app, see one clear session, train, and have it log
@@ -143,7 +192,7 @@
 
 <section class="sec" id="library">
   <div class="sec-head">
-    <span class="sec-num">04</span>
+    <span class="sec-num">05</span>
     <div>
       <h2>Plan library &amp; training content</h2>
       <p>Every discipline on the OTCF site, each plan packaged as a training plan plus guides in PDF, video and
@@ -156,7 +205,7 @@
 
 <section class="sec" id="intel">
   <div class="sec-head">
-    <span class="sec-num">05</span>
+    <span class="sec-num">06</span>
     <div>
       <h2>Coach &amp; nutrition</h2>
       <p>The differentiator, made visible. The coach answers a training question by looking at fuelling data;
@@ -169,7 +218,7 @@
 
 <section class="sec" id="convert">
   <div class="sec-head">
-    <span class="sec-num">06</span>
+    <span class="sec-num">07</span>
     <div>
       <h2>Insight &amp; conversion</h2>
       <p>Analytics is where the three data streams finally sit on one surface. The paywall arrives after that
@@ -181,9 +230,10 @@
 </section>
 
 <footer class="footer">
-  <b style="color:var(--text-2)">Off That Couch Fitness — Phase 1 app UI mockup.</b><br>
+  <b style="color:var(--text-2)">Off That Couch Fitness — Option 2: Plan &amp; Task Led. App UI mockup.</b><br>
   Prepared by Nile Technologies for discussion. Indicative design, not final production UI.
-  Data shown is illustrative. Palette derived from the supplied OTCF logo.
+  Data shown is illustrative. Palette derived from the supplied OTCF logo.<br>
+  <a href="index-option1.html" style="color:var(--accent)">View Option 1: Library Led →</a>
 </footer>
 
 <script src="otcf-icons.js?v=3"></script>
@@ -276,6 +326,11 @@
     n1: ['layers', 'Every OTCF discipline'],
     n2: ['video', 'PDF · video · audio'],
     n3: ['apple', 'Fuelling meets load'],
+    c1: ['book', 'Option 1 — Library Led'],
+    c2: ['calendar', 'Option 2 — Plan &amp; Task Led'],
+    c3: ['layers', 'A superset, not a fork'],
+    c4: ['watch', 'Device push needs Option 2'],
+    c5: ['target', 'Different price ceiling'],
     s1: ['moon', 'Dark-first, light-equal'],
     s2: ['zap', 'Green means act'],
     s3: ['chart', 'Numbers lead'],

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/tch.css?v=1">
+<link rel="stylesheet" href="css/tch.css?v=2">
 </head>
 <body data-page="accessories">
 
@@ -36,8 +36,8 @@
   </section>
 </main>
 
-<script src="js/tch-data.js?v=1"></script>
-<script src="js/tch.js?v=1"></script>
+<script src="js/tch-data.js?v=2"></script>
+<script src="js/tch.js?v=2"></script>
 <script>
 function pageInit() {
   const id = new URLSearchParams(location.search).get("id") || "tee";
@@ -78,7 +78,7 @@ function pageInit() {
       </div>
 
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px">
-        <span style="font-family:var(--display);font-size:2.2rem;color:var(--white)">${tchMoney(p.price)}</span>
+        <span style="font-family:var(--display);font-size:2.2rem;color:var(--ink)">${tchMoney(p.price)}</span>
         ${stockTag}
       </div>
 
@@ -146,12 +146,12 @@ function pageInit() {
 <style>
 .product-detail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:52px;align-items:start}
 .product-hero{
-  background:linear-gradient(168deg,#333944,#272C34);border:1px solid var(--line-soft);border-radius:4px;
+  background:radial-gradient(66% 70% at 50% 46%,rgba(0,150,252,.10),rgba(0,150,252,0) 72%),linear-gradient(165deg,var(--fig-1),var(--fig-2));border:1px solid var(--line-soft);border-radius:4px;
   padding:40px;display:flex;align-items:center;justify-content:center;min-height:400px;
 }
 /* contained, so the product is never clipped by its frame */
 .product-hero img{max-width:100%;max-height:460px;width:auto;height:auto;object-fit:contain;
-  filter:drop-shadow(0 18px 30px rgba(0,0,0,.5))}
+  filter:drop-shadow(0 16px 22px rgba(16,36,64,.22))}
 .tabs{margin-top:30px;border-top:1px solid var(--line-soft);padding-top:22px}
 .tab-heads{display:flex;gap:6px;margin-bottom:16px}
 .tab-heads button{
@@ -160,7 +160,7 @@ function pageInit() {
   transition:all .25s;
 }
 .tab-heads button:hover{color:var(--text);border-color:var(--line)}
-.tab-heads button.is-active{background:var(--blue-wash);border-color:var(--blue);color:var(--blue-bright)}
+.tab-heads button.is-active{background:var(--blue-wash);border-color:var(--blue);color:var(--blue-deep)}
 .tab-body{display:none;color:var(--muted);font-size:.93rem}
 .tab-body.is-active{display:block;animation:fadeIn .34s var(--ease)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}

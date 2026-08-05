@@ -53,7 +53,7 @@
     document.body.insertAdjacentHTML("afterbegin", `
       <header class="nav" id="nav">
         <div class="nav-inner">
-          <a href="index.html" class="nav-logo"><img src="assets/brand/tch-logo.webp" alt="TCH Arms"></a>
+          <a href="index.html" class="nav-logo"><img src="assets/brand/tch-logo-light.webp" alt="TCH Arms"></a>
           <nav class="nav-links" id="navLinks">${links}</nav>
           <a href="cart.html" class="nav-cart" id="navCart" aria-label="Cart">
             ${I.cart}<span class="count" id="cartCount">0</span>
@@ -68,7 +68,7 @@
         <div class="shell">
           <div class="footer-grid">
             <div>
-              <div class="footer-logo"><img src="assets/brand/tch-logo.webp" alt="TCH Arms"></div>
+              <div class="footer-logo"><img src="assets/brand/tch-logo-light.webp" alt="TCH Arms"></div>
               <p style="color:var(--muted);font-size:.9rem;max-width:290px">
                 ${c.tagline}
               </p>

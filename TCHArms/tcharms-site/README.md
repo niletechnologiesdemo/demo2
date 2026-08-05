@@ -58,6 +58,31 @@ subtotal `$1,349.00`, shipping `$45.00`, tax `$121.25`, card fee `$53.03`, total
 The payment step hands off to the client's existing card processor rather than taking card details
 on the site. The FFL dealer's name, phone and address are captured before that handoff.
 
+## Theme
+
+Light throughout. The page plane is `#F4F7FA`, cards and chart surfaces are white, and depth comes
+from layered shadow rather than borders. Product figures sit on a soft cool wash with a grounded
+drop shadow, which is what makes the black pistols read as the darkest thing on the page.
+
+| Role | Value | Note |
+| --- | --- | --- |
+| Page | `#F4F7FA` | |
+| Card / panel | `#FFFFFF` | |
+| Figure wash | `#FFFFFF` to `#E7EFF8` | where the pistols sit |
+| Brand blue | `#0096FC` | fills, marks, focus rings, underlines. Never text |
+| Blue ink | `#0A6FBF` | links and labels, 5.2:1 on white |
+| Heading ink | `#131820` | |
+| Body text | `#2E3846` | |
+| VAMPIR red | `#F60000` | wordmark and display type only |
+| Compliance amber | rule `#E0A526`, text `#8A6410` | ATF and FFL notices |
+
+The vivid brand blue is only 3.1:1 on white, so it is reserved for fills while `--blue-ink` carries
+text. Every page was audited: all body text meets 4.5:1 and all large text 3:1 against its actual
+composited background.
+
+Two logo files ship. `tch-logo-light.webp` (blue shield, dark wordmark) is what the site uses.
+`tch-logo.webp` is a white-wordmark variant, unused by the site but kept for dark collateral.
+
 ## Assets
 
 `assets/` is generated from the client's supplied files, reduced from roughly 250 MB of source to
@@ -67,8 +92,8 @@ about 2 MB of WebP.
   the green fringe, trims to the alpha bounding box, then places all six angles of a model on one
   shared 1500x1000 canvas at a single scale, so the viewer never jumps and relative size between
   the RS9 and RS9 X stays truthful.
-- The supplied logo has a black wordmark, so a light version is derived for dark surfaces by
-  recolouring everything that is not the shield blue.
+- The supplied logo is used close to as-delivered on the light theme: the shield keeps its blue and
+  the black wordmark is deepened slightly to `#131820` so it reads as ink rather than pure black.
 - Gallery images keep their natural aspect ratio everywhere they appear. Nothing is cropped.
 
 ## Placeholders needing client input
