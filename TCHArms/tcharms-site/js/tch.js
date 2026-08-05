@@ -98,6 +98,7 @@
                 <li><a href="gallery.html">Gallery</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
                 <li><a href="admin.html">Media Manager</a></li>
+                <li><a href="console.html">Admin Console</a></li>
               </ul>
             </div>
           </div>

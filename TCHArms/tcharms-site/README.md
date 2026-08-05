@@ -30,8 +30,55 @@ Then visit <http://localhost:8731>. The dev server sends `no-store` so edits sho
 | `contact.html` | Contact form, hours, direct details |
 | `about.html` | Company and manufacturer background |
 | `admin.html` | Media Manager for photos, video and reviewers |
+| `console.html` | Admin Console. Back office for orders, catalogue and content |
 
 `rs9.html` and `rs9x.html` share `js/spec-page.js`, driven by `<body data-model>`.
+
+## Admin Console
+
+`console.html` is the back office, built on the same brand tokens as the storefront but on a
+denser scale. It is a single page with eight views; `js/console-data.js` holds the seed model and
+`js/console.js` the behaviour. State mirrors to localStorage so a demo survives a reload, and
+Settings has a reset.
+
+| View | What it does |
+| --- | --- |
+| Dashboard | KPI row, revenue chart by product type, transfer pipeline, recent orders |
+| Orders | Search and filter, then open any order for the full record |
+| Products | Catalogue with stock meters. Create and edit products and their variants |
+| Product Types | Define a type once; every product filed under it inherits the rules |
+| Content | Edit the storefront copy blocks. Legal wording is flagged and revertable |
+| Customers | Built from order history, with lifetime spend and usual dealer |
+| FFL Dealers | Licence numbers, expiry warnings and transfer volume |
+| Settings | Tax rate, card fee, shipping by type, worked example, reset |
+
+**Product types carry the compliance rules.** A type sets whether products need an FFL transfer,
+the minimum age, whether units are serialised, and the shipping rate. Filing a product under
+`Firearm` is what makes it ship to a dealer, so that behaviour is set once rather than remembered
+per product. The product form shows the inherited rules inline as you pick the type.
+
+**Variants** hold their own SKU, price adjustment and stock. Product stock is the sum of its
+variants, checked against a reorder point that drives the low-stock warnings.
+
+**Orders** follow the real pipeline: placed, payment settled, awaiting dealer details, licence
+verified, shipped, transferred. Accessory-only orders skip the two dealer steps. Each order can be
+progressed from the drawer, and recording a dealer opens a form that captures the name, FFL number,
+expiry and address before the licence can be marked verified. Nothing can be shipped past the
+dealer step without one on file.
+
+Order totals use the same maths as the storefront checkout, so a given order shows an identical
+figure in both places.
+
+### Chart
+
+Revenue by product type is a stacked bar over twelve weeks. The three series use
+`#0F72C9`, `#EB6834` and `#1BAF7A`, validated all-pairs against the white panel (worst CVD ΔE 9.2,
+worst normal-vision ΔE 24.4). The apparel green sits at 2.82:1 on white, below the 3:1 mark, so the
+chart ships a legend, direct labels on the peak and latest weeks, a hover tooltip with exact
+figures, and a Table toggle rather than relying on the fill alone.
+
+Firearms dominate revenue by roughly twenty to one, so the accessory and apparel bands are thin.
+That is the honest shape of the data; the tooltip and table carry the precise numbers.
 
 ## How it is wired
 
