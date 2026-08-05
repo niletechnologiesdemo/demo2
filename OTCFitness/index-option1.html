@@ -19,7 +19,6 @@
       </div>
     </div>
     <nav class="shell-nav">
-      <a href="#compare">Option 1 vs 2</a>
       <a href="#start">Getting started</a>
       <a href="#library">Training library</a>
       <a href="#intel">Coach &amp; fuel</a>
@@ -64,58 +63,9 @@
   </div>
 </section>
 
-<!-- ================= COMPARISON ================= -->
-<section class="sec" id="compare">
-  <div class="sec-head">
-    <span class="sec-num">01</span>
-    <div>
-      <h2>Option 1 — and how it differs from Option 2</h2>
-      <p>Both options build the same app, with the same wearable integration, the same nutrition module and the
-         same AI coach. The only question is whether the app also <em style="font-style:normal;color:var(--accent)">schedules</em>
-         the athlete, or simply gives them the material to train from.</p>
-    </div>
-  </div>
-  <div class="sec-rule"></div>
-
-  <div class="notes" style="grid-template-columns:1fr 1fr">
-    <div class="note" style="border-color:color-mix(in srgb, var(--accent) 34%, var(--border));
-                             background:color-mix(in srgb, var(--accent) 5%, var(--surface))">
-      <div class="nh" id="c1"></div>
-      <p><b>Option 1 — the athlete chooses.</b> They browse the library, open a guide, and work through its modules
-         whenever suits. Progress is measured by what they've read and watched. There is no schedule to fall behind.
-         <b>This is the version shown below.</b></p>
-      <p style="margin-top:10px"><b>Includes:</b> training library with PDF / video / audio · Apple Health &amp;
-         Health Connect · nutrition module with AI meal logging · AI Coach · analytics · admin console.</p>
-      <p style="margin-top:12px"><span style="color:var(--text-3);font-weight:650">You are viewing this option</span></p>
-    </div>
-    <div class="note">
-      <div class="nh" id="c2"></div>
-      <p><b>Option 2 — the app prescribes.</b> Steve authors a plan per category, the athlete activates one, and the
-         app hands them weekly training tasks with structured sessions. They tick each one off, and compliance
-         becomes a real metric the coach can talk about.</p>
-      <p style="margin-top:10px"><b>Adds:</b> plan builder in admin · plan activation &amp; personalisation ·
-         dated calendar · structured session screen · mark-as-complete · auto-match from wearable ·
-         reschedule tools · compliance analytics.</p>
-      <p style="margin-top:12px"><a href="index.html" style="color:var(--accent);font-weight:650;text-decoration:none">See the Option 2 mockup →</a></p>
-    </div>
-  </div>
-
-  <div class="notes" style="margin-top:16px">
-    <div class="note"><div class="nh" id="c3"></div>
-      <p>Option 2 contains everything in Option 1 and adds the scheduled layer on top. Starting with Option 1 throws
-         nothing away — the plan engine sits above the library rather than replacing it.</p></div>
-    <div class="note"><div class="nh" id="c4"></div>
-      <p>Pushing structured workouts out to a Garmin or Wahoo is Phase 2 in both options, and only becomes
-         possible once the plan engine in Option 2 exists.</p></div>
-    <div class="note"><div class="nh" id="c5"></div>
-      <p>A scheduled programme and a content library are different propositions to sell, and support different
-         subscription prices. Worth weighing alongside the build itself.</p></div>
-  </div>
-</section>
-
 <section class="sec" id="start">
   <div class="sec-head">
-    <span class="sec-num">02</span>
+    <span class="sec-num">01</span>
     <div>
       <h2>Getting started</h2>
       <p>Four onboarding steps instead of seven. Nothing needs collecting in order to build a plan, so the athlete
@@ -128,7 +78,7 @@
 
 <section class="sec" id="library">
   <div class="sec-head">
-    <span class="sec-num">03</span>
+    <span class="sec-num">02</span>
     <div>
       <h2>The training library</h2>
       <p>In Option 1 this <em style="font-style:normal;color:var(--accent)">is</em> the product. Guides are measured
@@ -141,7 +91,7 @@
 
 <section class="sec" id="intel">
   <div class="sec-head">
-    <span class="sec-num">04</span>
+    <span class="sec-num">03</span>
     <div>
       <h2>Coach &amp; nutrition</h2>
       <p>Unchanged from Option 2, and still the differentiator. The coach reads training, sleep and fuelling
@@ -154,7 +104,7 @@
 
 <section class="sec" id="convert">
   <div class="sec-head">
-    <span class="sec-num">05</span>
+    <span class="sec-num">04</span>
     <div>
       <h2>Insight &amp; conversion</h2>
       <p>Analytics reports what the athlete actually recorded. Without a plan there is no planned-versus-actual and
@@ -255,11 +205,6 @@
     n1: ['book', 'A real content library'],
     n2: ['watch', 'Data with no admin'],
     n3: ['apple', 'Fuelling meets activity'],
-    c1: ['book', 'Option 1 — Library Led'],
-    c2: ['calendar', 'Option 2 — Plan &amp; Task Led'],
-    c3: ['layers', 'A subset, not a fork'],
-    c4: ['watch', 'Device push needs Option 2'],
-    c5: ['target', 'Different price ceiling'],
   };
   Object.keys(slots).forEach(function (k) {
     const el = document.getElementById(k);
