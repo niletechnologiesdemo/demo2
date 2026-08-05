@@ -29,7 +29,7 @@ const IMAGE_DATA = {
 
     "D1": "images/D1.png",
     "D2": "images/D2.JPG",
-    "D3": "images/D3.jpg",
+    "D3": "images/D3.JPG",
 
     "E": "images/E.png",
     "F": "images/F.JPG",
@@ -41,15 +41,15 @@ const IMAGE_DATA = {
 
     "H": "images/H.JPG",
 
-    "I": "images/I.jpg",
-    "J": "images/J.jpg",
-    "K": "images/K.jpg",
+    "I": "images/tradeshow-booth.jpg",
+    "J": "images/football-luncheon.jpg",
+    "K": "images/magic.png",
     "L": "images/L.jpg",
 
     "M": "images/M.JPG",
 
     "N": "images/N.jpg",
-    "O": "images/O.png",
+    "O": "images/golden-pic.png",
     "P": "images/P.JPG",
     
     "Q": "images/Q.png",
@@ -179,7 +179,7 @@ const ITEMS = [
     slides: ['O'],
     isSlideshow: false,
     text: 'Dancers costumes stole the show!',
-    mediaType: 'video'
+    mediaType: 'image'
   },
   {
     code: 'P',
@@ -508,6 +508,49 @@ document.addEventListener('keydown', e => {
         </div>
       </div>
 
+      <!-- ========== Videos ========== -->
+      <div class="gallery-section gallery-videos" id="videos">
+        <div class="container">
+          <h2 class="videos-title">Videos</h2>
+          <div class="value-video-grid">
+              <figure class="value-video">
+                <div class="value-video-frame">
+                  <button type="button" class="value-video-poster" data-yt="bqKYRKFXN50" data-yt-title="Laser Show Chartered Ship" aria-label="Play video: Laser Show Chartered Ship"><img src="https://img.youtube.com/vi/bqKYRKFXN50/hqdefault.jpg" alt="Laser Show Chartered Ship &mdash; video thumbnail"><span class="value-video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>
+                </div>
+                <figcaption>Laser Show Chartered Ship</figcaption>
+              </figure>
+
+              <figure class="value-video">
+                <div class="value-video-frame">
+                  <button type="button" class="value-video-poster" data-yt="vZRadnL17Dc" data-yt-title="Meeting Host Mark Walberg" aria-label="Play video: Meeting Host Mark Walberg"><img src="https://img.youtube.com/vi/vZRadnL17Dc/hqdefault.jpg" alt="Meeting Host Mark Walberg &mdash; video thumbnail"><span class="value-video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>
+                </div>
+                <figcaption>Meeting Host Mark Walberg</figcaption>
+              </figure>
+
+              <figure class="value-video">
+                <div class="value-video-frame">
+                  <button type="button" class="value-video-poster" data-yt="wfnp4wVVov0" data-yt-title="HoloDisplay" aria-label="Play video: HoloDisplay"><img src="https://img.youtube.com/vi/wfnp4wVVov0/hqdefault.jpg" alt="HoloDisplay &mdash; video thumbnail"><span class="value-video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>
+                </div>
+                <figcaption>HoloDisplay</figcaption>
+              </figure>
+
+              <figure class="value-video">
+                <div class="value-video-frame">
+                  <button type="button" class="value-video-poster" data-yt="zAJruzJRv24" data-yt-title="GOT Dances" aria-label="Play video: GOT Dances"><img src="https://img.youtube.com/vi/zAJruzJRv24/hqdefault.jpg" alt="GOT Dances &mdash; video thumbnail"><span class="value-video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>
+                </div>
+                <figcaption>GOT Dances</figcaption>
+              </figure>
+
+              <figure class="value-video">
+                <div class="value-video-frame">
+                  <button type="button" class="value-video-poster" data-yt="Qyh8MzC-lmo" data-yt-title="Acapella" aria-label="Play video: Acapella"><img src="https://img.youtube.com/vi/Qyh8MzC-lmo/hqdefault.jpg" alt="Acapella &mdash; video thumbnail"><span class="value-video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>
+                </div>
+                <figcaption>Acapella</figcaption>
+              </figure>
+          </div>
+        </div>
+      </div>
+
       
         <!-- ========== text-moving Start ========== -->
         <div class="contact-text-moving">
@@ -667,6 +710,26 @@ document.addEventListener('keydown', e => {
   </div>
 </div>
 
+<script>
+(function () {
+  'use strict';
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.value-video-poster') : null;
+    if (!btn) return;
+    var id = btn.getAttribute('data-yt');
+    var title = btn.getAttribute('data-yt-title') || 'Video';
+    var iframe = document.createElement('iframe');
+    /* Pages opened straight from disk (file://) get the plain embed —
+       YouTube can reject the autoplay form there. Served pages autoplay. */
+    iframe.src = 'https://www.youtube.com/embed/' + id +
+      (location.protocol === 'file:' ? '' : '?autoplay=1&rel=0');
+    iframe.title = title;
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+    iframe.setAttribute('allowfullscreen', '');
+    btn.parentNode.replaceChild(iframe, btn);
+  });
+})();
+</script>
 <script src="js/chatbot.js"></script>
 </body>
 </html>

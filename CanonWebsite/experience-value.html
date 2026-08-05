@@ -265,52 +265,6 @@
             </div>
           </section>
 
-          <!-- ============ Video showcase (from the current site) ============ -->
-          <section class="value-section value-video-section" id="innovation-video">
-            <div class="value-section-head">
-              <span class="value-eyebrow">Value</span>
-              <h2 class="value-title">Innovation in Action</h2>
-              <p class="value-tagline">360&deg; / VR / AR and live show highlights</p>
-            </div>
-
-            <div class="value-video-grid">
-              <figure class="value-video">
-                <div class="value-video-frame">
-                  <button type="button" class="value-video-poster" data-yt="bqKYRKFXN50" data-yt-title="Laser Show Chartered Ship" aria-label="Play video: Laser Show Chartered Ship"><img src="https://img.youtube.com/vi/bqKYRKFXN50/hqdefault.jpg" alt="Laser Show Chartered Ship &mdash; video thumbnail"><span class="value-video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>
-                </div>
-                <figcaption>Laser Show Chartered Ship</figcaption>
-              </figure>
-
-              <figure class="value-video">
-                <div class="value-video-frame">
-                  <button type="button" class="value-video-poster" data-yt="vZRadnL17Dc" data-yt-title="Meeting Host Mark Walberg" aria-label="Play video: Meeting Host Mark Walberg"><img src="https://img.youtube.com/vi/vZRadnL17Dc/hqdefault.jpg" alt="Meeting Host Mark Walberg &mdash; video thumbnail"><span class="value-video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>
-                </div>
-                <figcaption>Meeting Host Mark Walberg</figcaption>
-              </figure>
-
-              <figure class="value-video">
-                <div class="value-video-frame">
-                  <button type="button" class="value-video-poster" data-yt="wfnp4wVVov0" data-yt-title="HoloDisplay" aria-label="Play video: HoloDisplay"><img src="https://img.youtube.com/vi/wfnp4wVVov0/hqdefault.jpg" alt="HoloDisplay &mdash; video thumbnail"><span class="value-video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>
-                </div>
-                <figcaption>HoloDisplay</figcaption>
-              </figure>
-
-              <figure class="value-video">
-                <div class="value-video-frame">
-                  <button type="button" class="value-video-poster" data-yt="zAJruzJRv24" data-yt-title="GOT Dances" aria-label="Play video: GOT Dances"><img src="https://img.youtube.com/vi/zAJruzJRv24/hqdefault.jpg" alt="GOT Dances &mdash; video thumbnail"><span class="value-video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>
-                </div>
-                <figcaption>GOT Dances</figcaption>
-              </figure>
-
-              <figure class="value-video">
-                <div class="value-video-frame">
-                  <button type="button" class="value-video-poster" data-yt="Qyh8MzC-lmo" data-yt-title="Acapella" aria-label="Play video: Acapella"><img src="https://img.youtube.com/vi/Qyh8MzC-lmo/hqdefault.jpg" alt="Acapella &mdash; video thumbnail"><span class="value-video-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span></button>
-                </div>
-                <figcaption>Acapella</figcaption>
-              </figure>
-            </div>
-          </section>
-
         </div>
       </div>
 
@@ -452,23 +406,6 @@
       pagination: { el: el.querySelector('.swiper-pagination'), clickable: true }
     });
   });
-</script>
-<script>
-(function () {
-  'use strict';
-  document.addEventListener('click', function (e) {
-    var btn = e.target.closest ? e.target.closest('.value-video-poster') : null;
-    if (!btn) return;
-    var id = btn.getAttribute('data-yt');
-    var title = btn.getAttribute('data-yt-title') || 'Video';
-    var iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
-    iframe.title = title;
-    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-    iframe.setAttribute('allowfullscreen', '');
-    btn.parentNode.replaceChild(iframe, btn);
-  });
-})();
 </script>
 <script src="js/chatbot.js"></script>
 </body>

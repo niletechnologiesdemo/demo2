@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en-GB" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Off That Couch Fitness — App UI Mockup · Option 1</title>
+<meta name="description" content="Option 1 — training library, wearable data, nutrition and AI coach">
+<link rel="stylesheet" href="otcf.css?v=3">
+</head>
+<body>
+
+<header class="shell-top">
+  <div class="shell-top-in">
+    <div class="brandmark">
+      <img id="brandLogo" src="LogoDark.jpeg" alt="Off That Couch Fitness">
+      <div>
+        <div class="bm-t">Option 1 · App UI</div>
+        <div class="bm-s">Library-led · iOS &amp; Android</div>
+      </div>
+    </div>
+    <nav class="shell-nav">
+      <a href="#compare">Option 1 vs 2</a>
+      <a href="#start">Getting started</a>
+      <a href="#library">Training library</a>
+      <a href="#intel">Coach &amp; fuel</a>
+      <a href="#convert">Insight &amp; conversion</a>
+      <a href="index.html" style="color:var(--accent)">See Option 2 →</a>
+    </nav>
+    <button class="theme-tog" id="themeTog">
+      <span id="themeIc"></span><span id="themeTx">Light</span>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-copy">
+    <span class="hero-eyebrow"><span id="heroDot"></span> Option 1 · Library-led</span>
+    <h1>The training content,<br>your data, your food<br>and the <em>coach</em>.</h1>
+    <p class="lede">
+      The athlete picks a guide from Steve's library and works through it in their own time. The app doesn't
+      schedule them — it gives them the knowledge, reads their wearable, tracks what they eat, and answers
+      questions about all of it.
+    </p>
+    <div class="hero-meta">
+      <span>12 interconnected screens</span>
+      <span>No generated schedule</span>
+      <span>Light &amp; dark</span>
+      <span>Tap anything to navigate</span>
+    </div>
+    <div class="notes" style="margin-top:34px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">
+      <div class="note"><div class="nh" id="n1"></div>
+        <p>Every discipline on the OTCF site, delivered as PDF, video and audio modules from the admin console.</p></div>
+      <div class="note"><div class="nh" id="n2"></div>
+        <p>Wearable data flows in automatically. Nothing to log, nothing to tick off.</p></div>
+      <div class="note"><div class="nh" id="n3"></div>
+        <p>Nutrition targets move with what the watch actually recorded, not with a prescribed session.</p></div>
+    </div>
+  </div>
+  <div class="hero-dev">
+    <div class="phone" id="heroPhone">
+      <div class="notch"></div>
+      <div class="phone-scr" data-screen="home"></div>
+    </div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;max-width:390px;margin-top:20px" id="heroPicker"></div>
+  </div>
+</section>
+
+<!-- ================= COMPARISON ================= -->
+<section class="sec" id="compare">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <div>
+      <h2>What changes from Option 2</h2>
+      <p>One module comes out: the plan engine. Everything else in the app is untouched. That single removal
+         takes the dated calendar, the structured session screen and the completion tracking with it.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+
+  <div class="notes" style="grid-template-columns:1fr 1fr">
+    <div class="note" style="border-color:color-mix(in srgb, var(--accent) 32%, var(--border))">
+      <div class="nh" id="c1"></div>
+      <p><b>Option 1 — the athlete chooses.</b> They browse the library, open a guide, and work through its modules
+         whenever suits. Progress is measured by what they've read and watched. There is no schedule to fall behind.</p>
+      <p style="margin-top:10px"><b>In scope:</b> training library with PDF / video / audio · Apple Health &amp;
+         Health Connect · nutrition module with AI meal logging · AI Coach · analytics · admin console.</p>
+    </div>
+    <div class="note">
+      <div class="nh" id="c2"></div>
+      <p><b>Option 2 — the app prescribes.</b> Steve authors a plan per category, the athlete activates one, and the
+         app hands them weekly training tasks with structured sessions. They tick each one off, and compliance
+         becomes a real metric the coach can talk about.</p>
+      <p style="margin-top:10px"><b>Adds:</b> plan builder in admin · plan activation &amp; personalisation ·
+         dated calendar · structured session screen · mark-as-complete · auto-match from wearable ·
+         reschedule tools · compliance analytics.</p>
+    </div>
+  </div>
+
+  <div class="notes" style="margin-top:16px">
+    <div class="note"><div class="nh" id="c3"></div>
+      <p>Nothing is lost from the library in Option 2 — it contains everything in Option 1 and adds the scheduled
+         layer on top. Option 1 is the smaller first release, not a different product.</p></div>
+    <div class="note"><div class="nh" id="c4"></div>
+      <p>Pushing structured workouts out to a Garmin or Wahoo is Phase 2 in both options, and only becomes
+         possible once the plan engine from Option 2 exists.</p></div>
+    <div class="note"><div class="nh" id="c5"></div>
+      <p>Option 1 prices lower because there is less to sell — a library subscription, not a coaching programme.
+         Worth modelling before choosing.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="start">
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <div>
+      <h2>Getting started</h2>
+      <p>Four onboarding steps instead of seven. Nothing needs collecting in order to build a plan, so the athlete
+         reaches the library — and their first bit of value — far sooner.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+  <div class="board" data-board="welcome,setup,home"></div>
+</section>
+
+<section class="sec" id="library">
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <div>
+      <h2>The training library</h2>
+      <p>In Option 1 this <em style="font-style:normal;color:var(--accent)">is</em> the product. Guides are measured
+         in modules and running time rather than weeks, and every module carries its PDF, video and audio.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+  <div class="board" data-board="plans,plandetail,guide"></div>
+</section>
+
+<section class="sec" id="intel">
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <div>
+      <h2>Coach &amp; nutrition</h2>
+      <p>Unchanged from Option 2, and still the differentiator. The coach reads training, sleep and fuelling
+         together — and can point the athlete at the module that answers their question.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+  <div class="board" data-board="coach,fuel,scan"></div>
+</section>
+
+<section class="sec" id="convert">
+  <div class="sec-head">
+    <span class="sec-num">05</span>
+    <div>
+      <h2>Insight &amp; conversion</h2>
+      <p>Analytics reports what the athlete actually recorded. Without a plan there is no planned-versus-actual and
+         no compliance figure — that is the one real analytical loss in Option 1.</p>
+    </div>
+  </div>
+  <div class="sec-rule"></div>
+  <div class="board" data-board="analytics,paywall,me"></div>
+</section>
+
+<footer class="footer">
+  <b style="color:var(--text-2)">Off That Couch Fitness — Option 1 app UI mockup.</b><br>
+  Prepared by Nile Technologies for discussion. Indicative design, not final production UI.
+  Data shown is illustrative. Option 2 is at <a href="index.html" style="color:var(--accent)">index.html</a>.
+</footer>
+
+<script src="otcf-icons.js?v=3"></script>
+<script src="otcf-app-v2.js?v=3"></script>
+<script>
+(function () {
+  const I = window.otcfIcon, S = window.OTCF_SCREENS;
+
+  function paint(el, id) {
+    if (!S[id]) return;
+    el.dataset.screen = id;
+    el.innerHTML = S[id].fn();
+    el.scrollTop = 0;
+    swapLogos(el);
+  }
+
+  document.addEventListener('click', function (e) {
+    const t = e.target.closest('[data-go]');
+    if (!t) return;
+    const scr = t.closest('.phone-scr');
+    if (!scr) return;
+    e.preventDefault();
+    const id = t.getAttribute('data-go');
+    if (S[id]) { paint(scr, id); syncPicker(); }
+  });
+
+  document.querySelectorAll('[data-board]').forEach(function (board) {
+    board.getAttribute('data-board').split(',').forEach(function (id) {
+      const m = S[id];
+      const wrap = document.createElement('div');
+      wrap.className = 'dev-wrap';
+      wrap.innerHTML =
+        '<div class="dev-cap"><div class="k">' + m.k + ' — ' + m.t + '</div>' +
+        '<div class="d">' + m.d + '</div></div>' +
+        '<div class="phone sm"><div class="notch"></div><div class="phone-scr"></div></div>';
+      board.appendChild(wrap);
+      paint(wrap.querySelector('.phone-scr'), id);
+    });
+  });
+
+  const heroScr = document.querySelector('#heroPhone .phone-scr');
+  paint(heroScr, 'home');
+
+  const picker = document.getElementById('heroPicker');
+  Object.keys(S).forEach(function (id) {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.textContent = S[id].t;
+    b.dataset.pick = id;
+    b.addEventListener('click', function () { paint(heroScr, id); syncPicker(); });
+    picker.appendChild(b);
+  });
+  function syncPicker() {
+    const cur = heroScr.dataset.screen;
+    picker.querySelectorAll('[data-pick]').forEach(function (b) {
+      b.classList.toggle('on', b.dataset.pick === cur);
+    });
+  }
+  syncPicker();
+
+  function swapLogos(root) {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    (root || document).querySelectorAll('img.lg-dark').forEach(function (img) {
+      img.src = dark ? 'LogoDark.jpeg' : 'LogoWhite.jpeg';
+    });
+  }
+
+  const tog = document.getElementById('themeTog');
+  function applyTheme(mode) {
+    document.documentElement.setAttribute('data-theme', mode);
+    document.getElementById('brandLogo').src = mode === 'dark' ? 'LogoDark.jpeg' : 'LogoWhite.jpeg';
+    document.getElementById('themeIc').innerHTML = I(mode === 'dark' ? 'sun' : 'moon', { size: 15 });
+    document.getElementById('themeTx').textContent = mode === 'dark' ? 'Light' : 'Dark';
+    swapLogos();
+  }
+  tog.addEventListener('click', function () {
+    applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+  applyTheme('dark');
+
+  document.getElementById('heroDot').innerHTML = I('book', { size: 12 });
+  const slots = {
+    n1: ['book', 'A real content library'],
+    n2: ['watch', 'Data with no admin'],
+    n3: ['apple', 'Fuelling meets activity'],
+    c1: ['book', 'Option 1 — library-led'],
+    c2: ['calendar', 'Option 2 — plan-led'],
+    c3: ['layers', 'A subset, not a fork'],
+    c4: ['watch', 'Device push needs Option 2'],
+    c5: ['target', 'Different price ceiling'],
+  };
+  Object.keys(slots).forEach(function (k) {
+    const el = document.getElementById(k);
+    if (el) el.innerHTML = I(slots[k][0], { size: 16 }) + '<b>' + slots[k][1] + '</b>';
+  });
+
+  document.querySelectorAll('.shell-nav a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      const el = document.querySelector(a.getAttribute('href'));
+      if (!el) return;
+      e.preventDefault();
+      window.scrollTo({ top: el.offsetTop - 72, behavior: 'smooth' });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -59,7 +59,7 @@
       html: '<p>Our <b>Production</b> experience spans Corporate theater, Broadway and Network Television worldwide: video production, post-production, Live INFOtainment, presentation technologies, specialty software programming, <b>Name Entertainment</b> and <b>Guest Speakers</b>.</p><p>We can bring in singers and dancers from Broadway, comedy troupes, illusionists — anything your meeting needs to be memorable.</p>',
       links: [
         { t: 'Production Services', href: 'services.html#Production' },
-        { t: 'Watch Our Videos', href: 'experience-value.html#innovation-video' }
+        { t: 'Watch Our Videos', href: 'gallery.html#videos' }
       ]
     },
     {
@@ -102,7 +102,7 @@
         { t: 'SoftSET', href: 'experience-value.html#softset' },
         { t: 'FastSET', href: 'experience-value.html#fastset' },
         { t: 'INFOpods', href: 'experience-value.html#infopods' },
-        { t: 'Innovation Videos', href: 'experience-value.html#innovation-video' }
+        { t: 'Innovation Videos', href: 'gallery.html#videos' }
       ]
     },
     {
@@ -110,7 +110,7 @@
       strong: ['innovation in action', 'laser show', 'mark walberg', 'holodisplay', 'got dances', 'acapella', 'watch videos'],
       keywords: ['watch', 'youtube', 'laser', 'hologram'],
       html: '<p>Our <b>Innovation in Action</b> videos: Laser Show Chartered Ship, Meeting Host Mark Walberg, HoloDisplay, GOT Dances, and Acapella.</p>',
-      links: [{ t: 'Watch the Videos', href: 'experience-value.html#innovation-video' }]
+      links: [{ t: 'Watch the Videos', href: 'gallery.html#videos' }]
     },
     {
       id: 'screen-size',
