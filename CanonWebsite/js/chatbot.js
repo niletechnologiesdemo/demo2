@@ -109,7 +109,7 @@
       id: 'videos',
       strong: ['innovation in action', 'laser show', 'mark walberg', 'holodisplay', 'got dances', 'acapella', 'watch videos'],
       keywords: ['watch', 'youtube', 'laser', 'hologram'],
-      html: '<p>Our <b>Innovation in Action</b> videos: Laser Show Chartered Ship, Meeting Host Mark Walberg, HoloDisplay, GOT Dances, and Acapella.</p>',
+      html: '<p>Our <b>Innovation in Action</b> videos: Laser Show Chartered Ship, Meeting Host Mark L. Walberg, HoloDisplay, GOT Dances, and Acapella.</p>',
       links: [{ t: 'Watch the Videos', href: 'gallery.html#videos' }]
     },
     {
