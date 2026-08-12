@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout | Lapostolle Wines</title>
+<link rel="icon" href="assets/site/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<section class="sec" style="padding-top:150px;min-height:90vh">
+  <div class="wrap" id="coWrap">
+    <div class="crumbs rv" style="margin-bottom:26px"><a href="index.html">Home</a> <span class="sep">/</span> <a href="store.html">Store</a> <span class="sep">/</span> <span>Checkout</span></div>
+    <h1 class="h-1 rv" style="margin-bottom:34px">Checkout</h1>
+
+    <div class="co-layout" id="coLayout">
+      <div>
+        <div class="steps rv">
+          <div class="step on" data-s="1">1 · Details</div>
+          <div class="step" data-s="2">2 · Delivery</div>
+          <div class="step" data-s="3">3 · Payment</div>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="co-panel rv" id="step1">
+          <h2>Contact &amp; delivery address</h2>
+          <div class="frow">
+            <div class="field"><label>First name</label><input id="fName" value="Ronnie" autocomplete="given-name"></div>
+            <div class="field"><label>Last name</label><input id="lName" value="Hazell" autocomplete="family-name"></div>
+          </div>
+          <div class="field"><label>Email</label><input type="email" id="email" value="ronnie@example.co.uk" autocomplete="email"></div>
+          <div class="field"><label>Phone</label><input id="phone" value="07700 900123" autocomplete="tel"></div>
+          <div class="field"><label>Address line 1</label><input id="addr1" value="14 Vintners Row"></div>
+          <div class="frow">
+            <div class="field"><label>Town / city</label><input id="town" value="Burgess Hill"></div>
+            <div class="field"><label>Postcode</label><input id="pcode" value="RH15 8QY"></div>
+          </div>
+          <div class="co-actions">
+            <a class="link-arrow" href="store.html">← Continue shopping</a>
+            <button class="btn solid" onclick="goStep(2)">Continue to delivery</button>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="co-panel rv" id="step2" hidden>
+          <h2>Delivery</h2>
+          <div class="demo-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.2"/><path d="M12 10.8v6M12 7.4v.4"/></svg>
+            One flat rate: £9, whether you order 1 bottle or 120.
+          </div>
+          <label class="check" style="border:1px solid var(--black);padding:18px;margin-bottom:10px">
+            <input type="radio" name="del" checked>
+            <span><b style="font-weight:500">Standard tracked delivery — £9.00</b><br>
+            <span class="muted" style="font-size:13px">Within 3 working days · signed for by an adult 18+</span></span>
+          </label>
+          <label class="check" style="border:1px solid var(--border);padding:18px">
+            <input type="radio" name="del" disabled>
+            <span><b style="font-weight:500">Next working day — by quote</b><br>
+            <span class="muted" style="font-size:13px">Order before noon and email info@lapostollewines.co.uk for a quote</span></span>
+          </label>
+          <div class="field" style="margin-top:20px"><label>Delivery instructions (optional)</label><textarea placeholder="e.g. Leave with the neighbour at no. 16 if not in" style="min-height:80px"></textarea></div>
+          <div class="field"><label>Gift message (optional)</label><input placeholder="Add a handwritten card to the parcel"></div>
+          <div class="co-actions">
+            <button class="btn" onclick="goStep(1)">← Back</button>
+            <button class="btn solid" onclick="goStep(3)">Continue to payment</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="co-panel rv" id="step3" hidden>
+          <h2>Payment</h2>
+          <div class="demo-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.2"/><path d="M12 10.8v6M12 7.4v.4"/></svg>
+            Design sample only. No payment is taken and no card details are stored.
+          </div>
+          <div class="pay-methods">
+            <span class="paym">Visa</span><span class="paym">Mastercard</span><span class="paym">Amex</span><span class="paym">Maestro</span>
+          </div>
+          <div class="field"><label>Name on card</label><input value="R HAZELL"></div>
+          <div class="field"><label>Card number</label><input value="4242 4242 4242 4242" inputmode="numeric"></div>
+          <div class="frow">
+            <div class="field"><label>Expiry</label><input value="08/28"></div>
+            <div class="field"><label>Security code</label><input value="123"></div>
+          </div>
+          <label class="check"><input type="checkbox" checked> Billing address is the same as delivery</label>
+          <div class="co-actions">
+            <button class="btn" onclick="goStep(2)">← Back</button>
+            <button class="btn solid" id="payBtn" onclick="placeOrder()">Pay <span id="payTotal"></span> securely</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <aside class="co-summary rv" style="--d:.15s" id="summary"></aside>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="order-done" id="orderDone" hidden>
+      <div class="od-seal">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12.5 9.5 18 20 6"/></svg>
+      </div>
+      <div class="eyebrow center" style="justify-content:center">Order confirmed</div>
+      <h1 class="h-1" style="margin:14px 0 10px">Thank you, <span class="italic gold" id="doneName">Ronnie</span></h1>
+      <p class="lead" style="margin:0 auto">Your order <b class="gold" id="doneRef"></b> has been received. A confirmation email is on its way to <span id="doneEmail"></span>. Every parcel is signed for by an adult 18 or over.</p>
+      <div class="timeline" id="doneTimeline"></div>
+      <div style="display:flex;gap:14px;justify-content:center;margin-top:40px;flex-wrap:wrap">
+        <a class="btn solid" href="account.html">Track this order</a>
+        <a class="btn" href="store.html">Continue shopping</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+let discount = 0, promoCode = "";
+
+function totals() {
+  const sub = Cart.subtotal;
+  const disc = sub * discount;
+  return { sub, disc, total: sub - disc + (Cart.items.length ? SHIPPING_FLAT : 0) };
+}
+
+function renderSummary() {
+  const s = document.getElementById("summary");
+  if (!Cart.items.length) {
+    s.innerHTML = `<h3>Order summary</h3><p class="muted">Your cart is empty.</p><a class="btn" href="store.html" style="width:100%;margin-top:10px">Shop the wines</a>`;
+    return;
+  }
+  const t = totals();
+  s.innerHTML = `
+    <h3>Order summary</h3>
+    ${Cart.items.map(({ id, qty }) => {
+      const p = findProduct(id);
+      return `<div class="cs-item">
+        <div class="im"><img src="${p.images[0]}" alt=""><span class="q">${qty}</span></div>
+        <div><div class="nm">${p.name} ${p.vintage || ""}</div><div class="muted" style="font-size:11.5px">${p.range}</div></div>
+        <span class="pr">${money(p.price * qty)}</span>
+      </div>`;
+    }).join("")}
+    <div class="promo">
+      <input id="promoIn" placeholder="Discount code" value="${promoCode}">
+      <button class="btn sm" onclick="applyPromo()">Apply</button>
+    </div>
+    <p class="muted" style="font-size:11.5px;margin:0 0 4px">Try <b class="gold">WELCOME10</b> in this sample</p>
+    <div class="cart-line" style="margin-top:12px"><span>Subtotal</span><span>${money(t.sub)}</span></div>
+    ${discount ? `<div class="cart-line"><span>Discount (${promoCode})</span><span class="gold">−${money(t.disc)}</span></div>` : ""}
+    <div class="cart-line"><span>Delivery — flat rate</span><span>${money(SHIPPING_FLAT)}</span></div>
+    <div class="cart-line total"><span>Total</span><span>${money(t.total)}</span></div>`;
+  const pt = document.getElementById("payTotal");
+  if (pt) pt.textContent = money(t.total);
+}
+
+function applyPromo() {
+  const v = document.getElementById("promoIn").value.trim().toUpperCase();
+  if (v === "WELCOME10") { discount = .10; promoCode = v; toast("10% discount applied"); }
+  else { discount = 0; promoCode = ""; toast("That code isn't recognised"); }
+  renderSummary();
+}
+
+function goStep(n) {
+  [1, 2, 3].forEach(i => {
+    document.getElementById("step" + i).hidden = i !== n;
+    const st = document.querySelector(`.step[data-s="${i}"]`);
+    st.classList.toggle("on", i === n);
+    st.classList.toggle("done", i < n);
+  });
+  renderSummary();
+  scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function placeOrder() {
+  if (!Cart.items.length) { toast("Your cart is empty"); return; }
+  const btn = document.getElementById("payBtn");
+  btn.disabled = true; btn.textContent = "Processing…";
+  setTimeout(() => {
+    const t = totals();
+    const ref = "LW-2026-" + String(Math.floor(1000 + Math.random() * 9000));
+    const orders = LS.get("lw_orders", []);
+    orders.unshift({
+      ref, ts: new Date().toISOString(), status: "processing",
+      name: document.getElementById("fName").value + " " + document.getElementById("lName").value,
+      email: document.getElementById("email").value,
+      items: Cart.items.map(({ id, qty }) => ({ id, qty, price: findProduct(id).price })),
+      total: t.total, discount: promoCode || null
+    });
+    LS.set("lw_orders", orders);
+    Cart.clear();
+    document.getElementById("coLayout").hidden = true;
+    document.querySelector(".steps").hidden = true;
+    const done = document.getElementById("orderDone");
+    done.hidden = false;
+    document.getElementById("doneRef").textContent = ref;
+    document.getElementById("doneName").textContent = orders[0].name.split(" ")[0];
+    document.getElementById("doneEmail").textContent = orders[0].email;
+    document.getElementById("doneTimeline").innerHTML = `
+      <div class="tl-row done"><div class="tl-dot">✓</div><div><h4>Order received</h4><p>${new Date().toLocaleString("en-GB", { dateStyle: "long", timeStyle: "short" })}</p></div></div>
+      <div class="tl-row"><div class="tl-dot"></div><div><h4>Packed at our UK warehouse</h4><p>Burgess Hill, West Sussex</p></div></div>
+      <div class="tl-row"><div class="tl-dot"></div><div><h4>With the courier</h4><p>Tracked — signed for by an adult 18+</p></div></div>
+      <div class="tl-row"><div class="tl-dot"></div><div><h4>Delivered</h4><p>Within 3 working days</p></div></div>`;
+    scrollTo({ top: 0, behavior: "smooth" });
+  }, 1400);
+}
+
+document.addEventListener("DOMContentLoaded", renderSummary);
+</script>
+</body>
+</html>

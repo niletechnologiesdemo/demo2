@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Club | Lapostolle Wines</title>
+<link rel="icon" href="assets/site/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<!-- GATE -->
+<section class="club-gate" id="clubGate">
+  <div class="bg"><img src="assets/site/unsplash-cellar.jpg" alt=""></div>
+  <div class="club-card">
+    <div class="club-key">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="8" cy="14" r="5"/><path d="M11.5 10.5 21 3m-4 1 3 3m-6 0 2 2"/></svg>
+    </div>
+    <h1>Le Club</h1>
+    <div class="gate-rule"></div>
+    <p class="sub">This page is password-protected. Enter the password to view this page.</p>
+    <form class="club-form" onsubmit="event.preventDefault(); tryUnlock()">
+      <input id="clubPass" type="password" placeholder="Password" autocomplete="off">
+      <button class="btn solid" type="submit">Enter</button>
+    </form>
+    <div class="club-err" id="clubErr"></div>
+    <p class="club-demo-hint">For this design sample the password is <code>APALTA</code>. The owner can change it at any time from the admin panel.</p>
+  </div>
+</section>
+
+<!-- MEMBERS -->
+<div id="clubInner" hidden>
+  <section class="page-hero">
+    <div class="bgimg"><img src="assets/site/wine-bottles.jpg" alt=""></div>
+    <div class="wrap tc">
+      <div class="eyebrow center rv" style="justify-content:center">Members only</div>
+      <h1 class="h-display rv" style="--d:.1s">Welcome to <span class="italic gold">Le Club</span></h1>
+      <p class="lead rv" style="--d:.2s;margin:18px auto 0">Welcome to Le Club, our private cellar for special customers. Each wine is available in strictly limited quantities. Allocations are first come, first served.</p>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:30px">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow rv">This quarter's allocations</div>
+          <h2 class="h-1 rv" style="--d:.1s">Eight wines,<br>strictly limited</h2>
+        </div>
+        <button class="btn sm rv" onclick="lockClub()">Lock Le Club</button>
+      </div>
+      <div class="pgrid" id="clubGrid" style="grid-template-columns:repeat(4,1fr)"></div>
+    </div>
+  </section>
+
+  <section class="quote-band">
+    <div class="bgimg"><img src="assets/site/apalta-vineyard-3.jpg" alt=""></div>
+    <blockquote>
+      <p class="rv">When an allocation is gone,<br>it is gone until the next release.</p>
+      <span class="eyebrow center rv" style="--d:.15s;justify-content:center">Le Club · Lapostolle Wines</span>
+    </blockquote>
+  </section>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+function clubState() { return LS.get("lw_club", { open: false }); }
+
+function tryUnlock() {
+  const val = (document.getElementById("clubPass").value || "").trim().toUpperCase();
+  const pass = (LS.get("lw_club_pass", null) || LECLUB.password).toUpperCase();
+  if (val === pass) {
+    LS.set("lw_club", { open: true, ts: new Date().toISOString() });
+    complianceLog("le-club", "unlocked");
+    renderClub();
+  } else {
+    const e = document.getElementById("clubErr");
+    e.textContent = "Password is incorrect. Please try again.";
+    document.getElementById("clubPass").value = "";
+    document.querySelector(".club-card").animate(
+      [{ transform: "translateX(0)" }, { transform: "translateX(-8px)" }, { transform: "translateX(8px)" }, { transform: "translateX(0)" }],
+      { duration: 280 });
+  }
+}
+
+function lockClub() { LS.set("lw_club", { open: false }); renderClub(); }
+
+function renderClub() {
+  const open = clubState().open;
+  document.getElementById("clubGate").style.display = open ? "none" : "flex";
+  document.getElementById("clubInner").hidden = !open;
+  if (open) {
+    const slots = LS.get("lw_club_slots", null) || LECLUB.slots;
+    const grid = document.getElementById("clubGrid");
+    grid.innerHTML = slots.map((id, i) => {
+      const p = findProduct(id);
+      if (!p) return "";
+      const remaining = [7, 4, 3, 6, 5, 9, 8, 2][i % 8];
+      const pct = Math.round(remaining / 12 * 100);
+      return `<article class="pcard rv" style="--d:${i * .06}s">
+        <a class="ph" href="product.html?id=${p.id}">
+          <div class="flags"><span class="flag">Allocation ${String(i + 1).padStart(2, "0")}</span>
+          ${p.scores?.length ? `<span class="flag score">${Math.max(...p.scores.map(s => s[1]))} pts</span>` : ""}</div>
+          <img loading="lazy" src="${p.images[0]}" alt="${p.title}">
+          <div class="quick"><button onclick="event.preventDefault(); Cart.add('${p.id}')">Add to cart — ${money(p.price)}</button></div>
+        </a>
+        <div class="pb">
+          <span class="rng">${p.range}</span>
+          <h3><a href="product.html?id=${p.id}">${p.name} ${p.vintage ? `<span class="vint">${p.vintage}</span>` : ""}</a></h3>
+          <span class="reg">${p.region}</span>
+          <div class="prices"><span class="pr">${money(p.price)}</span></div>
+          <div class="alloc-bar"><i style="width:${pct}%"></i></div>
+          <div class="alloc-note">${remaining} of 12 remaining</div>
+        </div>
+      </article>`;
+    }).join("");
+    grid.querySelectorAll(".rv").forEach(el => el.classList.add("in"));
+    document.querySelectorAll("#clubInner .rv").forEach(el => el.classList.add("in"));
+  }
+}
+
+document.addEventListener("DOMContentLoaded", renderClub);
+</script>
+</body>
+</html>

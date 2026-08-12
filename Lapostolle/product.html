@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapostolle Wines | Product</title>
+<link rel="icon" href="assets/site/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<section class="sec" style="padding-top:150px">
+  <div class="wrap">
+    <div class="crumbs rv" id="crumbs" style="margin-bottom:34px"></div>
+    <div class="pd" id="pd"></div>
+  </div>
+</section>
+
+<section class="sec tight alt">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow rv">Continue browsing</div>
+        <h2 class="h-2 rv" style="--d:.1s">You may also like</h2>
+      </div>
+    </div>
+    <div class="pgrid" id="alsoGrid"></div>
+  </div>
+</section>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const id = new URLSearchParams(location.search).get("id") || CATALOGUE[0].id;
+  const p = findProduct(id) || CATALOGUE[0];
+  document.title = `${p.title} | Lapostolle Wines`;
+
+  const catSlug = p.cat === "Mixed Cases" ? "cases" : p.cat.startsWith("Clos") ? "icons" : "wines";
+  document.getElementById("crumbs").innerHTML =
+    `<a href="index.html">Home</a> <span class="sep">/</span> <a href="store.html">Store</a> <span class="sep">/</span> <a href="store.html?cat=${catSlug}">${p.cat}</a> <span class="sep">/</span> <span>${p.name} ${p.vintage || ""}</span>`;
+
+  const save = p.was ? Math.round((1 - p.price / p.was) * 100) : 0;
+  const low = p.stock <= 10;
+
+  /* split desc into labelled notes vs free paragraphs */
+  const LABELS = ["Colour", "Nose", "Palate", "Mouth", "Service and food pairing", "Service and Food Pairing", "Service and Food pairing", "Service", "Grape varieties", "Contains", "Type", "Grape", "Year"];
+  const notes = [], paras = [];
+  (p.desc || []).forEach(t => {
+    const m = LABELS.find(l => t.startsWith(l + ":"));
+    if (m) notes.push([m.replace(/Service and food pairing/i, "Serve & pair"), t.slice(m.length + 1).trim()]);
+    else paras.push(t);
+  });
+
+  /* critic quotes hiding inside description paragraphs (e.g. "James Suckling - 99 Points") */
+  const quotes = [];
+  for (let i = 0; i < paras.length - 1; i++) {
+    const m = paras[i].match(/^([A-Za-z .]+?)\s*[-–]\s*(\d{2,3})\s*[Pp]oints?$/);
+    if (m && paras[i + 1] && paras[i + 1].length > 80) {
+      quotes.push({ critic: m[1].trim(), pts: m[2], text: paras[i + 1] });
+      paras.splice(i, 2); i--;
+    }
+  }
+
+  const gallery = p.images.slice(0, 4);
+  document.getElementById("pd").innerHTML = `
+    <div class="pd-gallery rv">
+      <div class="pd-main" id="pdMain"><img src="${gallery[0]}" alt="${p.title}"></div>
+      ${gallery.length > 1 ? `<div class="pd-thumbs">${gallery.map((g, i) =>
+        `<button class="${i === 0 ? "on" : ""}" data-src="${g}"><img src="${g}" alt=""></button>`).join("")}</div>` : ""}
+    </div>
+    <div class="pd-info">
+      <span class="rng rv">${p.range} · ${p.type}</span>
+      <h1 class="rv" style="--d:.08s">${p.name} ${p.vintage ? `<span class="italic gold">${p.vintage}</span>` : ""}</h1>
+      <div class="reg rv" style="--d:.14s">${p.region}${p.grape ? ` · ${p.grape}` : ""} · SKU ${p.sku}</div>
+      ${p.scores.length ? `<div class="score-row rv" style="--d:.2s">${p.scores.map(([c, s]) =>
+        `<div class="score-pill"><b>${s}</b><span>${c}</span></div>`).join("")}</div>` : ""}
+      <div class="pd-priceline rv" style="--d:.26s">
+        <span class="pr">${money(p.price)}</span>
+        ${p.was ? `<span class="was">${money(p.was)}</span><span class="save">Save ${save}%</span>` : ""}
+      </div>
+      <div class="pd-stockline rv" style="--d:.3s">
+        <span class="dot ${low ? "low" : ""}"></span>
+        ${low ? `Only ${p.stock} remaining — ${p.limited ? "very limited availability" : "selling fast"}` : "In stock in our UK warehouse"}
+      </div>
+      <div class="pd-buy rv" style="--d:.34s">
+        <div class="qty">
+          <button id="qMinus" aria-label="Decrease">−</button><span id="qVal">1</span><button id="qPlus" aria-label="Increase">+</button>
+        </div>
+        <button class="btn solid" id="addBtn">Add to cart</button>
+      </div>
+      <div class="pd-shipnote rv" style="--d:.38s">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1 8h13v9H1zM14 11h4l3 3v3h-7z"/><circle cx="5.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>
+        Flat £9 delivery, any quantity · UK mainland · Signed for by an adult 18+
+      </div>
+      ${paras.length ? `<div class="notes rv" style="--d:.42s">${paras.map(t =>
+        `<div class="note-row"><p>${t}</p></div>`).join("")}</div>` : ""}
+      ${notes.length ? `<div class="notes rv" style="--d:.46s">${notes.map(([l, t]) =>
+        `<div class="note-row"><div class="nr-label">${l}</div><p>${t}</p></div>`).join("")}</div>` : ""}
+      ${quotes.map(q => `<div class="critic-q rv"><p>“${q.text}”</p><cite>${q.critic} — ${q.pts} points</cite></div>`).join("")}
+      <div class="pd-attrs rv" style="--d:.5s">
+        ${p.vintage ? `<div class="pd-attr">Vintage<b>${p.vintage}</b></div>` : ""}
+        <div class="pd-attr">Type<b>${p.type}</b></div>
+        ${p.grape ? `<div class="pd-attr">Grape<b>${p.grape}</b></div>` : ""}
+        <div class="pd-attr">Region<b>${p.region}</b></div>
+      </div>
+    </div>`;
+
+  /* qty + add */
+  let qty = 1;
+  const qv = document.getElementById("qVal");
+  document.getElementById("qMinus").onclick = () => { qty = Math.max(1, qty - 1); qv.textContent = qty; };
+  document.getElementById("qPlus").onclick = () => { qty += 1; qv.textContent = qty; };
+  document.getElementById("addBtn").onclick = () => { Cart.add(p.id, qty); openCart(); };
+
+  /* gallery */
+  const main = document.querySelector("#pdMain img");
+  document.querySelectorAll(".pd-thumbs button").forEach(b => b.onclick = () => {
+    document.querySelectorAll(".pd-thumbs button").forEach(x => x.classList.remove("on"));
+    b.classList.add("on");
+    main.style.opacity = 0;
+    setTimeout(() => { main.src = b.dataset.src; main.style.transition = "opacity .4s"; main.style.opacity = 1; }, 180);
+  });
+  document.getElementById("pdMain").onclick = () => {
+    const lb = document.getElementById("lightbox");
+    lb.querySelector("img").src = main.src;
+    lb.classList.add("open");
+  };
+
+  /* related: same range first, then same category */
+  const rel = CATALOGUE.filter(x => x.id !== p.id)
+    .sort((a, b) => (b.range === p.range) - (a.range === p.range) || (b.cat === p.cat) - (a.cat === p.cat))
+    .slice(0, 4);
+  document.getElementById("alsoGrid").innerHTML = rel.map((x, i) => productCard(x, { i })).join("");
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .08 });
+  document.querySelectorAll("#alsoGrid .rv, #pd .rv").forEach(el => io.observe(el));
+});
+</script>
+</body>
+</html>

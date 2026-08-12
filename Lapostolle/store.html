@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Online | Lapostolle Wines</title>
+<link rel="icon" href="assets/site/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<section class="page-hero" style="padding-bottom:clamp(40px,6vh,70px)">
+  <div class="bgimg"><img src="assets/site/harvest.jpg" alt="Harvest morning in the Apalta Valley"></div>
+  <div class="wrap">
+    <div class="crumbs rv"><a href="index.html">Home</a> <span class="sep">/</span> <span>Store</span></div>
+    <h1 class="h-display rv" style="--d:.1s">Shop Online</h1>
+    <p class="lead rv" style="--d:.2s">From the Lapostolle winery direct to your home. Flat £9 delivery, no minimum order.</p>
+  </div>
+</section>
+
+<section class="sec tight" style="padding-top:30px">
+  <div class="wrap">
+    <div class="shop-tools rv">
+      <div class="filters" id="filterRow"></div>
+      <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+        <span class="shop-count" id="countLabel"></span>
+        <label class="sorter">Sort
+          <select id="sortSel">
+            <option value="feat">Featured</option>
+            <option value="plow">Price — low to high</option>
+            <option value="phigh">Price — high to low</option>
+            <option value="score">Critic score</option>
+            <option value="vint">Vintage — newest</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="pgrid" id="grid"></div>
+  </div>
+</section>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const FILTERS = [
+    { slug: "all",   label: "All wines",  fn: () => true },
+    { slug: "wines", label: "Lapostolle Wines & Pisco", fn: p => p.cat === "Lapostolle Wines and Pisco" },
+    { slug: "icons", label: "Clos Apalta & Clos du Lican", fn: p => p.cat === "Clos Apalta and Clos du Lican Icons" },
+    { slug: "cases", label: "Mixed Cases", fn: p => p.cat === "Mixed Cases" },
+    { slug: "offers", label: "Offers", fn: p => !!p.was },
+  ];
+  let active = new URLSearchParams(location.search).get("cat") || "all";
+  let sort = "feat";
+
+  const row = document.getElementById("filterRow");
+  const grid = document.getElementById("grid");
+
+  function draw() {
+    row.innerHTML = FILTERS.map(f =>
+      `<button class="fchip ${f.slug === active ? "on" : ""}" data-f="${f.slug}">${f.label}</button>`).join("");
+    row.querySelectorAll(".fchip").forEach(b => b.onclick = () => {
+      active = b.dataset.f;
+      history.replaceState(null, "", active === "all" ? "store.html" : `store.html?cat=${active}`);
+      draw();
+    });
+
+    let items = CATALOGUE.filter(FILTERS.find(f => f.slug === active).fn);
+    const top = p => p.scores?.length ? Math.max(...p.scores.map(s => s[1])) : 0;
+    if (sort === "plow") items.sort((a, b) => a.price - b.price);
+    if (sort === "phigh") items.sort((a, b) => b.price - a.price);
+    if (sort === "score") items.sort((a, b) => top(b) - top(a));
+    if (sort === "vint") items.sort((a, b) => (b.vintage || 0) - (a.vintage || 0));
+
+    document.getElementById("countLabel").textContent = `${items.length} wine${items.length === 1 ? "" : "s"}`;
+    grid.innerHTML = items.map((p, i) => productCard(p, { i: i % 8 })).join("");
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .08 });
+    grid.querySelectorAll(".rv").forEach(el => io.observe(el));
+  }
+
+  document.getElementById("sortSel").onchange = e => { sort = e.target.value; draw(); };
+  draw();
+});
+</script>
+</body>
+</html>

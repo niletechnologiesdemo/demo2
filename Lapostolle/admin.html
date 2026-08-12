@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin | Lapostolle Wines</title>
+<link rel="icon" href="assets/site/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin">
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="a-side">
+  <div class="a-brand">
+    <img src="assets/site/logo.png" alt="Lapostolle">
+    <div class="sub">Store Manager</div>
+  </div>
+  <nav class="a-nav" id="aNav">
+    <button data-v="dash" class="on"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="5"/><rect x="13" y="10" width="8" height="11"/><rect x="3" y="13" width="8" height="8"/></svg> Dashboard</button>
+    <button data-v="orders"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 7h12l1 14H5L6 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg> Orders</button>
+    <button data-v="products"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2h4v4l1.5 2v13a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1V8L10 6V2z"/></svg> Products</button>
+    <button data-v="club"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="14" r="5"/><path d="M11.5 10.5 21 3m-4 1 3 3"/></svg> Le Club</button>
+    <button data-v="content"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg> Content</button>
+    <button data-v="discounts"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m4 12 8-8 8 8-8 8-8-8z"/><circle cx="12" cy="12" r="2.4"/></svg> Discounts</button>
+    <button data-v="compliance"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2 4 5.5V11c0 5.2 3.4 9.4 8 11 4.6-1.6 8-5.8 8-11V5.5L12 2z"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg> Compliance</button>
+    <button data-v="settings"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.15-1.4l2.1-1.6-2-3.4-2.45 1a7 7 0 0 0-2.4-1.4L13.7 2h-3.4l-.4 2.6a7 7 0 0 0-2.4 1.4l-2.45-1-2 3.4 2.1 1.6A7 7 0 0 0 5 12c0 .48.05.94.15 1.4l-2.1 1.6 2 3.4 2.45-1a7 7 0 0 0 2.4 1.4l.4 2.6h3.4l.4-2.6a7 7 0 0 0 2.4-1.4l2.45 1 2-3.4-2.1-1.6c.1-.46.15-.92.15-1.4z"/></svg> Settings</button>
+  </nav>
+  <div class="foot">
+    Design sample. Every screen works with sample data.<br>
+    <a href="index.html" data-nofade>← View the store</a>
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<main class="a-main">
+  <div class="a-top">
+    <div>
+      <div class="crumb" id="aCrumb">Overview</div>
+      <h1 id="aTitle">Dashboard</h1>
+    </div>
+    <div class="a-actions">
+      <span style="font-size:12px;color:var(--muted)">Signed in as <b style="color:var(--gold-ink);font-weight:500">info@lapostollewines.co.uk</b></span>
+      <a class="a-btn" href="index.html">View site</a>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <section class="a-view on" id="v-dash">
+    <div class="kpis">
+      <div class="kpi"><span class="lbl">Revenue — 30 days</span><b id="kRev">£0</b><span class="delta up">▲ 12.4% vs June</span></div>
+      <div class="kpi"><span class="lbl">Orders — 30 days</span><b id="kOrders">0</b><span class="delta up">▲ 8 new this week</span></div>
+      <div class="kpi"><span class="lbl">Average order</span><b id="kAov">£0</b><span class="delta up">▲ £6.10</span></div>
+      <div class="kpi"><span class="lbl">Le Club members</span><b>42</b><span class="delta up">▲ 3 this month</span></div>
+    </div>
+    <div class="a-grid2">
+      <div class="a-card">
+        <h3>Revenue <small>Last 12 weeks · GBP</small></h3>
+        <canvas id="revChart" width="760" height="240"></canvas>
+        <p class="chart-tip">Sample chart. The live version plugs into real order data.</p>
+      </div>
+      <div class="a-card">
+        <h3>Best sellers <small>30 days</small></h3>
+        <div class="table-scroll"><table class="a-table" id="bestTable"></table></div>
+      </div>
+    </div>
+    <div class="a-grid2">
+      <div class="a-card">
+        <h3>Recent orders <small><a href="#" onclick="event.preventDefault();go('orders')" style="color:var(--gold-ink)">View all</a></small></h3>
+        <div class="table-scroll"><table class="a-table" id="recentOrders"></table></div>
+      </div>
+      <div class="a-card">
+        <h3>Low stock <small>Reorder soon</small></h3>
+        <div class="table-scroll"><table class="a-table" id="lowStock"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDERS -->
+  <section class="a-view" id="v-orders">
+    <div class="a-note">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.2"/><path d="M12 10.8v6M12 7.4v.4"/></svg>
+      Orders placed in the shop sample appear at the top of this list in real time. Try it: place an order on the site, then come back here.
+    </div>
+    <div class="a-card">
+      <div class="table-scroll"><table class="a-table" id="ordersTable"></table></div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="a-view" id="v-products">
+    <div class="a-note">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.2"/><path d="M12 10.8v6M12 7.4v.4"/></svg>
+      Edit a price or stock figure and press Save. The storefront updates instantly. This is how you manage the range day-to-day: products, prices, stock, images and descriptions, all without a developer.
+    </div>
+    <div class="a-card">
+      <div class="table-scroll"><table class="a-table" id="prodTable"></table></div>
+    </div>
+  </section>
+
+  <!-- LE CLUB -->
+  <section class="a-view" id="v-club">
+    <div class="a-grid2" style="grid-template-columns:1fr 1.8fr">
+      <div class="a-card">
+        <h3>Access</h3>
+        <div class="a-field">
+          <label>Le Club password</label>
+          <input id="clubPassInput" type="text" style="letter-spacing:.3em;text-transform:uppercase">
+        </div>
+        <button class="a-btn solid" onclick="saveClubPass()">Update password</button>
+        <p class="chart-tip" style="margin-top:14px">Members using the old password are signed out the moment you change it.</p>
+        <hr class="hairline" style="margin:22px 0">
+        <div class="kpi" style="border:0;padding:0"><span class="lbl">Members</span><b>42</b></div>
+      </div>
+      <div class="a-card">
+        <h3>The eight allocations <small>Swap any wine, any time</small></h3>
+        <div class="club-slots" id="clubSlots"></div>
+        <div style="margin-top:18px;display:flex;gap:10px">
+          <button class="a-btn solid" onclick="saveClubSlots()">Save allocations</button>
+          <button class="a-btn" onclick="resetClubSlots()">Reset to default</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="a-view" id="v-content">
+    <div class="a-grid2">
+      <div class="a-card">
+        <h3>Pages</h3>
+        <div class="table-scroll"><table class="a-table">
+          <tr><th>Page</th><th>Status</th><th></th></tr>
+          <tr><td>Home</td><td><span class="b-status active">Published</span></td><td class="num"><button class="a-btn tiny" onclick="toast('Sample only — the full build opens a page editor here')">Edit</button></td></tr>
+          <tr><td>Vineyards</td><td><span class="b-status active">Published</span></td><td class="num"><button class="a-btn tiny" onclick="toast('Sample only — the full build opens a page editor here')">Edit</button></td></tr>
+          <tr><td>News</td><td><span class="b-status active">Published</span></td><td class="num"><button class="a-btn tiny" onclick="toast('Sample only — the full build opens a page editor here')">Edit</button></td></tr>
+          <tr><td>Contact</td><td><span class="b-status active">Published</span></td><td class="num"><button class="a-btn tiny" onclick="toast('Sample only — the full build opens a page editor here')">Edit</button></td></tr>
+          <tr><td>Terms &amp; Conditions</td><td><span class="b-status active">Published</span></td><td class="num"><button class="a-btn tiny" onclick="toast('Sample only — the full build opens a page editor here')">Edit</button></td></tr>
+          <tr><td>Le Club (gated)</td><td><span class="b-status scheduled">Password</span></td><td class="num"><button class="a-btn tiny" onclick="go('club')">Manage</button></td></tr>
+        </table></div>
+      </div>
+      <div class="a-card">
+        <h3>News editor <small>Sample</small></h3>
+        <div class="a-field"><label>Article title</label><input value="The reviews are in…"></div>
+        <div class="a-field"><label>Standfirst</label><textarea style="min-height:90px">Another remarkable year for the wines of Apalta. Clos Apalta 2021 received a perfect 100 points from James Suckling — the fourth time the estate has achieved the score.</textarea></div>
+        <div class="a-field"><label>Hero image</label><input type="file" disabled><span style="font-size:11px;color:var(--mut)">Upload disabled in the sample</span></div>
+        <button class="a-btn solid" onclick="toast('Article saved (sample)')">Save article</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCOUNTS -->
+  <section class="a-view" id="v-discounts">
+    <div class="a-grid2">
+      <div class="a-card">
+        <h3>Discount codes</h3>
+        <div class="table-scroll"><table class="a-table">
+          <tr><th>Code</th><th>Benefit</th><th>Used</th><th>Status</th></tr>
+          <tr><td><b style="letter-spacing:.14em">WELCOME10</b></td><td>10% off first order</td><td>184</td><td><span class="b-status active">Active</span></td></tr>
+          <tr><td><b style="letter-spacing:.14em">CHRISTMAS15</b></td><td>15% off orders over £150</td><td>—</td><td><span class="b-status scheduled">Scheduled · Dec</span></td></tr>
+          <tr><td><b style="letter-spacing:.14em">CLUB5</b></td><td>£5 off Le Club allocations</td><td>67</td><td><span class="b-status off">Disabled</span></td></tr>
+        </table></div>
+        <p class="chart-tip" style="margin-top:12px">Try <b style="color:var(--gold-ink)">WELCOME10</b> at the sample checkout — it works.</p>
+      </div>
+      <div class="a-card">
+        <h3>Create a code <small>Sample</small></h3>
+        <div class="a-frow">
+          <div class="a-field"><label>Code</label><input placeholder="SUMMER10" style="text-transform:uppercase;letter-spacing:.12em"></div>
+          <div class="a-field"><label>Type</label><select><option>Percentage off</option><option>Fixed amount off</option><option>Free delivery</option></select></div>
+        </div>
+        <div class="a-frow">
+          <div class="a-field"><label>Value</label><input placeholder="10"></div>
+          <div class="a-field"><label>Minimum spend</label><input placeholder="£0"></div>
+        </div>
+        <button class="a-btn solid" onclick="toast('Code created (sample)')">Create code</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPLIANCE -->
+  <section class="a-view" id="v-compliance">
+    <div class="a-note">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 4 5.5V11c0 5.2 3.4 9.4 8 11 4.6-1.6 8-5.8 8-11V5.5L12 2z"/></svg>
+      Every age-gate answer and cookie choice on the site is recorded here with a timestamp: your proof of compliance if it is ever asked for. Entries from your own visit to the sample site appear at the top.
+    </div>
+    <div class="kpis" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kpi"><span class="lbl">Age checks — 30 days</span><b id="cAge">1,204</b><span class="delta up">99.1% confirmed 18+</span></div>
+      <div class="kpi"><span class="lbl">Cookie consents</span><b id="cCook">1,158</b><span class="delta">76% agreed</span></div>
+      <div class="kpi"><span class="lbl">Under-18 blocks</span><b>11</b><span class="delta">Entry refused &amp; logged</span></div>
+    </div>
+    <div class="a-card">
+      <h3>Consent log <small><button class="a-btn tiny" onclick="exportLog()">Export CSV</button></small></h3>
+      <div id="logRows"></div>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="a-view" id="v-settings">
+    <div class="a-grid2">
+      <div class="a-card">
+        <h3>Delivery</h3>
+        <div class="a-frow">
+          <div class="a-field"><label>Flat delivery rate (GBP)</label><input value="9.00"></div>
+          <div class="a-field"><label>Free delivery threshold</label><input value="Off" ></div>
+        </div>
+        <p class="chart-tip">Flat £9 for any quantity, 1 bottle or 120. The old free-over-6-bottles rule stays switched off.</p>
+        <button class="a-btn solid" onclick="toast('Delivery settings saved (sample)')">Save</button>
+        <hr class="hairline" style="margin:24px 0">
+        <h3>Legal &amp; registration</h3>
+        <div class="a-field"><label>AWRS number</label><input value="XEAW 000 0011 3663"></div>
+        <div class="a-frow">
+          <div class="a-field"><label>Company number</label><input value="12134764"></div>
+          <div class="a-field"><label>VAT number</label><input value="334 5735 95"></div>
+        </div>
+        <button class="a-btn solid" onclick="toast('Saved (sample)')">Save</button>
+      </div>
+      <div class="a-card">
+        <h3>Email &amp; hosting</h3>
+        <div class="a-field"><label>Store email address</label><input value="info@lapostollewines.co.uk"></div>
+        <p class="chart-tip">Your single mailbox sits on the same hosting account as the site. Nothing recurring is paid to us. Hosting is in your own name, and you own the platform, the code and every asset outright.</p>
+        <hr class="hairline" style="margin:24px 0">
+        <h3>Payments</h3>
+        <div class="a-field"><label>Currency</label><input value="GBP — Pound Sterling" disabled></div>
+        <div class="a-field"><label>Cards accepted</label><input value="Visa · Mastercard · Amex · Maestro" disabled></div>
+        <p class="chart-tip">The live build connects your own merchant account (e.g. Stripe), so money settles straight to your bank.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast"><span class="tick"></span><span id="toastMsg"></span></div>
+
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
