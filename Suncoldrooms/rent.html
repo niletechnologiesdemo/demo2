@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rent a Coldroom Trailer — Suncool Coldrooms</title>
+<link rel="icon" type="image/png" href="Logo1-Photoroom.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/booking.css">
+</head>
+<body data-page="rent">
+<header class="site-header" id="siteHeader"></header>
+
+<section class="page-hero" style="padding:56px 0 48px">
+  <div class="hero-photo" style="background-image:url('images/hero-trailer.jpg')"></div>
+  <div class="hero-fade"></div>
+  <div class="container" style="position:relative;z-index:3">
+    <div class="crumbs"><a href="index.html">Home</a><span>/</span>Rent a Coldroom</div>
+    <h1>Rent a Solar-Powered Coldroom Trailer</h1>
+    <p class="lede">Pick your dates, choose pickup or delivery, pay online &mdash; done in minutes. Daily hire from $195 with weekend and weekly packages.</p>
+    <div class="hero-points" style="margin-top:22px">
+      <div class="hero-point"><span data-icon="checkCircle" data-size="17"></span>Live availability</div>
+      <div class="hero-point"><span data-icon="card" data-size="17"></span>Secure card payment</div>
+      <div class="hero-point"><span data-icon="truck" data-size="17"></span>Pickup or delivery</div>
+      <div class="hero-point"><span data-icon="doc" data-size="17"></span>Instant confirmation &amp; PDF invoice</div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:0 0 90px;background:var(--bg-soft)" id="availability">
+  <div class="container">
+
+    <!-- stepper -->
+    <div class="stepper" id="stepper" style="transform:translateY(-32px)">
+      <div class="st" data-st="1"><span class="dot">1</span><span class="lbl">Dates</span><span class="line"></span></div>
+      <div class="st" data-st="2"><span class="dot">2</span><span class="lbl">Trailer &amp; extras</span><span class="line"></span></div>
+      <div class="st" data-st="3"><span class="dot">3</span><span class="lbl">Pickup or delivery</span><span class="line"></span></div>
+      <div class="st" data-st="4"><span class="dot">4</span><span class="lbl">Review &amp; account</span><span class="line"></span></div>
+      <div class="st" data-st="5"><span class="dot">5</span><span class="lbl">Payment</span></div>
+    </div>
+
+    <div class="booking-wrap" style="margin-top:0">
+      <div>
+        <!-- ============ STEP 1: DATES ============ -->
+        <div class="bk-panel bk-step active" id="step1">
+          <h2>When do you need it?</h2>
+          <p class="sub">Select your <strong>start day</strong> and your <strong>return day</strong> on the calendar. Minimum hire is one day (a 24-hour window). Availability is live across our trailer fleet.</p>
+          <div class="cal-duo">
+            <div class="cal" id="calA"></div>
+            <div class="cal" id="calB"></div>
+          </div>
+          <div class="cal-legend">
+            <span><i style="background:var(--bg-soft);border:1px solid var(--line)"></i>Available</span>
+            <span><i style="background:repeating-linear-gradient(45deg,#F2F5F8,#F2F5F8 3px,#E1E7EC 3px,#E1E7EC 6px)"></i>Booked out</span>
+            <span><i style="background:var(--orange)"></i>Your selection</span>
+            <span style="color:var(--warn)">Low = last trailer for that day</span>
+          </div>
+
+          <div id="dateSummary" style="display:none;margin-top:24px">
+            <div class="notice info" id="dateSummaryInner"></div>
+          </div>
+
+          <div class="field" style="max-width:340px;margin-top:22px">
+            <label>Handover time</label>
+            <select id="handoverTime">
+              <option value="7:00 am">7:00 am</option><option value="8:00 am">8:00 am</option>
+              <option value="9:00 am" selected>9:00 am</option><option value="10:00 am">10:00 am</option>
+              <option value="11:00 am">11:00 am</option><option value="12:00 pm">12:00 pm</option>
+              <option value="1:00 pm">1:00 pm</option><option value="2:00 pm">2:00 pm</option>
+              <option value="3:00 pm">3:00 pm</option>
+            </select>
+            <div class="hint">Your hire runs in 24-hour windows &mdash; collect at this time, return by the same time on your return day.</div>
+          </div>
+
+          <!-- long-term quote path -->
+          <div id="longTermPanel" style="display:none;margin-top:26px">
+            <div class="notice warn">
+              <span data-icon="info" data-size="20"></span>
+              <div><strong>That's more than 7 days &mdash; you'll get a better rate on a custom quote.</strong> Leave your details and we'll come back within one business day with long-term pricing for your dates.</div>
+            </div>
+            <div class="card" style="margin-top:16px;padding:26px">
+              <div class="field-row">
+                <div class="field"><label>Name <span class="req">*</span></label><input type="text" id="qtName" placeholder="Your full name"></div>
+                <div class="field"><label>Phone <span class="req">*</span></label><input type="tel" id="qtPhone" placeholder="04xx xxx xxx"></div>
+              </div>
+              <div class="field"><label>Email <span class="req">*</span></label><input type="email" id="qtEmail" placeholder="you@example.com"></div>
+              <div class="field"><label>Anything we should know?</label><textarea id="qtMsg" style="min-height:80px" placeholder="Where the trailer will be used, delivery needs, what you're cooling&hellip;"></textarea></div>
+              <button class="btn btn-blue" id="qtSubmit">Request Long-Term Quote<span data-icon="arrowR" data-size="16"></span></button>
+              <div id="qtDone" style="display:none;margin-top:14px" class="notice good"><span data-icon="checkCircle" data-size="20"></span><div><strong>Quote request received.</strong> We'll be in touch within one business day with pricing for your dates.</div></div>
+            </div>
+          </div>
+
+          <div class="bk-nav">
+            <span></span>
+            <button class="btn btn-orange" id="toStep2" disabled>Continue<span data-icon="arrowR" data-size="16"></span></button>
+          </div>
+        </div>
+
+        <!-- ============ STEP 2: TRAILER & EXTRAS ============ -->
+        <div class="bk-panel bk-step" id="step2">
+          <h2>Choose your trailer &amp; extras</h2>
+          <p class="sub">All trailers are the same size (2.4 m &times; 1.8 m) and fully solar-powered with battery backup. One is fitted with meat rails for hanging after a kill.</p>
+          <div class="choice-grid" id="trailerChoices"></div>
+          <h3 style="font-size:17px;margin:30px 0 14px">Optional extras <span style="font-weight:400;color:var(--muted);font-size:13.5px">&mdash; fitted before handover, priced per hire</span></h3>
+          <div id="addonList"></div>
+          <div class="bk-nav">
+            <button class="btn btn-ghost" data-back="1"><span data-icon="arrowL" data-size="16"></span>Back</button>
+            <button class="btn btn-orange" id="toStep3">Continue<span data-icon="arrowR" data-size="16"></span></button>
+          </div>
+        </div>
+
+        <!-- ============ STEP 3: PICKUP / DELIVERY ============ -->
+        <div class="bk-panel bk-step" id="step3">
+          <h2>Pickup or delivery?</h2>
+          <p class="sub">Collect from our Gold Coast workshop free of charge, or we'll deliver the trailer to your site and collect it at the end of your hire.</p>
+          <div class="choice-grid">
+            <label class="choice selected" id="chPickup">
+              <input type="radio" name="fulfil" value="pickup" checked>
+              <span class="c-check" data-icon="check" data-size="15"></span>
+              <div class="c-head"><span class="c-title">I'll pick it up</span><span class="c-price">Free</span></div>
+              <p>Collect from our Gold Coast workshop at your handover time. We'll match the trailer to your vehicle and walk you through everything. Any distance is fine &mdash; you're doing the towing.</p>
+            </label>
+            <label class="choice" id="chDelivery">
+              <input type="radio" name="fulfil" value="delivery">
+              <span class="c-check" data-icon="check" data-size="15"></span>
+              <div class="c-head"><span class="c-title">Deliver it to me</span><span class="c-price">From $150 return</span></div>
+              <p>We tow the trailer to your site, set it up, and collect it when you're done. The fee is calculated per kilometre from our workshop &mdash; both legs included, no surprises.</p>
+            </label>
+          </div>
+
+          <div id="deliveryForm" style="display:none;margin-top:26px">
+            <div class="field">
+              <label>Delivery address or suburb <span class="req">*</span></label>
+              <input type="text" id="delivAddress" list="suburbList" placeholder="Start typing a suburb, e.g. Beaudesert QLD">
+              <datalist id="suburbList"></datalist>
+              <div class="hint">The same address is used for collection at the end of your hire.</div>
+            </div>
+            <button class="btn btn-blue btn-sm" id="calcDelivery">Calculate Delivery Fee</button>
+            <div class="deliv-result" id="delivResult" style="display:none"></div>
+            <div class="notice warn" id="delivTooFar" style="display:none;margin-top:14px">
+              <span data-icon="alert" data-size="20"></span>
+              <div><strong>That's beyond our standard delivery range (100 km).</strong> Choose pickup instead &mdash; any distance is fine if you're towing &mdash; or <a href="contact.html">contact us</a> for a custom delivery quote.</div>
+            </div>
+          </div>
+
+          <div class="bk-nav">
+            <button class="btn btn-ghost" data-back="2"><span data-icon="arrowL" data-size="16"></span>Back</button>
+            <button class="btn btn-orange" id="toStep4">Continue<span data-icon="arrowR" data-size="16"></span></button>
+          </div>
+        </div>
+
+        <!-- ============ STEP 4: REVIEW & ACCOUNT ============ -->
+        <div class="bk-panel bk-step" id="step4">
+          <h2>Review your booking</h2>
+          <p class="sub">Almost there &mdash; check the details, create your account and accept the hire agreement.</p>
+          <div id="reviewBox"></div>
+
+          <div class="notice info" style="margin-top:22px">
+            <span data-icon="shieldCheck" data-size="21"></span>
+            <div><strong>Security bond: <span id="bondAmt">$500</span> &mdash; fully refundable.</strong> Nothing extra is charged online today. The bond is taken at handover (card pre-authorisation or cash) and returned in full when the trailer comes back in good order &mdash; just like a car hire.</div>
+          </div>
+
+          <h3 style="font-size:17px;margin:30px 0 4px">Your account</h3>
+          <p style="color:var(--muted);font-size:13.5px;margin-bottom:16px">Your booking, invoice and hire history live in your account. Already booked with us? <a href="#" id="fillDemo">Use saved details</a>.</p>
+          <div class="field-row">
+            <div class="field"><label>Full name <span class="req">*</span></label><input type="text" id="acName" placeholder="Your full name"></div>
+            <div class="field"><label>Mobile <span class="req">*</span></label><input type="tel" id="acPhone" placeholder="04xx xxx xxx"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Email <span class="req">*</span></label><input type="email" id="acEmail" placeholder="you@example.com"></div>
+            <div class="field"><label>Password <span class="req">*</span></label><input type="password" id="acPass" placeholder="Create a password"></div>
+          </div>
+          <label class="addon" style="margin-top:10px" id="agreeRow">
+            <input type="checkbox" id="agreeTerms">
+            <div class="a-body"><div class="a-title">I accept the hire agreement</div><div class="a-desc">Includes care of the unit, the refundable bond, and responsibility for damage during the hire. <a href="#" onclick="event.preventDefault()">Read the hire agreement</a>.</div></div>
+          </label>
+
+          <div class="bk-nav">
+            <button class="btn btn-ghost" data-back="3"><span data-icon="arrowL" data-size="16"></span>Back</button>
+            <button class="btn btn-orange" id="toStep5">Continue to Payment<span data-icon="arrowR" data-size="16"></span></button>
+          </div>
+        </div>
+
+        <!-- ============ STEP 5: PAYMENT ============ -->
+        <div class="bk-panel bk-step" id="step5">
+          <div id="payBox">
+            <h2>Secure payment</h2>
+            <p class="sub">Pay the full rental amount now to lock in your dates. Payments are processed securely by Stripe &mdash; we never see or store your card details.</p>
+            <div class="pay-card">
+              <div class="pay-brand-row">
+                <span class="pay-brand">VISA</span><span class="pay-brand">MASTERCARD</span><span class="pay-brand">AMEX</span>
+                <span style="flex:1"></span>
+                <span class="stripe-badge">stripe</span>
+              </div>
+              <div class="field"><label>Name on card</label><input type="text" id="ccName" placeholder="Name as it appears on the card"></div>
+              <div class="field"><label>Card number</label><input type="text" id="ccNum" inputmode="numeric" maxlength="19" placeholder="4242 4242 4242 4242"></div>
+              <div class="field-row">
+                <div class="field"><label>Expiry</label><input type="text" id="ccExp" maxlength="5" placeholder="MM/YY"></div>
+                <div class="field"><label>CVC</label><input type="text" id="ccCvc" inputmode="numeric" maxlength="4" placeholder="123"></div>
+              </div>
+              <button class="btn btn-orange btn-lg" style="width:100%" id="payBtn">Pay <span id="payAmt"></span> Securely</button>
+              <div class="stripe-note"><span class="lock" data-icon="shieldCheck" data-size="16"></span>256-bit encrypted &middot; Powered by <span class="stripe-badge" style="font-size:12px">stripe</span> &middot; Instant confirmation</div>
+            </div>
+            <div class="bk-nav" style="border:none;padding-top:18px">
+              <button class="btn btn-ghost" data-back="4"><span data-icon="arrowL" data-size="16"></span>Back</button>
+              <span></span>
+            </div>
+          </div>
+
+          <!-- confirmation -->
+          <div id="confBox" style="display:none">
+            <div class="success-hero">
+              <div class="ok" data-icon="check" data-size="40"></div>
+              <h2 style="font-size:28px">Booking confirmed!</h2>
+              <p style="color:var(--muted);margin-top:8px">Reference <strong id="confRef" style="color:var(--navy)"></strong> &mdash; a confirmation email and PDF invoice are on their way to <span id="confEmail"></span>.</p>
+              <div class="conf-grid" id="confGrid"></div>
+              <div style="display:flex;gap:12px;justify-content:center;margin-top:32px;flex-wrap:wrap">
+                <a class="btn btn-blue" id="confInvoice" href="#"><span data-icon="doc" data-size="17"></span>View PDF Invoice</a>
+                <a class="btn btn-ghost" href="account.html"><span data-icon="user" data-size="17"></span>My Account</a>
+                <a class="btn btn-ghost" href="index.html">Back to Home</a>
+              </div>
+              <div class="notice info" style="margin-top:30px;text-align:left">
+                <span data-icon="info" data-size="20"></span>
+                <div><strong>What happens next:</strong> <span id="confNext"></span> Please bring your booking reference. The $500 refundable bond is taken at handover.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ SUMMARY ASIDE ============ -->
+      <aside class="bk-aside">
+        <div class="summary-card">
+          <div class="s-head"><span data-icon="calendar" data-size="20"></span><h3>Your booking summary</h3></div>
+          <div class="s-body" id="summaryBody"><div class="s-empty">Select your dates to get started</div></div>
+        </div>
+        <div class="trust-row">
+          <span><span data-icon="check" data-size="14"></span>Free cancellation to 48 hrs</span>
+          <span><span data-icon="check" data-size="14"></span>Full handover included</span>
+          <span><span data-icon="check" data-size="14"></span>Secure Stripe payment</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="siteFooter"></footer>
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+<script src="js/booking.js"></script>
+</body>
+</html>

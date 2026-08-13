@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — Suncool Coldrooms</title>
+<link rel="icon" type="image/png" href="Logo1-Photoroom.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="contact">
+<header class="site-header" id="siteHeader"></header>
+
+<section class="page-hero">
+  <div class="rays" data-art="rays" data-size="300" data-color="rgba(245,130,32,.4)"></div>
+  <div class="container" style="position:relative">
+    <div class="crumbs"><a href="index.html">Home</a><span>/</span>Contact Us</div>
+    <h1>Talk to Someone Who Understands What You Need</h1>
+    <p class="lede">Whether you're after short-term cooling for a market stall or a long-term solution for your farm or worksite, we'll help you figure out the best setup &mdash; no pressure, just honest advice from our Australian team.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1.35fr;gap:48px;align-items:start" class="split">
+      <div>
+        <div class="card" style="margin-bottom:20px">
+          <div class="icon-tile" style="background:var(--orange-soft);color:var(--orange-dark)"><span data-icon="phone" data-size="24"></span></div>
+          <h3>Call Gregg direct</h3>
+          <p style="margin-bottom:12px">You'll be talking to the person who designs and builds the gear.</p>
+          <a href="tel:0411478110" style="font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--navy)">0411 478 110</a>
+        </div>
+        <div class="card" style="margin-bottom:20px">
+          <div class="icon-tile"><span data-icon="mail" data-size="24"></span></div>
+          <h3>Email us</h3>
+          <p style="margin-bottom:12px">We'll come back to you within one business day.</p>
+          <a href="mailto:info@suncoolcoldrooms.com.au" style="font-family:var(--font-display);font-weight:700;font-size:17px">info@suncoolcoldrooms.com.au</a>
+        </div>
+        <div class="card">
+          <div class="icon-tile" style="background:var(--orange-soft);color:var(--orange-dark)"><span data-icon="pin" data-size="24"></span></div>
+          <h3>Workshop</h3>
+          <p>Based on the Gold Coast, South East Queensland &mdash; servicing all of Australia. Rental handovers happen at the workshop; the full address comes with your booking confirmation.</p>
+        </div>
+        <div class="notice warn" style="margin-top:20px">
+          <span data-icon="calendar" data-size="20"></span>
+          <div><strong>Just need a rental?</strong> Skip the form &mdash; trailer hire is booked instantly online. <a href="rent.html">Check availability</a>.</div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:38px">
+        <span class="kicker">Send an inquiry</span>
+        <h2 class="h-md" style="margin-bottom:6px">Use the form below or give us a call to get started</h2>
+        <p style="color:var(--muted);font-size:14.5px;margin-bottom:24px">Purchases, retrofits and long-term hire are quoted personally &mdash; tell us a little about what you need.</p>
+        <form id="contactForm">
+          <div class="field-row">
+            <div class="field"><label>Name <span class="req">*</span></label><input type="text" required placeholder="Your full name"></div>
+            <div class="field"><label>Phone Number <span class="req">*</span></label><input type="tel" required placeholder="04xx xxx xxx"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Email <span class="req">*</span></label><input type="email" required placeholder="you@example.com"></div>
+            <div class="field"><label>Company Name</label><input type="text" placeholder="Optional"></div>
+          </div>
+          <div class="field">
+            <label>What can we help with? <span class="req">*</span></label>
+            <select required>
+              <option value="">Please select&hellip;</option>
+              <option>Discuss Options for Purchase</option>
+              <option>Retrofit Coldrooms</option>
+              <option>Long-term rental quote (more than a week)</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="field"><label>Message <span class="req">*</span></label><textarea required placeholder="Tell us what you're trying to cool, where you'll be using it, and for how long."></textarea></div>
+          <button type="submit" class="btn btn-orange btn-lg" style="width:100%">Send Inquiry<span data-icon="arrowR" data-size="18"></span></button>
+        </form>
+        <div id="contactDone" style="display:none">
+          <div class="notice good" style="margin-top:8px">
+            <span data-icon="checkCircle" data-size="22"></span>
+            <div><strong>Thanks &mdash; your inquiry is on its way.</strong><br>We'll be in touch within one business day. If it's urgent, call 0411 478 110.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="siteFooter"></footer>
+<script src="js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    this.style.display = 'none';
+    document.getElementById('contactDone').style.display = 'block';
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account — Suncool Coldrooms</title>
+<link rel="icon" type="image/png" href="Logo1-Photoroom.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/booking.css">
+</head>
+<body data-page="account">
+<header class="site-header" id="siteHeader"></header>
+
+<section class="page-hero" style="padding:52px 0 46px">
+  <div class="rays" data-art="rays" data-size="260" data-color="rgba(245,130,32,.4)"></div>
+  <div class="container" style="position:relative">
+    <div class="crumbs"><a href="index.html">Home</a><span>/</span>My Account</div>
+    <div class="acct-head">
+      <div>
+        <h1 id="acctHello">My Account</h1>
+        <p class="lede" id="acctSub" style="margin-top:8px">Your bookings, invoices and hire history in one place.</p>
+      </div>
+      <a href="rent.html" class="btn btn-orange">New Booking<span data-icon="arrowR" data-size="16"></span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg-soft);padding-top:44px">
+  <div class="container" style="max-width:920px">
+    <div class="tabs" id="acctTabs">
+      <button class="active" data-tab="upcoming">Upcoming</button>
+      <button data-tab="past">Completed</button>
+    </div>
+    <div id="bookingList"></div>
+    <div class="notice info" style="margin-top:26px">
+      <span data-icon="info" data-size="20"></span>
+      <div><strong>Need to change or cancel a booking?</strong> Free cancellation up to 48 hours before your hire starts. Call 0411 478 110 or email info@suncoolcoldrooms.com.au and quote your booking reference.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="siteFooter"></footer>
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const user = SC.getUser() || { name:'Priya Raman', email:'priya.raman@gmail.com', phone:'0433 902 471' };
+  document.getElementById('acctHello').textContent = 'G’day, ' + user.name.split(' ')[0];
+  document.getElementById('acctSub').textContent = user.email + ' · ' + user.phone;
+
+  const today = SC.todayISO();
+  const mine = SC.getBookings().filter(b => b.customer.email.toLowerCase() === user.email.toLowerCase());
+  let tab = 'upcoming';
+
+  document.querySelectorAll('#acctTabs button').forEach(btn => btn.addEventListener('click', function(){
+    document.querySelectorAll('#acctTabs button').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    tab = this.dataset.tab; render();
+  }));
+
+  function render(){
+    const list = mine.filter(b => tab === 'upcoming' ? b.end >= today && b.status !== 'cancelled' : (b.end < today || b.status === 'completed'));
+    const root = document.getElementById('bookingList');
+    if (!list.length){
+      root.innerHTML = '<div class="card center" style="padding:52px 30px"><div style="color:var(--faint);margin-bottom:14px">' + I('calendar', 40) + '</div>' +
+        '<h3 style="margin-bottom:8px">No ' + (tab === 'upcoming' ? 'upcoming' : 'completed') + ' bookings' + (mine.length ? '' : ' yet') + '</h3>' +
+        '<p style="color:var(--muted);max-width:400px;margin:0 auto 22px">Hire a solar-powered coldroom trailer by the day — book and pay online in minutes.</p>' +
+        '<a href="rent.html" class="btn btn-orange">Check Availability</a></div>';
+      return;
+    }
+    root.innerHTML = list.map(b => {
+      const d = SC.parse(b.start);
+      const statusPill = b.status === 'completed' ? '<span class="pill gray">Completed</span>'
+        : b.status === 'active' ? '<span class="pill blue">On hire now</span>'
+        : '<span class="pill good">Confirmed</span>';
+      return '<div class="booking-card">' +
+        '<div class="b-cal"><div class="bm">' + d.toLocaleDateString('en-AU',{month:'short'}) + '</div><div class="bd">' + d.getDate() + '</div></div>' +
+        '<div class="b-info">' +
+          '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><h3>' + (b.rails ? 'Coldroom trailer with meat rails' : 'Standard coldroom trailer') + '</h3>' + statusPill + '</div>' +
+          '<div class="b-meta">' +
+            '<span>' + I('calendar',14) + SC.fmtShort(b.start) + ' &rarr; ' + SC.fmtShort(b.end) + ' (' + b.days + ' day' + (b.days>1?'s':'') + ')</span>' +
+            '<span>' + I('truck',14) + (b.fulfil === 'delivery' ? 'Delivery — ' + (b.address||'') : 'Pickup, Gold Coast workshop') + '</span>' +
+            '<span>' + I('tag',14) + b.ref + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="b-right">' +
+          '<div class="amt">' + SC.money(b.charges.total) + '</div>' +
+          '<div style="font-size:12px;color:var(--muted);margin-bottom:10px">' + (b.payment === 'paid' ? 'Paid via Stripe' : 'Payment pending') + '</div>' +
+          '<a class="btn btn-ghost btn-sm" href="invoice.html?ref=' + encodeURIComponent(b.ref) + '">' + I('doc',14) + 'Invoice</a>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+  render();
+});
+</script>
+</body>
+</html>

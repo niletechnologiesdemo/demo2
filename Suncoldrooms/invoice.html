@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tax Invoice — Suncool Coldrooms</title>
+<link rel="icon" type="image/png" href="Logo1-Photoroom.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  body{background:var(--bg-soft)}
+  .inv-page{max-width:820px;margin:40px auto 70px;padding:0 20px}
+  .inv-actions{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+  .inv-sheet{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-md);padding:54px;position:relative;overflow:hidden}
+  .inv-head{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;margin-bottom:40px}
+  .inv-head img{height:52px}
+  .inv-title{text-align:right}
+  .inv-title h1{font-size:30px;letter-spacing:.02em}
+  .inv-title .ref{color:var(--muted);font-size:14px;margin-top:6px}
+  .inv-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:36px}
+  .inv-cols h4{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+  .inv-cols div p{font-size:14.5px;color:var(--ink)}
+  table.inv{width:100%;border-collapse:collapse;margin-bottom:8px}
+  table.inv th{font-family:var(--font-display);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);text-align:left;padding:10px 12px;border-bottom:2px solid var(--line-strong)}
+  table.inv th:last-child,table.inv td:last-child{text-align:right}
+  table.inv td{padding:13px 12px;border-bottom:1px solid var(--line);font-size:14.5px}
+  table.inv td .sub{font-size:12.5px;color:var(--muted)}
+  .inv-totals{margin-left:auto;width:290px;margin-top:18px}
+  .inv-totals .r{display:flex;justify-content:space-between;padding:7px 12px;font-size:14.5px}
+  .inv-totals .r.grand{background:var(--navy);color:#fff;border-radius:10px;margin-top:8px;padding:13px 14px;font-family:var(--font-display);font-weight:700;font-size:17px}
+  .inv-paid{position:absolute;top:170px;right:40px;transform:rotate(12deg);border:3px solid var(--good);color:var(--good);font-family:var(--font-display);font-weight:800;font-size:26px;letter-spacing:.2em;padding:8px 22px;border-radius:10px;opacity:.8}
+  .inv-foot{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  @media print{
+    .site-header,.site-footer,.inv-actions{display:none!important}
+    .inv-page{margin:0;max-width:none}
+    .inv-sheet{border:none;box-shadow:none;border-radius:0;padding:20px}
+    body{background:#fff}
+  }
+  @media (max-width:700px){.inv-sheet{padding:28px 20px}.inv-cols{grid-template-columns:1fr}.inv-paid{display:none}}
+</style>
+</head>
+<body data-page="invoice">
+<header class="site-header" id="siteHeader"></header>
+
+<div class="inv-page">
+  <div class="inv-actions">
+    <a href="account.html" class="btn btn-ghost btn-sm"><span data-icon="arrowL" data-size="15"></span>Back to My Account</a>
+    <button class="btn btn-blue btn-sm" onclick="window.print()"><span data-icon="printer" data-size="15"></span>Print / Save as PDF</button>
+  </div>
+  <div class="inv-sheet" id="invSheet"></div>
+</div>
+
+<footer class="site-footer" id="siteFooter"></footer>
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const ref = new URLSearchParams(location.search).get('ref');
+  const b = SC.getBookings().find(x => x.ref === ref) || SC.getBookings()[3];
+  const P = SC.getPricing();
+  const paid = b.payment === 'paid';
+  let rows = '';
+  rows += line((b.rails ? 'Coldroom trailer hire — with meat rails' : 'Coldroom trailer hire — standard'),
+               SC.fmtDate(b.start) + ' → ' + SC.fmtDate(b.end) + ' · ' + b.days + ' day' + (b.days>1?'s':'') + (b.unitId ? ' · Unit ' + b.unitId : ''),
+               SC.money(b.charges.rental));
+  if (b.charges.railsFee) rows += line('Meat rail kit', 'Rails and hooks fitted for the hire', SC.money(b.charges.railsFee));
+  (b.addons || []).forEach(k => { const a = P.addons[k]; if (a) rows += line(a.label, a.desc, SC.money(a.price)); });
+  if (b.charges.delivery) rows += line('Delivery & collection', (b.address || '') + (b.km ? ' · ' + b.km + ' km each way' : ''), SC.money(b.charges.delivery));
+
+  const gst = b.charges.total / 11;
+  document.getElementById('invSheet').innerHTML =
+    (paid ? '<div class="inv-paid">PAID</div>' : '') +
+    '<div class="inv-head">' +
+      '<div><img src="Logo1-Photoroom.png" alt="Suncool Coldrooms"><p style="font-size:13px;color:var(--muted);margin-top:12px">Suncool Coldrooms<br>Gold Coast, QLD · ABN 00 000 000 000<br>0411 478 110 · info@suncoolcoldrooms.com.au</p></div>' +
+      '<div class="inv-title"><h1>TAX INVOICE</h1><div class="ref">' + b.ref + '<br>Issued ' + SC.fmtDate(b.created || b.start) + '</div></div>' +
+    '</div>' +
+    '<div class="inv-cols">' +
+      '<div><h4>Billed to</h4><p><strong>' + b.customer.name + '</strong><br>' + b.customer.email + '<br>' + b.customer.phone + '</p></div>' +
+      '<div><h4>Hire details</h4><p>' + (b.fulfil === 'delivery' ? 'Delivered to ' + (b.address || 'site') : 'Pickup — Gold Coast workshop') + '<br>Handover ' + (b.time || '9:00 am') + '<br>Refundable bond of ' + SC.money(P.bond) + ' payable at handover</p></div>' +
+    '</div>' +
+    '<table class="inv"><thead><tr><th>Description</th><th>Amount</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+    '<div class="inv-totals">' +
+      '<div class="r"><span>Subtotal (ex GST)</span><span>' + SC.money(b.charges.total - gst) + '</span></div>' +
+      '<div class="r"><span>GST (10%)</span><span>' + SC.money(gst) + '</span></div>' +
+      '<div class="r grand"><span>Total ' + (paid ? 'paid' : 'due') + '</span><span>' + SC.money(b.charges.total) + '</span></div>' +
+    '</div>' +
+    '<div class="inv-foot"><span>' + (paid ? 'Paid in full via Stripe. ' : 'Payment due at handover. ') + 'Thank you for hiring with Suncool Coldrooms.</span><span>Cold storage. No grid needed.</span></div>';
+});
+
+function line(t, sub, amt){
+  return '<tr><td><strong>' + t + '</strong>' + (sub ? '<div class="sub">' + sub + '</div>' : '') + '</td><td>' + amt + '</td></tr>';
+}
+</script>
+</body>
+</html>

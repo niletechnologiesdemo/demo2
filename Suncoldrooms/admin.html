@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Owner Console — Suncool Coldrooms</title>
+<link rel="icon" type="image/png" href="Logo1-Photoroom.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin">
+
+<!-- ============ LOGIN GATE ============ -->
+<div class="login-gate" id="loginGate">
+  <div class="login-card">
+    <img src="Logo1-Photoroom.png" alt="Suncool Coldrooms">
+    <h1>Owner Console</h1>
+    <p>Manage your rental fleet, bookings and pricing.</p>
+    <div class="field"><label>Email</label><input type="email" value="gregg@suncoolcoldrooms.com.au"></div>
+    <div class="field"><label>Password</label><input type="password" value="demo-password"></div>
+    <button class="btn btn-orange" style="width:100%" onclick="document.getElementById('loginGate').style.display='none'">Sign In<span data-icon="arrowR" data-size="16"></span></button>
+    <p style="margin-top:18px;margin-bottom:0;font-size:12px"><a href="index.html">&larr; Back to website</a></p>
+  </div>
+</div>
+
+<div class="adm-layout">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="adm-side">
+    <div class="adm-logo">
+      <span data-art="rays" data-size="38"></span>
+      <div class="t">SUNCOOL<span>OWNER CONSOLE</span></div>
+    </div>
+    <nav class="adm-nav" id="admNav">
+      <div class="grp">Overview</div>
+      <button data-sec="dashboard" class="active"><span data-icon="grid" data-size="18"></span>Dashboard</button>
+      <button data-sec="calendar"><span data-icon="calendar" data-size="18"></span>Calendar</button>
+      <div class="grp">Operations</div>
+      <button data-sec="bookings"><span data-icon="list" data-size="18"></span>Bookings</button>
+      <button data-sec="quotes"><span data-icon="doc" data-size="18"></span>Quote Requests<span class="badge" id="quoteBadge"></span></button>
+      <button data-sec="fleet"><span data-icon="truck" data-size="18"></span>Fleet</button>
+      <div class="grp">Configuration</div>
+      <button data-sec="pricing"><span data-icon="tag" data-size="18"></span>Pricing &amp; Rules</button>
+    </nav>
+    <div class="side-foot">
+      <a href="index.html"><span data-icon="eye" data-size="15"></span>View customer site</a>
+      <a href="#" id="resetDemo"><span data-icon="settings" data-size="15"></span>Reset demo data</a>
+      <a href="index.html"><span data-icon="logout" data-size="15"></span>Sign out</a>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="adm-main">
+    <div class="adm-topbar">
+      <div><h1 id="secTitle">Dashboard</h1><div class="sub" id="secSub">Thursday 13 August 2026 &middot; Suncool Coldrooms rentals at a glance</div></div>
+      <div class="adm-user">
+        <div class="who"><strong>Gregg Chapman</strong>Owner</div>
+        <div class="avatar">GC</div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <section class="adm-section active" id="sec-dashboard">
+      <div class="kpi-grid" id="kpiGrid"></div>
+      <div class="panel-duo">
+        <div class="adm-panel">
+          <div class="p-head"><h2>Trailers on hire — next 14 days</h2><span class="hint">of <span id="fleetCap"></span> active trailers</span></div>
+          <div class="chart-wrap" id="occChart"></div>
+        </div>
+        <div class="adm-panel">
+          <div class="p-head"><h2>Rental revenue by week</h2><span class="hint">booked value, AUD</span></div>
+          <div class="chart-wrap" id="revChart"></div>
+        </div>
+      </div>
+      <div class="adm-panel">
+        <div class="p-head"><h2>Upcoming handovers</h2><span class="hint">next 7 days — pickups, deliveries and returns</span></div>
+        <div style="overflow-x:auto"><table class="adm-table" id="handoverTable"></table></div>
+      </div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="adm-section" id="sec-calendar">
+      <div class="adm-panel">
+        <div class="adm-cal-head">
+          <button id="calPrev"><span data-icon="arrowL" data-size="16"></span></button>
+          <h3 id="calMonthLabel"></h3>
+          <button id="calNext"><span data-icon="arrowR" data-size="16"></span></button>
+        </div>
+        <div class="adm-cal" id="admCal"></div>
+        <div class="cal-legend" style="margin-top:18px">
+          <span><i style="background:var(--good-soft)"></i>Trailers free</span>
+          <span><i style="background:var(--warn-soft)"></i>Partly booked</span>
+          <span><i style="background:var(--bad-soft)"></i>Fully booked</span>
+          <span><i style="background:var(--bg-soft);border:1px solid var(--line)"></i>Maintenance</span>
+        </div>
+      </div>
+      <div class="adm-panel cal-day-detail" id="calDayDetail" style="display:none"></div>
+    </section>
+
+    <!-- BOOKINGS -->
+    <section class="adm-section" id="sec-bookings">
+      <div class="adm-panel">
+        <div class="p-head">
+          <div class="table-tools">
+            <input type="search" id="bkSearch" placeholder="Search name, ref, suburb&hellip;">
+            <select id="bkFilter">
+              <option value="">All statuses</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="active">On hire</option>
+              <option value="completed">Completed</option>
+            </select>
+            <select id="bkSource">
+              <option value="">Online + phone</option>
+              <option value="online">Online only</option>
+              <option value="phone">Phone (manual)</option>
+            </select>
+          </div>
+          <button class="btn btn-orange btn-sm" id="newManualBk"><span data-icon="plus" data-size="15"></span>New Manual Booking</button>
+        </div>
+        <div style="overflow-x:auto"><table class="adm-table" id="bkTable"></table></div>
+      </div>
+    </section>
+
+    <!-- QUOTES -->
+    <section class="adm-section" id="sec-quotes">
+      <div class="adm-panel">
+        <div class="p-head"><h2>Long-term hire quote requests</h2><span class="hint">bookings over 7 days are steered here for custom pricing</span></div>
+        <div style="overflow-x:auto"><table class="adm-table" id="quoteTable"></table></div>
+      </div>
+    </section>
+
+    <!-- FLEET -->
+    <section class="adm-section" id="sec-fleet">
+      <div class="adm-panel">
+        <div class="p-head">
+          <div><h2>Rental fleet</h2><div class="hint" style="margin-top:4px">Deactivate a trailer for maintenance and it instantly stops being offered for new bookings. Add trailers as the fleet grows &mdash; no rebuild needed.</div></div>
+          <button class="btn btn-blue btn-sm" id="addUnitBtn"><span data-icon="plus" data-size="15"></span>Add Trailer</button>
+        </div>
+        <div class="fleet-grid" id="fleetGrid"></div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="adm-section" id="sec-pricing">
+      <div class="adm-panel">
+        <div class="p-head"><h2>Rental pricing</h2><span class="hint">changes apply instantly to the booking site &mdash; raise rates for busy weeks, ease them off-season</span></div>
+        <div class="price-grid" id="priceGrid1"></div>
+      </div>
+      <div class="adm-panel">
+        <div class="p-head"><h2>Extras &amp; delivery</h2></div>
+        <div class="price-grid" id="priceGrid2"></div>
+      </div>
+      <div class="adm-panel">
+        <div class="p-head"><h2>Booking rules</h2></div>
+        <div class="price-grid" id="priceGrid3"></div>
+        <div style="display:flex;gap:12px;margin-top:24px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-orange" id="savePricing"><span data-icon="check" data-size="16"></span>Save Changes</button>
+          <button class="btn btn-ghost btn-sm" id="revertPricing">Revert to defaults</button>
+          <span class="hint" style="font-size:12.5px;color:var(--muted)">Saved instantly &mdash; the next customer booking uses the new rates.</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ============ MANUAL BOOKING MODAL ============ -->
+<div class="modal-back" id="manualModal">
+  <div class="modal">
+    <div class="m-head"><h3>New manual booking</h3><button onclick="document.getElementById('manualModal').classList.remove('open')"><span data-icon="x" data-size="17"></span></button></div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px">For phone bookings &mdash; entering them here keeps the online calendar accurate, so a trailer promised over the phone can't be double-booked online.</p>
+    <div class="field-row">
+      <div class="field"><label>Customer name <span class="req">*</span></label><input type="text" id="mbName" placeholder="Full name"></div>
+      <div class="field"><label>Phone <span class="req">*</span></label><input type="tel" id="mbPhone" placeholder="04xx xxx xxx"></div>
+    </div>
+    <div class="field"><label>Email</label><input type="email" id="mbEmail" placeholder="Optional — for confirmation & invoice"></div>
+    <div class="field-row">
+      <div class="field"><label>Start date <span class="req">*</span></label><input type="date" id="mbStart" min="2026-08-13" value="2026-08-17"></div>
+      <div class="field"><label>Return date <span class="req">*</span></label><input type="date" id="mbEnd" min="2026-08-14" value="2026-08-19"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Trailer type</label><select id="mbRails"><option value="0">Standard</option><option value="1">With meat rails</option></select></div>
+      <div class="field"><label>Handover</label><select id="mbFulfil"><option value="pickup">Pickup at workshop</option><option value="delivery">Delivery</option></select></div>
+    </div>
+    <div class="field" id="mbAddrRow" style="display:none"><label>Delivery suburb</label><input type="text" id="mbAddr" placeholder="e.g. Beaudesert QLD"></div>
+    <div class="field"><label>Payment</label><select id="mbPay"><option value="pending">Pending — pay at handover</option><option value="cash">Cash received</option><option value="paid">Card paid over phone</option></select></div>
+    <div class="deliv-result" id="mbPrice" style="margin:6px 0 18px"></div>
+    <div id="mbWarn" class="notice warn" style="display:none;margin-bottom:16px"><span data-icon="alert" data-size="19"></span><div>No trailer of that type is free for those dates.</div></div>
+    <button class="btn btn-orange" style="width:100%" id="mbSave">Save Booking</button>
+  </div>
+</div>
+
+<!-- ============ ADD UNIT MODAL ============ -->
+<div class="modal-back" id="unitModal">
+  <div class="modal" style="max-width:460px">
+    <div class="m-head"><h3>Add a trailer</h3><button onclick="document.getElementById('unitModal').classList.remove('open')"><span data-icon="x" data-size="17"></span></button></div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:18px">The new trailer joins the availability pool immediately &mdash; the booking site starts offering it with no other changes.</p>
+    <div class="field"><label>Trailer name</label><input type="text" id="nuName" placeholder="e.g. Suncool Trailer 05"></div>
+    <label class="addon"><input type="checkbox" id="nuRails"><div class="a-body"><div class="a-title">Fitted with meat rails</div><div class="a-desc">Customers can book it for hanging carcasses</div></div></label>
+    <button class="btn btn-blue" style="width:100%;margin-top:16px" id="nuSave">Add to Fleet</button>
+  </div>
+</div>
+
+<!-- ============ BOOKING DETAIL MODAL ============ -->
+<div class="modal-back" id="detailModal">
+  <div class="modal">
+    <div class="m-head"><h3 id="dtTitle">Booking</h3><button onclick="document.getElementById('detailModal').classList.remove('open')"><span data-icon="x" data-size="17"></span></button></div>
+    <div id="dtBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/data.js"></script>
+<script src="js/site.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

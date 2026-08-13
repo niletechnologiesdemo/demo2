@@ -1,0 +1,159 @@
+/* ============================================================
+   Suncool Coldrooms — admin console styles
+   ============================================================ */
+
+body.admin{background:#F0F4F8;min-height:100vh}
+.adm-layout{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+
+/* ---------- sidebar ---------- */
+.adm-side{background:var(--navy);color:#9FB9CE;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.adm-logo{padding:24px 22px 20px;border-bottom:1px solid #1D3E5C;display:flex;align-items:center;gap:12px}
+.adm-logo .t{font-family:var(--font-display);font-weight:800;color:#fff;font-size:16px;line-height:1.15}
+.adm-logo .t span{display:block;font-size:10.5px;font-weight:600;color:var(--orange);letter-spacing:.14em}
+.adm-nav{padding:18px 12px;flex:1;overflow-y:auto}
+.adm-nav .grp{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#537696;padding:14px 12px 8px;font-weight:700}
+.adm-nav button{
+  display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:none;
+  color:#9FB9CE;padding:11px 12px;border-radius:10px;font-family:var(--font-display);font-weight:600;font-size:14.5px;
+  transition:all .15s;margin-bottom:2px;
+}
+.adm-nav button:hover{background:#12334F;color:#fff}
+.adm-nav button.active{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(27,117,188,.4)}
+.adm-nav button .badge{margin-left:auto;background:var(--orange);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:1px 8px}
+.adm-side .side-foot{padding:16px 22px;border-top:1px solid #1D3E5C;font-size:12px}
+.adm-side .side-foot a{color:#7FA3C2;display:flex;align-items:center;gap:8px;padding:5px 0}
+.adm-side .side-foot a:hover{color:#fff}
+
+/* ---------- main ---------- */
+.adm-main{padding:0 34px 60px;min-width:0}
+.adm-topbar{display:flex;justify-content:space-between;align-items:center;padding:22px 0 18px;border-bottom:1px solid var(--line);margin-bottom:28px;gap:16px;flex-wrap:wrap}
+.adm-topbar h1{font-size:23px}
+.adm-topbar .sub{color:var(--muted);font-size:13.5px;margin-top:2px}
+.adm-user{display:flex;align-items:center;gap:12px}
+.adm-user .avatar{width:40px;height:40px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700}
+.adm-user .who{font-size:13px;line-height:1.3}
+.adm-user .who strong{font-family:var(--font-display);display:block;color:var(--navy)}
+
+.adm-section{display:none}
+.adm-section.active{display:block;animation:fadeUp .3s ease}
+
+/* ---------- KPI tiles ---------- */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:26px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow-sm)}
+.kpi .k-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.kpi .k-label{font-size:12.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.kpi .k-icon{width:38px;height:38px;border-radius:10px;background:var(--bg-blue-tint);color:var(--blue);display:flex;align-items:center;justify-content:center}
+.kpi.orange .k-icon{background:var(--orange-soft);color:var(--orange-dark)}
+.kpi .k-num{font-family:var(--font-display);font-weight:800;font-size:30px;color:var(--navy);line-height:1}
+.kpi .k-sub{font-size:12.5px;color:var(--muted);margin-top:7px}
+.kpi .k-sub .up{color:var(--good);font-weight:700}
+
+/* ---------- panels ---------- */
+.adm-panel{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);padding:26px;margin-bottom:24px}
+.adm-panel .p-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:14px;flex-wrap:wrap}
+.adm-panel .p-head h2{font-size:17px}
+.adm-panel .p-head .hint{font-size:12.5px;color:var(--muted)}
+.panel-duo{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+
+/* ---------- charts ---------- */
+.chart-wrap{position:relative}
+.chart-tip{
+  position:absolute;pointer-events:none;background:var(--navy);color:#fff;font-size:12px;border-radius:8px;
+  padding:7px 11px;box-shadow:var(--shadow-md);opacity:0;transition:opacity .12s;white-space:nowrap;z-index:5;transform:translate(-50%,-110%);
+}
+.chart-tip strong{font-family:var(--font-display)}
+.chart-wrap svg{display:block;width:100%;height:auto}
+.chart-wrap .bar{transition:opacity .12s;cursor:pointer}
+.chart-wrap .bar:hover{opacity:.75}
+
+/* ---------- tables ---------- */
+.adm-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.adm-table th{font-family:var(--font-display);text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding:10px 12px;border-bottom:2px solid var(--line-strong);white-space:nowrap}
+.adm-table td{padding:13px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.adm-table tbody tr{transition:background .12s;cursor:pointer}
+.adm-table tbody tr:hover{background:var(--bg-blue-tint)}
+.adm-table .cust{font-weight:600;color:var(--navy)}
+.adm-table .sub{font-size:12px;color:var(--muted)}
+.adm-table td:last-child{text-align:right;white-space:nowrap}
+.table-tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.table-tools input,.table-tools select{padding:9px 13px;border:1.5px solid var(--line-strong);border-radius:9px;font-size:13.5px;background:#fff}
+.table-tools input:focus,.table-tools select:focus{outline:none;border-color:var(--blue)}
+
+/* ---------- admin calendar ---------- */
+.adm-cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.adm-cal-head h3{font-size:17px}
+.adm-cal-head button{background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--blue-dark)}
+.adm-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.adm-cal .dw{font-size:11px;font-weight:700;color:var(--faint);text-transform:uppercase;text-align:center;padding:6px 0;letter-spacing:.06em}
+.adm-cal .dc{min-height:86px;border:1px solid var(--line);border-radius:10px;padding:8px;background:#fff;cursor:pointer;transition:all .12s;position:relative}
+.adm-cal .dc:hover{border-color:var(--blue);box-shadow:var(--shadow-sm)}
+.adm-cal .dc.off{background:transparent;border-color:transparent;cursor:default}
+.adm-cal .dc.today{border-color:var(--blue);border-width:2px}
+.adm-cal .dc .dn{font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--navy)}
+.adm-cal .dc.sel{background:var(--bg-blue-tint);border-color:var(--blue)}
+.adm-cal .load{margin-top:7px;display:flex;flex-direction:column;gap:3px}
+.adm-cal .load .lb{font-size:10.5px;font-weight:700;border-radius:5px;padding:2px 6px;line-height:1.4}
+.adm-cal .load .lb.free{background:var(--good-soft);color:var(--good)}
+.adm-cal .load .lb.part{background:var(--warn-soft);color:var(--warn)}
+.adm-cal .load .lb.full{background:var(--bad-soft);color:var(--bad)}
+.adm-cal .load .lb.maint{background:var(--bg-soft);color:var(--muted)}
+.cal-day-detail{margin-top:20px}
+
+/* ---------- fleet cards ---------- */
+.fleet-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.unit-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow-sm)}
+.unit-card .u-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px}
+.unit-card h3{font-size:16.5px}
+.unit-card .u-id{font-size:12px;color:var(--faint);font-weight:600}
+.unit-card .u-note{font-size:13px;color:var(--muted);min-height:20px;margin:8px 0 14px}
+.unit-card .u-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:14px}
+
+/* toggle */
+.toggle{position:relative;display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted)}
+.toggle input{position:absolute;opacity:0}
+.toggle .tr{width:42px;height:24px;border-radius:999px;background:#CBD8E2;position:relative;transition:background .18s;flex:none}
+.toggle .tr::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .18s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.toggle input:checked + .tr{background:var(--good)}
+.toggle input:checked + .tr::after{left:21px}
+
+/* ---------- pricing form ---------- */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.price-field label{display:block;font-family:var(--font-display);font-weight:600;font-size:13px;color:var(--navy);margin-bottom:6px}
+.price-field .in{display:flex;align-items:center;border:1.5px solid var(--line-strong);border-radius:9px;overflow:hidden;background:#fff}
+.price-field .in span{padding:10px 0 10px 13px;color:var(--faint);font-size:14px}
+.price-field .in input{border:none;padding:10px 13px 10px 6px;width:100%;font-size:14.5px;font-weight:600}
+.price-field .in input:focus{outline:none}
+.price-field .hint{font-size:11.5px;color:var(--faint);margin-top:4px}
+
+/* ---------- modal ---------- */
+.modal-back{position:fixed;inset:0;background:rgba(12,39,64,.55);backdrop-filter:blur(3px);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:50px 20px;overflow-y:auto}
+.modal-back.open{display:flex}
+.modal{background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow-lg);width:100%;max-width:560px;padding:32px;animation:fadeUp .25s ease}
+.modal .m-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal .m-head h3{font-size:19px}
+.modal .m-head button{background:var(--bg-soft);border:none;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+
+/* ---------- login gate ---------- */
+.login-gate{position:fixed;inset:0;background:linear-gradient(150deg,var(--navy),var(--blue-deep));z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{background:#fff;border-radius:var(--r-xl);box-shadow:var(--shadow-lg);padding:44px;width:100%;max-width:420px;text-align:center}
+.login-card img{height:52px;margin:0 auto 8px}
+.login-card h1{font-size:22px;margin-bottom:4px}
+.login-card p{color:var(--muted);font-size:13.5px;margin-bottom:24px}
+.login-card .field{text-align:left}
+
+/* toast */
+.toast{position:fixed;bottom:26px;right:26px;background:var(--navy);color:#fff;padding:14px 20px;border-radius:12px;box-shadow:var(--shadow-lg);font-size:14px;display:flex;align-items:center;gap:10px;z-index:150;opacity:0;transform:translateY(12px);transition:all .25s}
+.toast.show{opacity:1;transform:none}
+.toast svg{color:#43D18A}
+
+@media (max-width:1100px){.kpi-grid{grid-template-columns:1fr 1fr}.panel-duo{grid-template-columns:1fr}.price-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:860px){
+  .adm-layout{grid-template-columns:1fr}
+  .adm-side{position:relative;height:auto}
+  .adm-nav{display:flex;flex-wrap:wrap;gap:4px}
+  .adm-nav .grp{display:none}
+  .fleet-grid{grid-template-columns:1fr}
+  .adm-main{padding:0 18px 50px}
+  .price-grid{grid-template-columns:1fr}
+  .adm-cal .dc{min-height:64px;padding:5px}
+}
