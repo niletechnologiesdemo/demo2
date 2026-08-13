@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-GB" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<title>OTCF screen capture</title>
+<link rel="stylesheet" href="otcf.css?v=3">
+<style>
+  html, body { margin: 0; padding: 0; background: transparent; overflow: hidden; }
+  #stage { width: 412px; height: 866px; }
+  #stage .phone { margin: 0; box-shadow: none; }
+  #stage .phone::after { box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.16), inset 0 0 0 8px #0d0d0d; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="phone"><div class="notch"></div><div class="phone-scr"></div></div>
+</div>
+<script src="otcf-icons.js?v=3"></script>
+<script>
+(function () {
+  const q = new URLSearchParams(location.search);
+  const ver = q.get('v') === '1' ? 'otcf-app-v2.js' : 'otcf-app.js';   // v=1 -> Option 1 screens
+  const theme = q.get('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', theme);
+
+  const s = document.createElement('script');
+  s.src = ver + '?v=3';
+  s.onload = function () {
+    const id = q.get('screen');
+    const S = window.OTCF_SCREENS;
+    const el = document.querySelector('.phone-scr');
+    if (!S || !S[id]) { el.innerHTML = '<p style="padding:40px;font:14px sans-serif">missing screen: ' + id + '</p>'; return; }
+    el.innerHTML = S[id].fn();
+    el.querySelectorAll('img.lg-dark').forEach(function (img) {
+      img.src = theme === 'dark' ? 'LogoDark.jpeg' : 'LogoWhite.jpeg';
+    });
+    document.title = 'ready';
+    window.__ready = true;
+  };
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>

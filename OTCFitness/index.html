@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-GB" data-theme="dark">
+<html lang="en-GB" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -99,9 +99,9 @@
 
   <div class="notes">
     <div class="note"><div class="nh" id="s1"></div>
-      <p><b>Dark is the primary theme.</b> The logo is dark-first, and endurance athletes use the app at 5am and
-         after dusk. Light mode is a full, equal treatment — not an afterthought — and every screen here renders
-         in both.</p></div>
+      <p><b>Light and dark, both first-class.</b> Light is the default; dark is a full, equal treatment for the
+         5am starts and the sessions after dusk — not an afterthought. Every screen here renders in both, and the
+         toggle is top-right.</p></div>
     <div class="note"><div class="nh" id="s2"></div>
       <p><b>Green is rationed.</b> It marks the one thing that matters on each screen: today's key session, the
          primary button, the unlock. Everything else is neutral so the green always reads as "act here".</p></div>
@@ -269,7 +269,7 @@
   tog.addEventListener('click', function () {
     applyTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   });
-  applyTheme('dark');
+  applyTheme('light');
 
   /* ---------- static icon slots ---------- */
   document.getElementById('heroDot').innerHTML = I('zap', { size: 12, fill: 'currentColor' });
@@ -277,7 +277,7 @@
     n1: ['layers', 'Every OTCF discipline'],
     n2: ['video', 'PDF · video · audio'],
     n3: ['apple', 'Fuelling meets load'],
-    s1: ['moon', 'Dark-first, light-equal'],
+    s1: ['sun', 'Light and dark, equal'],
     s2: ['zap', 'Green means act'],
     s3: ['chart', 'Numbers lead'],
     s4: ['shield', 'Icons, never emoji'],
