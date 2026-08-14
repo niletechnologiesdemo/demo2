@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEAD — App Concept Demo</title>
+<style>
+  :root{
+    --navy:#132C3E; --navy2:#1B3A50; --navy3:#0E2230;
+    --lime:#A6CE39; --lime-dark:#8FB92E; --lime-soft:#EEF4D8;
+    --cream:#F4F6E8; --card:#FFFFFF; --ink:#132C3E;
+    --muted:#68798A; --line:#E4E9DC; --teal:#2F8FA3; --teal-soft:#E2F0F3;
+    --red:#E05B4B; --amber:#E8B93D;
+    --r-lg:26px; --r-md:18px; --r-sm:12px;
+    --shadow:0 10px 30px rgba(19,44,62,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, #1B3A50 0%, transparent 55%),
+      radial-gradient(1000px 700px at 110% 110%, #24506b 0%, transparent 50%),
+      #0E2230;
+    color:var(--ink);
+    min-height:100vh; display:flex; flex-direction:column;
+  }
+  svg{display:block}
+  .ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .ic.sm{width:17px;height:17px}
+  .ic.lg{width:26px;height:26px}
+
+  /* ===== top bar ===== */
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;color:#E9F0F4;
+  }
+  .topbar .brand{display:flex;align-items:center;gap:12px}
+  .topbar .brand .word{font-size:17px;font-weight:800;letter-spacing:.18em}
+  .topbar .brand .word span{color:var(--lime)}
+  .topbar .tag{font-size:12px;color:#9FB4C0;letter-spacing:.08em;text-transform:uppercase}
+  .topbar .hint{font-size:12.5px;color:#9FB4C0}
+
+  /* ===== stage ===== */
+  .stage{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:34px;
+    padding:10px 28px 34px;
+  }
+  .panel{
+    width:270px;flex:0 0 270px;color:#DCE6EC;
+  }
+  .panel h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7E95A4;margin-bottom:12px}
+  .note-card{
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+    border-radius:18px;padding:18px 20px;backdrop-filter:blur(6px);
+  }
+  .note-card .side-chip{
+    display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;padding:5px 11px;border-radius:999px;margin-bottom:12px;
+    background:rgba(166,206,57,.15);color:var(--lime);
+  }
+  .note-card .side-chip.comm{background:rgba(47,143,163,.2);color:#7FD0E0}
+  .note-card .side-chip.core{background:rgba(255,255,255,.1);color:#C9D6DE}
+  .note-card h2{font-size:19px;line-height:1.25;margin-bottom:9px;color:#F2F7FA}
+  .note-card p{font-size:13px;line-height:1.55;color:#A9BCC8}
+  .map{display:flex;flex-direction:column;gap:5px}
+  .map .grp{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#7E95A4;margin:12px 0 5px}
+  .map button{
+    display:flex;align-items:center;gap:9px;width:100%;text-align:left;
+    background:transparent;border:0;color:#C4D2DB;font-size:13px;padding:8px 12px;
+    border-radius:10px;cursor:pointer;font-family:inherit;
+  }
+  .map button:hover{background:rgba(255,255,255,.06)}
+  .map button.on{background:rgba(166,206,57,.14);color:#DDEBB4}
+  .map button .dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.5;flex:0 0 6px}
+
+  /* ===== phone ===== */
+  .phone-wrap{flex:0 0 auto}
+  .phone{
+    width:392px;height:820px;background:var(--cream);border-radius:46px;
+    border:10px solid #060f16;box-shadow:0 40px 90px rgba(0,0,0,.55);
+    position:relative;overflow:hidden;
+  }
+  .statusbar{
+    position:absolute;top:0;left:0;right:0;height:38px;z-index:60;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 26px;font-size:13.5px;font-weight:700;color:#fff;pointer-events:none;
+  }
+  .statusbar.dark-on-light{color:var(--navy)}
+  .statusbar .r{display:flex;gap:6px;align-items:center}
+
+  .screen{
+    position:absolute;inset:0;display:none;flex-direction:column;background:var(--cream);
+  }
+  .screen.on{display:flex}
+  .screen .body{flex:1;overflow-y:auto;scrollbar-width:none}
+  .screen .body::-webkit-scrollbar{display:none}
+  .screen .body.pad{padding:18px 18px 120px}
+  .screen .body.pad-nonav{padding:18px 18px 40px}
+
+  /* app bars */
+  .appbar{
+    background:var(--navy);color:#fff;border-radius:0 0 30px 30px;
+    padding:52px 18px 20px;display:flex;align-items:center;gap:12px;flex:0 0 auto;
+  }
+  .appbar .title{flex:1;text-align:center;font-size:17.5px;font-weight:700}
+  .appbar .iconbtn{
+    width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    background:transparent;border:0;color:#fff;cursor:pointer;flex:0 0 40px;
+  }
+  .appbar .iconbtn.ghost{background:rgba(255,255,255,.08)}
+  .appbar .spacer{width:40px;flex:0 0 40px}
+
+  /* home header */
+  .home-head{
+    background:var(--navy);color:#fff;border-radius:0 0 30px 30px;
+    padding:52px 18px 22px;display:flex;align-items:center;gap:12px;flex:0 0 auto;
+  }
+  .home-head .grid-btn{
+    width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.09);
+    display:flex;align-items:center;justify-content:center;color:#fff;flex:0 0 46px;
+  }
+  .avatar{
+    border-radius:50%;background:var(--lime);color:var(--navy);font-weight:800;
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+  }
+  .avatar.ring{border:2.5px solid var(--lime);background:#fff}
+  .home-head .who{flex:1;min-width:0}
+  .home-head .who .hi{font-size:12.5px;color:#B9C7D1}
+  .home-head .who .nm{font-size:19px;font-weight:800;color:var(--lime);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .home-head .acts{display:flex;gap:8px}
+  .home-head .acts .iconbtn{
+    width:40px;height:40px;border-radius:50%;background:transparent;border:0;color:#fff;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+
+  /* cards & atoms */
+  .card{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:18px}
+  .card.navy{background:var(--navy);color:#fff}
+  .card.lime{background:var(--lime);color:var(--navy)}
+  .sec-title{font-size:18px;font-weight:800;margin:22px 2px 4px}
+  .sec-sub{font-size:12.5px;color:var(--muted);margin:0 2px 12px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border:0;cursor:pointer;font-family:inherit;font-weight:700;border-radius:999px;
+  }
+  .btn.lime{background:var(--lime);color:var(--navy)}
+  .btn.navy{background:var(--navy);color:#fff}
+  .btn.white{background:#fff;color:var(--navy)}
+  .btn.big{width:100%;padding:16px;font-size:15.5px;border-radius:18px}
+  .btn.mid{padding:12px 22px;font-size:14px}
+  .btn.chipbtn{padding:9px 16px;font-size:12.5px}
+  .chip{
+    display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;
+    font-size:11.5px;font-weight:700;background:var(--lime-soft);color:#5E7218;
+  }
+  .chip.navy{background:var(--navy);color:#fff}
+  .chip.teal{background:var(--teal-soft);color:var(--teal)}
+  .chip.out{background:transparent;border:1.5px solid var(--line);color:var(--muted);font-weight:600}
+  .chip.amber{background:#FBF1D7;color:#8A6A14}
+  .kicker{font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+
+  .progress{height:8px;border-radius:99px;background:#E8ECDF;overflow:hidden}
+  .progress.on-navy{background:rgba(255,255,255,.16)}
+  .progress i{display:block;height:100%;border-radius:99px;background:var(--lime)}
+
+  .ring{position:relative;display:flex;align-items:center;justify-content:center}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .v{position:absolute;text-align:center;font-weight:800}
+
+  .listrow{
+    background:#fff;border-radius:20px;box-shadow:var(--shadow);
+    display:flex;align-items:center;gap:14px;padding:15px 16px;margin-bottom:12px;cursor:pointer;border:0;width:100%;text-align:left;font-family:inherit;
+  }
+  .listrow .lic{
+    width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex:0 0 46px;
+  }
+  .listrow .lt{flex:1;min-width:0}
+  .listrow .lt b{display:block;font-size:14.5px;color:var(--ink)}
+  .listrow .lt span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+  .listrow .chev{color:#B7C2CB}
+
+  /* module cards */
+  .mod{
+    background:#fff;border-radius:24px;box-shadow:var(--shadow);
+    display:flex;align-items:center;gap:14px;padding:14px;margin-bottom:14px;
+  }
+  .mod .ringwrap{flex:0 0 62px}
+  .mod .mt{flex:1;min-width:0}
+  .mod .mt b{display:block;font-size:15px;line-height:1.3}
+  .mod .mt .meta{display:flex;align-items:center;gap:8px;margin-top:5px;font-size:13px;color:var(--muted)}
+  .mod .mt .meta b{display:inline;font-size:14px;color:var(--lime-dark)}
+  .mod .go{
+    width:52px;height:44px;border-radius:16px;background:var(--lime);color:var(--navy);
+    display:flex;align-items:center;justify-content:center;border:0;cursor:pointer;flex:0 0 52px;
+  }
+
+  /* bottom navs */
+  .bnav{
+    position:absolute;left:0;right:0;bottom:0;z-index:50;background:#fff;
+    border-radius:28px 28px 0 0;box-shadow:0 -12px 30px rgba(19,44,62,.10);
+    display:none;align-items:flex-end;justify-content:space-around;
+    padding:10px 6px 14px;height:84px;
+  }
+  .bnav.on{display:flex}
+  .bnav .tab{
+    background:transparent;border:0;cursor:pointer;font-family:inherit;
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    font-size:11px;color:#8795A1;width:64px;padding-bottom:2px;position:relative;
+  }
+  .bnav .tab.on{color:var(--lime-dark);font-weight:700}
+  .bnav .tab.on::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--lime-dark);position:absolute;bottom:-7px}
+  .bnav .fab{
+    width:64px;height:64px;border-radius:50%;background:var(--lime);color:var(--navy);
+    border:6px solid var(--cream);display:flex;align-items:center;justify-content:center;
+    cursor:pointer;margin-top:-38px;box-shadow:0 8px 20px rgba(143,185,46,.45);flex:0 0 64px;
+  }
+
+  /* welcome */
+  #scr-welcome{background:linear-gradient(168deg,#132C3E 0%,#0E2230 55%,#14344a 100%)}
+  #scr-welcome .body{display:flex;flex-direction:column;padding:74px 24px 30px;color:#fff}
+  .w-logo{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:6px}
+  .w-word .l1{font-size:34px;font-weight:800;letter-spacing:.22em;color:var(--lime);line-height:1}
+  .w-word .l2{font-size:11px;font-weight:700;letter-spacing:.46em;color:#DCE6EC;margin-top:5px}
+  .w-by{display:flex;justify-content:center;margin:16px 0 4px}
+  .w-by span{border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:7px 16px;font-size:12.5px;color:#D5E0E8}
+  .w-h1{text-align:center;font-size:25px;font-weight:800;line-height:1.25;margin:14px 0 6px}
+  .w-h1 em{color:var(--lime);font-style:normal}
+  .w-sub{text-align:center;font-size:13.5px;color:#9FB4C0;margin-bottom:22px}
+  .w-card{
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    border-radius:22px;padding:18px;display:flex;gap:14px;align-items:center;
+    cursor:pointer;margin-bottom:14px;text-align:left;width:100%;font-family:inherit;color:#fff;
+  }
+  .w-card:hover{background:rgba(255,255,255,.1)}
+  .w-card .wic{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex:0 0 52px}
+  .w-card b{font-size:16.5px;display:flex;align-items:center;gap:8px}
+  .w-card p{font-size:12.5px;color:#A9BCC8;line-height:1.5;margin-top:4px}
+  .w-new{background:var(--lime);color:var(--navy);font-size:9.5px;font-weight:800;letter-spacing:.1em;padding:3px 8px;border-radius:99px}
+  .w-foot{margin-top:auto;text-align:center;font-size:12px;color:#7E95A4}
+  .w-foot b{color:#C4D2DB}
+
+  /* quiz */
+  .quiz-head{
+    background:#D9E8A8;color:var(--navy);padding:56px 20px 18px;border-radius:0 0 0 0;
+    display:flex;align-items:flex-start;gap:10px;flex:0 0 auto;
+  }
+  .quiz-head .title{flex:1;text-align:center;font-size:17px;font-weight:800;line-height:1.35}
+  .opt{
+    display:flex;align-items:stretch;border:1.5px solid #C9DD8A;border-radius:10px;overflow:hidden;
+    margin-bottom:14px;background:#fff;cursor:pointer;
+  }
+  .opt .k{width:54px;background:var(--lime);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+  .opt .v{flex:1;display:flex;align-items:center;padding:16px;font-size:14.5px}
+  .opt.sel{border-color:var(--navy)}
+  .opt.sel .k{background:var(--navy)}
+
+  /* chat */
+  .msgs{display:flex;flex-direction:column;gap:4px}
+  .daypill{align-self:center;background:#E7ECDD;color:#6B7A86;font-size:11px;font-weight:700;padding:6px 14px;border-radius:99px;margin:14px 0 10px}
+  .msg{display:flex;gap:10px;margin-bottom:10px;max-width:88%}
+  .msg .who{font-size:12px;font-weight:700;color:var(--lime-dark);margin-bottom:3px}
+  .msg .bub{background:#fff;border-radius:4px 18px 18px 18px;padding:11px 14px;font-size:14px;box-shadow:var(--shadow);line-height:1.45}
+  .msg .tm{font-size:10.5px;color:#98A5AF;margin-top:4px}
+  .msg.me{align-self:flex-end;flex-direction:row-reverse}
+  .msg.me .bub{background:var(--navy);color:#fff;border-radius:18px 4px 18px 18px}
+  .msg.me .tm{text-align:right}
+  .inputbar{
+    position:absolute;left:0;right:0;bottom:0;z-index:40;
+    display:flex;gap:10px;align-items:center;padding:12px 14px 20px;
+    background:linear-gradient(transparent, var(--cream) 30%);
+  }
+  .inputbar .field{
+    flex:1;background:#fff;border-radius:999px;box-shadow:var(--shadow);
+    display:flex;align-items:center;gap:8px;padding:13px 18px;color:#98A5AF;font-size:14px;
+  }
+  .inputbar .send{
+    width:50px;height:50px;border-radius:50%;background:var(--lime);color:var(--navy);
+    border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 50px;
+  }
+
+  /* forum */
+  .safe{
+    background:var(--navy);color:#fff;border-radius:20px;padding:14px 16px;
+    display:flex;gap:12px;align-items:center;margin-bottom:16px;
+  }
+  .safe p{font-size:12.5px;line-height:1.45;color:#C4D2DB}
+  .safe b{color:#fff}
+  .cat .lic{background:var(--lime-soft);color:var(--lime-dark)}
+  .cat.t1 .lic{background:var(--teal-soft);color:var(--teal)}
+  .cat.t2 .lic{background:#FBF1D7;color:#B4881B}
+  .cat.t3 .lic{background:#F5E3E0;color:#C0604F}
+  .cat.t4 .lic{background:#E8E4F5;color:#6B5AA8}
+  .cat.t5 .lic{background:#DDEEE4;color:#2F8F63}
+  .thread{background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px;cursor:pointer}
+  .thread h4{font-size:15px;line-height:1.35;margin-bottom:6px}
+  .thread p{font-size:12.5px;color:var(--muted);line-height:1.5;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .thread .foot{display:flex;align-items:center;gap:8px}
+  .thread .foot .nm{font-size:12px;font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .stat{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);font-weight:600}
+  .stat.hot{color:var(--lime-dark)}
+  .sortrow{display:flex;gap:8px;margin-bottom:16px}
+  .sortrow .chip{cursor:pointer}
+
+  .post{background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+  .post .ph{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+  .post .ph .nm{font-size:13.5px;font-weight:700}
+  .post .ph .sub{font-size:11.5px;color:var(--muted)}
+  .post h3{font-size:17px;line-height:1.35;margin-bottom:8px}
+  .post .txt{font-size:13.5px;line-height:1.6;color:#3D4F5C}
+  .post .acts{display:flex;gap:16px;margin-top:14px;align-items:center}
+  .vote{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:99px;padding:7px 14px;font-size:13px;font-weight:700;color:var(--lime-dark);cursor:pointer;background:#fff}
+  .modbadge{background:var(--navy);color:var(--lime);font-size:9.5px;font-weight:800;letter-spacing:.08em;padding:3px 8px;border-radius:99px}
+
+  /* coach */
+  .coach-note{
+    display:flex;gap:10px;align-items:flex-start;background:#EDF1E2;border:1px solid #DCE4C8;
+    border-radius:14px;padding:11px 13px;font-size:11.5px;line-height:1.5;color:#5C6B4A;margin-bottom:16px;
+  }
+  .bot-avatar{
+    width:38px;height:38px;border-radius:50%;flex:0 0 38px;
+    background:linear-gradient(135deg,var(--lime),var(--teal));color:#fff;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .cite{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .cite span{
+    display:inline-flex;align-items:center;gap:6px;background:var(--lime-soft);color:#5E7218;
+    font-size:11px;font-weight:700;padding:6px 11px;border-radius:99px;cursor:pointer;
+  }
+  .quickies{display:flex;gap:8px;margin:6px 0 12px 48px;flex-wrap:wrap}
+  .quickies button{
+    border:1.5px solid var(--lime);background:#fff;color:var(--lime-dark);font-weight:700;
+    border-radius:999px;padding:9px 16px;font-size:12.5px;cursor:pointer;font-family:inherit;
+  }
+
+  /* guide covers */
+  .cover{border-radius:20px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:14px;color:#fff}
+  .cover .cic{position:absolute;top:12px;right:12px;opacity:.85}
+  .cover .free{position:absolute;top:12px;left:12px;background:#fff;color:var(--navy);font-size:10px;font-weight:800;letter-spacing:.08em;padding:4px 9px;border-radius:99px}
+  .g1{background:linear-gradient(140deg,#1B3A50,#2F8FA3)}
+  .g2{background:linear-gradient(140deg,#4E7A1E,#A6CE39)}
+  .g3{background:linear-gradient(140deg,#132C3E,#6B5AA8)}
+  .g4{background:linear-gradient(140deg,#B4881B,#E8B93D)}
+  .hscroll{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 8px;scrollbar-width:none;margin:0 -18px;padding-left:18px;padding-right:18px}
+  .hscroll::-webkit-scrollbar{display:none}
+  .gcard{flex:0 0 200px;background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:10px;cursor:pointer}
+  .gcard .cover{height:108px;margin-bottom:10px}
+  .gcard b{font-size:13.5px;display:block;line-height:1.3;padding:0 4px}
+  .gcard span{font-size:11.5px;color:var(--muted);padding:0 4px;display:block;margin-top:3px}
+
+  /* rainbow quote */
+  .rainbow{
+    border-radius:16px;padding:16px 14px;color:#fff;font-weight:800;font-size:13px;line-height:1.6;
+    letter-spacing:.04em;text-transform:uppercase;text-shadow:0 1px 2px rgba(0,0,0,.18);
+    background:linear-gradient(180deg,#E85D75 0%,#F08A3C 22%,#E8B93D 40%,#7FBF4D 58%,#3E9BC9 78%,#8A6BBF 100%);
+  }
+
+  /* membership */
+  .plan-toggle{display:flex;background:#E8ECDF;border-radius:16px;padding:5px;margin-bottom:18px}
+  .plan-toggle button{
+    flex:1;border:0;border-radius:12px;padding:11px;font-family:inherit;font-weight:700;font-size:13.5px;
+    background:transparent;color:var(--muted);cursor:pointer;
+  }
+  .plan-toggle button.on{background:#fff;color:var(--navy);box-shadow:var(--shadow)}
+  .inc{display:flex;gap:12px;align-items:flex-start;padding:11px 2px}
+  .inc .ck{width:26px;height:26px;border-radius:50%;background:var(--lime-soft);color:var(--lime-dark);display:flex;align-items:center;justify-content:center;flex:0 0 26px}
+  .inc b{font-size:14px;display:block}
+  .inc span{font-size:12px;color:var(--muted)}
+
+  .price{display:flex;align-items:baseline;gap:6px;justify-content:center;margin:6px 0 2px}
+  .price .n{font-size:42px;font-weight:800;color:#fff}
+  .price .per{font-size:14px;color:#9FB4C0}
+
+  /* misc */
+  .row{display:flex;gap:12px}
+  .row>*{flex:1}
+  .center{text-align:center}
+  .mt8{margin-top:8px}.mt14{margin-top:14px}.mt18{margin-top:18px}.mt22{margin-top:22px}
+  .searchbar{
+    display:flex;gap:10px;margin-bottom:16px;
+  }
+  .searchbar .f{flex:1;background:#fff;border-radius:14px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;padding:13px 16px;color:#98A5AF;font-size:14px}
+  .searchbar .b{width:50px;border-radius:14px;background:var(--lime);color:var(--navy);border:0;display:flex;align-items:center;justify-content:center;cursor:pointer}
+
+  .stars{display:inline-flex;gap:3px;color:var(--lime);}
+  .stars .off{color:#D8DFCB}
+
+  @media (max-width:1180px){ .panel.mapside{display:none} }
+  @media (max-width:900px){ .panel{display:none} .stage{padding:10px 10px 26px} }
+  @media (max-height:940px){ .phone-wrap{zoom:.88} }
+  @media (max-height:820px){ .phone-wrap{zoom:.76} }
+  @media (max-height:700px){ .phone-wrap{zoom:.64} }
+  @media (max-height:580px){ .phone-wrap{zoom:.52} }
+</style>
+</head>
+<body>
+
+<!-- ============ SVG SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1h-4.8v-5.6H9.3V21H4.5a1 1 0 0 1-1-1Z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1H9l-4.2 3.4V17H4a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1Z"/><path d="M8 10.8h.01M12 10.8h.01M16 10.8h.01" stroke-width="2.4"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5c-1.8-1.6-4.4-2-8-1.6V19c3.6-.4 6.2 0 8 1.6 1.8-1.6 4.4-2 8-1.6V4.9c-3.6-.4-6.2 0-8 1.6Z"/><path d="M12 6.5v14"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.8h17M8 3v4M16 3v4"/><path d="M7.5 13.5h.01M12 13.5h.01M16.5 13.5h.01M7.5 17h.01M12 17h.01" stroke-width="2.2"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20.2c.8-3.6 3.6-5.4 7-5.4s6.2 1.8 7 5.4"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.2 19.5c.7-3.1 3-4.7 5.8-4.7s5.1 1.6 5.8 4.7"/><path d="M15.5 5.6a3.2 3.2 0 0 1 0 5.8M17.6 14.9c2 .6 3.3 2 3.8 4.3"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 14 6 10Z"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></symbol>
+    <symbol id="i-bkmk" viewBox="0 0 24 24"><path d="M7 3.5h10a1 1 0 0 1 1 1V21l-6-4.2L6 21V4.5a1 1 0 0 1 1-1Z"/></symbol>
+    <symbol id="i-arr-r" viewBox="0 0 24 24"><path d="M4 12h15M13.5 6l6 6-6 6"/></symbol>
+    <symbol id="i-arr-l" viewBox="0 0 24 24"><path d="M20 12H5M10.5 6l-6 6 6 6"/></symbol>
+    <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2" stroke-width="2.2"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8.5 5.8v12.4a.7.7 0 0 0 1.06.6l10-6.2a.7.7 0 0 0 0-1.2l-10-6.2a.7.7 0 0 0-1.06.6Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3.2 2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9L3.5 9.4l5.9-.8Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V6M6 12l6-6 6 6"/></symbol>
+    <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20.5l1.5-5.4A8.5 8.5 0 1 1 21 11.5Z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 5.8v5.4c0 4.5 2.9 7.7 7 9.3 4.1-1.6 7-4.8 7-9.3V5.8Z"/><path d="m9 11.6 2.2 2.2 4-4.2"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2.8c.7 4.9 2.3 6.5 7.2 7.2-4.9.7-6.5 2.3-7.2 7.2-.7-4.9-2.3-6.5-7.2-7.2 4.9-.7 6.5-2.3 7.2-7.2Z" fill="currentColor" stroke="none"/><path d="M19 15.5c.35 2.45 1.15 3.25 3.6 3.6-2.45.35-3.25 1.15-3.6 3.6-.35-2.45-1.15-3.25-3.6-3.6 2.45-.35 3.25-1.15 3.6-3.6Z" fill="currentColor" stroke="none" opacity=".7"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3.5 3.8 10l6 2.6L12 19l3.4-5.8Z"/><path d="M21 3.5 9.8 12.6"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5.5 21V4.5"/><path d="M5.5 5c4.5-2.4 8 2 13 0v9c-5 2.4-8.5-2-13 0"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12h.01" stroke-width="2.6"/></symbol>
+    <symbol id="i-cert" viewBox="0 0 24 24"><circle cx="12" cy="9.5" r="5.5"/><path d="m8.8 14.2-1.3 6.3 4.5-2.4 4.5 2.4-1.3-6.3"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6.5 3.5h7l4.5 4.5v12a1 1 0 0 1-1 1h-10.5a1 1 0 0 1-1-1v-15.5a1 1 0 0 1 1-1Z"/><path d="M13.5 3.5V8H18M9 12.5h6M9 16h6"/></symbol>
+    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M14.5 3.5H6a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1h8.5"/><path d="M10.5 12H21M17.5 8l3.5 4-3.5 4"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2.5"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7.5 3c0 5.4-7.5 10-7.5 10Z"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="m16 10.5 5-2.8v8.6l-5-2.8Z"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3.5a6 6 0 0 1 3.5 10.9c-.8.6-1 1.3-1 2.1h-5c0-.8-.2-1.5-1-2.1A6 6 0 0 1 12 3.5Z"/></symbol>
+    <symbol id="i-logo" viewBox="0 0 64 64">
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="7">
+        <path d="M12 28 32 8l20 20" stroke="#A6CE39"/>
+        <path d="M52 36 32 56 12 36" stroke="#E7EDF0"/>
+        <path d="M32 43 23 34l8-8" stroke="#E7EDF0"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <div class="brand">
+    <svg width="30" height="30"><use href="#i-logo"/></svg>
+    <div>
+      <div class="word">L E A D <span>·</span> App Concept</div>
+      <div class="tag">Physician program + new Community platform</div>
+    </div>
+  </div>
+  <div class="hint">Click through the phone — it works like the real app</div>
+</header>
+
+<!-- ============ STAGE ============ -->
+<div class="stage">
+
+  <!-- narrative panel -->
+  <aside class="panel">
+    <h3>What you're seeing</h3>
+    <div class="note-card">
+      <span class="side-chip core" id="noteChip">START</span>
+      <h2 id="noteTitle">One app. Two journeys.</h2>
+      <p id="noteText">Every user chooses their path at the door. Physicians get the exact app that exists today. Community members enter a brand-new, affordable experience powered by the same curriculum.</p>
+    </div>
+  </aside>
+
+  <!-- phone -->
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="statusbar" id="statusbar">
+        <span>9:41</span>
+        <span class="r">
+          <svg class="ic sm" viewBox="0 0 24 24"><path d="M2 16.5C7.5 8.5 16.5 8.5 22 16.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 19h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+          <svg class="ic sm" viewBox="0 0 24 24"><rect x="2" y="8" width="17" height="8" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="4" y="10" width="11" height="4" rx="1" fill="currentColor" stroke="none"/><path d="M21.5 11v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+      </div>
+
+      <!-- ============================================================
+           WELCOME — audience fork
+      ============================================================ -->
+      <section class="screen on" id="scr-welcome" data-nav="none" data-side="START" data-title="One app. Two journeys."
+        data-note="Every user chooses their path at the door. Physicians get the exact app that exists today. Community members enter a brand-new, affordable experience powered by the same curriculum.">
+        <div class="body">
+          <div style="margin-top:16px">
+            <div class="w-logo">
+              <svg width="62" height="62"><use href="#i-logo"/></svg>
+              <div class="w-word">
+                <div class="l1">LEAD</div>
+                <div class="l2">LEADERSHIP</div>
+              </div>
+            </div>
+            <div class="w-by"><span>By Elsie Koh, MD MHL</span></div>
+            <h1 class="w-h1">Leadership training,<br>now for <em>everyone</em>.</h1>
+            <p class="w-sub">Choose your journey to get started.</p>
+
+            <button class="w-card" onclick="go('scr-p-home', true)">
+              <span class="wic" style="background:rgba(166,206,57,.16);color:var(--lime)"><svg class="ic lg"><use href="#i-cert"/></svg></span>
+              <span style="flex:1">
+                <b>I'm a Physician</b>
+                <p>The flagship LEAD Physician program — courses, group coaching and 1:1 sessions, by physicians for physicians.</p>
+              </span>
+              <svg class="ic" style="color:#7E95A4"><use href="#i-chev-r"/></svg>
+            </button>
+
+            <button class="w-card" onclick="go('scr-c-home', true)">
+              <span class="wic" style="background:rgba(47,143,163,.2);color:#7FD0E0"><svg class="ic lg"><use href="#i-users"/></svg></span>
+              <span style="flex:1">
+                <b>I'm a Community Member <span class="w-new">NEW</span></b>
+                <p>Affordable leadership training, a supportive community and a 24/7 AI coach — built on the same proven curriculum.</p>
+              </span>
+              <svg class="ic" style="color:#7E95A4"><use href="#i-chev-r"/></svg>
+            </button>
+          </div>
+          <div class="w-foot">Terms of Use &nbsp;·&nbsp; Privacy Policy</div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           PHYSICIAN SIDE  (faithful to existing app)
+      ============================================================ -->
+
+      <!-- P: HOME -->
+      <section class="screen" id="scr-p-home" data-nav="phys" data-tab="home" data-side="PHYSICIAN — EXISTING APP" data-title="Physician Home"
+        data-note="This is the app physicians already use today — untouched. Progress, goals, coaching schedule and the Platinum course, exactly as built.">
+        <div class="home-head">
+          <span class="grid-btn"><svg class="ic"><use href="#i-grid"/></svg></span>
+          <span class="avatar ring" style="width:46px;height:46px;color:var(--navy)">AK</span>
+          <div class="who">
+            <div class="hi">Good Afternoon,</div>
+            <div class="nm">Dr. Aaditya Kapoor</div>
+          </div>
+          <div class="acts">
+            <button class="iconbtn"><svg class="ic"><use href="#i-bkmk"/></svg></button>
+            <button class="iconbtn"><svg class="ic"><use href="#i-bell"/></svg></button>
+          </div>
+        </div>
+        <div class="body pad">
+          <div class="card navy" style="display:flex;align-items:center;gap:14px">
+            <div style="flex:1">
+              <div class="kicker" style="color:var(--lime)">Today's Focus</div>
+              <div style="font-size:19px;font-weight:800;margin:6px 0 4px">Ready to lead, Aaditya?</div>
+              <div style="font-size:12.5px;color:#B9C7D1">Your next breakthrough is one lesson away.</div>
+              <button class="btn lime mid mt14" onclick="go('scr-p-course')">Start Your Journey <svg class="ic sm"><use href="#i-arr-r"/></svg></button>
+            </div>
+            <div class="ring" style="flex:0 0 86px">
+              <svg width="86" height="86"><circle cx="43" cy="43" r="36" stroke="rgba(255,255,255,.14)" stroke-width="7" fill="none"/><circle cx="43" cy="43" r="36" stroke="var(--lime)" stroke-width="7" fill="none" stroke-dasharray="226" stroke-dashoffset="219" stroke-linecap="round"/></svg>
+              <div class="v" style="color:#fff"><div style="font-size:16px">3%</div><div style="font-size:8px;letter-spacing:.1em;color:#B9C7D1">OVERALL</div></div>
+            </div>
+          </div>
+
+          <div class="card mt14">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+              <b style="font-size:15.5px">Your Progress</b>
+              <span class="kicker" style="color:#98A5AF">This week</span>
+            </div>
+            <div style="display:flex;gap:16px;align-items:center">
+              <div class="ring">
+                <svg width="92" height="92"><circle cx="46" cy="46" r="38" stroke="#EDF1E2" stroke-width="8" fill="none"/><circle cx="46" cy="46" r="38" stroke="var(--lime)" stroke-width="8" fill="none" stroke-dasharray="239" stroke-dashoffset="232" stroke-linecap="round"/></svg>
+                <div class="v"><div style="font-size:17px">3%</div><div style="font-size:8px;letter-spacing:.1em;color:#98A5AF">COURSES</div></div>
+              </div>
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:7px"><span style="color:#68798A">Goals</span><b>1/2 done · 1 pending</b></div>
+                <div class="progress"><i style="width:50%"></i></div>
+                <div class="kicker" style="color:#98A5AF;margin:13px 0 7px">Activity · last 7 days</div>
+                <div style="display:flex;gap:5px;align-items:flex-end">
+                  <span style="flex:1;height:7px;border-radius:4px;background:var(--lime)"></span>
+                  <span style="flex:1;height:7px;border-radius:4px;background:var(--lime)"></span>
+                  <span style="flex:1;height:7px;border-radius:4px;background:var(--lime)"></span>
+                  <span style="flex:1;height:7px;border-radius:4px;background:#E3E9D6"></span>
+                  <span style="flex:1;height:7px;border-radius:4px;background:var(--lime)"></span>
+                  <span style="flex:1;height:7px;border-radius:4px;background:#E3E9D6"></span>
+                  <span style="flex:1;height:7px;border-radius:4px;background:#E3E9D6"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt14">
+            <div class="card center" style="padding:15px 10px">
+              <span class="chip" style="width:34px;height:34px;justify-content:center;padding:0;border-radius:12px"><svg class="ic sm"><use href="#i-book"/></svg></span>
+              <div style="font-size:21px;font-weight:800;margin-top:9px">1</div>
+              <div style="font-size:10.5px;letter-spacing:.1em;color:#98A5AF">COURSES</div>
+            </div>
+            <div class="card center" style="padding:15px 10px">
+              <span class="chip" style="width:34px;height:34px;justify-content:center;padding:0;border-radius:12px"><svg class="ic sm"><use href="#i-target"/></svg></span>
+              <div style="font-size:21px;font-weight:800;margin-top:9px">2</div>
+              <div style="font-size:10.5px;letter-spacing:.1em;color:#98A5AF">GOALS</div>
+            </div>
+            <div class="card center" style="padding:15px 10px">
+              <span class="chip" style="width:34px;height:34px;justify-content:center;padding:0;border-radius:12px"><svg class="ic sm"><use href="#i-users"/></svg></span>
+              <div style="font-size:21px;font-weight:800;margin-top:9px">0</div>
+              <div style="font-size:10.5px;letter-spacing:.1em;color:#98A5AF">SESSIONS</div>
+            </div>
+          </div>
+
+          <div class="card lime mt14" style="display:flex;gap:14px;align-items:center">
+            <div style="flex:1.2">
+              <div style="font-size:18px;font-weight:800;margin-bottom:6px">Who is ready?</div>
+              <div style="font-size:12.5px;color:#41551A;line-height:1.5">You can only be ready if you put your mind to it.</div>
+              <button class="btn white chipbtn mt14">Read More</button>
+            </div>
+            <div class="rainbow" style="flex:1">Every day you have a choice — stay the same or change.</div>
+          </div>
+
+          <div class="sec-title">Upcoming Schedule</div>
+          <div class="sec-sub">Bi-monthly or weekly coaching meetings</div>
+          <div class="card" style="display:flex;align-items:center;gap:14px">
+            <span class="chip" style="width:46px;height:46px;justify-content:center;padding:0;border-radius:14px"><svg class="ic"><use href="#i-video"/></svg></span>
+            <div style="flex:1">
+              <b style="font-size:14.5px">Platinum Group Coaching Call</b>
+              <div style="font-size:12px;color:var(--muted);margin-top:3px">Thu, Aug 20 · 7:00 PM ET · with Dr. Koh</div>
+            </div>
+            <button class="btn navy chipbtn">Join</button>
+          </div>
+
+          <div class="sec-title">Ongoing Course</div>
+          <div class="sec-sub">Pick up where you left off</div>
+          <div class="card navy" style="padding:0;overflow:hidden;cursor:pointer" onclick="go('scr-p-course')">
+            <div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center">
+              <span class="chip" style="background:var(--lime);color:var(--navy)">CONTINUE LEARNING</span>
+              <span class="chip" style="background:rgba(255,255,255,.1);color:#fff"><svg class="ic sm" style="color:var(--lime)"><use href="#i-star"/></svg> 4</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:26px 0 18px">
+              <svg width="54" height="54"><use href="#i-logo"/></svg>
+              <div>
+                <div style="font-size:26px;font-weight:800;letter-spacing:.18em;color:var(--lime)">LEAD</div>
+                <div style="font-size:9px;font-weight:700;letter-spacing:.42em;color:#DCE6EC">PHYSICIAN</div>
+              </div>
+            </div>
+            <div style="padding:0 16px 18px">
+              <b style="font-size:16px">Lead Physician Platinum</b>
+              <p style="font-size:12.5px;color:#B9C7D1;line-height:1.5;margin-top:5px">Welcome to LEAD Physician®, the online leadership training program for Physicians By Physicians…</p>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:13px">
+                <span class="chip" style="background:rgba(255,255,255,.1);color:var(--lime)">8 Modules</span>
+                <button class="btn lime mid">Continue <svg class="ic sm"><use href="#i-arr-r"/></svg></button>
+              </div>
+              <div class="progress on-navy mt14"><i style="width:3%"></i></div>
+              <div style="font-size:11px;color:#B9C7D1;margin-top:6px">3% Completed</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- P: COURSE DETAILS -->
+      <section class="screen" id="scr-p-course" data-nav="none" data-side="PHYSICIAN — EXISTING APP" data-title="Course Details"
+        data-note="The Platinum course — 8 modules of Dr. Koh's curriculum. This exact content is the asset the community platform will repackage at an accessible price.">
+        <div class="appbar">
+          <button class="iconbtn" onclick="back()"><svg class="ic"><use href="#i-arr-l"/></svg></button>
+          <div class="title">Course Details</div>
+          <div class="spacer"></div>
+        </div>
+        <div class="body pad-nonav" style="padding:18px 18px 40px">
+          <div class="card navy" style="position:relative;display:flex;align-items:center;justify-content:center;gap:12px;height:170px">
+            <span class="chip" style="position:absolute;top:14px;right:14px;background:#fff;color:var(--navy)"><svg class="ic sm" style="color:var(--lime)"><use href="#i-star"/></svg> 4</span>
+            <svg width="56" height="56"><use href="#i-logo"/></svg>
+            <div>
+              <div style="font-size:28px;font-weight:800;letter-spacing:.18em;color:var(--lime)">LEAD</div>
+              <div style="font-size:9.5px;font-weight:700;letter-spacing:.42em;color:#DCE6EC">PHYSICIAN</div>
+            </div>
+            <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+              <span style="width:58px;height:58px;border-radius:50%;background:rgba(166,206,57,.32);display:flex;align-items:center;justify-content:center;color:#fff"><svg class="ic lg"><use href="#i-play"/></svg></span>
+            </span>
+          </div>
+
+          <div class="mt18" style="display:flex;gap:10px;align-items:center">
+            <svg class="ic" style="color:var(--lime-dark)"><use href="#i-book"/></svg>
+            <b style="font-size:19px">Lead Physician Platinum</b>
+          </div>
+          <p style="font-size:13.5px;line-height:1.6;color:#3D4F5C;margin-top:8px">Welcome to LEAD Physician®, the online leadership training program for Physicians By Physicians. This course provides solutions to your frustrations and questions that are specific to the culture and life of a physician.</p>
+
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-top:16px"><span style="color:var(--muted)">Course Progress</span><b style="color:var(--lime-dark)">3%</b></div>
+          <div class="progress mt8"><i style="width:3%"></i></div>
+
+          <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+            <span class="chip"><svg class="ic sm"><use href="#i-user"/></svg> Dr. Elsie Koh</span>
+            <span class="chip"><svg class="ic sm"><use href="#i-book"/></svg> 8 Modules</span>
+            <span class="chip"><svg class="ic sm"><use href="#i-cal"/></svg> Self-paced</span>
+          </div>
+
+          <div class="mt22"></div>
+          <div class="mod"><div class="ringwrap ring">
+              <svg width="62" height="62"><circle cx="31" cy="31" r="25" stroke="#EDF1E2" stroke-width="6" fill="none"/><circle cx="31" cy="31" r="25" stroke="var(--lime)" stroke-width="6" fill="none" stroke-dasharray="157" stroke-dashoffset="94" stroke-linecap="round"/></svg>
+              <span class="v" style="color:var(--lime-dark)"><svg class="ic sm"><use href="#i-book"/></svg></span></div>
+            <div class="mt"><b>Module 1: Getting Started</b><div class="meta"><b>2/5</b> | 40% complete</div></div>
+            <button class="go" onclick="go('scr-p-sections')"><svg class="ic"><use href="#i-arr-r"/></svg></button>
+          </div>
+          <div class="mod"><div class="ringwrap ring">
+              <svg width="62" height="62"><circle cx="31" cy="31" r="25" stroke="#EDF1E2" stroke-width="6" fill="none"/><circle cx="31" cy="31" r="25" stroke="var(--lime)" stroke-width="6" fill="none" stroke-dasharray="157" stroke-dashoffset="157" stroke-linecap="round"/></svg>
+              <span class="v" style="color:var(--lime-dark)"><svg class="ic sm"><use href="#i-book"/></svg></span></div>
+            <div class="mt"><b>Module 2: Improving Self-Image and Confidence</b><div class="meta"><b>0/9</b> | 0% complete</div></div>
+            <button class="go" onclick="go('scr-p-sections')"><svg class="ic"><use href="#i-arr-r"/></svg></button>
+          </div>
+          <div class="mod"><div class="ringwrap ring">
+              <svg width="62" height="62"><circle cx="31" cy="31" r="25" stroke="#EDF1E2" stroke-width="6" fill="none"/><circle cx="31" cy="31" r="25" stroke="var(--lime)" stroke-width="6" fill="none" stroke-dasharray="157" stroke-dashoffset="157" stroke-linecap="round"/></svg>
+              <span class="v" style="color:var(--lime-dark)"><svg class="ic sm"><use href="#i-book"/></svg></span></div>
+            <div class="mt"><b>Module 3: Goal Setting and Achieving</b><div class="meta"><b>0/7</b> | 0% complete</div></div>
+            <button class="go" onclick="go('scr-p-sections')"><svg class="ic"><use href="#i-arr-r"/></svg></button>
+          </div>
+          <div class="mod"><div class="ringwrap ring">
+              <svg width="62" height="62"><circle cx="31" cy="31" r="25" stroke="#EDF1E2" stroke-width="6" fill="none"/><circle cx="31" cy="31" r="25" stroke="var(--lime)" stroke-width="6" fill="none" stroke-dasharray="157" stroke-dashoffset="157" stroke-linecap="round"/></svg>
+              <span class="v" style="color:var(--lime-dark)"><svg class="ic sm"><use href="#i-book"/></svg></span></div>
+            <div class="mt"><b>Module 4: Overcoming Obstacles</b><div class="meta"><b>0/7</b> | 0% complete</div></div>
+            <button class="go" onclick="go('scr-p-sections')"><svg class="ic"><use href="#i-arr-r"/></svg></button>
+          </div>
+          <div class="mod"><div class="ringwrap ring">
+              <svg width="62" height="62"><circle cx="31" cy="31" r="25" stroke="#EDF1E2" stroke-width="6" fill="none"/><circle cx="31" cy="31" r="25" stroke="var(--lime)" stroke-width="6" fill="none" stroke-dasharray="157" stroke-dashoffset="157" stroke-linecap="round"/></svg>
+              <span class="v" style="color:var(--lime-dark)"><svg class="ic sm"><use href="#i-book"/></svg></span></div>
+            <div class="mt"><b>Module 5: Dealing with Fear and Focus</b><div class="meta"><b>0/9</b> | 0% complete</div></div>
+            <button class="go" onclick="go('scr-p-sections')"><svg class="ic"><use href="#i-arr-r"/></svg></button>
+          </div>
+          <div class="mod"><div class="ringwrap ring">
+              <svg width="62" height="62"><circle cx="31" cy="31" r="25" stroke="#EDF1E2" stroke-width="6" fill="none"/><circle cx="31" cy="31" r="25" stroke="var(--lime)" stroke-width="6" fill="none" stroke-dasharray="157" stroke-dashoffset="157" stroke-linecap="round"/></svg>
+              <span class="v" style="color:var(--lime-dark)"><svg class="ic sm"><use href="#i-book"/></svg></span></div>
+            <div class="mt"><b>Module 6: Living into the Future through Praxis</b><div class="meta"><b>0/8</b> | 0% complete</div></div>
+            <button class="go" onclick="go('scr-p-sections')"><svg class="ic"><use href="#i-arr-r"/></svg></button>
+          </div>
+          <div class="mod"><div class="ringwrap ring">
+              <svg width="62" height="62"><circle cx="31" cy="31" r="25" stroke="#EDF1E2" stroke-width="6" fill="none"/><circle cx="31" cy="31" r="25" stroke="var(--lime)" stroke-width="6" fill="none" stroke-dasharray="157" stroke-dashoffset="157" stroke-linecap="round"/></svg>
+              <span class="v" style="color:var(--lime-dark)"><svg class="ic sm"><use href="#i-book"/></svg></span></div>
+            <div class="mt"><b>Module 7: How to Make Friends and Influence People as Physicians</b><div class="meta"><b>0/10</b> | 0% complete</div></div>
+            <button class="go" onclick="go('scr-p-sections')"><svg class="ic"><use href="#i-arr-r"/></svg></button>
+          </div>
+          <div class="mod"><div class="ringwrap ring">
+              <svg width="62" height="62"><circle cx="31" cy="31" r="25" stroke="#EDF1E2" stroke-width="6" fill="none"/><circle cx="31" cy="31" r="25" stroke="var(--lime)" stroke-width="6" fill="none" stroke-dasharray="157" stroke-dashoffset="157" stroke-linecap="round"/></svg>
+              <span class="v" style="color:var(--lime-dark)"><svg class="ic sm"><use href="#i-book"/></svg></span></div>
+            <div class="mt"><b>Module 8: Where Do I Go from Here?</b><div class="meta"><b>0/3</b> | 0% complete</div></div>
+            <button class="go" onclick="go('scr-p-sections')"><svg class="ic"><use href="#i-arr-r"/></svg></button>
+          </div>
+
+          <div class="sec-title">Ratings &amp; Reviews</div>
+          <div style="display:flex;align-items:center;gap:9px;margin:2px 2px 14px">
+            <span class="stars">
+              <svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm off"><use href="#i-star"/></svg>
+            </span>
+            <b>4.0</b><span style="font-size:12.5px;color:var(--muted)">· 3 reviews</span>
+          </div>
+          <div class="card" style="margin-bottom:12px">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:9px">
+              <span class="avatar" style="width:40px;height:40px;font-size:14px">RM</span>
+              <div style="flex:1"><b style="font-size:14px">Dr. R. Mehta</b>
+                <div class="stars" style="margin-top:2px"><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm off"><use href="#i-star"/></svg></div>
+              </div>
+            </div>
+            <p style="font-size:13px;color:#3D4F5C;line-height:1.55">The program changed how I show up in my department. The modules on confidence and communication paid off within weeks.</p>
+          </div>
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:9px">
+              <span class="avatar" style="width:40px;height:40px;font-size:14px">JL</span>
+              <div style="flex:1"><b style="font-size:14px">Dr. J. Liang</b>
+                <div class="stars" style="margin-top:2px"><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm"><use href="#i-star"/></svg><svg class="ic sm off"><use href="#i-star"/></svg></div>
+              </div>
+            </div>
+            <p style="font-size:13px;color:#3D4F5C;line-height:1.55">Dr. Koh understands the physician's life from the inside. The group calls alone are worth the membership.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- P: SECTIONS -->
+      <section class="screen" id="scr-p-sections" data-nav="none" data-side="PHYSICIAN — EXISTING APP" data-title="List of Sections"
+        data-note="Inside each module: video lessons, recorded live sessions and self-assessment quizzes — the building blocks that already exist and can be re-bundled for the community.">
+        <div class="appbar">
+          <button class="iconbtn" onclick="back()"><svg class="ic"><use href="#i-arr-l"/></svg></button>
+          <div class="title">List of Sections</div>
+          <div class="spacer"></div>
+        </div>
+        <div class="body pad-nonav">
+          <button class="listrow" onclick="go('scr-p-quiz')">
+            <span class="lic" style="background:var(--lime-soft);color:var(--lime-dark)"><svg class="ic"><use href="#i-bulb"/></svg></span>
+            <span class="lt"><span class="chip" style="margin-bottom:6px">Quiz</span><b>Lead Physician's Pre-Evaluation and Self-Assessment</b><span>I am confident in my leadership s…</span></span>
+            <span class="go" style="width:46px;height:40px;border-radius:14px;background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center;flex:0 0 46px"><svg class="ic sm"><use href="#i-arr-r"/></svg></span>
+          </button>
+          <button class="listrow">
+            <span class="lic" style="background:var(--lime-soft);color:var(--lime-dark)"><svg class="ic"><use href="#i-video"/></svg></span>
+            <span class="lt"><span class="chip out" style="margin-bottom:6px">Section</span><b>Introduction and Logistics</b><span>Hello, my name is Dr. Elsie Koh. …</span></span>
+            <span class="go" style="width:46px;height:40px;border-radius:14px;background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center;flex:0 0 46px"><svg class="ic sm"><use href="#i-arr-r"/></svg></span>
+          </button>
+          <button class="listrow">
+            <span class="lic" style="background:var(--lime-soft);color:var(--lime-dark)"><svg class="ic"><use href="#i-video"/></svg></span>
+            <span class="lt"><span class="chip out" style="margin-bottom:6px">Section</span><b>Who is Dr. Elsie Koh?</b><span>Just like you, I accomplished a lo…</span></span>
+            <span class="go" style="width:46px;height:40px;border-radius:14px;background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center;flex:0 0 46px"><svg class="ic sm"><use href="#i-arr-r"/></svg></span>
+          </button>
+          <button class="listrow">
+            <span class="lic" style="background:var(--lime-soft);color:var(--lime-dark)"><svg class="ic"><use href="#i-video"/></svg></span>
+            <span class="lt"><span class="chip out" style="margin-bottom:6px">Section</span><b>Start by Being Open-Minded</b><span>I can fast track you into being yo…</span></span>
+            <span class="go" style="width:46px;height:40px;border-radius:14px;background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center;flex:0 0 46px"><svg class="ic sm"><use href="#i-arr-r"/></svg></span>
+          </button>
+          <button class="listrow">
+            <span class="lic" style="background:var(--lime-soft);color:var(--lime-dark)"><svg class="ic"><use href="#i-play"/></svg></span>
+            <span class="lt"><span class="chip out" style="margin-bottom:6px">Section</span><b>Recorded Live: Orientation</b><span>Recorded live session with Dr. K…</span></span>
+            <span class="go" style="width:46px;height:40px;border-radius:14px;background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center;flex:0 0 46px"><svg class="ic sm"><use href="#i-arr-r"/></svg></span>
+          </button>
+        </div>
+      </section>
+
+      <!-- P: QUIZ -->
+      <section class="screen" id="scr-p-quiz" data-nav="none" data-side="PHYSICIAN — EXISTING APP" data-title="Self-Assessment Quiz"
+        data-note="Built-in assessments track each member's growth — the same engine can power the community's leadership self-assessments.">
+        <div class="quiz-head">
+          <div class="title">Lead Physician's Pre-Evaluation and Self-Assessment</div>
+          <button class="iconbtn" style="width:36px;height:36px;border:0;background:transparent;color:var(--navy);cursor:pointer" onclick="back()"><svg class="ic"><use href="#i-x"/></svg></button>
+        </div>
+        <div class="body" style="padding:22px 20px 40px;background:#FBF7FA">
+          <div class="kicker" style="color:#98A5AF">Question 1 of 25</div>
+          <h2 style="font-size:23px;font-weight:600;line-height:1.35;margin:10px 0 6px">I am confident in my leadership skills?</h2>
+          <div style="font-size:12.5px;color:#98A5AF">Marks : 20</div>
+          <div style="font-size:13px;color:#68798A;margin:16px 0 14px">Choose only 1 best answer.</div>
+          <div class="opt" onclick="selOpt(this)"><span class="k">A</span><span class="v">1 — Strongly disagree</span></div>
+          <div class="opt" onclick="selOpt(this)"><span class="k">B</span><span class="v">2 — Disagree</span></div>
+          <div class="opt sel" onclick="selOpt(this)"><span class="k">C</span><span class="v">3 — Neutral</span></div>
+          <div class="opt" onclick="selOpt(this)"><span class="k">D</span><span class="v">4 — Agree</span></div>
+          <div class="opt" onclick="selOpt(this)"><span class="k">E</span><span class="v">5 — Strongly agree</span></div>
+          <div style="display:flex;justify-content:flex-end;margin-top:10px">
+            <button class="btn navy mid" onclick="back()">Confirm</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- P: GROUP CHAT -->
+      <section class="screen" id="scr-p-chat" data-nav="phys" data-tab="chat" data-side="PHYSICIAN — EXISTING APP" data-title="Group Coaching Chat"
+        data-note="Gold and Platinum members chat with the cohort and Dr. Koh's team — high-touch, high-value, and intentionally kept exclusive to the physician tiers.">
+        <div class="appbar">
+          <div class="spacer"></div>
+          <div class="title">Group Coaching Chat</div>
+          <button class="iconbtn"><svg class="ic"><use href="#i-bell"/></svg></button>
+        </div>
+        <div class="body" style="padding:16px 16px 120px">
+          <div class="msgs">
+            <span class="daypill">TUE, AUG 11</span>
+            <div class="msg">
+              <span class="avatar" style="width:36px;height:36px;font-size:12.5px;align-self:flex-end">LA</span>
+              <div><div class="who">Lead Administrator</div>
+                <div class="bub">Reminder — Platinum group coaching call this Thursday at 7:00 PM ET. Dr. Koh will review Module 4: Overcoming Obstacles.</div>
+                <div class="tm">9:14 am</div></div>
+            </div>
+            <div class="msg">
+              <span class="avatar" style="width:36px;height:36px;font-size:12.5px;align-self:flex-end;background:var(--teal);color:#fff">SR</span>
+              <div><div class="who" style="color:var(--teal)">Dr. S. Rivera</div>
+                <div class="bub">Just finished Module 4 — the reframe on obstacles landed at exactly the right week for me.</div>
+                <div class="tm">11:02 am</div></div>
+            </div>
+            <span class="daypill">TODAY</span>
+            <div class="msg">
+              <span class="avatar" style="width:36px;height:36px;font-size:12.5px;align-self:flex-end;background:#6B5AA8;color:#fff">MO</span>
+              <div><div class="who" style="color:#6B5AA8">Dr. M. Okafor</div>
+                <div class="bub">Same here. Also — did anyone try the goal worksheet with their admin team? Curious how it went.</div>
+                <div class="tm">2:41 pm</div></div>
+            </div>
+            <div class="msg me">
+              <div><div class="bub">I did — walked my team through the A-Type goal format on Monday. Best staff meeting we've had in months.</div>
+                <div class="tm">2:47 pm</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="inputbar" style="bottom:84px">
+          <div class="field"><span style="flex:1">Type a message</span><svg class="ic sm" style="color:#B7C2CB"><use href="#i-plus"/></svg></div>
+          <button class="send"><svg class="ic"><use href="#i-send"/></svg></button>
+        </div>
+      </section>
+
+      <!-- P: SCHEDULE -->
+      <section class="screen" id="scr-p-schedule" data-nav="phys" data-tab="cal" data-side="PHYSICIAN — EXISTING APP" data-title="Calendar &amp; Goals"
+        data-note="The scheduling and goal system physicians use today — coaching calls, color-coded goals and accountability partners.">
+        <div class="home-head">
+          <span class="grid-btn"><svg class="ic"><use href="#i-grid"/></svg></span>
+          <span class="avatar ring" style="width:46px;height:46px;color:var(--navy)">AK</span>
+          <div class="who">
+            <div class="hi">Good Afternoon,</div>
+            <div class="nm">Dr. Aaditya Kapoor</div>
+          </div>
+          <div class="acts">
+            <button class="iconbtn"><svg class="ic"><use href="#i-bell"/></svg></button>
+          </div>
+        </div>
+        <div class="body pad">
+          <div class="sec-title" style="margin-top:6px">Your Calendar</div>
+          <div class="sec-sub">Tap a highlighted day to see what's planned</div>
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+              <b style="font-size:16px">August 2026</b>
+              <span class="chip out" style="cursor:pointer">EXPAND</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;text-align:center">
+              <div style="flex:1"><div style="font-size:11px;color:#98A5AF;font-weight:700">M</div><div style="font-size:16.5px;font-weight:700;margin-top:8px;padding:9px 0">10</div></div>
+              <div style="flex:1"><div style="font-size:11px;color:#98A5AF;font-weight:700">T</div><div style="font-size:16.5px;font-weight:700;margin-top:8px;padding:9px 0">11</div></div>
+              <div style="flex:1"><div style="font-size:11px;color:#98A5AF;font-weight:700">W</div><div style="font-size:16.5px;font-weight:700;margin-top:8px;padding:9px 0">12</div></div>
+              <div style="flex:1"><div style="font-size:11px;color:#98A5AF;font-weight:700">T</div><div style="font-size:16.5px;font-weight:700;margin-top:8px;padding:9px 0">13</div></div>
+              <div style="flex:1"><div style="font-size:11px;color:#98A5AF;font-weight:700">F</div><div style="background:var(--navy);color:#fff;border-radius:14px;font-size:16.5px;font-weight:700;margin-top:8px;padding:9px 0">14</div></div>
+              <div style="flex:1"><div style="font-size:11px;color:#98A5AF;font-weight:700">S</div><div style="font-size:16.5px;font-weight:700;margin-top:8px;padding:9px 0">15</div></div>
+              <div style="flex:1"><div style="font-size:11px;color:#98A5AF;font-weight:700">S</div><div style="font-size:16.5px;font-weight:700;margin-top:8px;padding:9px 0">16</div></div>
+            </div>
+          </div>
+
+          <div class="card mt14">
+            <div class="kicker" style="color:#98A5AF;margin-bottom:12px">Color Guide</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <span class="chip" style="background:#F2A6DE;color:#6E1D57">Goals and Schedule</span>
+              <span class="chip" style="background:#2E8B3D;color:#fff">All Types Goals</span>
+              <span class="chip" style="background:#F0962F;color:#fff">Schedule</span>
+              <span class="chip" style="background:#F5E642;color:#6E5E00">Only A-Type Goal</span>
+              <span class="chip" style="background:#9AA2A9;color:#fff">Unavailable</span>
+              <span class="chip" style="background:#2743E0;color:#fff">A + B-Type Goals</span>
+            </div>
+          </div>
+
+          <div class="card navy mt14" style="display:flex;align-items:center;gap:14px;cursor:pointer" onclick="go('scr-p-goal')">
+            <div style="flex:1">
+              <b style="font-size:18px">Set Your Goal</b>
+              <p style="font-size:13px;color:#B9C7D1;margin-top:5px">Define what success looks like for you</p>
+            </div>
+            <span class="go" style="width:52px;height:44px;border-radius:16px;background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center"><svg class="ic"><use href="#i-arr-r"/></svg></span>
+          </div>
+
+          <div class="sec-title">Today, Aug 14</div>
+          <div class="card" style="display:flex;gap:13px;align-items:center;margin-bottom:12px">
+            <span style="width:4px;align-self:stretch;border-radius:4px;background:var(--lime)"></span>
+            <div style="flex:1">
+              <b style="font-size:14.5px">A-Type Goal · Get Fit</b>
+              <div style="font-size:12px;color:var(--muted);margin-top:3px">Accountability partner: Trainer · Target Oct 01</div>
+            </div>
+            <span class="chip">ON TRACK</span>
+          </div>
+          <div class="card" style="display:flex;gap:13px;align-items:center">
+            <span style="width:4px;align-self:stretch;border-radius:4px;background:#F0962F"></span>
+            <div style="flex:1">
+              <b style="font-size:14.5px">Platinum Group Coaching Call</b>
+              <div style="font-size:12px;color:var(--muted);margin-top:3px">Thu, Aug 20 · 7:00 PM ET</div>
+            </div>
+            <button class="btn navy chipbtn">Join</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- P: SET GOAL -->
+      <section class="screen" id="scr-p-goal" data-nav="none" data-side="PHYSICIAN — EXISTING APP" data-title="Set Your Goal"
+        data-note="Dr. Koh's A/B/C goal methodology, exactly as it works in the current app — statement, deadline, effort and an accountability partner.">
+        <div class="appbar">
+          <button class="iconbtn" onclick="back()"><svg class="ic"><use href="#i-arr-l"/></svg></button>
+          <div class="title">Set Your Goal</div>
+          <div class="spacer"></div>
+        </div>
+        <div class="body pad-nonav">
+          <div class="card navy" style="display:flex;gap:14px;align-items:center">
+            <span style="width:48px;height:48px;border-radius:14px;background:rgba(166,206,57,.16);color:var(--lime);display:flex;align-items:center;justify-content:center;flex:0 0 48px"><svg class="ic"><use href="#i-target"/></svg></span>
+            <div>
+              <div class="kicker" style="color:var(--lime)">New Goal</div>
+              <b style="font-size:15.5px;display:block;margin-top:3px">Set yourself up for success</b>
+              <p style="font-size:12px;color:#B9C7D1;margin-top:3px">Pick a goal type and we'll guide you through the milestones.</p>
+            </div>
+          </div>
+          <div class="kicker mt18" style="color:#68798A">What steps will I take to get there now?</div>
+          <div style="display:flex;gap:9px;margin-top:10px">
+            <span class="btn lime chipbtn" style="flex:1">A-Type Goal</span>
+            <span class="btn chipbtn" style="flex:1;border:1.5px solid var(--lime);color:var(--lime-dark);background:#fff">B-Type Goal</span>
+            <span class="btn chipbtn" style="flex:1;border:1.5px solid var(--lime);color:var(--lime-dark);background:#fff">C-Type Goal</span>
+          </div>
+          <div class="kicker mt18" style="color:#68798A">My A-Type goal statement</div>
+          <div class="card mt8" style="min-height:96px;color:#98A5AF;font-size:14px">What's the goal you want to achieve?</div>
+          <div class="kicker mt18" style="color:#68798A">When will I achieve this?</div>
+          <div class="card mt8" style="display:flex;align-items:center;justify-content:space-between;padding:13px 16px">
+            <span style="color:#98A5AF;font-size:14px">Select date</span>
+            <span style="width:42px;height:42px;border-radius:13px;background:var(--lime);color:var(--navy);display:flex;align-items:center;justify-content:center"><svg class="ic sm"><use href="#i-cal"/></svg></span>
+          </div>
+          <div class="kicker mt18" style="color:#68798A">What will it take for me to get this done?</div>
+          <div class="card mt8" style="min-height:80px;color:#98A5AF;font-size:14px">The actions, time, or support you'll need…</div>
+          <div class="kicker mt18" style="color:#68798A">My accountability partner is</div>
+          <div class="card mt8" style="color:#98A5AF;font-size:14px;padding:14px 16px">Who will keep you on track?</div>
+          <button class="btn lime big mt22" onclick="back()">Save &amp; Set Your Goal</button>
+        </div>
+      </section>
+
+      <!-- P: PROFILE -->
+      <section class="screen" id="scr-p-profile" data-nav="phys" data-tab="prof" data-side="PHYSICIAN — EXISTING APP" data-title="Physician Profile"
+        data-note="Membership, certificates and account settings. The Platinum badge marks the top physician tier — content, group coaching and 1:1 sessions with Dr. Koh.">
+        <div class="appbar">
+          <div class="spacer"></div>
+          <div class="title">Profile</div>
+          <button class="iconbtn ghost"><svg class="ic"><use href="#i-bell"/></svg></button>
+        </div>
+        <div class="body pad">
+          <div class="card" style="margin-top:2px">
+            <div style="display:flex;align-items:center;gap:14px">
+              <span class="avatar ring" style="width:56px;height:56px;font-size:18px;color:var(--navy)">AK</span>
+              <div style="flex:1">
+                <b style="font-size:16.5px">Dr. Aaditya Kapoor</b>
+                <div class="kicker" style="color:var(--lime-dark);margin-top:4px">Platinum Membership</div>
+              </div>
+              <button class="btn lime chipbtn">Edit</button>
+            </div>
+            <div style="display:flex;gap:14px;border-top:1px solid var(--line);margin-top:16px;padding-top:14px">
+              <div style="flex:1;display:flex;gap:9px;align-items:center">
+                <span class="chip" style="width:36px;height:36px;justify-content:center;padding:0;border-radius:12px"><svg class="ic sm"><use href="#i-msg"/></svg></span>
+                <div><div class="kicker" style="color:#98A5AF">Phone</div><div style="font-size:12.5px;font-weight:600">(555) 555-1234</div></div>
+              </div>
+              <div style="flex:1;display:flex;gap:9px;align-items:center">
+                <span class="chip" style="width:36px;height:36px;justify-content:center;padding:0;border-radius:12px"><svg class="ic sm"><use href="#i-doc"/></svg></span>
+                <div><div class="kicker" style="color:#98A5AF">Email</div><div style="font-size:12.5px;font-weight:600">a.kapoor@…</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="kicker mt22" style="color:#98A5AF;margin-left:4px;margin-bottom:10px">Membership</div>
+          <button class="listrow">
+            <span class="lic" style="background:var(--lime-soft);color:var(--lime-dark)"><svg class="ic"><use href="#i-mic"/></svg></span>
+            <span class="lt"><b>My 1:1 Coaching</b><span>Book private sessions with Dr. Koh</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow">
+            <span class="lic" style="background:var(--lime-soft);color:var(--lime-dark)"><svg class="ic"><use href="#i-cert"/></svg></span>
+            <span class="lt"><b>My Certificates</b><span>View earned certificates</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+
+          <div class="kicker mt18" style="color:#98A5AF;margin-left:4px;margin-bottom:10px">Account</div>
+          <button class="listrow">
+            <span class="lic" style="background:#E3EEF6;color:#3E7CA6"><svg class="ic"><use href="#i-lock"/></svg></span>
+            <span class="lt"><b>Change Password</b><span>Update your account password</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow">
+            <span class="lic" style="background:#FBF1D7;color:#B4881B"><svg class="ic"><use href="#i-doc"/></svg></span>
+            <span class="lt"><b>Terms &amp; Conditions</b><span>Read our usage terms</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow">
+            <span class="lic" style="background:#E8E4F5;color:#6B5AA8"><svg class="ic"><use href="#i-shield"/></svg></span>
+            <span class="lt"><b>Privacy Policy</b><span>How we handle your data</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow" onclick="go('scr-welcome', true)">
+            <span class="lic" style="background:#F8E3DF;color:var(--red)"><svg class="ic"><use href="#i-logout"/></svg></span>
+            <span class="lt"><b style="color:var(--red)">Logout</b><span>Sign out of your account</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           COMMUNITY SIDE  (new)
+      ============================================================ -->
+
+      <!-- C: HOME -->
+      <section class="screen" id="scr-c-home" data-nav="comm" data-tab="home" data-side="COMMUNITY — NEW" data-title="Community Home"
+        data-note="The new front door for everyone else: free leadership guides as the funnel, courses adapted from the physician curriculum, community highlights and the AI coach — all in the same brand language.">
+        <div class="home-head">
+          <span class="grid-btn"><svg class="ic"><use href="#i-grid"/></svg></span>
+          <span class="avatar ring" style="width:46px;height:46px;color:var(--navy)">MT</span>
+          <div class="who">
+            <div class="hi">Good Morning,</div>
+            <div class="nm">Maya Thompson</div>
+          </div>
+          <div class="acts">
+            <button class="iconbtn"><svg class="ic"><use href="#i-bkmk"/></svg></button>
+            <button class="iconbtn"><svg class="ic"><use href="#i-bell"/></svg></button>
+          </div>
+        </div>
+        <div class="body pad">
+          <div class="card navy">
+            <span class="chip teal" style="margin-bottom:10px">LEAD COMMUNITY</span>
+            <div style="font-size:20px;font-weight:800;line-height:1.3">Leadership isn't a title.<br>It's a practice.</div>
+            <p style="font-size:12.5px;color:#B9C7D1;margin-top:7px;line-height:1.5">Start with today's free guide from Dr. Koh — five minutes that change how you show up.</p>
+            <button class="btn lime mid mt14" onclick="go('scr-c-guide')">Read Today's Guide <svg class="ic sm"><use href="#i-arr-r"/></svg></button>
+          </div>
+
+          <div class="sec-title">Free Leadership Guides</div>
+          <div class="sec-sub">A new guide from Dr. Koh's library, every week — free forever</div>
+          <div class="hscroll">
+            <div class="gcard" onclick="go('scr-c-guide')">
+              <div class="cover g1"><span class="free">FREE</span><span class="cic"><svg class="ic lg" style="color:rgba(255,255,255,.8)"><use href="#i-clock"/></svg></span><b style="font-size:14px">The 5-Minute Leader</b></div>
+              <b>Small habits that change how people see you</b><span>6 min read · Dr. Elsie Koh</span>
+            </div>
+            <div class="gcard" onclick="go('scr-c-guide')">
+              <div class="cover g2"><span class="free">FREE</span><span class="cic"><svg class="ic lg" style="color:rgba(255,255,255,.8)"><use href="#i-mic"/></svg></span><b style="font-size:14px">Speak So People Listen</b></div>
+              <b>Getting heard without raising your voice</b><span>8 min read · Dr. Elsie Koh</span>
+            </div>
+            <div class="gcard" onclick="go('scr-c-guide')">
+              <div class="cover g3"><span class="free">FREE</span><span class="cic"><svg class="ic lg" style="color:rgba(255,255,255,.8)"><use href="#i-users"/></svg></span><b style="font-size:14px">Leading Without a Title</b></div>
+              <b>Influence when you're not the boss</b><span>7 min read · Dr. Elsie Koh</span>
+            </div>
+            <div class="gcard" onclick="go('scr-c-guide')">
+              <div class="cover g4"><span class="free">FREE</span><span class="cic"><svg class="ic lg" style="color:rgba(255,255,255,.8)"><use href="#i-heart"/></svg></span><b style="font-size:14px">From Burnout to Balance</b></div>
+              <b>Protecting your energy like a leader</b><span>9 min read · Dr. Elsie Koh</span>
+            </div>
+          </div>
+
+          <div class="sec-title">Featured Course</div>
+          <div class="card" style="padding:12px;cursor:pointer" onclick="go('scr-c-learn')">
+            <div class="cover g1" style="height:120px;margin-bottom:12px">
+              <span class="chip" style="position:absolute;top:12px;left:12px;background:#fff;color:var(--navy)">MEMBERS</span>
+              <b style="font-size:16px">LEAD Foundations: Personal Leadership</b>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:0 6px 6px">
+              <span class="chip out">12 lessons</span>
+              <span class="chip out">Adapted from the physician program</span>
+            </div>
+          </div>
+
+          <div class="sec-title">From the Community</div>
+          <div class="sec-sub">Real conversations happening right now</div>
+          <div class="thread" onclick="go('scr-c-thread')">
+            <h4>How do I speak up in meetings without overthinking it?</h4>
+            <div class="foot">
+              <span class="avatar" style="width:28px;height:28px;font-size:10.5px;background:#6B5AA8;color:#fff">DP</span>
+              <span class="nm">Devon P.</span>
+              <span class="stat hot"><svg class="ic sm"><use href="#i-up"/></svg> 48</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-msg"/></svg> 23</span>
+            </div>
+          </div>
+          <div class="thread" onclick="go('scr-c-forum')">
+            <h4>Small win: I finally had the hard conversation with my sister</h4>
+            <div class="foot">
+              <span class="avatar" style="width:28px;height:28px;font-size:10.5px;background:var(--teal);color:#fff">RG</span>
+              <span class="nm">Rosa G.</span>
+              <span class="stat hot"><svg class="ic sm"><use href="#i-up"/></svg> 122</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-msg"/></svg> 41</span>
+            </div>
+          </div>
+
+          <div class="card mt18" style="background:linear-gradient(130deg,var(--navy),#1E4D5E);color:#fff;display:flex;gap:14px;align-items:center;cursor:pointer" onclick="go('scr-c-coach')">
+            <span class="bot-avatar" style="width:48px;height:48px;flex:0 0 48px"><svg class="ic"><use href="#i-spark"/></svg></span>
+            <div style="flex:1">
+              <b style="font-size:15.5px">Meet LEAD Coach</b>
+              <p style="font-size:12px;color:#B9C7D1;margin-top:4px;line-height:1.5">Your 24/7 leadership coach, trained on Dr. Koh's library. For members.</p>
+            </div>
+            <svg class="ic" style="color:var(--lime)"><use href="#i-chev-r"/></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- C: GUIDE READER -->
+      <section class="screen" id="scr-c-guide" data-nav="none" data-side="COMMUNITY — NEW" data-title="Free Leadership Guide"
+        data-note="Free guides are the growth engine: zero-cost taste of Dr. Koh's voice and method, each one ending with a gentle invitation into membership.">
+        <div class="appbar">
+          <button class="iconbtn" onclick="back()"><svg class="ic"><use href="#i-arr-l"/></svg></button>
+          <div class="title">Leadership Guide</div>
+          <button class="iconbtn"><svg class="ic"><use href="#i-bkmk"/></svg></button>
+        </div>
+        <div class="body pad-nonav">
+          <div class="cover g1" style="height:150px">
+            <span class="free">FREE</span>
+            <span class="cic"><svg class="ic lg" style="color:rgba(255,255,255,.8)"><use href="#i-clock"/></svg></span>
+            <b style="font-size:20px">The 5-Minute Leader</b>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin:16px 2px 4px">
+            <span class="avatar" style="width:34px;height:34px;font-size:12px">EK</span>
+            <div style="font-size:12.5px"><b>Dr. Elsie Koh, MD MHL</b><span style="color:var(--muted)"> · 6 min read</span></div>
+          </div>
+          <p style="font-size:14.5px;line-height:1.7;color:#3D4F5C;margin-top:12px">Most people think leadership begins with a promotion. In eighteen years of medicine, I learned the opposite: leadership begins in the small, unglamorous moments — how you enter a room, how you listen, and what you do in the first five minutes of your day.</p>
+          <div class="card mt14" style="border-left:5px solid var(--lime)">
+            <p style="font-size:15px;font-weight:700;line-height:1.55;color:var(--navy)">"You don't need permission to lead. You need a practice."</p>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:6px">— Dr. Elsie Koh</div>
+          </div>
+          <p style="font-size:14.5px;line-height:1.7;color:#3D4F5C;margin-top:14px">Try this tomorrow morning: before you check your phone, name one interaction where you want to show up differently. That single decision — made daily — compounds into presence.</p>
+          <div class="card mt14">
+            <div class="kicker" style="color:var(--lime-dark);margin-bottom:10px">Key takeaways</div>
+            <div class="inc"><span class="ck"><svg class="ic sm"><use href="#i-check"/></svg></span><div><b>Lead before the title</b><span>Influence starts with daily behavior, not position.</span></div></div>
+            <div class="inc"><span class="ck"><svg class="ic sm"><use href="#i-check"/></svg></span><div><b>Five minutes, every day</b><span>One intentional interaction beats one grand gesture.</span></div></div>
+            <div class="inc"><span class="ck"><svg class="ic sm"><use href="#i-check"/></svg></span><div><b>Presence compounds</b><span>Small consistent choices change how people experience you.</span></div></div>
+          </div>
+          <div class="card navy mt18 center">
+            <b style="font-size:16px">Want to go deeper?</b>
+            <p style="font-size:12.5px;color:#B9C7D1;margin-top:6px;line-height:1.5">This guide is drawn from the full LEAD curriculum — courses, community and coaching.</p>
+            <button class="btn lime big mt14" onclick="go('scr-c-member')">Explore Membership</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- C: LEARN -->
+      <section class="screen" id="scr-c-learn" data-nav="comm" data-tab="learn" data-side="COMMUNITY — NEW" data-title="Learn — Course Catalog"
+        data-note="The same proven curriculum, repackaged for the community at an accessible price. One membership unlocks everything — no 1:1 time from Dr. Koh required.">
+        <div class="appbar">
+          <div class="spacer"></div>
+          <div class="title">Learn</div>
+          <div class="spacer"></div>
+        </div>
+        <div class="body pad">
+          <div class="searchbar">
+            <div class="f"><svg class="ic sm"><use href="#i-search"/></svg> Search courses &amp; guides</div>
+            <button class="b"><svg class="ic"><use href="#i-search"/></svg></button>
+          </div>
+
+          <div class="card lime" style="display:flex;align-items:center;gap:13px;cursor:pointer" onclick="go('scr-c-member')">
+            <span style="width:44px;height:44px;border-radius:14px;background:rgba(19,44,62,.12);display:flex;align-items:center;justify-content:center;flex:0 0 44px"><svg class="ic"><use href="#i-lock"/></svg></span>
+            <div style="flex:1">
+              <b style="font-size:15px">Unlock every course</b>
+              <div style="font-size:12px;color:#41551A;margin-top:3px">LEAD Community Membership · from $19/mo</div>
+            </div>
+            <svg class="ic"><use href="#i-chev-r"/></svg>
+          </div>
+
+          <div class="sec-title">Courses</div>
+          <div class="sec-sub">Adapted from the LEAD Physician curriculum by Dr. Koh</div>
+
+          <div class="card" style="padding:12px;margin-bottom:14px;cursor:pointer" onclick="go('scr-c-member')">
+            <div class="cover g1" style="height:110px;margin-bottom:12px">
+              <span class="chip" style="position:absolute;top:12px;left:12px;background:#fff;color:var(--navy)">START HERE</span>
+              <b style="font-size:15.5px">LEAD Foundations: Personal Leadership</b>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:0 6px 4px;flex-wrap:wrap">
+              <span class="chip out">12 lessons</span><span class="chip out">Beginner</span>
+              <span class="chip">First lesson free</span>
+            </div>
+          </div>
+          <div class="card" style="padding:12px;margin-bottom:14px;cursor:pointer" onclick="go('scr-c-member')">
+            <div class="cover g2" style="height:110px;margin-bottom:12px">
+              <span class="chip" style="position:absolute;top:12px;right:12px;background:rgba(19,44,62,.55);color:#fff"><svg class="ic sm"><use href="#i-lock"/></svg> Members</span>
+              <b style="font-size:15.5px">Confident Communication</b>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:0 6px 4px;flex-wrap:wrap">
+              <span class="chip out">9 lessons</span><span class="chip out">From Module 2 &amp; 7</span>
+            </div>
+          </div>
+          <div class="card" style="padding:12px;margin-bottom:14px;cursor:pointer" onclick="go('scr-c-member')">
+            <div class="cover g3" style="height:110px;margin-bottom:12px">
+              <span class="chip" style="position:absolute;top:12px;right:12px;background:rgba(19,44,62,.55);color:#fff"><svg class="ic sm"><use href="#i-lock"/></svg> Members</span>
+              <b style="font-size:15.5px">Goals That Stick</b>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:0 6px 4px;flex-wrap:wrap">
+              <span class="chip out">7 lessons</span><span class="chip out">A / B / C goal method</span>
+            </div>
+          </div>
+          <div class="card" style="padding:12px;cursor:pointer" onclick="go('scr-c-member')">
+            <div class="cover g4" style="height:110px;margin-bottom:12px">
+              <span class="chip" style="position:absolute;top:12px;right:12px;background:rgba(19,44,62,.55);color:#fff"><svg class="ic sm"><use href="#i-lock"/></svg> Members</span>
+              <b style="font-size:15.5px">Resilience: From Setback to Strength</b>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;padding:0 6px 4px;flex-wrap:wrap">
+              <span class="chip out">8 lessons</span><span class="chip out">From Module 4 &amp; 5</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- C: MEMBERSHIP -->
+      <section class="screen" id="scr-c-member" data-nav="none" data-side="COMMUNITY — NEW" data-title="Community Membership"
+        data-note="One simple, affordable membership — priced for the community, and pure passive revenue: content, forum and AI coach need no live time from Dr. Koh.">
+        <div class="appbar">
+          <button class="iconbtn" onclick="back()"><svg class="ic"><use href="#i-arr-l"/></svg></button>
+          <div class="title">Membership</div>
+          <div class="spacer"></div>
+        </div>
+        <div class="body pad-nonav">
+          <div class="card navy center" style="padding:24px 18px">
+            <div style="display:flex;justify-content:center;margin-bottom:10px"><svg width="44" height="44"><use href="#i-logo"/></svg></div>
+            <b style="font-size:18px">LEAD Community Membership</b>
+            <p style="font-size:12.5px;color:#B9C7D1;margin-top:5px">Everything you need to grow as a leader</p>
+            <div class="price"><span class="n" id="prNum">$19</span><span class="per" id="prPer">/ month</span></div>
+            <div class="kicker" style="color:var(--lime)" id="prNote">Cancel anytime</div>
+          </div>
+
+          <div class="plan-toggle mt18">
+            <button class="on" id="pM" onclick="setPlan('m')">Monthly · $19</button>
+            <button id="pY" onclick="setPlan('y')">Annual · $149 <span style="color:var(--lime-dark)">· save 35%</span></button>
+          </div>
+
+          <div class="card">
+            <div class="inc"><span class="ck"><svg class="ic sm"><use href="#i-check"/></svg></span><div><b>Every community course</b><span>The full curriculum, adapted from the physician program.</span></div></div>
+            <div class="inc"><span class="ck"><svg class="ic sm"><use href="#i-check"/></svg></span><div><b>Full community access</b><span>Post, reply and join groups in the moderated forum.</span></div></div>
+            <div class="inc"><span class="ck"><svg class="ic sm"><use href="#i-check"/></svg></span><div><b>LEAD Coach, 24/7</b><span>AI guidance grounded in Dr. Koh's published lessons.</span></div></div>
+            <div class="inc"><span class="ck"><svg class="ic sm"><use href="#i-check"/></svg></span><div><b>New guides every month</b><span>Fresh content from Dr. Koh's library, first.</span></div></div>
+            <div class="inc"><span class="ck"><svg class="ic sm"><use href="#i-check"/></svg></span><div><b>Live community events</b><span>Occasional AMAs and workshops with the LEAD team.</span></div></div>
+          </div>
+
+          <button class="btn lime big mt18">Start 7-Day Free Trial</button>
+          <p class="center" style="font-size:11px;color:#98A5AF;margin-top:10px">Indicative pricing for demo purposes.</p>
+
+          <div class="card mt18" style="display:flex;gap:13px;align-items:center">
+            <span class="chip" style="width:44px;height:44px;justify-content:center;padding:0;border-radius:14px"><svg class="ic"><use href="#i-cert"/></svg></span>
+            <div style="flex:1">
+              <b style="font-size:13.5px">Are you a physician?</b>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px">The flagship LEAD Physician tiers — Silver, Gold &amp; Platinum — include coaching with Dr. Koh.</div>
+            </div>
+            <svg class="ic chev" style="color:#B7C2CB"><use href="#i-chev-r"/></svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- C: FORUM CATEGORIES -->
+      <section class="screen" id="scr-c-forum" data-nav="comm" data-tab="comm" data-side="COMMUNITY — NEW" data-title="Community Forum"
+        data-note="A moderated, safe space — the retention engine. Categories and threads like a mini-Quora, where members help each other between Dr. Koh's lessons.">
+        <div class="appbar">
+          <div class="spacer"></div>
+          <div class="title">Community</div>
+          <button class="iconbtn ghost"><svg class="ic"><use href="#i-shield"/></svg></button>
+        </div>
+        <div class="body pad">
+          <div class="safe">
+            <svg class="ic lg" style="color:var(--lime);flex:0 0 26px"><use href="#i-shield"/></svg>
+            <p><b>A moderated, judgment-free space.</b> Be kind, be real, keep it constructive. Our team reviews every report.</p>
+          </div>
+
+          <div class="sortrow">
+            <span class="chip navy">All Topics</span>
+            <span class="chip out">My Groups</span>
+            <span class="chip out">Trending</span>
+          </div>
+
+          <button class="listrow cat" onclick="go('scr-c-threads')">
+            <span class="lic"><svg class="ic"><use href="#i-target"/></svg></span>
+            <span class="lt"><b>Career &amp; Purpose</b><span>1,284 members · 96 threads</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow cat t1" onclick="go('scr-c-threads')">
+            <span class="lic"><svg class="ic"><use href="#i-mic"/></svg></span>
+            <span class="lt"><b>Communication &amp; Confidence</b><span>2,051 members · 148 threads</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow cat t2" onclick="go('scr-c-threads')">
+            <span class="lic"><svg class="ic"><use href="#i-heart"/></svg></span>
+            <span class="lt"><b>Burnout &amp; Balance</b><span>1,730 members · 121 threads</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow cat t3" onclick="go('scr-c-threads')">
+            <span class="lic"><svg class="ic"><use href="#i-users"/></svg></span>
+            <span class="lt"><b>Family &amp; Relationships</b><span>988 members · 74 threads</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow cat t4" onclick="go('scr-c-threads')">
+            <span class="lic"><svg class="ic"><use href="#i-bulb"/></svg></span>
+            <span class="lt"><b>Students &amp; Young Leaders</b><span>1,412 members · 132 threads</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow cat t5" onclick="go('scr-c-threads')">
+            <span class="lic"><svg class="ic"><use href="#i-home"/></svg></span>
+            <span class="lt"><b>Community Impact Projects</b><span>642 members · 51 threads</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- C: THREAD LIST -->
+      <section class="screen" id="scr-c-threads" data-nav="none" data-side="COMMUNITY — NEW" data-title="Category — Thread List"
+        data-note="Inside a category: trending discussions, unanswered questions, and a one-tap way to start your own. Familiar mechanics — upvotes, replies — in the LEAD brand.">
+        <div class="appbar">
+          <button class="iconbtn" onclick="back()"><svg class="ic"><use href="#i-arr-l"/></svg></button>
+          <div class="title">Communication &amp; Confidence</div>
+          <div class="spacer"></div>
+        </div>
+        <div class="body pad-nonav">
+          <div class="sortrow">
+            <span class="chip navy">Trending</span>
+            <span class="chip out">New</span>
+            <span class="chip out">Unanswered</span>
+          </div>
+
+          <div class="thread" onclick="go('scr-c-thread')">
+            <h4>How do I speak up in meetings without overthinking it?</h4>
+            <p>Every time I want to contribute, I rehearse the sentence so long the moment passes. By the time I'm ready, someone else has said it…</p>
+            <div class="foot">
+              <span class="avatar" style="width:28px;height:28px;font-size:10.5px;background:#6B5AA8;color:#fff">DP</span>
+              <span class="nm">Devon P.</span>
+              <span class="stat hot"><svg class="ic sm"><use href="#i-up"/></svg> 48</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-msg"/></svg> 23</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-clock"/></svg> 2h</span>
+            </div>
+          </div>
+          <div class="thread">
+            <h4>Saying "no" at work without burning bridges — scripts that worked for you?</h4>
+            <p>I lead a small team and my plate is full, but I keep absorbing extra projects. Looking for real phrasing people have used…</p>
+            <div class="foot">
+              <span class="avatar" style="width:28px;height:28px;font-size:10.5px;background:var(--teal);color:#fff">AN</span>
+              <span class="nm">Amara N.</span>
+              <span class="stat hot"><svg class="ic sm"><use href="#i-up"/></svg> 87</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-msg"/></svg> 35</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-clock"/></svg> 6h</span>
+            </div>
+          </div>
+          <div class="thread">
+            <h4>Module 2 exercise: my "self-image inventory" surprised me</h4>
+            <p>Sharing my results from the Confident Communication course exercise, because honestly it flipped how I see my own strengths…</p>
+            <div class="foot">
+              <span class="avatar" style="width:28px;height:28px;font-size:10.5px;background:#B4881B;color:#fff">JW</span>
+              <span class="nm">Jordan W.</span>
+              <span class="stat hot"><svg class="ic sm"><use href="#i-up"/></svg> 31</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-msg"/></svg> 12</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-clock"/></svg> 1d</span>
+            </div>
+          </div>
+          <div class="thread">
+            <h4>First time presenting to 200 people next month — what would Dr. Koh say?</h4>
+            <p>Community college instructor here. I asked LEAD Coach and it pointed me to the Fear &amp; Focus lessons — anyone else been through this?…</p>
+            <div class="foot">
+              <span class="avatar" style="width:28px;height:28px;font-size:10.5px;background:#C0604F;color:#fff">SK</span>
+              <span class="nm">Sam K.</span>
+              <span class="stat hot"><svg class="ic sm"><use href="#i-up"/></svg> 19</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-msg"/></svg> 9</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-clock"/></svg> 1d</span>
+            </div>
+          </div>
+          <button class="btn lime big mt8" onclick="go('scr-c-thread')"><svg class="ic sm"><use href="#i-plus"/></svg> Start a Discussion</button>
+        </div>
+      </section>
+
+      <!-- C: THREAD DETAIL -->
+      <section class="screen" id="scr-c-thread" data-nav="none" data-side="COMMUNITY — NEW" data-title="Discussion Thread"
+        data-note="Peer support with guardrails: upvotes, replies, a visible LEAD Team moderator presence, and report tools on every post — the 'safe space' promise made real.">
+        <div class="appbar">
+          <button class="iconbtn" onclick="back()"><svg class="ic"><use href="#i-arr-l"/></svg></button>
+          <div class="title">Discussion</div>
+          <button class="iconbtn"><svg class="ic"><use href="#i-flag"/></svg></button>
+        </div>
+        <div class="body" style="padding:18px 18px 130px">
+          <div class="post">
+            <div class="ph">
+              <span class="avatar" style="width:40px;height:40px;font-size:13px;background:#6B5AA8;color:#fff">DP</span>
+              <div style="flex:1"><div class="nm">Devon P.</div><div class="sub">Communication &amp; Confidence · 2h ago</div></div>
+            </div>
+            <h3>How do I speak up in meetings without overthinking it?</h3>
+            <p class="txt">Every time I want to contribute, I rehearse the sentence so long the moment passes. By the time I'm ready, someone else has said it. I know I have good ideas — they just never make it out of my head in time. How do you all get past this?</p>
+            <div class="acts">
+              <span class="vote"><svg class="ic sm"><use href="#i-up"/></svg> 48</span>
+              <span class="stat"><svg class="ic sm"><use href="#i-msg"/></svg> 23 replies</span>
+            </div>
+          </div>
+
+          <div class="kicker" style="color:#98A5AF;margin:6px 4px 12px">Top replies</div>
+
+          <div class="post">
+            <div class="ph">
+              <span class="avatar" style="width:36px;height:36px;font-size:12px;background:var(--teal);color:#fff">RG</span>
+              <div style="flex:1"><div class="nm">Rosa G.</div><div class="sub">Member · 1h ago</div></div>
+            </div>
+            <p class="txt">The "two-sentence rule" from the Confident Communication course changed this for me: decide you'll say a maximum of two sentences, early in the meeting. Lower stakes, and it breaks the seal.</p>
+            <div class="acts"><span class="vote"><svg class="ic sm"><use href="#i-up"/></svg> 36</span></div>
+          </div>
+
+          <div class="post" style="border:1.5px solid var(--lime)">
+            <div class="ph">
+              <span class="avatar" style="width:36px;height:36px;font-size:12px">LT</span>
+              <div style="flex:1"><div class="nm">LEAD Team <span class="modbadge">MODERATOR</span></div><div class="sub">44 min ago</div></div>
+            </div>
+            <p class="txt">Great thread. Dr. Koh covers exactly this in "Speak So People Listen" (free guide) and Lesson 4 of Confident Communication — the overthinking loop is a self-image habit, not a skills gap. Linking both below.</p>
+            <div class="cite"><span><svg class="ic sm"><use href="#i-doc"/></svg> Guide · Speak So People Listen</span><span><svg class="ic sm"><use href="#i-play"/></svg> Lesson 4 · Confident Communication</span></div>
+            <div class="acts"><span class="vote"><svg class="ic sm"><use href="#i-up"/></svg> 29</span></div>
+          </div>
+
+          <div class="post">
+            <div class="ph">
+              <span class="avatar" style="width:36px;height:36px;font-size:12px;background:#B4881B;color:#fff">JW</span>
+              <div style="flex:1"><div class="nm">Jordan W.</div><div class="sub">Member · 20 min ago</div></div>
+            </div>
+            <p class="txt">+1 to Rosa. Also: write your point as three words on a sticky note, not a full sentence. You'll sound more natural than anything rehearsed.</p>
+            <div class="acts"><span class="vote"><svg class="ic sm"><use href="#i-up"/></svg> 14</span></div>
+          </div>
+        </div>
+        <div class="inputbar">
+          <div class="field"><span style="flex:1">Add your voice…</span></div>
+          <button class="send"><svg class="ic"><use href="#i-send"/></svg></button>
+        </div>
+      </section>
+
+      <!-- C: AI COACH -->
+      <section class="screen" id="scr-c-coach" data-nav="comm" data-tab="coach" data-side="COMMUNITY — NEW" data-title="LEAD Coach — AI"
+        data-note="The 24/7 coach for paid members: answers grounded in Dr. Koh's published lessons, with citations back to her content — scaled guidance with zero live hours.">
+        <div class="appbar">
+          <div class="spacer"></div>
+          <div class="title">LEAD Coach</div>
+          <span class="chip" style="background:var(--lime);color:var(--navy);flex:0 0 auto">MEMBERS</span>
+        </div>
+        <div class="body" style="padding:16px 16px 200px">
+          <div class="coach-note">
+            <svg class="ic sm" style="flex:0 0 17px;margin-top:1px"><use href="#i-shield"/></svg>
+            <span>LEAD Coach shares leadership guidance from Dr. Koh's published program. It does not provide medical or mental-health advice.</span>
+          </div>
+          <div class="msgs">
+            <div class="msg">
+              <span class="bot-avatar" style="align-self:flex-end"><svg class="ic sm"><use href="#i-spark"/></svg></span>
+              <div><div class="who" style="color:var(--teal)">LEAD Coach</div>
+                <div class="bub">Good morning, Maya. What are you working on today?</div>
+                <div class="tm">8:02 am</div></div>
+            </div>
+            <div class="msg me">
+              <div><div class="bub">I have to give my manager difficult feedback tomorrow and I'm nervous about it.</div>
+                <div class="tm">8:03 am</div></div>
+            </div>
+            <div class="msg">
+              <span class="bot-avatar" style="align-self:flex-end"><svg class="ic sm"><use href="#i-spark"/></svg></span>
+              <div><div class="who" style="color:var(--teal)">LEAD Coach</div>
+                <div class="bub">
+                  That nervousness is normal — Dr. Koh calls it "the signal that the conversation matters." Her approach, in three steps:
+                  <br><br>1. <b>Name the shared goal first</b> — open with what you both want for the team.
+                  <br>2. <b>Describe behavior, not character</b> — one specific example beats a general complaint.
+                  <br>3. <b>End with a request, not a verdict</b> — invite them into the solution.
+                  <div class="cite">
+                    <span><svg class="ic sm"><use href="#i-play"/></svg> Module 2 · Self-Image &amp; Confidence</span>
+                    <span><svg class="ic sm"><use href="#i-play"/></svg> Module 5 · Fear &amp; Focus</span>
+                  </div>
+                </div>
+                <div class="tm">8:03 am</div></div>
+            </div>
+          </div>
+          <div class="quickies">
+            <button>Coach me through it</button>
+            <button>Open the lesson</button>
+          </div>
+        </div>
+        <div class="inputbar" style="bottom:84px">
+          <div class="field"><span style="flex:1">Ask LEAD Coach anything…</span></div>
+          <button class="send"><svg class="ic"><use href="#i-send"/></svg></button>
+        </div>
+      </section>
+
+      <!-- C: PROFILE -->
+      <section class="screen" id="scr-c-profile" data-nav="comm" data-tab="prof" data-side="COMMUNITY — NEW" data-title="Community Profile"
+        data-note="A community member's home base — membership status, saved guides, discussions and certificates, mirroring the physician profile so the whole app feels like one product.">
+        <div class="appbar">
+          <div class="spacer"></div>
+          <div class="title">Profile</div>
+          <button class="iconbtn ghost"><svg class="ic"><use href="#i-bell"/></svg></button>
+        </div>
+        <div class="body pad">
+          <div class="card" style="margin-top:2px">
+            <div style="display:flex;align-items:center;gap:14px">
+              <span class="avatar ring" style="width:56px;height:56px;font-size:18px;color:var(--navy)">MT</span>
+              <div style="flex:1">
+                <b style="font-size:16.5px">Maya Thompson</b>
+                <div class="kicker" style="color:var(--teal);margin-top:4px">Community Member</div>
+              </div>
+              <button class="btn lime chipbtn">Edit</button>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:16px;padding-top:14px">
+              <div><div class="kicker" style="color:#98A5AF">Plan</div><b style="font-size:13.5px">LEAD Community · Monthly</b></div>
+              <span class="chip">ACTIVE</span>
+            </div>
+          </div>
+
+          <div class="row mt14">
+            <div class="card center" style="padding:14px 8px">
+              <div style="font-size:20px;font-weight:800">14</div>
+              <div style="font-size:10px;letter-spacing:.08em;color:#98A5AF">GUIDES READ</div>
+            </div>
+            <div class="card center" style="padding:14px 8px">
+              <div style="font-size:20px;font-weight:800">2</div>
+              <div style="font-size:10px;letter-spacing:.08em;color:#98A5AF">COURSES</div>
+            </div>
+            <div class="card center" style="padding:14px 8px">
+              <div style="font-size:20px;font-weight:800">31</div>
+              <div style="font-size:10px;letter-spacing:.08em;color:#98A5AF">POSTS</div>
+            </div>
+          </div>
+
+          <div class="kicker mt22" style="color:#98A5AF;margin-left:4px;margin-bottom:10px">My LEAD</div>
+          <button class="listrow">
+            <span class="lic" style="background:var(--lime-soft);color:var(--lime-dark)"><svg class="ic"><use href="#i-bkmk"/></svg></span>
+            <span class="lt"><b>Saved Guides &amp; Courses</b><span>Pick up where you left off</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow">
+            <span class="lic" style="background:var(--teal-soft);color:var(--teal)"><svg class="ic"><use href="#i-msg"/></svg></span>
+            <span class="lt"><b>My Discussions</b><span>Threads you started or joined</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow">
+            <span class="lic" style="background:#FBF1D7;color:#B4881B"><svg class="ic"><use href="#i-cert"/></svg></span>
+            <span class="lt"><b>My Certificates</b><span>Course completion certificates</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+
+          <div class="kicker mt18" style="color:#98A5AF;margin-left:4px;margin-bottom:10px">Account</div>
+          <button class="listrow">
+            <span class="lic" style="background:#E3EEF6;color:#3E7CA6"><svg class="ic"><use href="#i-lock"/></svg></span>
+            <span class="lt"><b>Change Password</b><span>Update your account password</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow">
+            <span class="lic" style="background:#E8E4F5;color:#6B5AA8"><svg class="ic"><use href="#i-shield"/></svg></span>
+            <span class="lt"><b>Privacy &amp; Community Guidelines</b><span>How we keep this space safe</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+          <button class="listrow" onclick="go('scr-welcome', true)">
+            <span class="lic" style="background:#F8E3DF;color:var(--red)"><svg class="ic"><use href="#i-logout"/></svg></span>
+            <span class="lt"><b style="color:var(--red)">Logout</b><span>Sign out of your account</span></span>
+            <svg class="ic chev"><use href="#i-chev-r"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ BOTTOM NAVS ============ -->
+      <nav class="bnav" id="nav-phys">
+        <button class="tab" data-t="home" onclick="go('scr-p-home', true)"><svg class="ic"><use href="#i-home"/></svg>Home</button>
+        <button class="tab" data-t="chat" onclick="go('scr-p-chat', true)"><svg class="ic"><use href="#i-chat"/></svg>Group Chat</button>
+        <button class="fab" onclick="go('scr-p-course')"><svg class="ic lg"><use href="#i-book"/></svg></button>
+        <button class="tab" data-t="cal" onclick="go('scr-p-schedule', true)"><svg class="ic"><use href="#i-cal"/></svg>Schedule</button>
+        <button class="tab" data-t="prof" onclick="go('scr-p-profile', true)"><svg class="ic"><use href="#i-user"/></svg>Profile</button>
+      </nav>
+
+      <nav class="bnav" id="nav-comm">
+        <button class="tab" data-t="home" onclick="go('scr-c-home', true)"><svg class="ic"><use href="#i-home"/></svg>Home</button>
+        <button class="tab" data-t="learn" onclick="go('scr-c-learn', true)"><svg class="ic"><use href="#i-book"/></svg>Learn</button>
+        <button class="fab" onclick="go('scr-c-coach', true)"><svg class="ic lg"><use href="#i-spark"/></svg></button>
+        <button class="tab" data-t="comm" onclick="go('scr-c-forum', true)"><svg class="ic"><use href="#i-users"/></svg>Community</button>
+        <button class="tab" data-t="prof" onclick="go('scr-c-profile', true)"><svg class="ic"><use href="#i-user"/></svg>Profile</button>
+      </nav>
+
+    </div>
+  </div>
+
+  <!-- map panel -->
+  <aside class="panel mapside">
+    <h3>Demo map</h3>
+    <div class="map" id="map">
+      <div class="grp">Start</div>
+      <button data-m="scr-welcome" onclick="go('scr-welcome', true)"><span class="dot"></span>Choose Your Journey</button>
+      <div class="grp">Physician — existing app</div>
+      <button data-m="scr-p-home" onclick="go('scr-p-home', true)"><span class="dot"></span>Home</button>
+      <button data-m="scr-p-course" onclick="go('scr-p-course', true)"><span class="dot"></span>Course Details</button>
+      <button data-m="scr-p-sections" onclick="go('scr-p-sections', true)"><span class="dot"></span>Module Sections</button>
+      <button data-m="scr-p-quiz" onclick="go('scr-p-quiz', true)"><span class="dot"></span>Self-Assessment Quiz</button>
+      <button data-m="scr-p-chat" onclick="go('scr-p-chat', true)"><span class="dot"></span>Group Chat</button>
+      <button data-m="scr-p-schedule" onclick="go('scr-p-schedule', true)"><span class="dot"></span>Calendar &amp; Goals</button>
+      <button data-m="scr-p-goal" onclick="go('scr-p-goal', true)"><span class="dot"></span>Set Your Goal</button>
+      <button data-m="scr-p-profile" onclick="go('scr-p-profile', true)"><span class="dot"></span>Profile</button>
+      <div class="grp">Community — new</div>
+      <button data-m="scr-c-home" onclick="go('scr-c-home', true)"><span class="dot"></span>Home &amp; Free Guides</button>
+      <button data-m="scr-c-guide" onclick="go('scr-c-guide', true)"><span class="dot"></span>Guide Reader</button>
+      <button data-m="scr-c-learn" onclick="go('scr-c-learn', true)"><span class="dot"></span>Learn — Courses</button>
+      <button data-m="scr-c-member" onclick="go('scr-c-member', true)"><span class="dot"></span>Membership</button>
+      <button data-m="scr-c-forum" onclick="go('scr-c-forum', true)"><span class="dot"></span>Forum Categories</button>
+      <button data-m="scr-c-threads" onclick="go('scr-c-threads', true)"><span class="dot"></span>Thread List</button>
+      <button data-m="scr-c-thread" onclick="go('scr-c-thread', true)"><span class="dot"></span>Discussion</button>
+      <button data-m="scr-c-coach" onclick="go('scr-c-coach', true)"><span class="dot"></span>LEAD Coach (AI)</button>
+      <button data-m="scr-c-profile" onclick="go('scr-c-profile', true)"><span class="dot"></span>Profile</button>
+    </div>
+  </aside>
+</div>
+
+<script>
+  var stack = ['scr-welcome'];
+
+  function render(id){
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.toggle('on', s.id === id); });
+    var scr = document.getElementById(id);
+
+    // bottom navs
+    var nav = scr.getAttribute('data-nav');
+    document.getElementById('nav-phys').classList.toggle('on', nav === 'phys');
+    document.getElementById('nav-comm').classList.toggle('on', nav === 'comm');
+    var tab = scr.getAttribute('data-tab');
+    document.querySelectorAll('.bnav .tab').forEach(function(t){
+      t.classList.toggle('on', t.getAttribute('data-t') === tab);
+    });
+
+    // status bar contrast: light screens need dark text
+    var lightTop = (id === 'scr-p-quiz');
+    document.getElementById('statusbar').classList.toggle('dark-on-light', lightTop);
+
+    // narrative panel
+    var chip = document.getElementById('noteChip');
+    var side = scr.getAttribute('data-side') || '';
+    chip.textContent = side;
+    chip.className = 'side-chip' + (side.indexOf('COMMUNITY') === 0 ? ' comm' : (side === 'START' ? ' core' : ''));
+    document.getElementById('noteTitle').textContent = scr.getAttribute('data-title') || '';
+    document.getElementById('noteText').textContent = scr.getAttribute('data-note') || '';
+
+    // map highlight
+    document.querySelectorAll('#map button').forEach(function(b){
+      b.classList.toggle('on', b.getAttribute('data-m') === id);
+    });
+
+    // reset scroll
+    var body = scr.querySelector('.body');
+    if (body) body.scrollTop = 0;
+  }
+
+  // go(id, reset) — reset=true replaces the stack (tab switches / logout)
+  function go(id, reset){
+    if (reset) stack = [id]; else stack.push(id);
+    render(id);
+  }
+  function back(){
+    if (stack.length > 1) stack.pop();
+    render(stack[stack.length - 1]);
+  }
+  function selOpt(el){
+    el.parentNode.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('sel'); });
+    el.classList.add('sel');
+  }
+  function setPlan(p){
+    document.getElementById('pM').classList.toggle('on', p === 'm');
+    document.getElementById('pY').classList.toggle('on', p === 'y');
+    document.getElementById('prNum').textContent = p === 'm' ? '$19' : '$149';
+    document.getElementById('prPer').textContent = p === 'm' ? '/ month' : '/ year';
+    document.getElementById('prNote').textContent = p === 'm' ? 'Cancel anytime' : 'Two months free';
+  }
+
+  render('scr-welcome');
+</script>
+</body>
+</html>

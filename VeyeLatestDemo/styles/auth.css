@@ -1,0 +1,210 @@
+/* ============================================================
+   VEYE — Onboarding auth screens (Login + Signup)
+   Matched to Figma "Desk Onboard A" (28:53) and
+   "Desk Onboard A - Signup" (123:2). 1440x900 reference.
+   ============================================================ */
+
+.auth {
+  display: flex;
+  min-height: 100vh;
+  background: var(--cream);
+}
+
+/* ---------- Left media panel (photo + logo + vertical tagline) ---------- */
+.auth__media {
+  position: relative;
+  flex: 0 0 51.4%;          /* 740 / 1440 */
+  overflow: hidden;
+}
+.auth__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* subtle top-left darkening so the white logo stays legible */
+.auth__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(155deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,0) 42%);
+  pointer-events: none;
+}
+.auth__logo {
+  position: absolute;
+  top: 48px;
+  left: 56px;
+  width: 140px;
+  z-index: 2;
+}
+.auth__tagline {
+  position: absolute;
+  right: 34px;
+  bottom: 52px;
+  z-index: 2;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 45px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ---------- Right form panel ---------- */
+.auth__panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 60px;
+}
+.auth__form { width: 100%; max-width: var(--col); }  /* 440 */
+
+.auth__title {
+  font-weight: 600;
+  font-size: 45px;
+  line-height: 1;
+  color: var(--green-900);
+}
+.auth__subtitle {
+  margin-top: 22px;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.auth__fields {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;              /* login: 50h + 20 gap = 70 pitch */
+}
+.auth__fields--tight { gap: 10px; }  /* signup: 50h + 10 gap = 60 pitch */
+
+/* ---------- Field ---------- */
+.field { position: relative; }
+.field__input {
+  width: 100%;
+  height: var(--field-h);          /* 50 */
+  border-radius: var(--r-field);   /* 10 */
+  background: var(--white);
+  border: 1px solid transparent;
+  padding: 0 44px 0 32px;
+  font-size: 18px;
+  color: var(--ink);
+}
+.field__input::placeholder { color: var(--muted); }   /* #A1A1A1 */
+.field__eye {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.field__eye svg { width: 20px; height: 20px; }
+.field__eye .icon-off { display: none; }
+.field__eye.is-on .icon-on { display: none; }
+.field__eye.is-on .icon-off { display: block; }
+
+/* ---------- Remember / help row ---------- */
+.auth__row {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  letter-spacing: .7px;
+  color: var(--green-900);
+  cursor: pointer;
+  user-select: none;
+}
+.check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.check__box {
+  width: 20px; height: 20px;
+  flex: 0 0 20px;
+  border-radius: var(--r-sm);      /* 5 */
+  background: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.check input:checked + .check__box::after {
+  content: "";
+  width: 11px; height: 11px;
+  border-radius: 3px;
+  background: var(--green-900);
+}
+.link {
+  font-size: 14px;
+  letter-spacing: .7px;
+  color: var(--green-900);
+}
+.link:hover { text-decoration: underline; }
+
+/* ---------- Legal text ---------- */
+.legal {
+  font-size: 14px;
+  line-height: 1.25;
+  letter-spacing: .7px;
+  color: var(--green-900);
+}
+.legal a { text-decoration: underline; }
+.legal--terms { margin-top: 10px; }
+.legal--privacy { margin-top: 32px; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--field-h);          /* 50 */
+  border-radius: var(--r-field);   /* 10 */
+  font-size: 18px;
+  letter-spacing: .9px;
+  text-transform: uppercase;
+  transition: filter .15s ease;
+}
+.btn:hover { filter: brightness(.96); }
+.btn--primary { background: var(--green-900); color: var(--white); }
+.btn--lime    { background: var(--green-500); color: var(--green-900); }
+.btn--mt      { margin-top: 14px; }
+
+/* ---------- "Don't have a Veye account?" divider ---------- */
+.divider {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 18px;
+  color: var(--green-900);
+  white-space: nowrap;
+}
+.divider::before, .divider::after {
+  content: "";
+  width: 80px;
+  border-top: .5px solid var(--green-900);
+}
+.divider + .btn { margin-top: 32px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .auth { flex-direction: column; }
+  .auth__media { flex: 0 0 220px; width: 100%; }
+  .auth__tagline { display: none; }
+  .auth__panel { padding: 32px 20px 48px; }
+  .auth__title { font-size: 36px; }
+}

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employer Portal — Cheetahs Career Hub</title>
+<link rel="icon" type="image/jpeg" href="cch-logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cch.css">
+<style>
+  .cand-card { background: #fff; border: 2.5px solid var(--line-2); border-radius: var(--r); padding: 24px 26px; margin-bottom: 16px; transition: all .15s ease; }
+  .cand-card.picked { border-color: var(--green); box-shadow: 0 0 0 4px var(--green-soft); }
+  .cand-top { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+  .cand-top .avatar { width: 54px; height: 54px; font-size: 17px; }
+  .cand-name { font-family: var(--font-head); font-weight: 700; font-size: 16.5px; }
+  .masked { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--ink-faint); background: var(--bg); padding: 4px 11px; border-radius: 999px; font-weight: 700; }
+  .cand-meta { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 10px; font-size: 13px; color: var(--ink-soft); }
+  .cand-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .cand-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+  .agree-doc { border-radius: var(--r); padding: 30px 34px; background: linear-gradient(180deg, #FFFDF8, #FDF6E9); border: 2px solid var(--line); font-size: 14px; }
+  .agree-doc h3 { font-size: 17px; margin-bottom: 4px; }
+  .agree-doc .a-mono { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint); font-weight: 800; }
+  .agree-doc ul { margin: 14px 0 14px 20px; }
+  .agree-doc li { margin-bottom: 8px; color: var(--ink-2); }
+  .rate-box { display: flex; gap: 16px; margin: 18px 0; flex-wrap: wrap; }
+  .rate { background: #fff; border-radius: 15px; padding: 16px 22px; box-shadow: var(--sh-sm); flex: 1; min-width: 160px; }
+  .rate b { font-family: var(--font-head); font-size: 25px; display: block; }
+  .rate.r-local b { color: var(--sun-2); }
+  .rate.r-intl b { color: var(--teal); }
+  .rate span { font-size: 12.5px; color: var(--ink-soft); }
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; }
+  .cat { border: 2.5px solid var(--line); border-radius: var(--r); padding: 20px 16px; text-align: center; cursor: pointer; background: #fff; transition: all .14s; }
+  .cat:hover { border-color: var(--teal-2); transform: translateY(-2px); }
+  .cat.on { border-color: var(--teal); background: var(--teal-soft); box-shadow: 0 0 0 4px rgba(15,118,110,.12); }
+  .cat .c-ic { width: 46px; height: 46px; border-radius: 13px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 10px; color: #fff; }
+  .cat b { display: block; font-size: 13.5px; }
+</style>
+</head>
+<body>
+<div class="demo-ribbon">Employer Portal demo &mdash; sample data &middot; <a href="index.html">back to site</a></div>
+
+<div id="auth-root"></div>
+<div id="app-root" style="display:none"></div>
+
+<div class="modal-bg" id="modal-bg"><div class="modal" id="modal-box"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="cch-icons.js"></script>
+<script src="cch-ads.js"></script>
+<script>
+/* ================= state ================= */
+const S = {
+  authed: false, authTab: 'in', reg: { step: 0 }, view: 'dash',
+  requests: [
+    { id: 'JR-1007', role: 'Sales Agents', detail: '1 Sales Lead, 2 Sales Executives', cat: 'Corporate / Professional', positions: 3, timeline: 'Immediate joiners', posted: 'Aug 12, 2026', status: 3, salary: '$36,000 – $48,000 / yr' },
+    { id: 'JR-1004', role: 'Administrative Assistant', detail: 'Front office, full-time', cat: 'Corporate / Professional', positions: 1, timeline: 'Within 1 month', posted: 'Jul 30, 2026', status: 2, salary: '$24,000 / yr' },
+    { id: 'JR-0989', role: 'Customer Service Reps', detail: 'Support desk, 2 shifts', cat: 'Corporate / Professional', positions: 2, timeline: 'Within 2 months', posted: 'Jun 18, 2026', status: 5, salary: '$21,600 / yr' }
+  ],
+  shortlist: [
+    { id: 'c1', initials: 'AT', av: 'a-rose', name: 'Alicia T.', title: 'Senior Sales Executive', exp: '7 yrs experience', ind: 'Technology & telecoms sales', loc: 'Port of Spain', hi: 'Exceeded quota 3 years running; led a team of 4', note: 'Strong closer, excellent references. Available in 2 weeks.', picked: false, myNote: '', iv: 'Aug 17 · 10:00 AM', hired: false },
+    { id: 'c2', initials: 'MB', av: 'a-teal', name: 'Marcus B.', title: 'Sales Executive', exp: '4 yrs experience', ind: 'B2B services sales', loc: 'San Fernando', hi: 'Grew a client book from 30 to 110 accounts', note: 'Great energy, consultative style. Immediate joiner.', picked: false, myNote: '', iv: 'Aug 17 · 2:00 PM', hired: false },
+    { id: 'c3', initials: 'SW', av: 'a-indigo', name: 'Shanice W.', title: 'Sales Team Lead', exp: '9 yrs experience', ind: 'Financial products', loc: 'Chaguanas', hi: 'Managed a 6-person team, 128% of target in 2025', note: 'Fits the Sales Lead seat. Notice period: 1 month.', picked: false, myNote: '', iv: 'Aug 17 · 11:30 AM', hired: false },
+    { id: 'c4', initials: 'DK', av: 'a-sky', name: 'Dwayne K.', title: 'Account Executive', exp: '5 yrs experience', ind: 'Enterprise software', loc: 'Arima', hi: 'Closed the two largest deals in his region in 2024', note: 'Polished presenter. Available immediately.', picked: false, myNote: '', iv: 'Aug 18 · 9:30 AM', hired: false }
+  ],
+  shortlistSubmitted: false,
+  finalSubmitted: false,
+  invoices: [
+    { id: 'INV-2026-042', date: 'Jul 02, 2026', for: 'Placement — Customer Service Reps (JR-0989) × 2', amount: '$1,620.00', status: 'Paid' },
+    { id: 'INV-2026-051', date: 'Aug 04, 2026', for: 'Placement — Data Entry Clerk (JR-0975) × 1', amount: '$780.00', status: 'Due Aug 25' }
+  ],
+  newReq: { cat: null, step: 1, role: '' }
+};
+const STATUSES = ['Submitted', 'In Vetting', 'Candidates Shared', 'Interview Stage', 'Placed & Closed'];
+const NAV = [
+  ['dash', 'grid', 'Dashboard'],
+  ['new', 'plus', 'Post a Job Request'],
+  ['requests', 'clipboard', 'My Job Requests'],
+  ['reviews', 'users', 'Candidate Reviews', 1],
+  ['invoices', 'receipt', 'Invoices'],
+  ['company', 'building', 'Company & Agreement']
+];
+const HERO = {
+  dash: ['Welcome back, Priya', "Here's where your hiring stands — one shortlist is waiting on you."],
+  new: ['Post a job request', 'Free to post, always. Tell us what you need and we do the rest.'],
+  requests: ['My job requests', 'Every request tracked from submission to placement.'],
+  reviews: ['Candidate reviews', 'Hand-vetted shortlists prepared by your placement officer.'],
+  invoices: ['Invoices', 'Success-based billing — you only pay when you hire.'],
+  company: ['Company & agreement', 'Your registered profile and service agreement.']
+};
+
+/* ================= helpers ================= */
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = icon('checkCircle', 18) + msg;
+  t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 3400);
+}
+function openModal(html, wide) {
+  const bg = document.getElementById('modal-bg'), box = document.getElementById('modal-box');
+  box.className = 'modal' + (wide ? ' wide' : ''); box.innerHTML = html; bg.classList.add('open');
+}
+function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+document.getElementById('modal-bg').addEventListener('click', e => { if (e.target.id === 'modal-bg') closeModal(); });
+function statusChip(i) {
+  const map = { 1: 'sky', 2: 'sun', 3: 'indigo', 4: 'teal', 5: 'green' };
+  return '<span class="chip ' + map[i] + '">' + STATUSES[i - 1] + '</span>';
+}
+function flowHtml(cur) {
+  let h = '<div class="flow">';
+  STATUSES.forEach((s, i) => {
+    const n = i + 1;
+    h += '<span class="fstep ' + (n < cur ? 'done' : n === cur ? 'on' : '') + '"><span class="fdot"></span>' + s + '</span>';
+    if (n < 5) h += '<span class="fsep"></span>';
+  });
+  return h + '</div>';
+}
+
+/* ================= AUTH ================= */
+function renderAuth() {
+  const perks = [
+    ['listChecks', 'Post for free, forever', 'No subscriptions, no listing fees — pay only on a successful hire.'],
+    ['userCheck', 'Shortlists, not haystacks', 'Every profile is called, screened and vetted before it reaches you.'],
+    ['receipt', 'Clear, simple billing', 'A percentage of the first three months’ salary. Nothing else.']
+  ];
+  let card = '';
+  if (S.reg.step === 0) {
+    card = `
+    <div class="panel" style="margin:0">
+      <div class="auth-tabs">
+        <button class="${S.authTab === 'in' ? 'on' : ''}" onclick="S.authTab='in';renderAuth()">Sign In</button>
+        <button class="${S.authTab === 'up' ? 'on' : ''}" onclick="S.authTab='up';renderAuth()">Register Company</button>
+      </div>
+      ${S.authTab === 'in' ? `
+        <h3 style="font-size:20px;margin-bottom:6px">Welcome back</h3>
+        <p class="muted small" style="margin-bottom:24px">Sign in to post requests and review your shortlists.</p>
+        <div class="field"><label>Work email</label><input value="hr@niletech.example"></div>
+        <div class="field"><label>Password</label><input type="password" value="password123"></div>
+        <button class="btn btn-navy btn-lg" style="width:100%" onclick="login()">${icon('logout', 17)} Sign in</button>
+        <p class="hint" style="text-align:center;margin-top:14px">Demo account: Nile Technologies &middot; Professional Services</p>
+      ` : `
+        <h3 style="font-size:20px;margin-bottom:6px">Register your company</h3>
+        <p class="muted small" style="margin-bottom:24px">Three steps and you're hiring: company details, your service agreement, and a quick approval by our team.</p>
+        <div class="task-row" style="display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:14px;background:var(--bg);margin-bottom:10px;font-size:14px;font-weight:600"><span style="width:30px;height:30px;border-radius:999px;background:var(--teal-soft);color:var(--teal);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-family:var(--font-head);font-size:13px;flex-shrink:0">1</span>Company &amp; contact details</div>
+        <div class="task-row" style="display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:14px;background:var(--bg);margin-bottom:10px;font-size:14px;font-weight:600"><span style="width:30px;height:30px;border-radius:999px;background:var(--teal-soft);color:var(--teal);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-family:var(--font-head);font-size:13px;flex-shrink:0">2</span>Review &amp; e-sign your service agreement</div>
+        <div class="task-row" style="display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:14px;background:var(--bg);margin-bottom:10px;font-size:14px;font-weight:600"><span style="width:30px;height:30px;border-radius:999px;background:var(--teal-soft);color:var(--teal);display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-family:var(--font-head);font-size:13px;flex-shrink:0">3</span>Approval &amp; start posting</div>
+        <button class="btn btn-navy btn-lg mt-16" style="width:100%" onclick="S.reg.step=1;renderAuth()">Start registration ${icon('arrowRight', 17)}</button>
+      `}
+    </div>`;
+  } else {
+    card = renderRegWizard();
+  }
+  document.getElementById('auth-root').innerHTML = `
+  <div class="auth">
+    <div class="auth-brand" style="background:var(--g-employer)">
+      <svg class="spots" width="100%" height="100%"><defs><pattern id="spB" width="95" height="95" patternUnits="userSpaceOnUse"><ellipse cx="22" cy="26" rx="12" ry="9" fill="#fff"/><ellipse cx="70" cy="70" rx="8.5" ry="7" fill="#fff"/></pattern></defs><rect width="100%" height="100%" fill="url(#spB)"/></svg>
+      <div class="row" style="position:relative">
+        <span class="logo-chip" style="width:54px;height:54px"><img src="cch-logo.jpeg" alt="Cheetahs Career Hub crest logo"></span>
+        <div><b style="font-family:var(--font-head);font-size:16px">Cheetahs Career Hub</b><br><span style="font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#F6C64B">Employer Portal</span></div>
+      </div>
+      <h1>Stop sifting CVs.<br>Start meeting hires.</h1>
+      <p class="lead">Post a request and our team hand-delivers a vetted shortlist — locally or from our international programs.</p>
+      ${perks.map(p => `<div class="auth-perk"><span class="pk-ic">${icon(p[0], 20)}</span><div><b>${p[1]}</b><span>${p[2]}</span></div></div>`).join('')}
+    </div>
+    <div class="auth-pane"><div class="auth-card rise">${card}</div></div>
+  </div>`;
+}
+function renderRegWizard() {
+  const st = S.reg.step;
+  const steps = ['Company', 'Agreement', 'Approval'];
+  const stepsHtml = `<div class="wsteps" style="margin-bottom:26px">${steps.map((s, i) => {
+    const n = i + 1;
+    return `<div class="wstep ${n < st ? 'done' : n === st ? 'on' : ''}"><span class="wnum">${n < st ? icon('check', 15) : n}</span><span>${s}</span></div>` + (n < 3 ? `<span class="wsep ${n < st ? 'done' : ''}"></span>` : '');
+  }).join('')}</div>`;
+  let body = '';
+  if (st === 1) {
+    body = `
+      <h3 style="font-size:19px;margin-bottom:20px">Company details</h3>
+      <div class="form-grid">
+        <div class="field"><label>Company name</label><input placeholder="e.g. Blue Bay Resort Ltd."></div>
+        <div class="field"><label>Industry</label><select id="reg-ind"><option>Hospitality / Restaurant</option><option>Corporate / Professional</option><option>Healthcare / Care</option><option>Retail & Services</option><option>Other</option></select></div>
+        <div class="field"><label>Contact person</label><input placeholder="Full name"></div>
+        <div class="field"><label>Role / title</label><input placeholder="e.g. HR Manager"></div>
+        <div class="field"><label>Work email</label><input placeholder="name@company.com"></div>
+        <div class="field"><label>Phone</label><input placeholder="+1 (___) ___-____"></div>
+        <div class="field full"><label>Where do you plan to hire from?</label><select><option>Locally</option><option>Internationally</option><option>Both</option></select></div>
+      </div>
+      <div class="row" style="justify-content:space-between">
+        <button class="btn btn-ghost" onclick="S.reg.step=0;renderAuth()">${icon('arrowLeft', 16)} Back</button>
+        <button class="btn btn-navy" onclick="S.reg.step=2;renderAuth()">Continue ${icon('arrowRight', 16)}</button>
+      </div>`;
+  } else if (st === 2) {
+    body = `
+      <h3 style="font-size:19px;margin-bottom:8px">Your service agreement</h3>
+      <p class="muted small" style="margin-bottom:18px">Generated automatically from your industry and hiring plans — this is the only paperwork between us.</p>
+      <div class="agree-doc">
+        <span class="a-mono">Draft Service Agreement</span>
+        <h3>Placement Services — Hospitality Schedule</h3>
+        <div class="rate-box">
+          <div class="rate r-local"><b>15%</b><span>of first 3 months' salary<br><b style="font-size:13px;color:var(--ink)">Local placements</b></span></div>
+          <div class="rate r-intl"><b>20%</b><span>of first 3 months' salary<br><b style="font-size:13px;color:var(--ink)">International placements</b></span></div>
+        </div>
+        <ul>
+          <li>No registration, subscription or job-posting fees — ever.</li>
+          <li>Fees apply only on a confirmed hire sourced through Cheetahs.</li>
+          <li>Candidate contact details stay confidential until a hire is confirmed.</li>
+        </ul>
+      </div>
+      <div class="row mt-16" style="justify-content:space-between">
+        <label class="row" style="cursor:pointer;font-size:13.5px;font-weight:600;gap:9px"><input type="checkbox" id="ob-agree" style="width:17px;height:17px;accent-color:var(--gold)"> I have read and agree to the service agreement</label>
+        <button class="btn btn-ghost btn-sm" onclick="viewAgreement('Hospitality / Restaurant', false)">${icon('fileText', 14)} Read the full agreement</button>
+      </div>
+      <div class="row mt-16" style="justify-content:space-between">
+        <button class="btn btn-ghost" onclick="S.reg.step=1;renderAuth()">${icon('arrowLeft', 16)} Back</button>
+        <button class="btn btn-navy" onclick="obSign()">${icon('edit', 16)} Sign &amp; submit</button>
+      </div>`;
+  } else {
+    return `
+    <div class="panel" style="margin:0;text-align:center;padding:46px 40px">
+      <span style="display:inline-flex;width:78px;height:78px;border-radius:999px;background:var(--g-teal);color:#fff;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 12px 30px rgba(15,118,110,.35)">${icon('check', 36)}</span>
+      <h3 style="font-size:22px;margin-bottom:10px">Application submitted</h3>
+      <p class="muted" style="max-width:390px;margin:0 auto 8px">The Cheetahs team reviews every employer before granting access — usually within one business day. You'll get your signed agreement by email.</p>
+      <p class="hint" style="margin-bottom:24px">For this demo, you'll continue in the sample account of Nile Technologies.</p>
+      <button class="btn btn-navy btn-lg" style="width:100%" onclick="login()">Enter my dashboard ${icon('arrowRight', 17)}</button>
+    </div>`;
+  }
+  return `<div class="panel" style="margin:0">${stepsHtml}${body}</div>`;
+}
+function viewAgreement(industry, signed) {
+  openModal(`
+    <div class="modal-head">
+      <span class="logo-chip" style="width:50px;height:50px"><img src="cch-logo.jpeg" alt="Cheetahs Career Hub logo"></span>
+      <div><h3>Service Agreement — ${industry} Schedule</h3><span class="muted small">Cheetahs Career Hub · Professional Recruitment Solutions${signed ? ' · SA-2026-096' : ' · Draft'}</span></div>
+      <button class="mclose" onclick="closeModal()">${icon('x', 20)}</button>
+    </div>
+    <div class="agree-doc" style="background:#fff;max-height:52vh;overflow-y:auto">
+      <p class="small muted" style="margin-bottom:14px">This Placement Services Agreement (the "Agreement") is made between <b>Cheetahs Career Hub</b> ("the Agency") and the registering employer ("the Client"). <i>Dummy text for demonstration.</i></p>
+      ${[
+        ['1. Services', 'The Agency will source, screen and personally vet candidates against each job request submitted by the Client, and present a shortlist of interview-ready profiles through the Client’s portal.'],
+        ['2. Fees', 'No registration, subscription or job-posting fees apply. A placement fee is payable only upon a confirmed hire sourced through the Agency, calculated on the hire’s first three (3) months’ salary: <b>15% for local placements</b> and <b>20% for international placements</b>.'],
+        ['3. Invoicing & payment', 'The placement fee is invoiced upon case closure and payable within twenty-one (21) days. Payment is settled directly with the Agency.'],
+        ['4. Confidentiality', 'Candidate contact details remain confidential and are released to the Client only after a hire is confirmed. The Client agrees not to circumvent the Agency by engaging shortlisted candidates directly within twelve (12) months of introduction.'],
+        ['5. Replacement guarantee', 'If a placed candidate resigns or is dismissed for cause within thirty (30) days of their start date, the Agency will present replacement candidates at no additional fee.'],
+        ['6. Industry schedule', 'Terms in this schedule are tailored to ' + industry + ' employers and prevail over the general terms where they differ.'],
+        ['7. Term & termination', 'This Agreement runs until terminated by either party with fourteen (14) days’ written notice. Fees accrued before termination remain payable.']
+      ].map(s => '<h3 style="font-size:13.5px;margin:14px 0 4px">' + s[0] + '</h3><p class="small" style="color:var(--ink-2)">' + s[1] + '</p>').join('')}
+      ${signed ? '<div class="strip green" style="margin-top:18px">' + icon('checkCircle', 18) + '<div><b>Signed electronically by Priya T. — June 14, 2026</b></div></div>' : '<p class="hint" style="margin-top:16px">Signature is captured electronically at the final registration step.</p>'}
+    </div>
+    <div class="row mt-16" style="justify-content:flex-end;gap:10px">
+      <button class="btn btn-ghost btn-sm" onclick="toast('PDF download would start in the live system')">${icon('download', 15)} Download PDF</button>
+      <button class="btn btn-navy btn-sm" onclick="closeModal()">Close</button>
+    </div>
+  `, true);
+}
+function obSign() {
+  const cb = document.getElementById('ob-agree');
+  if (!cb.checked) { toast('Please tick the agreement checkbox to continue'); return; }
+  S.reg.step = 3; renderAuth();
+}
+function login() {
+  S.authed = true;
+  document.getElementById('auth-root').style.display = 'none';
+  document.getElementById('app-root').style.display = '';
+  render();
+  toast('Signed in — welcome back, Priya');
+}
+function logout() {
+  S.authed = false; S.reg = { step: 0 }; S.authTab = 'in';
+  document.getElementById('app-root').style.display = 'none';
+  document.getElementById('auth-root').style.display = '';
+  renderAuth(); window.scrollTo({ top: 0 });
+}
+
+/* ================= APP views ================= */
+function vDash() {
+  const open = S.requests.filter(r => r.status < 5).length;
+  return `
+  <div class="stats rise">
+    <div class="stat"><span class="s-ic g-teal">${icon('clipboard', 20)}</span><b>${open}</b><span>Open job requests</span></div>
+    <div class="stat"><span class="s-ic g-indigo">${icon('users', 20)}</span><b>${S.shortlistSubmitted ? 0 : 4}</b><span>Profiles awaiting review</span></div>
+    <div class="stat"><span class="s-ic g-sky">${icon('calendar', 20)}</span><b>2</b><span>Interviews upcoming</span></div>
+    <div class="stat"><span class="s-ic g-green">${icon('userCheck', 20)}</span><b>3</b><span>Hires through Cheetahs</span></div>
+  </div>
+  ${S.shortlistSubmitted ? '' : `
+  <div class="panel rise" style="border-left:6px solid var(--indigo)">
+    <div class="row" style="justify-content:space-between">
+      <div class="row">
+        <span class="s-ic g-indigo" style="width:48px;height:48px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;color:#fff">${icon('bell', 22)}</span>
+        <div>
+          <b style="font-size:16px">4 vetted profiles are ready for JR-1007 — Sales Agents</b><br>
+          <span class="muted small">Shared by your placement officer on Aug 13 &middot; pick who you'd like to interview.</span>
+        </div>
+      </div>
+      <button class="btn btn-indigo" onclick="go('reviews')">Review candidates ${icon('arrowRight', 16)}</button>
+    </div>
+  </div>`}
+  <div class="grid-31">
+    <div class="panel rise">
+      <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-teal)">${icon('clipboard', 17)}</span> Recent requests</h2><span class="spacer"></span><button class="btn btn-ghost btn-sm" onclick="go('requests')">View all</button></div>
+      ${S.requests.slice(0, 3).map((r, i) => `
+        <div class="row" style="justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line-2)">
+          <div><b>${r.role}</b> <span class="muted small">&middot; ${r.positions} position${r.positions > 1 ? 's' : ''}</span><br><span class="muted small">${r.id} &middot; Posted ${r.posted}</span></div>
+          ${statusChip(r.status)}
+        </div>`).join('')}
+      <button class="btn btn-navy mt-16" onclick="go('new')">${icon('plus', 16)} Post a new request</button>
+    </div>
+    <div>
+      <div class="panel rise">
+        <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-sun)">${icon('receipt', 17)}</span> Billing</h2></div>
+        <div class="row" style="justify-content:space-between"><span class="muted">Outstanding</span><b style="font-family:var(--font-head);font-size:22px">$780.00</b></div>
+        <div class="row" style="justify-content:space-between;margin-top:8px"><span class="muted">Paid this year</span><b>$1,620.00</b></div>
+        <button class="btn btn-soft btn-sm mt-16" onclick="go('invoices')">Open invoices</button>
+      </div>
+      ${adUnit('techhub')}
+    </div>
+  </div>`;
+}
+
+function vNew() {
+  const cats = [
+    ['utensils', 'var(--g-rose)', 'Hospitality / Restaurant'],
+    ['briefcase', 'var(--g-indigo)', 'Corporate / Professional'],
+    ['heartPulse', 'var(--g-teal)', 'Healthcare / Care'],
+    ['home', 'var(--g-sun)', 'Retail & Services'],
+    ['ship', 'var(--g-sky)', 'Cruise / International']
+  ];
+  const st = S.newReq.step, cat = S.newReq.cat;
+  let body = '';
+  if (st === 1) {
+    body = `
+      <h3 style="font-size:18px;margin-bottom:6px">What kind of role is this?</h3>
+      <p class="muted small" style="margin-bottom:22px">The request form adapts to your industry, so you only answer what's relevant.</p>
+      <div class="cat-grid">${cats.map(c => `
+        <div class="cat ${cat === c[2] ? 'on' : ''}" onclick="pickCat('${c[2]}')"><span class="c-ic" style="background:${c[1]}">${icon(c[0], 21)}</span><b>${c[2]}</b></div>`).join('')}
+      </div>
+      <div class="row mt-24" style="justify-content:flex-end"><button class="btn btn-navy" ${cat ? '' : 'disabled'} onclick="reqStep(2)">Continue ${icon('arrowRight', 16)}</button></div>`;
+  } else if (st === 2) {
+    const hosp = cat === 'Hospitality / Restaurant';
+    const care = cat === 'Healthcare / Care';
+    body = `
+      <div class="chip teal" style="margin-bottom:20px">${icon('layout', 13)} ${cat} form</div>
+      <div class="form-grid">
+        <div class="field"><label>Job title</label><input id="f-role" value="${S.newReq.role || ''}" placeholder="${hosp ? 'e.g. Line Cook, Restaurant Supervisor' : care ? 'e.g. Registered Nurse, Caregiver' : 'e.g. Sales Agent, Accountant'}"></div>
+        <div class="field"><label>${hosp ? 'Shift pattern' : care ? 'Care setting' : 'Employment type'}</label>
+          <select>${hosp ? '<option>Day shift</option><option>Night shift</option><option>Rotating shifts</option><option>Split shift</option>' : care ? '<option>Hospital</option><option>Care home</option><option>Private household</option><option>Clinic</option>' : '<option>Full-time</option><option>Part-time</option><option>Contract</option>'}</select></div>
+        ${hosp ? `<div class="field"><label>Service style</label><select><option>Casual dining</option><option>Fine dining</option><option>Quick service</option><option>Bar & lounge</option></select></div>
+        <div class="field"><label>Food-handler certification required?</label><select><option>Yes</option><option>Preferred</option><option>No</option></select></div>` : ''}
+        ${care ? `<div class="field"><label>Required certifications</label><input placeholder="e.g. RN licence, CPR, geriatric care"></div>
+        <div class="field"><label>Live-in role?</label><select><option>No</option><option>Yes</option></select></div>` : ''}
+        ${!hosp && !care ? `<div class="field"><label>Required experience</label><select><option>0–2 years</option><option>3–5 years</option><option>5+ years</option><option>Leadership level</option></select></div>
+        <div class="field"><label>Qualifications</label><input placeholder="e.g. Degree, professional certification"></div>` : ''}
+        <div class="field"><label>Salary range (annual)</label><input id="f-sal" placeholder="e.g. $30,000 – $42,000"></div>
+        <div class="field"><label>Work location</label><input placeholder="e.g. Port of Spain office"></div>
+        <div class="field full"><label>Job description &amp; key duties</label><textarea placeholder="Describe the role, the environment and what a great hire looks like…"></textarea></div>
+      </div>
+      <div class="row" style="justify-content:space-between"><button class="btn btn-ghost" onclick="reqStep(1)">${icon('arrowLeft', 16)} Back</button><button class="btn btn-navy" onclick="reqStep(3)">Continue ${icon('arrowRight', 16)}</button></div>`;
+  } else {
+    body = `
+      <div class="form-grid">
+        <div class="field"><label>Number of open positions</label><input id="f-pos" type="number" value="1" min="1"></div>
+        <div class="field"><label>Hiring timeline</label><select id="f-time"><option>Immediate joiners</option><option>Within 1 month</option><option>Within 2 months</option><option>Building a bench</option></select></div>
+        <div class="field full"><label>Anything else our team should know?</label><textarea placeholder="Interview availability, must-haves, deal-breakers…"></textarea></div>
+      </div>
+      <div class="strip green">${icon('info', 18)}<div><b>No posting fee.</b><p>We review your request, hand-vet matching candidates, and share a shortlist. Your service fee applies only when you hire.</p></div></div>
+      <div class="row mt-24" style="justify-content:space-between"><button class="btn btn-ghost" onclick="reqStep(2)">${icon('arrowLeft', 16)} Back</button><button class="btn btn-navy btn-lg" onclick="submitReq()">${icon('send', 16)} Submit job request</button></div>`;
+  }
+  return `
+  <div class="panel rise wiz" style="padding:34px 40px">
+    <div class="wsteps">
+      <div class="wstep ${st > 1 ? 'done' : 'on'}"><span class="wnum">${st > 1 ? icon('check', 15) : '1'}</span><span>Category</span></div>
+      <span class="wsep ${st > 1 ? 'done' : ''}"></span>
+      <div class="wstep ${st > 2 ? 'done' : st === 2 ? 'on' : ''}"><span class="wnum">${st > 2 ? icon('check', 15) : '2'}</span><span>Role details</span></div>
+      <span class="wsep ${st > 2 ? 'done' : ''}"></span>
+      <div class="wstep ${st === 3 ? 'on' : ''}"><span class="wnum">3</span><span>Positions &amp; timeline</span></div>
+    </div>
+    ${body}
+  </div>`;
+}
+function pickCat(c) { S.newReq.cat = c; render(); }
+function reqStep(n) {
+  const roleEl = document.getElementById('f-role');
+  if (roleEl) S.newReq.role = roleEl.value;
+  S.newReq.step = n; render();
+}
+function submitReq() {
+  const role = S.newReq.role || 'New Role';
+  const pos = document.getElementById('f-pos').value || 1;
+  const time = document.getElementById('f-time').value;
+  S.requests.unshift({ id: 'JR-1012', role: role, detail: 'Submitted just now', cat: S.newReq.cat, positions: +pos, timeline: time, posted: 'Aug 13, 2026', status: 1, salary: '—' });
+  S.newReq = { cat: null, step: 1, role: '' };
+  go('requests');
+  toast('Job request JR-1012 submitted — our team will begin vetting shortly');
+}
+
+function vRequests() {
+  return `
+  <div class="panel rise">
+    <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-teal)">${icon('clipboard', 17)}</span> All job requests</h2><span class="spacer"></span><button class="btn btn-navy btn-sm" onclick="go('new')">${icon('plus', 15)} New request</button></div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>Request</th><th>Category</th><th>Positions</th><th>Timeline</th><th>Posted</th><th>Status</th><th></th></tr></thead>
+      <tbody>${S.requests.map((r, i) => `
+        <tr class="click" onclick="reqDetail(${i})">
+          <td><b>${r.role}</b><br><span class="muted">${r.id}</span></td>
+          <td class="muted">${r.cat}</td>
+          <td>${r.positions}</td>
+          <td class="muted">${r.timeline}</td>
+          <td class="muted">${r.posted}</td>
+          <td>${statusChip(r.status)}</td>
+          <td>${icon('chevronRight', 16)}</td>
+        </tr>`).join('')}
+      </tbody></table></div>
+  </div>`;
+}
+function reqDetail(i) {
+  const r = S.requests[i];
+  openModal(`
+    <div class="modal-head"><div><span class="chip gray">${r.id}</span><h3 class="mt-8">${r.role} &middot; ${r.positions} position${r.positions > 1 ? 's' : ''}</h3></div><button class="mclose" onclick="closeModal()">${icon('x', 20)}</button></div>
+    ${flowHtml(r.status)}
+    <hr class="divider">
+    <div class="grid-2" style="gap:10px 24px">
+      <div><span class="muted small">Category</span><br><b>${r.cat}</b></div>
+      <div><span class="muted small">Salary range</span><br><b>${r.salary}</b></div>
+      <div><span class="muted small">Timeline</span><br><b>${r.timeline}</b></div>
+      <div><span class="muted small">Posted</span><br><b>${r.posted}</b></div>
+    </div>
+    <hr class="divider">
+    <p class="small muted">${r.detail}</p>
+    ${r.status === 3 ? '<button class="btn btn-indigo mt-16" onclick="closeModal();go(\'reviews\')">Review shared candidates ' + icon('arrowRight', 16) + '</button>' : ''}
+    ${r.status === 5 ? '<div class="strip green mt-16">' + icon('checkCircle', 18) + '<div><b>Placement complete — this case is closed.</b></div></div>' : ''}
+  `);
+}
+
+function vReviews() {
+  const picked = S.shortlist.filter(c => c.picked).length;
+  if (!S.shortlistSubmitted) {
+    return `
+  <div class="panel rise">
+    <div class="panel-head">
+      <div><span class="chip gray">JR-1007</span> <span class="chip indigo">Candidates Shared</span>
+      <h2 class="mt-8" style="font-size:19px">Sales Agents — 3 positions</h2>
+      <p class="small muted" style="max-width:640px">Your placement officer screened <b>27 matches</b> from our pool and assigned these <b>4 vetted profiles</b> to your request. Contact details stay private until a hire is confirmed.</p></div>
+    </div>
+    ${S.shortlist.map(c => `
+      <div class="cand-card ${c.picked ? 'picked' : ''}">
+        <div class="cand-top">
+          <span class="avatar ${c.av}">${c.initials}</span>
+          <div>
+            <span class="cand-name">${c.name}</span> <span class="masked">${icon('lock', 11)} contact protected</span><br>
+            <span class="muted small">${c.title} &middot; ${c.exp}</span>
+            <div class="cand-meta">
+              <span>${icon('briefcase', 14)} ${c.ind}</span>
+              <span>${icon('mapPin', 14)} ${c.loc}</span>
+            </div>
+          </div>
+          <div class="cand-actions">
+            <button class="btn btn-ghost btn-sm" onclick="myNotes('${c.id}')">${icon('notebook', 14)} My notes${c.myNote ? ' (1)' : ''}</button>
+            <button class="btn btn-ghost btn-sm" onclick="candProfile('${c.id}')">${icon('eye', 15)} Full profile</button>
+            <button class="btn btn-sm ${c.picked ? 'btn-green' : 'btn-indigo'}" onclick="togglePick('${c.id}')">${c.picked ? icon('check', 15) + ' Selected' : 'Select for interview'}</button>
+          </div>
+        </div>
+      </div>`).join('')}
+    <div class="row mt-24" style="justify-content:space-between">
+      <span class="muted small"><b>${picked}</b> of ${S.shortlist.length} selected for first interview</span>
+      <button class="btn btn-navy btn-lg" ${picked ? '' : 'disabled'} onclick="submitPicks()">${icon('send', 16)} Submit interview selection</button>
+    </div>
+  </div>
+  <div class="rise" style="max-width:680px">${adUnit('islandoffice')}</div>`;
+  }
+  /* interview stage — after selection submitted */
+  const sel = S.shortlist.filter(c => c.picked);
+  const hired = sel.filter(c => c.hired).length;
+  return `
+  <div class="panel rise">
+    <div class="panel-head">
+      <div><span class="chip gray">JR-1007</span> <span class="chip teal">Interview Stage</span>
+      <h2 class="mt-8" style="font-size:19px">Sales Agents — 3 positions</h2>
+      <p class="small muted" style="max-width:640px">Cheetahs confirmed interview times with your ${sel.length} selected candidates. After you've met them, record your final decision below — Cheetahs closes the case, sends the contract and reveals full contact details.</p></div>
+    </div>
+    ${sel.map(c => `
+      <div class="cand-card ${c.hired ? 'picked' : ''}">
+        <div class="cand-top">
+          <span class="avatar ${c.av}">${c.initials}</span>
+          <div>
+            <span class="cand-name">${c.name}</span><br>
+            <span class="muted small">${c.title} &middot; ${c.exp}</span>
+            <div class="cand-meta">
+              <span>${icon('calendar', 14)} <b>Interview: ${c.iv}</b></span>
+              <span>${icon('mapPin', 14)} Your office</span>
+            </div>
+          </div>
+          <div class="cand-actions">
+            <button class="btn btn-ghost btn-sm" onclick="myNotes('${c.id}')">${icon('notebook', 14)} My notes${c.myNote ? ' (1)' : ''}</button>
+            <button class="btn btn-sm ${c.hired ? 'btn-green' : 'btn-soft'}" ${S.finalSubmitted ? 'disabled' : ''} onclick="toggleHire('${c.id}')">${c.hired ? icon('check', 15) + ' Hiring' : 'Mark as hired'}</button>
+          </div>
+        </div>
+      </div>`).join('')}
+    <div class="row mt-24" style="justify-content:space-between">
+      <span class="muted small"><b>${hired}</b> of ${sel.length} marked for final hire</span>
+      <button class="btn btn-green btn-lg" ${hired && !S.finalSubmitted ? '' : 'disabled'} onclick="submitFinal()">${icon('checkCircle', 16)} ${S.finalSubmitted ? 'Final selection sent' : 'Confirm final selection'}</button>
+    </div>
+    ${S.finalSubmitted ? '<div class="strip green mt-16">' + icon('checkCircle', 18) + '<div><b>Final selection sent to Cheetahs.</b><p>They will confirm offers with the candidates, close the case, send your placement contract and issue the invoice per your service agreement.</p></div></div>' : ''}
+  </div>
+  <div class="rise" style="max-width:680px">${adUnit('islandoffice')}</div>`;
+}
+function myNotes(id) {
+  const c = S.shortlist.find(x => x.id === id);
+  openModal(`
+    <div class="modal-head"><span class="avatar ${c.av}" style="width:50px;height:50px">${c.initials}</span>
+      <div><h3>My notes — ${c.name}</h3><span class="muted small">Private to your company · not visible to the candidate</span></div>
+      <button class="mclose" onclick="closeModal()">${icon('x', 20)}</button></div>
+    <div class="field"><label>Notes for this candidate</label><textarea id="mynote-txt" placeholder="e.g. Great phone presence — probe CRM experience in the interview…">${c.myNote || ''}</textarea></div>
+    <div class="row" style="justify-content:flex-end;gap:10px">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-navy" onclick="saveMyNote('${c.id}')">${icon('check', 15)} Save note</button>
+    </div>
+  `);
+}
+function saveMyNote(id) {
+  S.shortlist.find(x => x.id === id).myNote = document.getElementById('mynote-txt').value.trim();
+  closeModal(); render(); toast('Note saved to your case file');
+}
+function toggleHire(id) {
+  if (S.finalSubmitted) return;
+  const c = S.shortlist.find(x => x.id === id);
+  c.hired = !c.hired; render();
+}
+function submitFinal() {
+  S.finalSubmitted = true;
+  render();
+  toast('Final selection sent — Cheetahs will close the case and issue your contract & invoice');
+}
+function candProfile(id) {
+  const c = S.shortlist.find(x => x.id === id);
+  openModal(`
+    <div class="modal-head"><span class="avatar ${c.av}" style="width:54px;height:54px">${c.initials}</span>
+      <div><h3>${c.name}</h3><span class="muted small">${c.title} &middot; ${c.exp}</span></div>
+      <button class="mclose" onclick="closeModal()">${icon('x', 20)}</button></div>
+    <span class="masked">${icon('lock', 11)} Full name, phone &amp; email are shared after a confirmed hire</span>
+    <hr class="divider">
+    <div class="grid-2" style="gap:10px 24px">
+      <div><span class="muted small">Industry background</span><br><b>${c.ind}</b></div>
+      <div><span class="muted small">Location</span><br><b>${c.loc}</b></div>
+    </div>
+    <hr class="divider">
+    <span class="muted small">Career highlight</span>
+    <p style="margin:4px 0 14px"><b>${c.hi}</b></p>
+    <span class="muted small">Placement officer's note</span>
+    <p style="margin-top:4px">${c.note}</p>
+    <hr class="divider">
+    <div class="row" style="justify-content:flex-end;gap:10px">
+      <button class="btn btn-ghost" onclick="closeModal()">Close</button>
+      <button class="btn btn-indigo" onclick="togglePick('${c.id}');closeModal()">${c.picked ? 'Remove from selection' : 'Select for interview'}</button>
+    </div>
+  `);
+}
+function togglePick(id) {
+  if (S.shortlistSubmitted) return;
+  const c = S.shortlist.find(x => x.id === id);
+  c.picked = !c.picked; render();
+}
+function submitPicks() {
+  S.shortlistSubmitted = true;
+  S.requests.find(x => x.id === 'JR-1007').status = 4;
+  render();
+  toast('Interview selection sent — Cheetahs will confirm times with the candidates');
+}
+
+function vInvoices() {
+  return `
+  <div class="panel rise">
+    <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-sun)">${icon('receipt', 17)}</span> Invoices from Cheetahs Career Hub</h2></div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>Invoice</th><th>Date</th><th>For</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+      <tbody>${S.invoices.map((v, i) => `
+        <tr class="click" onclick="invDetail(${i})">
+          <td><b>${v.id}</b></td><td class="muted">${v.date}</td><td class="muted">${v.for}</td>
+          <td><b>${v.amount}</b></td>
+          <td><span class="chip ${v.status === 'Paid' ? 'green' : 'sun'}">${v.status}</span></td>
+          <td>${icon('chevronRight', 16)}</td>
+        </tr>`).join('')}
+      </tbody></table></div>
+    <div class="strip sun mt-16">${icon('percent', 18)}<div><p>Fees follow your service agreement — a percentage of each hire's first three months' salary, settled directly with Cheetahs Career Hub.</p></div></div>
+  </div>`;
+}
+function invDetail(i) {
+  const v = S.invoices[i];
+  openModal(`
+    <div class="modal-head"><div><span class="chip gray">${v.id}</span><h3 class="mt-8">Placement invoice</h3></div><button class="mclose" onclick="closeModal()">${icon('x', 20)}</button></div>
+    <div class="agree-doc" style="background:#fff">
+      <div class="row" style="justify-content:space-between"><b>Cheetahs Career Hub</b><span class="chip ${v.status === 'Paid' ? 'green' : 'sun'}">${v.status}</span></div>
+      <p class="small muted">Billed to: Nile Technologies &middot; ${v.date}</p>
+      <hr class="divider">
+      <div class="row" style="justify-content:space-between"><span>${v.for}</span><b>${v.amount}</b></div>
+      <p class="muted small" style="margin-top:6px">Service fee — 15% of first 3 months' salary (local placement)</p>
+      <hr class="divider">
+      <div class="row" style="justify-content:space-between"><b>Total due</b><b style="font-family:var(--font-head);font-size:21px">${v.amount}</b></div>
+    </div>
+    <div class="row mt-16" style="justify-content:flex-end;gap:10px">
+      <button class="btn btn-ghost" onclick="toast('PDF download would start in the live system')">${icon('download', 16)} Download PDF</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Close</button>
+    </div>
+  `);
+}
+
+function vCompany() {
+  return `
+  <div class="grid-2 rise">
+    <div class="panel">
+      <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-teal)">${icon('building', 17)}</span> Company profile</h2><span class="spacer"></span><button class="btn btn-ghost btn-sm" onclick="toast('Profile editing enabled in the live system')">${icon('edit', 14)} Edit</button></div>
+      ${[['Company', 'Nile Technologies'], ['Industry', 'Professional Services'], ['Primary contact', 'Priya T. — HR Manager'], ['Email', 'hr@niletech.example'], ['Phone', '+1 (868) 555-0192'], ['Location', 'Port of Spain'], ['Member since', 'June 2026']].map(r => `
+        <div class="row" style="justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line-2)"><span class="muted small">${r[0]}</span><b class="small">${r[1]}</b></div>`).join('')}
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-indigo)">${icon('fileCheck', 17)}</span> Service agreement</h2></div>
+      <div class="agree-doc">
+        <span class="a-mono">Service Agreement &middot; SA-2026-096</span>
+        <h3>Placement Services — Professional Schedule</h3>
+        <div class="rate-box">
+          <div class="rate r-local"><b>15%</b><span>Local placements</span></div>
+          <div class="rate r-intl"><b>20%</b><span>International placements</span></div>
+        </div>
+        <ul>
+          <li>No registration, subscription or job-posting fees apply.</li>
+          <li>Fees become payable only upon a confirmed hire.</li>
+          <li>Candidate contact details remain confidential until hire.</li>
+        </ul>
+        <div class="strip green">${icon('checkCircle', 18)}<div><b>Signed electronically by Priya T. &middot; June 14, 2026</b></div></div>
+      </div>
+      <div class="row mt-16" style="gap:10px">
+        <button class="btn btn-navy btn-sm" onclick="viewAgreement('Corporate / Professional', true)">${icon('fileText', 14)} View full agreement</button>
+        <button class="btn btn-ghost btn-sm" onclick="toast('PDF download would start in the live system')">${icon('download', 15)} Download signed copy</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ================= shell ================= */
+const VIEWS = { dash: vDash, new: vNew, requests: vRequests, reviews: vReviews, invoices: vInvoices, company: vCompany };
+function go(v) { S.view = v; render(); window.scrollTo({ top: 0 }); }
+function render() {
+  document.getElementById('app-root').innerHTML = `
+  <div class="portal">
+    <aside class="side">
+      <div class="side-brand">
+        <span class="logo-chip"><img src="cch-logo.jpeg" alt="Cheetahs Career Hub crest logo"></span>
+        <div><b>Cheetahs Career Hub</b><span>Employer Portal</span></div>
+      </div>
+      <div class="side-label">Hiring</div>
+      ${NAV.map(n => `<button class="snav ${S.view === n[0] ? 'on' : ''}" onclick="go('${n[0]}')">${icon(n[1], 19)}${n[2]}${n[3] && !S.shortlistSubmitted ? '<span class="badge">' + n[3] + '</span>' : ''}</button>`).join('')}
+      <div class="side-user">
+        <span class="avatar a-teal">PT</span>
+        <div><b>Priya T.</b><span>Nile Technologies</span></div>
+        <button class="lo" onclick="logout()" title="Sign out">${icon('logout', 17)}</button>
+      </div>
+    </aside>
+    <main class="main"><div class="main-inner">
+      <div class="page-hero" style="background:var(--g-employer)">
+        <div><h1>${HERO[S.view][0]}</h1><div class="sub">${HERO[S.view][1]}</div></div>
+        <div class="spacer"></div>
+        <div class="hero-actions"><button class="iconbtn" onclick="notifs()">${icon('bell', 19)}<span class="dot"></span></button></div>
+      </div>
+      <div id="view">${VIEWS[S.view]()}</div>
+    </div></main>
+  </div>`;
+}
+function notifs() {
+  openModal(`
+    <div class="modal-head"><h3>Notifications</h3><button class="mclose" onclick="closeModal()">${icon('x', 20)}</button></div>
+    <div class="note-item"><span class="n-dot" style="background:var(--indigo)"></span><div><b>4 candidate profiles shared</b> for JR-1007 — Sales Agents<br><span class="n-when">Aug 13, 9:02 AM</span></div></div>
+    <div class="note-item"><span class="n-dot" style="background:var(--teal)"></span><div>JR-1004 — Administrative Assistant moved to <b>In Vetting</b><br><span class="n-when">Aug 11, 2:40 PM</span></div></div>
+    <div class="note-item"><span class="n-dot" style="background:var(--sun-2)"></span><div>Invoice INV-2026-051 issued — <b>$780.00</b> due Aug 25<br><span class="n-when">Aug 4, 10:15 AM</span></div></div>
+  `);
+}
+renderAuth();
+</script>
+</body>
+</html>

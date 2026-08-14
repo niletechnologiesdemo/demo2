@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Candidate Portal — Cheetahs Career Hub</title>
+<link rel="icon" type="image/jpeg" href="cch-logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cch.css">
+<style>
+  .job-card { background: #fff; border-radius: var(--r); box-shadow: var(--sh-sm); padding: 24px 26px; margin-bottom: 18px; transition: transform .14s ease, box-shadow .14s ease; }
+  .job-card:hover { transform: translateY(-3px); box-shadow: var(--sh); }
+  .job-top { display: flex; gap: 16px; align-items: flex-start; }
+  .job-ic { width: 52px; height: 52px; border-radius: 15px; display: inline-flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+  .job-title { font-family: var(--font-head); font-weight: 700; font-size: 16.5px; }
+  .job-meta { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 10px; font-size: 13px; color: var(--ink-soft); }
+  .job-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .prog-pick { border: 2.5px solid var(--line); border-radius: var(--r); padding: 18px 20px; cursor: pointer; background: #fff; transition: all .14s; display: flex; gap: 16px; align-items: center; margin-bottom: 13px; }
+  .prog-pick:hover { border-color: var(--sun); transform: translateY(-2px); }
+  .prog-pick.on { border-color: var(--sun-2); background: var(--sun-soft); box-shadow: 0 0 0 4px rgba(245,158,11,.15); }
+  .prog-pick .p-ic { width: 48px; height: 48px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+  .prog-pick b { display: block; font-size: 15px; }
+  .prog-pick span { font-size: 12.5px; color: var(--ink-soft); }
+  .prog-pick .fee { margin-left: auto; text-align: right; flex-shrink: 0; }
+  .prog-pick .fee b { font-family: var(--font-head); color: var(--sun-2); font-size: 19px; }
+  .cv-preview { border-radius: var(--r); background: #fff; padding: 32px 34px; font-size: 13px; box-shadow: var(--sh); }
+  .cv-preview h3 { font-size: 20px; }
+  .cv-preview .cv-line { height: 8px; background: #F0E9DC; border-radius: 5px; margin: 7px 0; }
+  .cv-preview .cv-sec { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--sun-2); font-weight: 800; margin-top: 20px; border-bottom: 2px solid var(--sun-soft); padding-bottom: 4px; }
+  .skill-chip { display: inline-block; background: var(--gold-soft); color: var(--gold-text); font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 999px; margin: 0 6px 8px 0; }
+  .doc-row { display: flex; align-items: center; gap: 14px; padding: 15px 17px; background: var(--bg); border-radius: 14px; margin-bottom: 12px; font-size: 13.5px; }
+  .doc-row .d-ic { width: 42px; height: 42px; border-radius: 12px; background: #fff; color: var(--sun-2); display: inline-flex; align-items: center; justify-content: center; box-shadow: var(--sh-sm); }
+  .res-card { background: #fff; border-radius: var(--r); box-shadow: var(--sh-sm); overflow: hidden; transition: transform .14s ease, box-shadow .14s ease; display: flex; flex-direction: column; }
+  .res-card:hover { transform: translateY(-4px); box-shadow: var(--sh); }
+  .res-band { height: 74px; display: flex; align-items: center; padding: 0 22px; color: #fff; gap: 12px; }
+  .res-band .ic { opacity: .95; }
+  .res-body { padding: 18px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+  .res-body h4 { font-size: 15px; margin-bottom: 6px; }
+  .res-body p { font-size: 13px; color: var(--ink-soft); flex: 1; }
+  .task-row { display: flex; align-items: center; gap: 14px; padding: 13px 16px; border-radius: 14px; background: var(--bg); margin-bottom: 10px; font-size: 14px; font-weight: 600; }
+  .task-row.done { opacity: .55; text-decoration: line-through; }
+  .task-row .t-ic { width: 30px; height: 30px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="demo-ribbon">Candidate Portal demo &mdash; sample data &middot; <a href="index.html">back to site</a></div>
+
+<!-- ==================== AUTH / REGISTRATION ==================== -->
+<div id="auth-root"></div>
+<!-- ==================== APP ==================== -->
+<div id="app-root" style="display:none"></div>
+
+<div class="modal-bg" id="modal-bg"><div class="modal" id="modal-box"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="cch-icons.js"></script>
+<script src="cch-ads.js"></script>
+<script>
+/* ================= data ================= */
+const PROGRAMS = [
+  { key: 'local', tint: 'pt-local', icon: 'home', name: 'Local Employment', blurb: 'Roles with employers across the island', fee: 25 },
+  { key: 'canada', tint: 'pt-canada', icon: 'leaf', name: 'Canadian Program', blurb: 'Placements with Canadian employers', fee: 150 },
+  { key: 'care', tint: 'pt-care', icon: 'heartPulse', name: 'Caregiving Program', blurb: 'Families & care facilities, home and abroad', fee: 75 },
+  { key: 'health', tint: 'pt-health', icon: 'plus', name: 'Healthcare Staffing', blurb: 'Hospital & clinical staffing', fee: 50 },
+  { key: 'cruise', tint: 'pt-cruise', icon: 'ship', name: 'Cruise Ship Employment', blurb: 'International cruise line roles', fee: 100 }
+];
+const S = {
+  authed: false, authTab: 'in', reg: { step: 0, prog: null }, view: 'dash',
+  jobs: [
+    { id: 'j1', tint: 'pt-local', icon: 'briefcase', title: 'Sales Executive', comp: 'Posted by Cheetahs Career Hub', prog: 'Local Employment', loc: 'Port of Spain', sal: '$36,000 – $48,000 / yr', type: 'Full-time', applied: true },
+    { id: 'j2', tint: 'pt-local', icon: 'utensils', title: 'Restaurant Supervisor', comp: 'Posted by Cheetahs Career Hub', prog: 'Local Employment', loc: 'Scarborough', sal: '$28,000 / yr', type: 'Full-time', applied: false },
+    { id: 'j3', tint: 'pt-cruise', icon: 'ship', title: 'Guest Services Attendant', comp: 'Posted by Cheetahs Career Hub', prog: 'Cruise Ship Employment', loc: 'Caribbean routes', sal: 'US$1,800 / mo + benefits', type: 'Contract (8 mo)', applied: false },
+    { id: 'j4', tint: 'pt-canada', icon: 'heartPulse', title: 'Live-in Caregiver', comp: 'Posted by Cheetahs Career Hub', prog: 'Canadian Program', loc: 'Toronto, Canada', sal: 'CA$3,200 / mo', type: 'Full-time', applied: false },
+    { id: 'j5', tint: 'pt-health', icon: 'plus', title: 'Registered Nurse', comp: 'Posted by Cheetahs Career Hub', prog: 'Healthcare Staffing', loc: 'San Fernando', sal: '$52,000 / yr', type: 'Full-time', applied: false },
+    { id: 'j6', tint: 'pt-cruise', icon: 'utensils', title: 'Galley Cook', comp: 'Posted by Cheetahs Career Hub', prog: 'Cruise Ship Employment', loc: 'Mediterranean routes', sal: 'US$2,100 / mo + benefits', type: 'Contract (6 mo)', applied: false }
+  ],
+  apps: [
+    { role: 'Sales Executive', id: 'APP-3321', date: 'Aug 09, 2026', status: 'Interview scheduled', chip: 'teal', iv: 'Sun, Aug 17 · 10:00 AM' },
+    { role: 'Office Administrator', id: 'APP-3298', date: 'Jul 22, 2026', status: 'Under review by Cheetahs', chip: 'sun', iv: null },
+    { role: 'Retail Team Lead', id: 'APP-3185', date: 'Jun 30, 2026', status: 'Not selected', chip: 'gray', iv: null }
+  ],
+  cvPaid: false,
+  jobFilter: 'All'
+};
+const NAV = [
+  ['dash', 'grid', 'Home'],
+  ['jobs', 'search', 'Browse Jobs'],
+  ['apps', 'listChecks', 'My Applications'],
+  ['profile', 'idCard', 'My Profile'],
+  ['cv', 'sparkles', 'CV Studio'],
+  ['resources', 'gradCap', 'Resources']
+];
+
+/* ================= helpers ================= */
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = icon('checkCircle', 18) + msg;
+  t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 3400);
+}
+function openModal(html, wide) {
+  const bg = document.getElementById('modal-bg'), box = document.getElementById('modal-box');
+  box.className = 'modal' + (wide ? ' wide' : ''); box.innerHTML = html; bg.classList.add('open');
+}
+function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+document.getElementById('modal-bg').addEventListener('click', e => { if (e.target.id === 'modal-bg') closeModal(); });
+
+/* ================= AUTH ================= */
+function renderAuth() {
+  const perks = [
+    ['userCheck', 'A real person in your corner', 'A placement officer calls you when a matching role lands.'],
+    ['lock', 'Your details stay private', 'Employers never see your contact info until you are hired.'],
+    ['sparkles', 'Career tools built in', 'Pro CVs, prep guides and courses — all inside your portal.']
+  ];
+  let card = '';
+  if (S.reg.step === 0) {
+    card = `
+    <div class="panel" style="margin:0">
+      <div class="auth-tabs">
+        <button class="${S.authTab === 'in' ? 'on' : ''}" onclick="S.authTab='in';renderAuth()">Sign In</button>
+        <button class="${S.authTab === 'up' ? 'on' : ''}" onclick="S.authTab='up';renderAuth()">Create Account</button>
+      </div>
+      ${S.authTab === 'in' ? `
+        <h3 style="font-size:20px;margin-bottom:6px">Welcome back</h3>
+        <p class="muted small" style="margin-bottom:24px">Sign in to track applications, openings and your profile.</p>
+        <div class="field"><label>Email</label><input value="alicia.t@example.com"></div>
+        <div class="field"><label>Password</label><input type="password" value="password123"></div>
+        <button class="btn btn-primary btn-lg" style="width:100%" onclick="login()">${icon('logout', 17)} Sign in</button>
+        <p class="hint" style="text-align:center;margin-top:14px">Demo account: Alicia Thomas &middot; Local Employment Program</p>
+      ` : `
+        <h3 style="font-size:20px;margin-bottom:6px">Join Cheetahs Career Hub</h3>
+        <p class="muted small" style="margin-bottom:24px">Four quick steps: pick a program, tell us about you, add your experience, and pay your one-time registration fee.</p>
+        <div class="task-row">${step_ic(1)}<span>Choose your program</span></div>
+        <div class="task-row">${step_ic(2)}<span>Your personal details</span></div>
+        <div class="task-row">${step_ic(3)}<span>Experience &amp; CV</span></div>
+        <div class="task-row">${step_ic(4)}<span>Registration fee &amp; done</span></div>
+        <button class="btn btn-primary btn-lg mt-16" style="width:100%" onclick="S.reg.step=1;renderAuth()">Start registration ${icon('arrowRight', 17)}</button>
+      `}
+    </div>`;
+  } else {
+    card = renderRegWizard();
+  }
+  document.getElementById('auth-root').innerHTML = `
+  <div class="auth">
+    <div class="auth-brand" style="background:var(--g-candidate)">
+      <svg class="spots" width="100%" height="100%"><defs><pattern id="spA" width="95" height="95" patternUnits="userSpaceOnUse"><ellipse cx="22" cy="26" rx="12" ry="9" fill="#fff"/><ellipse cx="70" cy="70" rx="8.5" ry="7" fill="#fff"/></pattern></defs><rect width="100%" height="100%" fill="url(#spA)"/></svg>
+      <div class="row" style="position:relative">
+        <span class="logo-chip" style="width:54px;height:54px"><img src="cch-logo.jpeg" alt="Cheetahs Career Hub crest logo"></span>
+        <div><b style="font-family:var(--font-head);font-size:16px">Cheetahs Career Hub</b><br><span style="font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#F6C64B">Candidate Portal</span></div>
+      </div>
+      <h1>Your next job is<br>already looking for you.</h1>
+      <p class="lead">Register once and our placement team matches, champions and prepares you for roles at home and abroad.</p>
+      ${perks.map(p => `<div class="auth-perk"><span class="pk-ic">${icon(p[0], 20)}</span><div><b>${p[1]}</b><span>${p[2]}</span></div></div>`).join('')}
+    </div>
+    <div class="auth-pane"><div class="auth-card rise">${card}</div></div>
+  </div>`;
+}
+function step_ic(n) {
+  return '<span class="t-ic" style="background:var(--rose-soft);color:var(--rose);font-weight:800;font-size:13px;font-family:var(--font-head)">' + n + '</span>';
+}
+function renderRegWizard() {
+  const st = S.reg.step;
+  const steps = ['Program', 'About you', 'Experience', 'Payment'];
+  const stepsHtml = `<div class="wsteps" style="margin-bottom:26px">${steps.map((s, i) => {
+    const n = i + 1;
+    return `<div class="wstep ${n < st ? 'done' : n === st ? 'on' : ''}"><span class="wnum">${n < st ? icon('check', 15) : n}</span><span>${s}</span></div>` + (n < 4 ? `<span class="wsep ${n < st ? 'done' : ''}"></span>` : '');
+  }).join('')}</div>`;
+  let body = '';
+  if (st === 1) {
+    body = `
+      <h3 style="font-size:19px;margin-bottom:4px">Which path is yours?</h3>
+      <p class="muted small" style="margin-bottom:20px">Each program has a one-time registration fee — no monthly charges, ever.</p>
+      ${PROGRAMS.map((p, i) => `
+        <div class="prog-pick ${S.reg.prog === i ? 'on' : ''}" onclick="S.reg.prog=${i};renderAuth()">
+          <span class="p-ic ${p.tint}">${icon(p.icon, 22)}</span>
+          <div><b>${p.name}</b><span>${p.blurb}</span></div>
+          <div class="fee"><b>$${p.fee}</b><span class="muted" style="font-size:11px;display:block">one-time</span></div>
+        </div>`).join('')}
+      <div class="row mt-16" style="justify-content:space-between">
+        <button class="btn btn-ghost" onclick="S.reg.step=0;renderAuth()">${icon('arrowLeft', 16)} Back</button>
+        <button class="btn btn-primary" ${S.reg.prog !== null ? '' : 'disabled'} onclick="S.reg.step=2;renderAuth()">Continue ${icon('arrowRight', 16)}</button>
+      </div>`;
+  } else if (st === 2) {
+    body = `
+      <h3 style="font-size:19px;margin-bottom:20px">Tell us about yourself</h3>
+      <div class="form-grid">
+        <div class="field"><label>First name</label><input placeholder="e.g. Jordan"></div>
+        <div class="field"><label>Last name</label><input placeholder="e.g. Baptiste"></div>
+        <div class="field"><label>Email</label><input placeholder="you@example.com"></div>
+        <div class="field"><label>Phone</label><input placeholder="+1 (___) ___-____"></div>
+        <div class="field"><label>Date of birth</label><input placeholder="DD / MM / YYYY"></div>
+        <div class="field"><label>Location</label><input placeholder="City, island"></div>
+        <div class="field full"><label>Create a password</label><input type="password" placeholder="At least 8 characters"></div>
+      </div>
+      <div class="row" style="justify-content:space-between">
+        <button class="btn btn-ghost" onclick="S.reg.step=1;renderAuth()">${icon('arrowLeft', 16)} Back</button>
+        <button class="btn btn-primary" onclick="S.reg.step=3;renderAuth()">Continue ${icon('arrowRight', 16)}</button>
+      </div>`;
+  } else if (st === 3) {
+    body = `
+      <h3 style="font-size:19px;margin-bottom:20px">Your experience</h3>
+      <div class="form-grid">
+        <div class="field"><label>Profession</label><input placeholder="e.g. Chef, Nurse, Sales"></div>
+        <div class="field"><label>Years of experience</label><select><option>0–2 years</option><option>3–5 years</option><option>6–10 years</option><option>10+ years</option></select></div>
+        <div class="field full"><label>Key skills (comma separated)</label><input placeholder="e.g. customer service, food safety, POS systems"></div>
+        <div class="field full"><label>Upload your CV <span style="color:var(--ink-faint);font-weight:500">(optional — build one later in CV Studio)</span></label><input type="file"></div>
+      </div>
+      <div class="row" style="justify-content:space-between">
+        <button class="btn btn-ghost" onclick="S.reg.step=2;renderAuth()">${icon('arrowLeft', 16)} Back</button>
+        <button class="btn btn-primary" onclick="S.reg.step=4;renderAuth()">Continue to payment ${icon('arrowRight', 16)}</button>
+      </div>`;
+  } else if (st === 4) {
+    const p = PROGRAMS[S.reg.prog];
+    body = `
+      <h3 style="font-size:19px;margin-bottom:20px">Registration fee</h3>
+      <div class="row" style="justify-content:space-between;background:var(--bg);border-radius:16px;padding:18px 22px;margin-bottom:22px">
+        <div class="row"><span class="p-ic ${p.tint}" style="width:44px;height:44px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;color:#fff">${icon(p.icon, 20)}</span>
+        <div><b>${p.name}</b><br><span class="muted small">One-time registration &middot; lifetime membership</span></div></div>
+        <b style="font-family:var(--font-head);font-size:24px;color:var(--sun-2)">$${p.fee}</b>
+      </div>
+      <div class="form-grid">
+        <div class="field full"><label>Card number</label><input placeholder="4242 4242 4242 4242"></div>
+        <div class="field"><label>Expiry</label><input placeholder="MM / YY"></div>
+        <div class="field"><label>CVC</label><input placeholder="123"></div>
+      </div>
+      <button class="btn btn-primary btn-lg" style="width:100%" onclick="S.reg.step=5;renderAuth()">${icon('lock', 16)} Pay $${p.fee} securely</button>
+      <p class="hint" style="text-align:center;margin-top:12px">Demo checkout — no real payment is processed.</p>
+      <div class="row mt-8" style="justify-content:center"><button class="btn btn-ghost btn-sm" onclick="S.reg.step=3;renderAuth()">${icon('arrowLeft', 15)} Back</button></div>`;
+  } else {
+    const p = PROGRAMS[S.reg.prog];
+    return `
+    <div class="panel" style="margin:0;text-align:center;padding:46px 40px">
+      <span style="display:inline-flex;width:78px;height:78px;border-radius:999px;background:var(--g-green);color:#fff;align-items:center;justify-content:center;margin-bottom:20px;box-shadow:0 12px 30px rgba(21,128,61,.35)">${icon('check', 36)}</span>
+      <h3 style="font-size:22px;margin-bottom:10px">You're in!</h3>
+      <p class="muted" style="max-width:380px;margin:0 auto 8px">Welcome to the <b>${p.name}</b>. Your receipt is in your inbox, and a placement officer will review your profile within 2 business days.</p>
+      <p class="hint" style="margin-bottom:24px">For this demo, you'll continue in the sample account of Alicia Thomas.</p>
+      <button class="btn btn-primary btn-lg" style="width:100%" onclick="login()">Enter my dashboard ${icon('arrowRight', 17)}</button>
+    </div>`;
+  }
+  return `<div class="panel" style="margin:0">${stepsHtml}${body}</div>`;
+}
+function login() {
+  S.authed = true;
+  document.getElementById('auth-root').style.display = 'none';
+  document.getElementById('app-root').style.display = '';
+  render();
+  toast('Signed in — welcome back, Alicia');
+}
+function logout() {
+  S.authed = false; S.reg = { step: 0, prog: null }; S.authTab = 'in';
+  document.getElementById('app-root').style.display = 'none';
+  document.getElementById('auth-root').style.display = '';
+  renderAuth(); window.scrollTo({ top: 0 });
+}
+
+/* ================= APP views ================= */
+function vDash() {
+  return `
+  <div class="stats rise">
+    <div class="stat"><span class="s-ic g-sun">${icon('idCard', 20)}</span><b>85%</b><span>Profile completeness</span></div>
+    <div class="stat"><span class="s-ic g-indigo">${icon('listChecks', 20)}</span><b>2</b><span>Active applications</span></div>
+    <div class="stat"><span class="s-ic g-teal">${icon('eye', 20)}</span><b>5</b><span>Profile views by our team</span></div>
+    <div class="stat"><span class="s-ic g-rose">${icon('star', 20)}</span><b>1</b><span>Shortlist you're on</span></div>
+  </div>
+  <div class="panel rise" style="border-left:6px solid var(--teal)">
+    <div class="row" style="justify-content:space-between">
+      <div class="row">
+        <span class="s-ic g-teal" style="width:48px;height:48px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;color:#fff">${icon('calendar', 22)}</span>
+        <div>
+          <b style="font-size:16px">Interview confirmed — Sales Executive</b><br>
+          <span class="muted small"><b>Sunday, Aug 17 at 10:00 AM</b> · the employer's office, Port of Spain. Your placement officer will call you the day before to help you prepare.</span>
+        </div>
+      </div>
+      <button class="btn btn-teal" onclick="go('apps')">View details ${icon('arrowRight', 16)}</button>
+    </div>
+  </div>
+  <div class="grid-31">
+    <div>
+      <div class="panel rise">
+        <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-sun)">${icon('zap', 17)}</span> Your next steps</h2></div>
+        <div class="task-row done"><span class="t-ic" style="background:var(--green-soft);color:var(--green)">${icon('check', 16)}</span><span>Register &amp; pay your program fee</span></div>
+        <div class="task-row done"><span class="t-ic" style="background:var(--green-soft);color:var(--green)">${icon('check', 16)}</span><span>Add your work history</span></div>
+        <div class="task-row"><span class="t-ic" style="background:var(--sun-soft);color:var(--sun-2)">${icon('upload', 15)}</span><span>Add two references — this completes your profile</span><button class="btn btn-soft btn-sm" style="margin-left:auto" onclick="go('profile')">Do it</button></div>
+        <div class="task-row"><span class="t-ic" style="background:var(--sun-soft);color:var(--sun-2)">${icon('sparkles', 15)}</span><span>Polish your CV in CV Studio</span><button class="btn btn-soft btn-sm" style="margin-left:auto" onclick="go('cv')">Open</button></div>
+      </div>
+      <div class="panel rise">
+        <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-teal)">${icon('search', 17)}</span> Picked for you</h2><span class="spacer"></span><button class="btn btn-ghost btn-sm" onclick="go('jobs')">All openings</button></div>
+        ${S.jobs.slice(1, 3).map(j => jobRow(j)).join('')}
+      </div>
+    </div>
+    <div>
+      <div class="panel rise" style="background:var(--g-admin);color:#EFDCBB;position:relative;overflow:hidden">
+        <div style="position:absolute;right:-40px;top:-50px;width:170px;height:170px;border-radius:999px;background:rgba(255,255,255,.07)"></div>
+        <div class="panel-head" style="margin-bottom:10px"><h2 style="color:#fff">${icon('sparkles', 19)} CV Studio</h2></div>
+        <p class="small" style="position:relative">A professionally formatted CV, generated from your profile in minutes. It's also what we share when you're shortlisted.</p>
+        <div class="row mt-16" style="justify-content:space-between;position:relative">
+          <b style="font-family:var(--font-head);font-size:24px;color:#FBBF24">$5</b>
+          <button class="btn btn-primary btn-sm" onclick="go('cv')">Open CV Studio</button>
+        </div>
+      </div>
+      ${adUnit('careerboost')}
+      ${adUnit('toolkit')}
+    </div>
+  </div>`;
+}
+
+function jobRow(j) {
+  return `
+  <div class="job-card" style="box-shadow:none;border:2px solid var(--line-2);padding:18px 20px;margin-bottom:12px">
+    <div class="job-top">
+      <span class="job-ic ${j.tint}">${icon(j.icon, 22)}</span>
+      <div style="flex:1;min-width:0">
+        <div class="row" style="justify-content:space-between">
+          <span class="job-title">${j.title}</span>
+          <button class="btn btn-sm ${j.applied ? 'btn-green' : 'btn-primary'}" ${j.applied ? 'disabled' : ''} onclick="applyJob('${j.id}')">${j.applied ? icon('check', 15) + ' Applied' : 'Apply now'}</button>
+        </div>
+        <span class="chip sun" style="margin-top:4px">${j.prog}</span>
+        <div class="job-meta">
+          <span>${icon('mapPin', 14)} ${j.loc}</span>
+          <span>${icon('dollar', 14)} ${j.sal}</span>
+          <span>${icon('clock', 14)} ${j.type}</span>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function vJobs() {
+  const progs = ['All'].concat(PROGRAMS.map(p => p.name));
+  const list = S.jobs.filter(j => S.jobFilter === 'All' || j.prog === S.jobFilter);
+  let feed = '';
+  list.forEach((j, i) => {
+    feed += jobFull(j);
+    if (i === 1) feed += adUnit('skypath');
+  });
+  if (!list.length) feed = '<div class="empty">' + icon('search', 36) + '<p>No openings in this program right now — our team will call you the moment one lands.</p></div>';
+  return `
+  <div class="tabs rise">${progs.map(p => `<button class="tab ${S.jobFilter === p ? 'on' : ''}" onclick="S.jobFilter='${p}';render()">${p}</button>`).join('')}</div>
+  <div class="grid-31 rise">
+    <div>${feed}</div>
+    <div>
+      <div class="panel">
+        <div class="panel-head" style="margin-bottom:12px"><h3><span class="h-ic" style="background:var(--g-teal)">${icon('info', 16)}</span> How applying works</h3></div>
+        <p class="small muted">These openings are posted directly by the Cheetahs team. Applying adds you to the vetting pool — a placement officer personally reviews every application before anything reaches an employer, and your contact details always stay private.</p>
+      </div>
+      ${adUnit('careerboost')}
+    </div>
+  </div>`;
+}
+function jobFull(j) {
+  return `
+  <div class="job-card">
+    <div class="job-top">
+      <span class="job-ic ${j.tint}">${icon(j.icon, 23)}</span>
+      <div style="flex:1;min-width:0">
+        <div class="row" style="justify-content:space-between">
+          <div><span class="job-title">${j.title}</span><br><span class="muted small">${j.comp}</span></div>
+          <button class="btn ${j.applied ? 'btn-green' : 'btn-primary'}" ${j.applied ? 'disabled' : ''} onclick="applyJob('${j.id}')">${j.applied ? icon('check', 16) + ' Applied' : 'Apply now'}</button>
+        </div>
+        <span class="chip sun" style="margin-top:6px">${j.prog}</span>
+        <div class="job-meta">
+          <span>${icon('mapPin', 15)} ${j.loc}</span>
+          <span>${icon('dollar', 15)} ${j.sal}</span>
+          <span>${icon('clock', 15)} ${j.type}</span>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function applyJob(id) {
+  const j = S.jobs.find(x => x.id === id);
+  j.applied = true;
+  S.apps.unshift({ role: j.title, id: 'APP-33' + Math.floor(Math.random() * 90 + 10), date: 'Aug 13, 2026', status: 'Application received', chip: 'sky' });
+  render();
+  toast('Application sent — a placement officer will review your profile for this role');
+}
+
+function vApps() {
+  return `
+  <div class="panel rise">
+    <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-indigo)">${icon('listChecks', 17)}</span> Application history</h2></div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>Role</th><th>Reference</th><th>Applied</th><th>Selection status</th><th>Interview</th></tr></thead>
+      <tbody>${S.apps.map(a => `
+        <tr><td><b>${a.role}</b></td><td class="muted">${a.id}</td><td class="muted">${a.date}</td><td><span class="chip ${a.chip}">${a.status}</span></td>
+        <td>${a.iv ? '<b class="small">' + a.iv + '</b><br><span class="muted" style="font-size:11.5px">Details sent by email & SMS</span>' : '<span class="muted">—</span>'}</td></tr>`).join('')}
+      </tbody></table></div>
+    <div class="strip sky mt-16">${icon('lock', 18)}<div><b>Your privacy is protected.</b><p>Employers never see your contact details. Cheetahs shares your vetted profile and manages every step until you're hired.</p></div></div>
+  </div>`;
+}
+
+function vProfile() {
+  return `
+  <div class="grid-2 rise">
+    <div>
+      <div class="panel">
+        <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-sun)">${icon('user', 17)}</span> Personal details</h2><span class="spacer"></span><button class="btn btn-ghost btn-sm" onclick="toast('Editing enabled in the live system')">${icon('edit', 14)} Edit</button></div>
+        ${[['Full name', 'Alicia Thomas'], ['Program', 'Local Employment'], ['Profession', 'Sales & Business Development'], ['Experience', '7 years'], ['Location', 'Port of Spain'], ['Phone', '+1 (868) 555-0117'], ['Email', 'alicia.t@example.com'], ['Availability', '2 weeks notice']].map(r => `
+          <div class="row" style="justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line-2)"><span class="muted small">${r[0]}</span><b class="small">${r[1]}</b></div>`).join('')}
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-rose)">${icon('zap', 17)}</span> Skills</h2></div>
+        ${['B2B Sales', 'Team Leadership', 'CRM Systems', 'Negotiation', 'Client Retention', 'Cold Outreach', 'Presentations'].map(s => '<span class="skill-chip">' + s + '</span>').join('')}
+      </div>
+    </div>
+    <div>
+      <div class="panel">
+        <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-teal)">${icon('briefcase', 17)}</span> Work history</h2><span class="spacer"></span><button class="btn btn-ghost btn-sm" onclick="toast('Add-experience form opens in the live system')">${icon('plus', 14)} Add</button></div>
+        ${[['Senior Sales Executive', 'Island Telecom Ltd.', '2021 – present', 'Exceeded quota 3 years running; led a team of 4.'],
+           ['Sales Representative', 'CariMart Distribution', '2019 – 2021', 'Grew territory revenue 40% in two years.'],
+           ['Retail Associate', 'Sunview Retail Group', '2017 – 2019', 'Top-rated associate for customer satisfaction.']].map(w => `
+          <div style="padding:13px 0;border-bottom:1px solid var(--line-2)">
+            <div class="row" style="justify-content:space-between"><b>${w[0]}</b><span class="chip gray">${w[2]}</span></div>
+            <span class="muted small">${w[1]}</span>
+            <p class="small muted" style="margin-top:4px">${w[3]}</p>
+          </div>`).join('')}
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-indigo)">${icon('fileText', 17)}</span> Documents</h2><span class="spacer"></span><button class="btn btn-ghost btn-sm" onclick="toast('Upload dialog opens in the live system')">${icon('upload', 14)} Upload</button></div>
+        <div class="doc-row"><span class="d-ic">${icon('fileText', 18)}</span><div><b>Alicia-Thomas-CV.pdf</b><br><span class="muted small">Uploaded Jul 02, 2026</span></div><span class="chip green" style="margin-left:auto">Verified</span></div>
+        <div class="doc-row"><span class="d-ic">${icon('fileText', 18)}</span><div><b>Reference-IslandTelecom.pdf</b><br><span class="muted small">Uploaded Jul 02, 2026</span></div><span class="chip green" style="margin-left:auto">Verified</span></div>
+        <div class="doc-row" style="border:2px dashed var(--line);background:#fff"><span class="d-ic" style="color:var(--ink-faint)">${icon('plus', 18)}</span><div><b class="muted">Two more references needed</b><br><span class="muted small">Completes your profile to 100%</span></div></div>
+        <div class="progressbar mt-16"><i style="width:85%"></i></div>
+        <p class="hint" style="margin-top:8px">85% complete — complete profiles get matched first.</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+function vCV() {
+  return `
+  <div class="grid-2 rise">
+    <div class="panel">
+      <div class="panel-head"><h2><span class="h-ic" style="background:var(--g-sun)">${icon('sparkles', 17)}</span> Generate your professional CV</h2></div>
+      <p class="small muted">CV Studio takes your Cheetahs profile — roles, skills, highlights — and turns it into a recruiter-approved CV. One-time fee per document.</p>
+      <div class="field mt-24"><label>Template</label><select><option>Classic Professional</option><option>Modern Two-Column</option><option>Executive</option></select></div>
+      <div class="field"><label>Target role (tailors the wording)</label><input value="Sales Executive"></div>
+      <div class="field"><label>Package</label><select><option>CV only — $5</option><option>CV + Cover Letter — $8</option></select></div>
+      ${S.cvPaid
+        ? `<div class="row"><button class="btn btn-green" onclick="toast('Download would start in the live system')">${icon('download', 16)} Download CV (PDF)</button><button class="btn btn-ghost" onclick="S.cvPaid=false;render()">${icon('refresh', 16)} Generate again</button></div>`
+        : `<button class="btn btn-primary btn-lg" style="width:100%" onclick="cvPay()">${icon('creditCard', 17)} Pay $5 &amp; generate</button>`}
+      <div class="strip sun mt-16">${icon('info', 18)}<div><p>Your placement officer shares this enhanced CV (contact details masked) whenever you're shortlisted for an employer.</p></div></div>
+    </div>
+    <div>
+      <div class="cv-preview">
+        <h3>Alicia Thomas</h3>
+        <span class="muted small">Sales &amp; Business Development · Port of Spain</span>
+        <div class="cv-sec">Profile</div>
+        <div class="cv-line" style="width:100%"></div><div class="cv-line" style="width:92%"></div><div class="cv-line" style="width:65%"></div>
+        <div class="cv-sec">Experience</div>
+        <b class="small">Senior Sales Executive — Island Telecom Ltd.</b>
+        <div class="cv-line" style="width:96%"></div><div class="cv-line" style="width:88%"></div>
+        <b class="small">Sales Representative — CariMart Distribution</b>
+        <div class="cv-line" style="width:90%"></div><div class="cv-line" style="width:70%"></div>
+        <div class="cv-sec">Skills</div>
+        <div class="cv-line" style="width:80%"></div>
+        ${S.cvPaid ? '' : `<div style="text-align:center;margin-top:20px"><span class="chip sun">${icon('lock', 12)} Full preview unlocks after payment</span></div>`}
+      </div>
+    </div>
+  </div>`;
+}
+function cvPay() {
+  openModal(`
+    <div class="modal-head"><h3>${icon('creditCard', 21)} Checkout — CV Studio</h3><button class="mclose" onclick="closeModal()">${icon('x', 20)}</button></div>
+    <div class="row" style="justify-content:space-between;background:var(--bg);border-radius:14px;padding:15px 20px"><span>Professional CV — Classic template</span><b style="font-family:var(--font-head);font-size:18px">$5.00</b></div>
+    <div class="form-grid mt-24">
+      <div class="field full"><label>Card number</label><input placeholder="4242 4242 4242 4242"></div>
+      <div class="field"><label>Expiry</label><input placeholder="MM / YY"></div>
+      <div class="field"><label>CVC</label><input placeholder="123"></div>
+    </div>
+    <button class="btn btn-primary btn-lg" style="width:100%" onclick="S.cvPaid=true;closeModal();render();toast('Payment received — your CV is ready to download')">${icon('lock', 16)} Pay $5.00 securely</button>
+    <p class="hint" style="text-align:center;margin-top:12px">Demo checkout — no real payment is processed.</p>
+  `);
+}
+
+function vResources() {
+  const res = [
+    ['var(--g-sky)', 'ship', 'Guide', 'Cruise Interview Prep Guide', 'What cruise lines really ask, and the STAR answers that land contracts.', true],
+    ['var(--g-teal)', 'fileCheck', 'Checklist', 'Canadian Work Permit Checklist', 'Every document you need before your Canadian Program interview.', false],
+    ['var(--g-rose)', 'message', 'Video', 'Nail Your First Interview', 'A 12-minute masterclass from our senior placement officers.', false],
+    ['var(--g-indigo)', 'gradCap', 'Course', 'Customer Service Essentials', 'A certificate course our hospitality employers love to see.', false]
+  ];
+  return `
+  <div class="strip sun rise" style="margin-bottom:22px">${icon('sparkles', 18)}<div><b>Hand-picked for you by your placement officer.</b><p>These resources match your program and the roles you're applying for.</p></div></div>
+  <div class="grid-2 rise" style="grid-template-columns:repeat(auto-fit,minmax(270px,1fr))">
+    ${res.map(r => `
+      <div class="res-card">
+        <div class="res-band" style="background:${r[0]}">${icon(r[1], 26)}<span class="chip glass">${r[2]}</span>${r[5] ? '<span class="chip glass" style="margin-left:auto">' + icon('star', 11) + ' Suggested for you</span>' : ''}</div>
+        <div class="res-body">
+          <h4>${r[3]}</h4>
+          <p>${r[4]}</p>
+          <button class="btn btn-soft btn-sm mt-16" style="align-self:flex-start" onclick="toast('Resource opens in the live system')">Open resource ${icon('arrowRight', 14)}</button>
+        </div>
+      </div>`).join('')}
+  </div>
+  <div class="mt-24 rise">${adUnit('careerboost')}</div>`;
+}
+
+/* ================= shell ================= */
+const VIEWS = { dash: vDash, jobs: vJobs, apps: vApps, profile: vProfile, cv: vCV, resources: vResources };
+function go(v) { S.view = v; render(); window.scrollTo({ top: 0 }); }
+function render() {
+  document.getElementById('app-root').innerHTML = `
+  <div class="portal">
+    <aside class="side">
+      <div class="side-brand">
+        <span class="logo-chip"><img src="cch-logo.jpeg" alt="Cheetahs Career Hub crest logo"></span>
+        <div><b>Cheetahs Career Hub</b><span>Candidate Portal</span></div>
+      </div>
+      <div class="side-label">My Career</div>
+      ${NAV.map(n => `<button class="snav ${S.view === n[0] ? 'on' : ''}" onclick="go('${n[0]}')">${icon(n[1], 19)}${n[2]}</button>`).join('')}
+      <div class="side-user">
+        <span class="avatar a-rose">AT</span>
+        <div><b>Alicia Thomas</b><span>Local Employment</span></div>
+        <button class="lo" onclick="logout()" title="Sign out">${icon('logout', 17)}</button>
+      </div>
+    </aside>
+    <main class="main"><div class="main-inner">
+      <div class="page-hero" style="background:var(--g-candidate)">
+        <div>
+          <h1>${({ dash: 'Good afternoon, Alicia', jobs: 'Browse openings', apps: 'My applications', profile: 'My profile', cv: 'CV Studio', resources: 'Resources for you' })[S.view]}</h1>
+          <div class="sub">${({
+            dash: "Here's where your career stands today — one shortlist, two live applications.",
+            jobs: 'Openings posted by the Cheetahs team across all five programs.',
+            apps: 'Every application, tracked from received to placed.',
+            profile: 'Keep it fresh — this is what our placement officers vet you on.',
+            cv: 'A professionally written CV, generated from your profile in minutes.',
+            resources: 'Guides, courses and prep material picked by your placement officer.'
+          })[S.view]}</div>
+        </div>
+        <div class="spacer"></div>
+        <div class="hero-actions">
+          <button class="iconbtn" onclick="notifs()">${icon('bell', 19)}<span class="dot"></span></button>
+        </div>
+      </div>
+      <div id="view">${VIEWS[S.view]()}</div>
+    </div></main>
+  </div>`;
+}
+function notifs() {
+  openModal(`
+    <div class="modal-head"><h3>Notifications</h3><button class="mclose" onclick="closeModal()">${icon('x', 20)}</button></div>
+    <div class="note-item"><span class="n-dot" style="background:var(--teal)"></span><div><b>Interview confirmed</b> — Sales Executive, Sun Aug 17 at 10:00 AM. Good luck!<br><span class="n-when">Aug 13, 4:40 PM</span></div></div>
+    <div class="note-item"><span class="n-dot" style="background:var(--indigo)"></span><div><b>You've been shortlisted</b> — your profile was shared with an employer for Sales Executive<br><span class="n-when">Aug 13, 9:04 AM</span></div></div>
+    <div class="note-item"><span class="n-dot"></span><div>A placement officer viewed your profile<br><span class="n-when">Aug 12, 3:20 PM</span></div></div>
+    <div class="note-item"><span class="n-dot" style="background:var(--teal)"></span><div>New opening in your program: <b>Restaurant Supervisor</b><br><span class="n-when">Aug 10, 11:00 AM</span></div></div>
+  `);
+}
+renderAuth();
+</script>
+</body>
+</html>

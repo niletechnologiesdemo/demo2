@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "careerhub",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["/Users/aadityanilesiphone/Documents/GitHub/demo2/CareerHub/.claude/serve.js"],
+      "port": 8765
+    }
+  ]
+}
