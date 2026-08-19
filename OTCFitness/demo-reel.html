@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-GB" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>OTCF — demo reel</title>
+<link rel="stylesheet" href="otcf.css?v=3">
+<style>
+  html, body { margin:0; padding:0; overflow:hidden; background:#EDF2ED; }
+  #stage {
+    position:relative; width:100vw; height:100vh; overflow:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:
+      radial-gradient(1100px 800px at 50% -10%, #E2EFE4 0%, transparent 60%),
+      linear-gradient(180deg, #F4F8F4 0%, #E7EEE8 100%);
+  }
+  #stage::before {
+    content:''; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:min(78vw, 900px); height:min(78vw, 900px); border-radius:50%;
+    background: radial-gradient(circle, rgba(63,164,72,.13), transparent 68%); filter:blur(40px);
+  }
+  #brand {
+    position:absolute; display:flex; align-items:center; gap:14px; z-index:5;
+  }
+  #brand img { border-radius:8px; display:block; }
+  #brand .bt { font-family:-apple-system,system-ui,sans-serif; font-weight:800; letter-spacing:-.02em; color:#10331A; }
+  #brand .bs { font-family:-apple-system,system-ui,sans-serif; font-weight:600; color:#5C6A61; margin-top:2px; }
+
+  /* wrapper carries the SCALED size so flex layout stays honest —
+     a bare transform would keep the old box and overlap the caption */
+  #devwrap { position:relative; z-index:3; flex:none; }
+  #devwrap .phone { transform-origin: top left; box-shadow: 0 60px 120px -40px rgba(16,50,24,.45), 0 0 0 1px rgba(10,30,15,.06); }
+
+  #cap { position:absolute; z-index:6; text-align:center; width:100%; }
+  #cap .ct {
+    font-family:-apple-system,system-ui,sans-serif; font-weight:800; letter-spacing:-.03em; color:#0E1F13;
+  }
+  #cap .cs {
+    font-family:-apple-system,system-ui,sans-serif; font-weight:600; color:#4C5A51; margin-top:8px;
+  }
+
+  /* tap ripple */
+  #tap { position:absolute; z-index:20; pointer-events:none; left:0; top:0; }
+  #tap .dot {
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(47,138,56,.30); border:2px solid rgba(47,138,56,.85);
+  }
+  #tap .ring {
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    border-radius:50%; border:3px solid rgba(47,138,56,.75);
+  }
+
+  /* progress bar */
+  #prog { position:absolute; z-index:7; height:4px; border-radius:99px; background:rgba(16,50,24,.13); overflow:hidden; }
+  #prog i { display:block; height:100%; background:#2F8A38; border-radius:99px; }
+
+  /* layout: portrait 1080×1920 */
+  body.portrait #stage { padding:150px 0 130px; }
+  body.portrait #brand { top:54px; left:56px; }
+  body.portrait #brand img { height:52px; }
+  body.portrait #brand .bt { font-size:23px; }
+  body.portrait #brand .bs { font-size:15px; }
+  body.portrait #devwrap { width:709px; height:1490px; }          /* 412×866 @ 1.721 */
+  body.portrait #devwrap .phone { transform:scale(1.721); }
+  body.portrait #cap { position:static; margin-top:44px; }
+  body.portrait #cap .ct { font-size:46px; }
+  body.portrait #cap .cs { font-size:22px; }
+  body.portrait #prog { left:56px; right:56px; width:auto; bottom:48px; }
+
+  /* layout: landscape 1920×1080 */
+  body.landscape #stage { flex-direction:row; justify-content:center; align-items:center; gap:96px; padding:0 80px; }
+  body.landscape #brand { top:52px; left:64px; }
+  body.landscape #brand img { height:46px; }
+  body.landscape #brand .bt { font-size:20px; }
+  body.landscape #brand .bs { font-size:14px; }
+  body.landscape #devwrap { width:433px; height:910px; }          /* 412×866 @ 1.051 */
+  body.landscape #devwrap .phone { transform:scale(1.051); }
+  body.landscape #cap { position:static; width:560px; text-align:left; }
+  body.landscape #cap .ct { font-size:54px; line-height:1.08; }
+  body.landscape #cap .cs { font-size:24px; line-height:1.5; margin-top:18px; }
+  body.landscape #prog { left:64px; right:64px; width:auto; bottom:52px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="brand">
+    <img id="brandLogo" src="LogoWhite.jpeg" alt="Off That Couch Fitness">
+    <div><div class="bt">Off That Couch Fitness</div><div class="bs">Training app — product walkthrough</div></div>
+  </div>
+
+  <div id="devwrap">
+    <div class="phone"><div class="notch"></div><div class="phone-scr"></div></div>
+  </div>
+
+  <div id="cap"><div class="ct"></div><div class="cs"></div></div>
+
+  <div id="tap"><div class="ring"></div><div class="dot"></div></div>
+  <div id="prog"><i></i></div>
+</div>
+
+<script src="otcf-icons.js?v=3"></script>
+<script src="otcf-app.js?v=3"></script>
+<script>
+(function () {
+  const q = new URLSearchParams(location.search);
+  document.body.className = q.get('fmt') === 'landscape' ? 'landscape' : 'portrait';
+
+  const S   = window.OTCF_SCREENS;
+  const scr = document.querySelector('.phone-scr');
+  const capT = document.querySelector('#cap .ct');
+  const capS = document.querySelector('#cap .cs');
+  const tap  = document.getElementById('tap');
+  const dot  = tap.querySelector('.dot');
+  const ring = tap.querySelector('.ring');
+  const bar  = document.querySelector('#prog i');
+
+  /* ---- the tour. tapOut is in the phone's own 390×844 space ---- */
+  const TOUR = [
+    {s:'welcome',    dur:3.4, sf:0,    t:'Welcome',                 d:'Your training, your data, your coach — in one app.',        tapOut:[195,742]},
+    {s:'goal',       dur:4.4, sf:.85,  t:'Pick your goal',           d:'A race, a distance, or simply general fitness.',            tapOut:[195,690]},
+    {s:'preview',    dur:5.4, sf:.9,   t:'Your plan, built for you', d:'Phases, weekly shape and what is included — before you pay.', tapOut:[195,700]},
+    {s:'today',      dur:5.8, sf:.9,   t:'Today',                    d:'One clear session, your fuelling and your readiness.',      tapOut:[195,430]},
+    {s:'session',    dur:5.8, sf:.9,   t:'Every session, step by step', d:'Targets in their own paces, powers and heart rates.',    tapOut:[195,120]},
+    {s:'calendar',   dur:4.8, sf:.85,  t:'The training week',        d:'A full calendar, and the freedom to move a session.',       tapOut:[105,800]},
+    {s:'plans',      dur:5.4, sf:.9,   t:'The plan library',         d:'Every discipline you coach, in one place.',                 tapOut:[195,520]},
+    {s:'plandetail', dur:5.8, sf:.9,   t:'Inside a plan',            d:'The plan, the guide, and the step-by-step videos.',         tapOut:[195,620]},
+    {s:'guide',      dur:4.8, sf:.8,   t:'PDF, video and audio',     d:'Read it, watch it, or listen on the bike.',                 tapOut:[60,120]},
+    {s:'coach',      dur:5.6, sf:.7,   t:'Your AI coach',            d:'Reads training, sleep and food together — never in isolation.', tapOut:[195,800]},
+    {s:'fuel',       dur:5.4, sf:.9,   t:'Nutrition',                d:'Targets that rise on hard days and settle on easy ones.',   tapOut:[130,470]},
+    {s:'scan',       dur:5.4, sf:.85,  t:'Log a meal by photo',      d:'Photograph it. The app does the rest.',                     tapOut:[250,760]},
+    {s:'analytics',  dur:5.8, sf:.9,   t:'Progress',                 d:'Training, health and nutrition on one surface.',            tapOut:[350,800]},
+    {s:'paywall',    dur:4.6, sf:.75,  t:'Subscriptions',            d:'Free trial, monthly or annual — handled properly.',         tapOut:[195,690]},
+    {s:'me',         dur:4.8, sf:.8,   t:'Your profile',             d:'Their numbers, their devices, their progress.',             tapOut:[195,760]},
+  ];
+
+  const XFADE = 0.30;                 // screen swap fade
+  const TAPT  = 0.55;                 // tap ripple length, at the end of each step
+  const START = [];
+  let acc = 0;
+  TOUR.forEach(b => { START.push(acc); acc += b.dur; });
+  const TOTAL = acc;
+
+  const easeIO = x => x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x+2, 3)/2;
+  const clamp  = (v,a,b) => Math.max(a, Math.min(b, v));
+
+  let painted = -1;
+  function paint(i) {
+    if (painted === i) return;
+    painted = i;
+    scr.innerHTML = S[TOUR[i].s].fn();
+    scr.querySelectorAll('img.lg-dark').forEach(im => { im.src = 'LogoWhite.jpeg'; });
+    capT.textContent = TOUR[i].t;
+    capS.textContent = TOUR[i].d;
+  }
+
+  // phone-space -> stage-space, accounting for the wrapper scale
+  const devwrap = document.getElementById('devwrap');
+  function place(px, py) {
+    const el = scr.getBoundingClientRect();
+    const k  = el.width / 390;                       // rendered px per design px
+    tap.style.left = (el.left + px * k) + 'px';
+    tap.style.top  = (el.top  + py * k) + 'px';
+  }
+
+  window.__duration = TOTAL;
+  window.__setFrame = function (t) {
+    t = clamp(t, 0, TOTAL - 0.001);
+    let i = 0; while (i < TOUR.length - 1 && t >= START[i+1]) i++;
+    const b = TOUR[i], lt = t - START[i];
+    paint(i);
+
+    /* scroll: ease across the middle of the step */
+    const sEl  = scr.querySelector('.scroll') || scr.querySelector('.appbody');
+    if (sEl) {
+      const max = Math.max(0, sEl.scrollHeight - sEl.clientHeight);
+      const s0 = 0.55, s1 = Math.max(s0 + 0.6, b.dur - TAPT - 0.35);
+      const p  = easeIO(clamp((lt - s0) / (s1 - s0), 0, 1));
+      sEl.scrollTop = max * (b.sf || 0) * p;
+    }
+
+    /* entry fade */
+    const fade = clamp(lt / XFADE, 0, 1);
+    scr.style.opacity = fade;
+    scr.style.transform = 'translateY(' + ((1 - fade) * 7).toFixed(2) + 'px)';
+
+    /* caption fade */
+    const capIn  = clamp((lt - 0.10) / 0.45, 0, 1);
+    const capOut = clamp((b.dur - lt) / 0.30, 0, 1);
+    const co = Math.min(capIn, capOut);
+    document.getElementById('cap').style.opacity = co;
+    document.getElementById('cap').style.transform = 'translateY(' + ((1 - capIn) * 10).toFixed(2) + 'px)';
+
+    /* tap ripple at the end of the step (the tap that opens the next screen) */
+    const tStart = b.dur - TAPT;
+    if (lt >= tStart && i < TOUR.length - 1) {
+      const p = clamp((lt - tStart) / TAPT, 0, 1);
+      place(b.tapOut[0], b.tapOut[1]);
+      tap.style.opacity = 1;
+      dot.style.opacity = (1 - p * 0.65).toFixed(3);
+      dot.style.transform = 'translate(-50%,-50%) scale(' + (1 - 0.18 * Math.sin(p * Math.PI)).toFixed(3) + ')';
+      const rs = 34 + p * 78;
+      ring.style.width = rs + 'px'; ring.style.height = rs + 'px';
+      ring.style.opacity = ((1 - p) * 0.9).toFixed(3);
+    } else {
+      tap.style.opacity = 0;
+    }
+
+    bar.style.width = (t / TOTAL * 100).toFixed(3) + '%';
+  };
+
+  window.__setFrame(0);
+  window.__ready = true;
+})();
+</script>
+</body>
+</html>

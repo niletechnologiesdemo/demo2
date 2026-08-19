@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Morris Focus — Mobile App Demo</title>
+<style>
+  :root{
+    --green:#098945;
+    --green-light:#3DBA75;
+    --green-dark:#076A36;
+    --ink:#111111;
+    --chip:#222222;
+    --grey:#767676;
+    --line:#e7e7e7;
+    --paper:#ffffff;
+    --bg:#f5f5f5;
+    --headline:'Roboto','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --ui:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{font-family:var(--ui);background:#e9ebe6;color:var(--ink)}
+
+  /* ---------- Desktop presentation stage ---------- */
+  .stage{min-height:100vh;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:70px;padding:40px 40px;background:radial-gradient(1200px 700px at 50% -10%,#f0f6f2 0%,#d8e3da 60%,#c6d6ca 100%)}
+  .stage-head{text-align:left;max-width:420px}
+  .stage-head img{height:58px}
+  .stage-head h1{font-family:var(--headline);font-size:30px;line-height:1.2;font-weight:800;margin-top:22px;color:#14241a}
+  .stage-head p{font-size:14.5px;color:#51665a;margin-top:14px;max-width:430px;line-height:1.65}
+  .store-badges{display:flex;gap:10px;justify-content:flex-start;margin-top:24px}
+  @media (max-width:1020px) and (min-width:561px){
+    .stage{flex-direction:column;gap:26px}
+    .stage-head{text-align:center;max-width:460px}
+    .stage-head h1{font-size:22px;margin-top:14px}
+    .stage-head p{margin-top:8px}
+    .store-badges{justify-content:center;margin-top:14px}
+  }
+  .store-badge{display:flex;align-items:center;gap:8px;background:#000;color:#fff;border-radius:9px;padding:7px 14px 7px 11px;text-decoration:none}
+  .store-badge svg{width:20px;height:20px;flex:0 0 auto}
+  .store-badge .sb-txt{text-align:left;line-height:1.15}
+  .store-badge .sb-top{font-size:8.5px;letter-spacing:.02em;opacity:.85}
+  .store-badge .sb-bot{font-size:13px;font-weight:600}
+
+  /* ---------- Phone bezel ---------- */
+  .phone{position:relative;width:400px;height:832px;background:#0c0c0e;border-radius:58px;padding:14px;box-shadow:0 32px 70px rgba(10,30,18,.42),0 4px 16px rgba(0,0,0,.25), inset 0 0 0 2px #3a3a3e}
+  .phone-screen{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:#fff}
+  .notch{position:absolute;top:26px;left:50%;transform:translateX(-50%);width:112px;height:28px;background:#0c0c0e;border-radius:20px;z-index:60}
+
+  /* ---------- App shell ---------- */
+  .app{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden}
+  .statusbar{flex:0 0 auto;height:54px;background:#fff;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 6px;font-size:14px;font-weight:600;z-index:55}
+  .statusbar .sb-icons{display:flex;gap:5px;align-items:center}
+  .screens{flex:1 1 auto;position:relative;overflow:hidden}
+  .screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background:var(--bg);display:none;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .screen::-webkit-scrollbar{display:none}
+  .screen.active{display:block}
+
+  /* ---------- Header ---------- */
+  .app-header{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line)}
+  .topstrip{background:#000;color:#cfcfcf;font-size:10.5px;display:flex;justify-content:space-between;align-items:center;padding:5px 16px;letter-spacing:.03em}
+  .topstrip b{color:#fff;font-weight:600}
+  .header-main{display:flex;align-items:center;justify-content:space-between;padding:10px 14px}
+  .header-main img{height:32px;display:block}
+  .header-actions{display:flex;gap:6px}
+  .icon-btn{width:38px;height:38px;border:none;background:transparent;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#222;cursor:pointer}
+  .icon-btn:active{background:#f0f0f0}
+  .icon-btn svg{width:21px;height:21px}
+  .bell-dot{position:absolute;margin:-14px 0 0 14px;width:8px;height:8px;border-radius:50%;background:var(--green-light);border:1.5px solid #fff}
+
+  /* ---------- Trending ticker ---------- */
+  .trending{display:flex;align-items:center;background:#fff;border-bottom:1px solid var(--line);overflow:hidden}
+  .trending-label{flex:0 0 auto;background:var(--chip);color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.08em;padding:6px 10px;margin:8px 0 8px 14px}
+  .trending-track{flex:1;overflow:hidden;white-space:nowrap;margin:0 14px 0 10px}
+  .trending-items{display:inline-block;white-space:nowrap;animation:tick 28s linear infinite;font-size:12.5px;font-weight:500}
+  .trending-items span{margin-right:34px;color:#222}
+  .trending-items span::after{content:'•';color:var(--green-light);margin-left:34px}
+  @keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  /* ---------- Hero card ---------- */
+  .hero{position:relative;display:block;cursor:pointer}
+  .hero img{width:100%;height:250px;object-fit:cover;display:block}
+  .hero .hero-grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.82) 100%)}
+  .hero .hero-txt{position:absolute;left:16px;right:16px;bottom:14px;color:#fff}
+  .hero h2{font-family:var(--headline);font-size:19.5px;line-height:1.28;font-weight:700;margin-top:8px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+  .hero .meta{font-size:11px;color:#d6d6d6;margin-top:7px}
+  .chip{display:inline-block;background:rgba(0,0,0,.72);color:#fff;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px}
+  .chip.on-card{background:var(--chip)}
+
+  /* ---------- Sections / lists ---------- */
+  .block{background:#fff;margin-top:8px;padding:14px 14px 6px}
+  .block-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+  .block-title h3{font-family:var(--headline);font-size:14px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding-bottom:7px;position:relative}
+  .block-title h3::after{content:'';position:absolute;left:0;bottom:0;width:36px;height:3px;background:var(--green)}
+  .see-all{font-size:11.5px;font-weight:600;color:var(--green);text-decoration:none;display:flex;align-items:center;gap:2px;cursor:pointer;background:none;border:none;font-family:var(--ui)}
+  .see-all svg{width:13px;height:13px}
+
+  .row{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid #efefef;cursor:pointer;align-items:flex-start}
+  .row:last-child{border-bottom:none}
+  .row img{width:104px;height:74px;object-fit:cover;flex:0 0 auto;background:#e8e8e8}
+  .row .row-body{flex:1;min-width:0}
+  .row .cat{font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green);margin-bottom:3px}
+  .row h4{font-family:var(--headline);font-size:13.5px;line-height:1.32;font-weight:700;color:#111;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .row .meta{font-size:10.5px;color:var(--grey);margin-top:5px}
+
+  /* horizontal cards */
+  .hscroll{display:flex;gap:10px;overflow-x:auto;padding:8px 0 14px;scrollbar-width:none}
+  .hscroll::-webkit-scrollbar{display:none}
+  .hcard{flex:0 0 168px;background:#fff;border:1px solid #ececec;border-radius:8px;overflow:hidden;cursor:pointer}
+  .hcard img{width:100%;height:96px;object-fit:cover;display:block;background:#e8e8e8}
+  .hcard .hc-body{padding:9px 10px 11px}
+  .hcard h5{font-family:var(--headline);font-size:12px;line-height:1.3;font-weight:700;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .hcard .meta{font-size:10px;color:var(--grey);margin-top:5px}
+
+  /* ---------- Ads ---------- */
+  .ad-slot{margin-top:8px;background:#fff;padding:10px 14px 12px;text-align:center}
+  .ad-slot .ad-tag{font-size:8.5px;letter-spacing:.18em;color:#a5a5a5;text-transform:uppercase;margin-bottom:7px}
+  .ad-slot img{width:100%;display:block;border:1px solid #f0f0f0}
+  .ad-strip-card{flex:0 0 148px;border:1px solid #ececec;border-radius:8px;overflow:hidden;background:#fff}
+  .ad-strip-card img{width:100%;height:196px;object-fit:cover;display:block}
+
+  /* ---------- Article detail ---------- */
+  .detail-header{position:sticky;top:0;z-index:40;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:8px 8px}
+  .detail-header .dh-left{display:flex;align-items:center;gap:2px}
+  .detail-header img.mini-logo{height:24px}
+  .article-hero img{width:100%;height:236px;object-fit:cover;display:block;background:#e8e8e8}
+  .article-body{background:#fff;padding:18px 18px 26px}
+  .article-body .chip{margin-bottom:12px}
+  .article-body h1{font-family:var(--headline);font-size:22px;line-height:1.28;font-weight:800}
+  .byline{display:flex;align-items:center;gap:10px;margin:14px 0 4px;padding-bottom:14px;border-bottom:1px solid #eee}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex:0 0 auto}
+  .byline .who{font-size:12.5px;font-weight:600}
+  .byline .when{font-size:11px;color:var(--grey);margin-top:1px}
+  .share-row{margin-left:auto;display:flex;gap:2px}
+  .article-body p{font-size:14.5px;line-height:1.66;color:#232323;margin-top:14px}
+  .article-body p:first-of-type::first-letter{font-family:var(--headline);font-weight:800;font-size:34px;line-height:.9;float:left;margin:4px 7px 0 0;color:var(--green)}
+  .more-block{margin-top:8px}
+
+  /* ---------- Towns screen ---------- */
+  .page-title{background:#fff;padding:16px 16px 12px;border-bottom:1px solid var(--line)}
+  .page-title h2{font-family:var(--headline);font-size:20px;font-weight:800}
+  .page-title p{font-size:12px;color:var(--grey);margin-top:3px}
+  .cat-list{background:#fff;margin-top:8px}
+  .cat-item{display:flex;align-items:center;gap:13px;padding:14px 16px;border-bottom:1px solid #f0f0f0;cursor:pointer}
+  .cat-item:active{background:#fafafa}
+  .cat-item .cat-ico{width:40px;height:40px;border-radius:9px;background:#e7f4ec;color:var(--green);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .cat-item .cat-ico svg{width:20px;height:20px}
+  .cat-item .cat-name{font-family:var(--headline);font-size:14.5px;font-weight:700}
+  .cat-item .cat-count{font-size:11px;color:var(--grey);margin-top:2px}
+  .cat-item .chev{margin-left:auto;color:#bbb}
+  .cat-item .chev svg{width:16px;height:16px}
+
+  /* ---------- Videos ---------- */
+  .video-card{background:#fff;margin-top:8px;cursor:pointer}
+  .video-thumb{position:relative;height:170px;background:linear-gradient(135deg,#0b2e1b 0%,#076A36 55%,#098945 100%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .video-thumb img.vt-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.9}
+  .video-thumb .vt-shade{position:absolute;inset:0;background:rgba(0,0,0,.28)}
+  .video-thumb img.vt-logo{position:relative;height:34px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));background:#fff;padding:6px 10px;border-radius:6px}
+  .play-badge{position:absolute;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+  .play-badge svg{width:22px;height:22px;color:var(--green-dark);margin-left:3px}
+  .video-card .vc-body{padding:12px 14px 14px}
+  .video-card h4{font-family:var(--headline);font-size:14px;font-weight:700;line-height:1.35}
+  .video-card .meta{font-size:11px;color:var(--grey);margin-top:5px}
+
+  /* ---------- Alerts ---------- */
+  .notif-card{display:flex;gap:11px;background:#fff;padding:13px 14px;border-bottom:1px solid #f0f0f0;cursor:pointer}
+  .notif-ico{width:38px;height:38px;border-radius:9px;flex:0 0 auto;background:#fff;border:1px solid #e6e6e6;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .notif-ico img{width:24px;height:24px;object-fit:cover;object-position:left center}
+  .notif-card .nb{flex:1;min-width:0}
+  .notif-card .n-top{display:flex;justify-content:space-between;font-size:10px;color:var(--grey);letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+  .notif-card .n-top .n-time{text-transform:none;letter-spacing:0;font-weight:400}
+  .notif-card h5{font-size:13px;font-weight:600;line-height:1.4;margin-top:3px}
+  .notif-card p{font-size:11.5px;color:#555;line-height:1.45;margin-top:2px}
+  .pref-item{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid #f0f0f0}
+  .pref-item .p-name{font-size:13.5px;font-weight:600}
+  .pref-item .p-sub{font-size:11px;color:var(--grey);margin-top:2px}
+  .switch{position:relative;width:46px;height:27px;border-radius:14px;background:#d4d4d4;transition:.2s;cursor:pointer;flex:0 0 auto}
+  .switch::after{content:'';position:absolute;top:2.5px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:.2s}
+  .switch.on{background:var(--green)}
+  .switch.on::after{left:21px}
+
+  /* ---------- More ---------- */
+  .more-hero{background:#000;padding:22px 16px;text-align:center}
+  .more-hero img{height:38px;background:#fff;padding:8px 14px;border-radius:8px}
+  .more-hero p{color:#bdbdbd;font-size:11.5px;margin-top:10px;letter-spacing:.02em}
+  .menu-group{background:#fff;margin-top:8px}
+  .menu-label{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9a9a9a;padding:14px 16px 6px}
+  .menu-item{display:flex;align-items:center;gap:13px;padding:12.5px 16px;border-bottom:1px solid #f2f2f2;cursor:pointer;font-size:13.5px;font-weight:500}
+  .menu-item:last-child{border-bottom:none}
+  .menu-item:active{background:#fafafa}
+  .menu-item .mi-ico{width:32px;height:32px;border-radius:8px;background:#e7f4ec;color:var(--green);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .menu-item .mi-ico svg{width:16px;height:16px}
+  .menu-item .chev{margin-left:auto;color:#c2c2c2}
+  .menu-item .chev svg{width:15px;height:15px}
+  .about-note{padding:16px;font-size:12.5px;line-height:1.6;color:#444;background:#fff;margin-top:8px}
+  .version{padding:20px 0 26px;text-align:center;font-size:10.5px;color:#a3a3a3;line-height:1.6}
+
+  /* ---------- Footer ---------- */
+  .app-footer{background:#000;color:#9c9c9c;padding:22px 18px 26px;margin-top:8px;font-size:11px;line-height:1.65}
+  .app-footer img{height:30px;background:#fff;padding:6px 10px;border-radius:6px;margin-bottom:12px}
+  .app-footer .soc{display:flex;gap:10px;margin:14px 0}
+  .app-footer .soc a{width:32px;height:32px;border-radius:50%;background:#1c1c1c;display:flex;align-items:center;justify-content:center;color:#fff}
+  .app-footer .soc svg{width:14px;height:14px}
+
+  /* ---------- Tabbar ---------- */
+  .tabbar{flex:0 0 auto;background:rgba(255,255,255,.98);border-top:1px solid var(--line);display:flex;padding:7px 4px calc(14px + env(safe-area-inset-bottom));z-index:50}
+  .tab{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;color:#8e8e8e;font-size:9.5px;font-weight:600;cursor:pointer;font-family:var(--ui);padding:2px 0}
+  .tab svg{width:22px;height:22px}
+  .tab.active{color:var(--green)}
+
+  /* ---------- Splash ---------- */
+  .splash{position:absolute;inset:0;background:#fff;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .5s ease}
+  .splash img{width:76%;max-width:280px}
+  .splash .tagline{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:700}
+  .splash .loader{width:34px;height:34px;border:3px solid #dcefe4;border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin-top:8px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .splash.hide{opacity:0;pointer-events:none}
+
+  /* ---------- Push notification demo ---------- */
+  .push{position:absolute;top:60px;left:10px;right:10px;z-index:90;background:rgba(250,250,250,.97);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.28);padding:11px 13px;display:flex;gap:10px;align-items:flex-start;transform:translateY(-130px);transition:transform .45s cubic-bezier(.32,.72,.35,1.06);cursor:pointer}
+  .push.show{transform:translateY(0)}
+  .push .p-ico{width:34px;height:34px;border-radius:8px;background:#fff;border:1px solid #e5e5e5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;overflow:hidden}
+  .push .p-ico img{width:22px;height:22px;object-fit:cover;object-position:left center}
+  .push .p-body{flex:1;min-width:0}
+  .push .p-top{display:flex;justify-content:space-between;font-size:10px;color:#8a8a8a}
+  .push .p-top b{color:#3c3c3c;font-weight:600;letter-spacing:.04em}
+  .push h6{font-size:12.5px;font-weight:700;margin-top:2px}
+  .push p{font-size:11.5px;color:#4a4a4a;line-height:1.4;margin-top:1px}
+
+  /* ---------- Search overlay ---------- */
+  .search-bar{display:flex;gap:8px;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+  .search-bar input{flex:1;border:none;background:#f1f1f1;border-radius:9px;padding:9px 13px;font-size:14px;outline:none;font-family:var(--ui)}
+  .empty-note{padding:34px 20px;text-align:center;color:#9a9a9a;font-size:13px;line-height:1.6}
+
+  .toast{position:absolute;bottom:96px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(20,20,20,.92);color:#fff;font-size:12px;padding:10px 18px;border-radius:22px;opacity:0;transition:.3s;z-index:95;white-space:nowrap}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ---------- Mobile: fill viewport, no bezel ---------- */
+  @media (max-width:560px){
+    .stage{padding:0;gap:0;background:#fff;min-height:100dvh}
+    .stage-head,.store-badges{display:none}
+    .phone{width:100%;height:100dvh;border-radius:0;padding:0;box-shadow:none;background:#fff}
+    .phone-screen{border-radius:0}
+    .notch{display:none}
+    .statusbar{display:none}
+    .push{top:8px}
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="stage-head">
+    <img src="assets/logo.gif" alt="Morris Focus">
+    <h1>The Morris Focus Mobile App</h1>
+    <p>Same news. Same advertisers. Same Morris Focus — now as a simple app icon on every reader's phone, with breaking-news alerts for the towns they care about. Connected directly to the existing website: publish once, it appears everywhere.</p>
+    <div class="store-badges">
+      <span class="store-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8.85-.17 1.66-.86 3.13-.75 1.24.1 2.19.53 2.87 1.35-2.55 1.65-2.14 5.1.42 6.22-.5 1.46-1.16 2.9-2.5 5.35zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+        <span class="sb-txt"><span class="sb-top">Download on the</span><br><span class="sb-bot">App Store</span></span>
+      </span>
+      <span class="store-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 1.8c-.3.3-.5.8-.5 1.4v17.6c0 .6.2 1.1.5 1.4l.1.1 9.9-9.9v-.2L3.7 1.7l-.1.1zm13.2 13.5-3.3-3.3v-.2l3.3-3.3.1 0 3.9 2.2c1.1.6 1.1 1.7 0 2.3l-3.9 2.2-.1.1zm-.8.7L12.6 12.6 3.6 21.6c.4.4 1 .4 1.7 0l10.7-6.1v.5zM3.6 2.4l9 9L16 8 5.3 2c-.7-.4-1.3-.3-1.7.4z"/></svg>
+        <span class="sb-txt"><span class="sb-top">GET IT ON</span><br><span class="sb-bot">Google Play</span></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="phone-screen">
+      <div class="app">
+
+        <!-- Splash -->
+        <div class="splash" id="splash">
+          <img src="assets/logo.gif" alt="Morris Focus">
+          <div class="tagline">All Local, All Morris County</div>
+          <div class="loader"></div>
+        </div>
+
+        <!-- Push notification demo -->
+        <div class="push" id="pushDemo">
+          <div class="p-ico"><img src="assets/logo.gif" alt=""></div>
+          <div class="p-body">
+            <div class="p-top"><b>MORRIS FOCUS</b><span>now</span></div>
+            <h6>Business News</h6>
+            <p>Kura Revolving Sushi Bar opens its first Parsippany location at District 15Fifteen</p>
+          </div>
+        </div>
+
+        <div class="toast" id="toast"></div>
+
+        <!-- iOS-style status bar (bezel mode only) -->
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="sb-icons">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7" width="3" height="4" rx="0.8"/><rect x="4.5" y="5" width="3" height="6" rx="0.8"/><rect x="9" y="2.5" width="3" height="8.5" rx="0.8"/><rect x="13.5" y="0" width="3" height="11" rx="0.8"/></svg>
+            <svg width="15" height="11" viewBox="0 0 16 12" fill="currentColor"><path d="M8 9.5c.9 0 1.7.35 2.3.93L8 12 5.7 10.43A3.3 3.3 0 0 1 8 9.5zm0-4.5c1.99 0 3.8.77 5.15 2.03l-1.42 1.42A5.47 5.47 0 0 0 8 7c-1.42 0-2.72.54-3.7 1.44L2.86 7.03A7.46 7.46 0 0 1 8 5zm0-4.5c3.23 0 6.16 1.28 8.31 3.36l-1.42 1.42A9.7 9.7 0 0 0 8 2.5c-2.66 0-5.08 1.06-6.86 2.78L-.28 3.86A11.68 11.68 0 0 1 8 .5z" transform="translate(0 -0.5) scale(0.95)"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" opacity="0.4"/><rect x="2" y="2" width="18" height="8" rx="2" fill="currentColor"/><path d="M23 4v4c1-.2 1.7-1 1.7-2s-.7-1.8-1.7-2z" fill="currentColor" opacity="0.4"/></svg>
+          </span>
+        </div>
+
+        <div class="screens" id="screens"></div>
+
+        <!-- Tab bar -->
+        <nav class="tabbar" id="tabbar"></nav>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   Morris Focus — mobile app demo
+   All headlines, images and advertiser banners are real
+   content from morrisfocus.com (captured Aug 2026).
+   ========================================================= */
+
+const A = 'assets/img/', AD = 'assets/ads/';
+
+const ARTICLES = [
+  {id:'humphrey', cat:'Jefferson', title:"Naughty Humphrey Set to Close Out Jefferson's Summer Gazebo Concert Series", img:A+'humphrey.jpg', date:'Aug 17, 2026', author:'Frank Cahill',
+    body:["JEFFERSON TOWNSHIP — The Jefferson Arts Committee invites residents, families, and music lovers out for the final show of another summer of free concerts at the Jefferson Township Gazebo, located in the Jefferson Township Municipal Complex at 1033 Weldon Road, Oak Ridge.",
+    'Friday, August 21, at 6:30 p.m., the series wraps up with a performance by Naughty Humphrey, a cover band specializing in popular songs from the 1960s through today. The group says it aims to "resurrect" overlooked classics from across music history, promising to "rock your favorite classics unabashedly" for anyone looking for variety.',
+    "As with the rest of the series, admission is free. Attendees are encouraged to bring a chair or blanket, and the event is BYO snacks and non-alcoholic beverages. Parking is free, the concert is family friendly, and a dedicated port-a-john will be on site. Guests are asked to carry in and carry out their own trash.",
+    "Frank Capello will return with his Lil Ice Trike Co. ice cream truck, offering frozen treats for sale. While the concerts are free, organizers say a free-will donation is always appreciated to help fund the series.",
+    "In the event of inclement weather, the concert will be relocated to the Jefferson Township High School auditorium, just up the road at 1010 Weldon Road. Snacks and beverages are not permitted inside the auditorium."]},
+  {id:'kura', cat:'Business News', title:'Kura Sushi Opens First Parsippany Location at District 15Fifteen', img:A+'kura.jpg', date:'Aug 16, 2026', author:'Frank Cahill',
+    body:["MORRIS COUNTY — Kura Revolving Sushi Bar has opened its first Parsippany location, marking the Japan-based chain's eighth restaurant in New Jersey.",
+    "The restaurant, located at The District at 15Fifteen on Route 10, held a soft opening on Saturday, August 9. Kura is known for its high-tech approach to sushi service, featuring a revolving conveyor belt that loops through the dining room, tableside tablets for ordering, and robots that deliver drinks to tables.",
+    "Founded 49 years ago in Japan, Kura's menu includes more than 100 dishes spanning sushi, noodles, tempura, sides and desserts, all prepared without artificial sweeteners, seasonings, preservatives or colorings. The chain has grown to nearly 100 locations in the United States since entering the market in 2008, and operates more than 650 locations worldwide.",
+    "Kura opened its first New Jersey location in Fort Lee six years ago and has since expanded to Cherry Hill, Edison, Freehold, Jersey City and Paramus.",
+    "The Parsippany restaurant occupies space in The District at 15Fifteen, a newly built 13-acre mixed-use development on the site of the former Intel Corporate Center. The development includes nearly 500 apartments and almost 60,000 square feet of retail and restaurant space, along with a planned 156-room Residence Inn by Marriott. As of July, the retail portion of the property was 65 percent leased."]},
+  {id:'baby', cat:'Dover', title:'Focus Invites Families to Share Baby Announcements', img:A+'baby.jpg', date:'Aug 16, 2026', author:'Frank Cahill',
+    body:["MORRIS COUNTY — Focus is celebrating the newest members of the community and inviting families to share the joyful news of a new arrival with readers.",
+    "Proud parents, grandparents and other family members are invited to submit baby announcements for publication in Focus. Submissions should include the baby's name, date of birth, hometown and the names of the parents, along with a favorite photograph so readers can join in welcoming the newest addition to the family.",
+    "Whether it is a family's first child or the newest addition to a growing household, every birth is considered a special occasion worth celebrating in the pages of Focus.",
+    "There is no charge for this service.",
+    "Publishing a baby announcement allows families to share their news with neighbors and friends throughout the community while creating a lasting keepsake that can be saved for years to come."]},
+  {id:'chatham', cat:'Morris County', title:'Residents Turn Out for Library of the Chathams Renovation Presentation', img:A+'chatham-library.jpg', date:'Aug 16, 2026', author:'Frank Cahill',
+    body:["CHATHAM — Residents filled the Women's Club Room at the Library of the Chathams on Wednesday, August 5, for a community presentation on the proposed Library Renovation Project.",
+    "The evening was well attended and constructive, with several residents adding their names to the community petition over the course of the evening.",
+    "Brian Stevens, principal at HMR Architects and the project architect, walked through the proposed renovation, from the reorganized floor plans to the building systems work hidden behind the walls, and answered questions from the floor. Mayor Jen Rowland and Deputy Mayor Marty McHugh of Chatham Township were among those in attendance. A Zoom option also allowed residents who were unable to attend in person to participate.",
+    "Residents engaged directly with the substance of the project. Many acknowledged the building's structural and HVAC needs, and the discussion remained focused on the project itself and the work required to preserve the library for future generations."]},
+  {id:'hanover-awards', cat:'Hanover', title:'Hanover Township Celebrates Longtime Municipal Employees at Service Awards Breakfast', img:A+'hanover.jpg', date:'Aug 9, 2026', author:'Frank Cahill',
+    body:["HANOVER TOWNSHIP — Hanover Township recently celebrated longtime, dedicated employees who reached service milestones with the township, honored between Hanover Township and the Hanover Sewerage Authority at a service awards breakfast."]},
+  {id:'jefferson-seat', cat:'Jefferson', title:'Jefferson Township Council to Hold Special Meeting Monday to Fill Vacant Seat', img:A+'dan-schultz.jpg', date:'Aug 12, 2026', author:'Frank Cahill',
+    body:["JEFFERSON TOWNSHIP — The Jefferson Township Council will hold a special meeting on Monday, August 17, from 6:00 p.m. to 8:00 p.m. at the Municipal Building to fill the council's vacant seat."]},
+  {id:'winger', cat:'Dover', title:'Meet Winger, a Puppy Looking for a Loving Home Through WISE', img:A+'winger.png', date:'Aug 2, 2026', author:'Frank Cahill',
+    body:["MORRIS COUNTY — Winger is a female puppy, a mix of Yorkshire Terrier, Chihuahua and Shih Tzu, born April 27, and available for adoption through WISE Animal Rescue."]},
+  {id:'quiet-man', cat:'Dover', title:'The Quiet Man Irish Pub to Close After 47 Years in Dover', img:A+'quiet-man.png', date:'Aug 1, 2026', author:'Frank Cahill',
+    body:["DOVER — The Quiet Man Irish Pub will close after 47 years in Dover."]},
+  {id:'dover-apts', cat:'Dover', title:'90-Unit Apartment Building Transforms Long-Vacant Dover Site', img:A+'dover-apts.jpg', date:'Jul 29, 2026', author:'Frank Cahill',
+    body:["DOVER — A 90-unit apartment building is transforming a long-vacant Dover site."]},
+  {id:'rose-house', cat:'Morris County', title:"Montville Township Women's Club Doubles Its Support for Rose House", img:A+'rose-house.jpg', date:'Aug 16, 2026', author:'Frank Cahill',
+    body:["MONTVILLE — The Montville Township Women's Club has doubled its support for Rose House."]},
+  {id:'madison-film', cat:'Madison', title:'Madison Emerges as Popular Filming Location, Encourages Producers to Take Notice', img:A+'madison-film.jpg', date:'Aug 16, 2026', author:'Frank Cahill',
+    body:["MADISON — Madison has emerged as a popular filming location and is encouraging producers to take notice."]},
+  {id:'veterans', cat:'Morris County', title:'Third Annual Veterans Appreciation Day Held in Morris County', img:A+'veterans.jpg', date:'Aug 11, 2026', author:'Frank Cahill',
+    body:["MORRIS COUNTY — The third annual Veterans Appreciation Day was held in Morris County."]},
+  {id:'leaf-blower', cat:'Morris County', title:'Green Team Launches Quiet Summer Initiative', img:A+'leaf-blower.jpg', date:'Aug 10, 2026', author:'Frank Cahill',
+    body:["MORRIS COUNTY — The Green Team has launched a Quiet Summer Initiative."]},
+  {id:'seniors', cat:'Morris Plains', title:'Morris Plains Seniors to Meet Monday, Hear Advance Directives Talk', img:A+'seniors.png', date:'Aug 9, 2026', author:'Frank Cahill',
+    body:["MORRIS PLAINS — The Morris Plains Seniors will meet Monday and hear a talk on advance directives."]},
+  {id:'soccer', cat:'Morris Plains', title:'Morris Plains Soccer Association Opens Fall Registration', img:A+'soccer.jpg', date:'Aug 3, 2026', author:'Frank Cahill',
+    body:["MORRIS PLAINS — The Morris Plains Soccer Association has opened registration for its fall season. A PreK clinic for children ages three through kindergarten will be offered."]},
+  {id:'boonton-dwi', cat:'Boonton', title:'Boonton Man Charged with DWI After Crash on Brooklawn Drive', img:A+'handcuffs.png', date:'Aug 5, 2026', author:'Frank Cahill',
+    body:["PARSIPPANY — A Boonton man was arrested and charged with driving while intoxicated after a crash on Brooklawn Drive."]},
+  {id:'ml-investigation', cat:'Boonton', title:'Boonton Man Charged with Assault, Terroristic Threats Following Mountain Lakes Investigation', img:A+'mountain-lakes-police.jpg', date:'Jul 17, 2026', author:'Frank Cahill',
+    body:["MOUNTAIN LAKES — The Mountain Lakes Police Department was notified by another agency on June 6 of an assault that had occurred inside a residence."]},
+  {id:'brewfest', cat:'Boonton', title:'Boonton Brewfest Returns with Craft Beverages, Live Music, and Community Spirit', img:A+'brewfest.jpg', date:'Jul 12, 2026', author:'Frank Cahill',
+    body:["BOONTON — Boonton Brewfest returns with craft beverages, live music, and community spirit."]},
+  {id:'wekilsky', cat:'Boonton', title:'Cyril "Cy" Wekilsky, Former Boonton Mayor, Dies at 89', img:A+'wekilsky.jpg', date:'Jul 16, 2026', author:'Frank Cahill',
+    body:["BOONTON — Cyril \"Cy\" Wekilsky, former Boonton mayor, has died at 89."]},
+  {id:'night-out', cat:'Boonton', title:'Boonton, Boonton Township and Mountain Lakes to Hold Joint National Night Out 2026', img:A+'night-out.jpg', date:'Jul 17, 2026', author:'Frank Cahill',
+    body:["BOONTON — Boonton, Boonton Township and Mountain Lakes will hold a joint National Night Out 2026."]},
+  {id:'ecstasy', cat:'Hanover', title:'Dover Man Charged After Traffic Stop in Hanover Township Leads to Alleged Ecstasy Possession', img:A+'handcuffs.png', date:'Aug 7, 2026', author:'Frank Cahill',
+    body:["HANOVER TOWNSHIP — A Dover man has been charged after a traffic stop in Hanover Township led to alleged ecstasy possession."]},
+  {id:'georgia-couple', cat:'Hanover', title:'Hanover Township Police Arrest Georgia Couple After Motel Parking Lot Stop Turns Up Handguns, Hollow Point Ammunition', img:A+'morris-jail.gif', date:'Aug 6, 2026', author:'Frank Cahill',
+    body:["HANOVER TOWNSHIP — Hanover Township Police arrested a Georgia couple after a motel parking lot stop turned up handguns and hollow point ammunition."]},
+  {id:'mosquito', cat:'East Hanover', title:'Mosquito Treatments Scheduled Monday in East Hanover', img:A+'mosquito.png', date:'Aug 15, 2026', author:'Frank Cahill',
+    body:["EAST HANOVER — Mosquito control treatments are scheduled Monday in East Hanover."]},
+  {id:'sherrill', cat:'Jefferson', title:'Sherrill Administration Launches Statewide School Funding Outreach Effort', img:A+'sherrill.jpg', date:'Aug 8, 2026', author:'Frank Cahill',
+    body:["TRENTON — New Jersey is launching a statewide effort to strengthen its school funding system and ensure every student has access to opportunity."]},
+  {id:'gazebo-band', cat:'Jefferson', title:'Jefferson Arts Committee to Host Gazebo Concert Featuring Some Guys & a Broad', img:A+'gazebo-band.jpg', date:'Aug 8, 2026', author:'Frank Cahill',
+    body:["JEFFERSON TOWNSHIP — The Jefferson Arts Committee will host a gazebo concert featuring Some Guys & a Broad."]},
+  {id:'valenti', cat:'Jefferson', title:'Longtime Jefferson Township Principal Dr. Michael Valenti Dies', img:A+'valenti.jpg', date:'Aug 7, 2026', author:'Frank Cahill',
+    body:["JEFFERSON TOWNSHIP — Longtime Jefferson Township principal Dr. Michael Valenti has died."]},
+  {id:'abrams', cat:'Boonton', title:"Samantha Abrams Named to Salve Regina University's Spring 2026 Dean's List", img:A+'abrams.jpg', date:'Jul 14, 2026', author:'Frank Cahill',
+    body:["BOONTON — Samantha Abrams has been named to Salve Regina University's Spring 2026 Dean's List."]},
+  {id:'celine', cat:'Florham Park', title:"Florham Park's Celine Ramos-Rodriguez Named to Georgia Tech Dean's List", img:A+'celine.jpg', date:'Jul 10, 2026', author:'Frank Cahill',
+    body:["FLORHAM PARK — Celine Ramos-Rodriguez of Florham Park has been named to the Georgia Tech Dean's List."]}
+];
+
+const VIDEOS = [
+  {title:'Video: Jefferson Township Council Meeting – August 5, 2026', date:'Aug 7, 2026', img:A+'wilsusen.jpg'},
+  {title:'Video: Jefferson Township Special Town Council Meeting – July 30, 2026', date:'Jul 31, 2026', img:null},
+  {title:'Video: Boonton Township Board of Education Special Meeting – July 29, 2026', date:'Jul 31, 2026', img:null},
+  {title:'Video: Boonton Township Board of Education Regular Meeting – June 16, 2026', date:'Jul 24, 2026', img:null}
+];
+
+const POPULAR = [
+  {title:'Unity Bank Named New Jersey Economic Development Authority Premier Lender', date:'Aug 3, 2026'},
+  {title:'Pennacchio Reacts to Congressional Investigation Into New Jersey Voter Registration Error', date:'Aug 3, 2026'},
+  {title:'Oktoberfest Fundraiser to Support Single Mother Battling Glioblastoma', date:'Aug 3, 2026'},
+  {title:'CCM and Table of Hope to Host Annual Backpack Giveaway for Morris County Families', date:'Aug 3, 2026'}
+];
+
+/* Real community counts from morrisfocus.com */
+const CATEGORIES = [
+  {name:'Morris County', count:'5,115 articles', ico:'globe'},
+  {name:'Hanover', count:'1,258 articles', ico:'pin'},
+  {name:'Dover', count:'637 articles', ico:'pin'},
+  {name:'Boonton', count:'559 articles', ico:'pin'},
+  {name:'East Hanover', count:'496 articles', ico:'pin'},
+  {name:'Madison', count:'449 articles', ico:'pin'},
+  {name:'Mountain Lakes', count:'434 articles', ico:'pin'},
+  {name:'Business News', count:'422 articles', ico:'brief'},
+  {name:'Florham Park', count:'413 articles', ico:'pin'},
+  {name:'Jefferson', count:'374 articles', ico:'pin'},
+  {name:'Morris Plains', count:'287 articles', ico:'pin'},
+  {name:'Videos', count:'Meeting coverage', ico:'play'}
+];
+
+/* Real advertiser creatives captured from morrisfocus.com */
+const BANNERS = {coyne:AD+'coyne.png', tle:AD+'tle.jpg', car:AD+'car-summer.gif', focus:AD+'focus-ad.jpg'};
+const SPONSOR_CARDS = [AD+'banta.jpg', AD+'mary-menard.png', AD+'recoat.png', AD+'pfm.png', AD+'par-focus.jpg', AD+'morris-focus-14.png'];
+
+/* ---------- icons ---------- */
+const I = {
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg>',
+  grid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.4"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.4"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.4"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.4"/></svg>',
+  play:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor" stroke="none"/></svg>',
+  playSolid:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5.5v13l11-6.5z"/></svg>',
+  bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 5-2 6-2 6h16s-2-1-2-6"/><path d="M10 19a2.2 2.2 0 0 0 4 0"/></svg>',
+  menu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></svg>',
+  share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4"/><path d="m8 7.5 4-4 4 4"/><path d="M5 11v8.5h14V11"/></svg>',
+  bookmark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6.5 3.5h11V21L12 17l-5.5 4z"/></svg>',
+  chev:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 21s-7-6.2-7-11a7 7 0 1 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+  school:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="m2.5 9 9.5-5 9.5 5-9.5 5z"/><path d="M6.5 11.5V17c0 1.2 2.5 2.5 5.5 2.5s5.5-1.3 5.5-2.5v-5.5"/><path d="M21.5 9v6" stroke-linecap="round"/></svg>',
+  globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c-5.5 5.5-5.5 11.5 0 17 5.5-5.5 5.5-11.5 0-17z"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 3 5 5.8v5.4c0 4.5 3 7.9 7 9.8 4-1.9 7-5.3 7-9.8V5.8z"/></svg>',
+  brief:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12" rx="2"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3.5 12.5h17"/></svg>',
+  mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>',
+  doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3.5h8L19 8.5V20.5H6z"/><path d="M14 3.5v5h5M9 12h6M9 15.5h6"/></svg>',
+  heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 20.5s-8-5.2-8-11a4.6 4.6 0 0 1 8-3.1 4.6 4.6 0 0 1 8 3.1c0 5.8-8 11-8 11z"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 7.8v.2"/></svg>',
+  link:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M10 14a4.5 4.5 0 0 0 6.4.4l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.7 1.7"/><path d="M14 10a4.5 4.5 0 0 0-6.4-.4l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.7-1.7"/></svg>',
+  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>',
+  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l1.5 4.5-2.2 1.6a13 13 0 0 0 5.6 5.6l1.6-2.2L20 15v4a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/></svg>',
+  fb:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V4.9c-.3 0-1.1-.1-2-.1-2 0-3.4 1.2-3.4 3.5V11H8.5v3H11v7z"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3.1l-6.8 7.8L21.8 21h-6.3l-4.9-6.4L5 21H1.9l7.3-8.3L2.2 3h6.4l4.4 5.9zm-1.1 16.1h1.7L7.6 4.7H5.8z"/></svg>'
+};
+
+/* ---------- helpers ---------- */
+const byId = id => ARTICLES.find(a => a.id === id);
+const byCat = c => ARTICLES.filter(a => a.cat === c);
+const esc = s => s.replace(/"/g,'&quot;');
+
+function rowHTML(a, showCat=true){
+  return `<div class="row" onclick="openArticle('${a.id}')">
+    <img src="${a.img}" alt="" loading="lazy">
+    <div class="row-body">
+      ${showCat?`<div class="cat">${a.cat}</div>`:''}
+      <h4>${a.title}</h4>
+      <div class="meta">${a.author} · ${a.date}</div>
+    </div>
+  </div>`;
+}
+function hcardHTML(a){
+  return `<div class="hcard" onclick="openArticle('${a.id}')">
+    <img src="${a.img}" alt="" loading="lazy">
+    <div class="hc-body"><h5>${a.title}</h5><div class="meta">${a.date}</div></div>
+  </div>`;
+}
+function adSlot(src, alt){
+  return `<div class="ad-slot"><div class="ad-tag">Advertisement</div><img src="${src}" alt="${alt||'Advertisement'}"></div>`;
+}
+function blockHead(title, cat){
+  const btn = cat ? `<button class="see-all" onclick="openCategory('${esc(cat)}')">See all ${I.chev}</button>` : '';
+  return `<div class="block-title"><h3>${title}</h3>${btn}</div>`;
+}
+function appHeaderHTML(){
+  return `<div class="app-header">
+    <div class="topstrip"><span>Monday, August 17, 2026</span><b>All Local, All Morris County</b></div>
+    <div class="header-main">
+      <img src="assets/logo.gif" alt="Morris Focus" onclick="switchTab('home');document.querySelector('#screen-home').scrollTo({top:0,behavior:'smooth'})">
+      <div class="header-actions">
+        <button class="icon-btn" onclick="openSearch()">${I.search}</button>
+        <button class="icon-btn" onclick="switchTab('alerts')">${I.bell}<span class="bell-dot"></span></button>
+      </div>
+    </div>
+    <div class="trending">
+      <span class="trending-label">TRENDING&nbsp;NOW</span>
+      <div class="trending-track"><div class="trending-items">
+        <span onclick="openArticle('humphrey')">Naughty Humphrey Set to Close Out Jefferson's Summer Gazebo Concert Series</span><span onclick="openArticle('kura')">Kura Sushi Opens First Parsippany Location at District 15Fifteen</span><span onclick="openArticle('baby')">Focus Invites Families to Share Baby Announcements</span><span onclick="openArticle('humphrey')">Naughty Humphrey Set to Close Out Jefferson's Summer Gazebo Concert Series</span><span onclick="openArticle('kura')">Kura Sushi Opens First Parsippany Location at District 15Fifteen</span><span onclick="openArticle('baby')">Focus Invites Families to Share Baby Announcements</span>
+      </div></div>
+    </div>
+  </div>`;
+}
+
+/* ---------- screens ---------- */
+function homeHTML(){
+  const county = ['chatham','rose-house','veterans','leaf-blower','seniors'].map(byId);
+  const biz = ['kura','quiet-man','dover-apts','madison-film'].map(byId);
+  const towns = ['hanover-awards','jefferson-seat','winger','brewfest','celine','abrams'].map(byId);
+  const police = ['ecstasy','georgia-couple','ml-investigation'].map(byId);
+  const hero = byId('humphrey');
+  return `
+  ${appHeaderHTML()}
+  <div class="hero" onclick="openArticle('humphrey')">
+    <img src="${hero.img}" alt="">
+    <div class="hero-grad"></div>
+    <div class="hero-txt">
+      <span class="chip on-card">Jefferson</span>
+      <h2>${hero.title}</h2>
+      <div class="meta">${hero.author} · ${hero.date}</div>
+    </div>
+  </div>
+  ${adSlot(BANNERS.coyne,'Coyne PR')}
+  <div class="block">
+    ${blockHead('Morris County','Morris County')}
+    ${county.map(a=>rowHTML(a,false)).join('')}
+  </div>
+  ${adSlot(BANNERS.tle,'The Learning Experience — Denville & Parsippany')}
+  <div class="block">
+    ${blockHead('Business Briefs','Business News')}
+    <div class="hscroll">${biz.map(hcardHTML).join('')}</div>
+  </div>
+  <div class="block">
+    ${blockHead('Police Blotter','Hanover')}
+    ${police.map(a=>rowHTML(a,false)).join('')}
+  </div>
+  ${adSlot(BANNERS.car,'Advertisement')}
+  <div class="block">
+    ${blockHead('Around The Towns')}
+    <div class="hscroll">${towns.map(hcardHTML).join('')}</div>
+  </div>
+  <div class="block">
+    ${blockHead('Videos','Videos')}
+    ${VIDEOS.slice(0,2).map(v=>`
+      <div class="row" onclick="switchTab('videos')">
+        <div style="position:relative;flex:0 0 auto">
+          ${v.img?`<img src="${v.img}" alt="">`:`<div style="width:104px;height:74px;background:linear-gradient(135deg,#0b2e1b,#098945);display:flex;align-items:center;justify-content:center"><span style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;color:#076A36">${I.playSolid.replace('<svg','<svg width="14" height="14"')}</span></div>`}
+        </div>
+        <div class="row-body"><h4>${v.title}</h4><div class="meta">Frank Cahill · ${v.date}</div></div>
+      </div>`).join('')}
+  </div>
+  ${adSlot(BANNERS.focus,'Focus Publications')}
+  <div class="block">
+    ${blockHead('Most Popular')}
+    ${POPULAR.map(l=>`<div class="row" onclick="toast('Full story opens here')"><div class="row-body"><h4>${l.title}</h4><div class="meta">${l.date}</div></div></div>`).join('')}
+  </div>
+  <div class="block">
+    ${blockHead('From Our Advertisers')}
+    <div class="hscroll">${SPONSOR_CARDS.map(s=>`<div class="ad-strip-card"><img src="${s}" alt="Advertiser"></div>`).join('')}</div>
+  </div>
+  <div class="app-footer">
+    <img src="assets/logo.gif" alt="Morris Focus">
+    <div>Morris Focus was founded in 2017 and is published in print and online formats. Its mission is to provide timely and accurate news coverage to Morris County residents and promote community engagement and involvement. A member of the Parsippany Area Chamber of Commerce and the Morris County Chamber of Commerce.</div>
+    <div style="margin-top:8px">(973) 559-6000 · news@morrisfocus.com</div>
+    <div class="soc"><a>${I.fb}</a><a>${I.x}</a></div>
+    <div>© 2026 Zoomus Marketing, LLC. All rights reserved.</div>
+  </div>`;
+}
+
+function sectionsHTML(){
+  return `
+  <div class="page-title"><h2>Your Towns</h2><p>Every community morrisfocus.com covers, in the app</p></div>
+  <div class="cat-list">
+    ${CATEGORIES.map(c=>`
+      <div class="cat-item" onclick="${c.name==='Videos'?"switchTab('videos')":`openCategory('${esc(c.name)}')`}">
+        <div class="cat-ico">${I[c.ico]}</div>
+        <div><div class="cat-name">${c.name}</div><div class="cat-count">${c.count}</div></div>
+        <span class="chev">${I.chev}</span>
+      </div>`).join('')}
+  </div>
+  ${adSlot(BANNERS.tle,'The Learning Experience')}`;
+}
+
+function videosHTML(){
+  return `
+  <div class="page-title"><h2>Videos</h2><p>Council, board and community meeting coverage</p></div>
+  ${VIDEOS.map((v,i)=>`
+    <div class="video-card" onclick="toast('Video player opens here')">
+      <div class="video-thumb">
+        ${v.img?`<img class="vt-img" src="${v.img}" alt=""><div class="vt-shade"></div>`:`<img class="vt-logo" src="assets/logo.gif" alt="">`}
+        <div class="play-badge">${I.playSolid}</div>
+      </div>
+      <div class="vc-body"><h4>${v.title}</h4><div class="meta">Frank Cahill · ${v.date}</div></div>
+    </div>
+    ${i===1?adSlot(BANNERS.car,'Advertisement'):''}`).join('')}
+  <div style="height:20px"></div>`;
+}
+
+function alertsHTML(){
+  return `
+  <div class="page-title"><h2>Notifications</h2><p>News from your towns, straight to the phone</p></div>
+  <div style="background:#fff;margin-top:8px">
+    <div class="menu-label" style="padding-top:12px">Recent alerts</div>
+    <div class="notif-card" onclick="openArticle('kura')">
+      <div class="notif-ico"><img src="assets/logo.gif" alt=""></div>
+      <div class="nb"><div class="n-top"><span>Business News</span><span class="n-time">1h ago</span></div>
+      <h5>Kura Sushi Opens First Parsippany Location at District 15Fifteen</h5>
+      <p>The Japan-based chain's eighth New Jersey restaurant opens at The District at 15Fifteen.</p></div>
+    </div>
+    <div class="notif-card" onclick="openArticle('humphrey')">
+      <div class="notif-ico"><img src="assets/logo.gif" alt=""></div>
+      <div class="nb"><div class="n-top"><span>Jefferson</span><span class="n-time">4h ago</span></div>
+      <h5>Naughty Humphrey Set to Close Out Jefferson's Summer Gazebo Concert Series</h5>
+      <p>Final free concert of the summer — Friday, August 21, at 6:30 p.m. at the Gazebo.</p></div>
+    </div>
+    <div class="notif-card" onclick="openArticle('quiet-man')">
+      <div class="notif-ico"><img src="assets/logo.gif" alt=""></div>
+      <div class="nb"><div class="n-top"><span>Dover</span><span class="n-time">Yesterday</span></div>
+      <h5>The Quiet Man Irish Pub to Close After 47 Years in Dover</h5>
+      <p>A downtown Dover institution announces it will close its doors.</p></div>
+    </div>
+  </div>
+  <div style="background:#fff;margin-top:8px">
+    <div class="menu-label" style="padding-top:12px">Alert preferences — pick your towns</div>
+    ${[['Breaking News','Major Morris County stories, as they happen',1],
+       ['Morris County','County-wide news and events',1],
+       ['Hanover Township','News from Hanover',1],
+       ['Jefferson Township','News from Jefferson',0],
+       ['Dover','News from Dover',0],
+       ['Business News','Openings, closings and local business',0]]
+      .map(p=>`<div class="pref-item"><div><div class="p-name">${p[0]}</div><div class="p-sub">${p[1]}</div></div><div class="switch ${p[2]?'on':''}" onclick="this.classList.toggle('on');toast('Preference saved')"></div></div>`).join('')}
+  </div>
+  <div class="version">Each reader chooses their own towns — alerts are sent automatically<br>when a story is published on morrisfocus.com.</div>`;
+}
+
+function moreHTML(){
+  return `
+  <div class="more-hero">
+    <img src="assets/logo.gif" alt="Morris Focus">
+    <p>All Local, All Morris County — since 2017</p>
+  </div>
+  <div class="menu-group">
+    <div class="menu-label">Contribute</div>
+    <div class="menu-item" onclick="toast('Article submission form opens here')"><span class="mi-ico">${I.doc}</span>Submit an Article<span class="chev">${I.chev}</span></div>
+    <div class="menu-item" onclick="openArticle('baby')"><span class="mi-ico">${I.heart}</span>Share a Baby Announcement<span class="chev">${I.chev}</span></div>
+  </div>
+  <div class="menu-group">
+    <div class="menu-label">Advertise</div>
+    <div class="menu-item" onclick="toast('Ad inquiry form opens here')"><span class="mi-ico">${I.brief}</span>Place an Ad<span class="chev">${I.chev}</span></div>
+    <div class="menu-item" onclick="toast('Calendar of events opens here')"><span class="mi-ico">${I.cal}</span>Calendar of Events<span class="chev">${I.chev}</span></div>
+  </div>
+  <div class="menu-group">
+    <div class="menu-label">About</div>
+    <div class="menu-item" onclick="toast('About page opens here')"><span class="mi-ico">${I.info}</span>About Morris Focus<span class="chev">${I.chev}</span></div>
+    <div class="menu-item" onclick="toast('Hanover Focus opens here')"><span class="mi-ico">${I.link}</span>Hanover Focus<span class="chev">${I.chev}</span></div>
+    <div class="menu-item" onclick="toast('Opens morrisfocus.com')"><span class="mi-ico">${I.globe}</span>Visit morrisfocus.com<span class="chev">${I.chev}</span></div>
+    <div class="menu-item" onclick="toast('Calls (973) 559-6000')"><span class="mi-ico">${I.phone}</span>Call the Newsroom<span class="chev">${I.chev}</span></div>
+    <div class="menu-item" onclick="toast('Facebook opens here')"><span class="mi-ico">${I.fb}</span>Follow on Facebook<span class="chev">${I.chev}</span></div>
+    <div class="menu-item" onclick="toast('X opens here')"><span class="mi-ico">${I.x}</span>Follow on X<span class="chev">${I.chev}</span></div>
+  </div>
+  <div class="about-note">Morris Focus was founded in 2017 and is published in print and online formats. Its mission is to provide timely and accurate news coverage to Morris County residents and promote community engagement and involvement — covering local government, education, business, and sports.</div>
+  <div class="version">Morris Focus App · Version 1.0 (Demo)<br>© 2026 Zoomus Marketing, LLC.</div>`;
+}
+
+function categoryHTML(cat){
+  const arts = byCat(cat);
+  return `
+  <div class="detail-header">
+    <div class="dh-left">
+      <button class="icon-btn" onclick="switchTab(lastTab)">${I.back}</button>
+      <img class="mini-logo" src="assets/logo.gif" alt="">
+    </div>
+    <button class="icon-btn" onclick="openSearch()">${I.search}</button>
+  </div>
+  <div class="page-title"><h2>${cat}</h2><p>${arts.length} recent stories</p></div>
+  <div class="block" style="margin-top:8px">
+    ${arts.map(a=>rowHTML(a,false)).join('') || '<div class="empty-note">Stories from this community appear here.</div>'}
+  </div>
+  ${adSlot(BANNERS.tle,'The Learning Experience')}
+  <div style="height:20px"></div>`;
+}
+
+function articleHTML(a){
+  const more = byCat(a.cat).filter(x=>x.id!==a.id).slice(0,3);
+  const initials = a.author.split(' ').map(w=>w[0]).slice(0,2).join('');
+  return `
+  <div class="detail-header">
+    <div class="dh-left">
+      <button class="icon-btn" onclick="switchTab(lastTab)">${I.back}</button>
+      <img class="mini-logo" src="assets/logo.gif" alt="">
+    </div>
+    <div style="display:flex">
+      <button class="icon-btn" onclick="toast('Story shared')">${I.share}</button>
+      <button class="icon-btn" onclick="toast('Saved for later')">${I.bookmark}</button>
+    </div>
+  </div>
+  <div class="article-hero"><img src="${a.img}" alt=""></div>
+  <div class="article-body">
+    <span class="chip">${a.cat}</span>
+    <h1>${a.title}</h1>
+    <div class="byline">
+      <div class="avatar">${initials}</div>
+      <div><div class="who">${a.author}</div><div class="when">${a.date} · Morris Focus</div></div>
+    </div>
+    ${a.body.map(p=>`<p>${p}</p>`).join('')}
+  </div>
+  ${adSlot(BANNERS.tle,'The Learning Experience — Denville & Parsippany')}
+  <div class="block more-block">
+    ${blockHead('More from '+a.cat, a.cat)}
+    ${more.map(x=>rowHTML(x,false)).join('')}
+  </div>
+  <div style="height:20px"></div>`;
+}
+
+function searchHTML(){
+  return `
+  <div class="search-bar">
+    <button class="icon-btn" onclick="switchTab(lastTab)">${I.back}</button>
+    <input id="searchInput" type="text" placeholder="Search Morris Focus" oninput="runSearch(this.value)">
+  </div>
+  <div id="searchResults"><div class="empty-note">Search every story on morrisfocus.com —<br>right from the app.</div></div>`;
+}
+
+/* ---------- shell / navigation ---------- */
+const TABS = [
+  {id:'home', label:'Home', ico:'home'},
+  {id:'sections', label:'Towns', ico:'grid'},
+  {id:'videos', label:'Videos', ico:'play'},
+  {id:'alerts', label:'Alerts', ico:'bell'},
+  {id:'more', label:'More', ico:'menu'}
+];
+let lastTab = 'home';
+
+const screensEl = document.getElementById('screens');
+function ensureScreen(id, html){
+  let el = document.getElementById('screen-'+id);
+  if(!el){
+    el = document.createElement('div');
+    el.className='screen'; el.id='screen-'+id;
+    screensEl.appendChild(el);
+  }
+  if(html!==undefined) el.innerHTML = html;
+  return el;
+}
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el = document.getElementById('screen-'+id);
+  el.classList.add('active');
+  return el;
+}
+function switchTab(id){
+  lastTab = TABS.some(t=>t.id===id) ? id : lastTab;
+  show(id);
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===id));
+}
+function openArticle(id){
+  const a = byId(id);
+  const el = ensureScreen('article', articleHTML(a));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active'); el.scrollTop=0;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+}
+function openCategory(cat){
+  if(cat==='Videos'){ switchTab('videos'); return; }
+  const arts = byCat(cat);
+  if(!arts.length){ toast(cat+' section opens here'); return; }
+  const el = ensureScreen('category', categoryHTML(cat));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active'); el.scrollTop=0;
+}
+function openSearch(){
+  const el = ensureScreen('search', searchHTML());
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  setTimeout(()=>document.getElementById('searchInput')?.focus(),80);
+}
+function runSearch(q){
+  const box = document.getElementById('searchResults');
+  q = q.trim().toLowerCase();
+  if(!q){ box.innerHTML = '<div class="empty-note">Search every story on morrisfocus.com —<br>right from the app.</div>'; return; }
+  const hits = ARTICLES.filter(a=>a.title.toLowerCase().includes(q) || a.cat.toLowerCase().includes(q));
+  box.innerHTML = hits.length
+    ? `<div class="block" style="margin-top:0">${hits.map(a=>rowHTML(a,true)).join('')}</div>`
+    : `<div class="empty-note">No stories found for "${q}".</div>`;
+}
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._h);
+  t._h = setTimeout(()=>t.classList.remove('show'), 1800);
+}
+
+/* ---------- boot ---------- */
+ensureScreen('home', homeHTML());
+ensureScreen('sections', sectionsHTML());
+ensureScreen('videos', videosHTML());
+ensureScreen('alerts', alertsHTML());
+ensureScreen('more', moreHTML());
+
+const tabbar = document.getElementById('tabbar');
+tabbar.innerHTML = TABS.map(t=>`<button class="tab" data-tab="${t.id}" onclick="switchTab('${t.id}')">${I[t.ico]}<span>${t.label}</span></button>`).join('');
+switchTab('home');
+
+/* splash then push-notification demo */
+setTimeout(()=>{ document.getElementById('splash').classList.add('hide'); }, 1700);
+const push = document.getElementById('pushDemo');
+setTimeout(()=>{ push.classList.add('show'); }, 4500);
+setTimeout(()=>{ push.classList.remove('show'); }, 11000);
+push.addEventListener('click', ()=>{ push.classList.remove('show'); openArticle('kura'); });
+</script>
+</body>
+</html>

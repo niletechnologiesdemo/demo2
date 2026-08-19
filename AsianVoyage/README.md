@@ -1,96 +1,159 @@
-# Asian Voyage — ordering, loyalty & POS demo
+# Asian Voyage — Restaurant POS demo
 
-A clickable prototype covering all three proposed tiers. Static HTML/CSS/vanilla JS,
-no build step. Open `index.html` to start.
+Single-site point of sale for Cedar Plaza: billing counter, waiter tablets, kitchen
+tickets, and a second station for busy nights. Static HTML/CSS/vanilla JS, no build step.
+
+## Running it
+
+```bash
+node .claude/serve.js 8177
+```
+
+Then open <http://localhost:8177>. A server is needed rather than opening the files
+directly, because the browser blocks `file://` pages from loading the shared scripts.
 
 ## Screens
 
-| File | Tier | What it is |
+| File | Who uses it | What it does |
 |---|---|---|
-| `index.html` | — | Pitch hub: the three tiers, and links into every screen |
-| `menu.html` | 1 | Customer QR menu. Reads `?b=<branch>&t=<table>` from the table code |
-| `admin.html` | 1 + 3 | Live orders, POS bill builder, kitchen tickets, customers, menu availability, loyalty settings |
-| `app.html` | 2 | Customer app in a phone frame — wallet, loyalty, pickup/dine-in |
-| `qr.html` | 1 | Printable per-table QR tents for both branches |
+| `index.html` | — | Landing page |
+| `counter.html` | Admin / cashier | **Source of truth.** Floor plan, punch orders, fire KOTs, bill and settle, print queue, reports |
+| `waiter.html` | Floor staff | PIN sign-in, seat a table, take the order, send to kitchen, close for billing |
+| `kitchen.html` | Kitchen | Live tickets with age timers and amendment flags, bump when plated |
+| `backoffice.html` | Station 2 | Same software, second station. Prints handed-over bills, takes extra orders on busy nights |
 
-## Demo script (about two minutes)
+Open several in separate windows — they share data, so an order punched on the tablet
+appears at the counter immediately.
 
-1. Open `menu.html?b=cedar&t=12` — the menu already knows the branch and table.
-2. Add a dish, tap **Continue**, enter a name and the mobile **268 723 1188**.
-   That guest has points, so the redemption dropdown appears.
-3. Place the order.
-4. Open `admin.html` in a second tab — the order is already on the board, with the
-   guest's points balance and visit count beside their name.
-5. Move it through the kitchen, print a ticket, add a tip, take payment.
-   Points post on settlement, never before.
+## The two stations
 
-Reset everything from the link in the console sidebar, or on the hub.
+Both stations run the same application (`assets/pos-app.js`) mounted against different
+stores, so they look and behave identically. What differs is the books they keep.
 
-## Data
+**Main counter** holds every bill, including the ones handed over to print. It is what
+reports, the day summary and the audited figures come from.
 
-`assets/menu-data.js` holds all **162 items** transcribed from the client's `Menu.pdf`
-— 22 categories across Starters, Main Course, Sushi & Sashimi and Drinks. Prices are
-EC$ and ABST-inclusive as printed; the 10% service charge is added at billing time and
-is excluded from dine-in points. Pickup orders carry no service charge.
+**Back office** holds bills handed over from the counter, plus anything taken there on
+a chaotic night.
 
-Items carry `veg` / `spicy` flags, and a `variants` list wherever the kitchen needs a
-choice — soup protein, curry colour, wing sauce, Pad Thai protein.
+Bills are plain serials — `001, 002, 003` — and **each station counts its own**. A
+handed-over bill therefore has two numbers, linked in both directions:
 
-### Open questions flagged for the client
+```
+Counter bill 045  ──sentToCode──▶  Back office bill 001
+Counter bill 045  ◀──sourceCode──  Back office bill 001
+```
 
-- **Branch two is a placeholder.** Cedar Plaza is real; the second branch name, area
-  and phone in `AV_CONFIG.branches` need confirming.
-- **Soups** share one price grid on the printed menu (Vegetable $24 / Chicken $26 /
-  Shrimp $32), so all four soups are modelled with those three options. Worth checking
-  that reading — Wonton Soup is described as a chicken broth.
-- **Sparkling water** is listed at EC$18 against EC$8 for still. Possibly a typo.
-- **"Vegetable Tempura Roll"** appears twice with different descriptions; the second is
-  shown here as "Yasai Tempura Roll".
-- **No dish photography** exists, so the menu is designed to read well without it.
+The back office shows that chain on every received bill, along with the full order
+history — items, both KOT batches with times and who fired them, covers, server,
+settlement and payment — so it can answer a guest's question without ringing the counter.
+The printed bill carries a `Counter ref` line for the same reason.
 
-## Loyalty rules
+### Print now vs ready to print
 
-Defaults, all editable live from **Admin → Settings**:
+When a bill settles, the counter offers two choices:
 
-- Earn 1 point per EC$1 of item subtotal — service charge and tip excluded
-- 100 points = EC$10.00, redeemed in blocks of 100, minimum balance 100
-- Points post when the order completes, and are idempotent (settling twice cannot double-post)
-- Redeemed value does not itself earn points
-- Redemption is capped by both the balance and the bill, so a total can never go negative
-- 12-month expiry
-- Tier multipliers (Bronze/Silver/Gold) exist but ship switched **off**
+- **Print now** — prints here and hands the paper to the guest.
+- **Ready to print** — hands it to the back office, which prints on its own printer.
+
+**Both paths record the bill identically.** A handed-over bill is settled, counted in
+every report, and included in the day summary exactly like one printed at the counter.
+The only thing deferred is which printer the paper comes out of. The Reports day summary
+shows the split (`n printed here · n printed by the back office — all counted above`)
+so the two numbers can always be reconciled.
+
+### Orders raised at the back office
+
+Orders taken at station 2 are copied into main automatically, so the audited books stay
+complete. Bills handed over from main are skipped, so nothing is duplicated.
+
+That behaviour is a flag — `window.SYNC_BACKOFFICE_ORDERS_TO_MAIN` in `assets/pos-store.js`,
+default `true`. Turn it off only if the second station is genuinely a separate branch
+keeping its own books.
+
+## Demo script (about three minutes)
+
+1. **Waiter tablet** — sign in as Kwame (PIN `2222`). Tap a free table, set covers.
+2. Punch a few items. Note the `NOT SENT` badge on each line.
+3. **Send to kitchen.** The lines flip to `KOT 1`.
+4. Add a round of drinks and send again — it fires as **KOT 2**, and the kitchen display
+   flags it `ADDITION` rather than reprinting the whole order.
+5. **Kitchen display** — age timers turn amber at 12 minutes and red at 20. Bump one.
+6. Back on the tablet, **Close — ready for billing**.
+7. **Billing counter** — the table is green on the floor plan. Open it, add a tip, take
+   part cash and part card, then choose **Ready to print**.
+8. **Back office** — the bill is waiting with its full history. Hit History, then Print.
+9. **Counter → Reports** — the handed-over bill is in the totals, and the day summary
+   shows the printed-here / printed-elsewhere split.
+
+Reset from the landing page at any time.
+
+### Manager-gated actions
+
+PIN `1234` (Ravi Persaud, manager). Required for: voiding an item the kitchen already
+has, comping an item, applying a discount, voiding a bill, and reopening a settled bill.
+
+Other PINs: Anisha `1111` (cashier), Kwame `2222`, Leah `3333`, Terrence `4444` (waiters).
+
+## Order lifecycle
+
+**Placed** → **Under preparation** (KOT fired) → **Ready for billing** (waiter closed it)
+→ **Settled**. Counter orders follow the same path but carry no service charge.
+
+Two details worth pointing out in a demo:
+
+- **KOT batching.** Each line carries the batch it fired in, so a second round prints as
+  an amendment and the kitchen never re-cooks the starters.
+- **Void is two different acts.** Before the kitchen has the ticket, a mistyped line just
+  disappears. After, it needs a manager PIN, stays on the bill struck through, and prints
+  a cancellation ticket so the pass stops work.
+
+## Money
+
+Menu prices are EC$ and **ABST-inclusive**, exactly as printed on the client's menu, so
+the bill shows tax as a memo line rather than adding it. The 10% service charge is added
+on top for dine-in only. Tips sit on top of the service charge.
+
+**Confirm the ABST rate before go-live.** `AV_CONFIG.abstRate` in `assets/menu-data.js`
+is set to 15 and drives every tax figure on the bill and in reports.
+
+## Files
+
+```
+assets/
+  menu-data.js   162 items transcribed from the client's Menu.pdf, plus config
+  pos-store.js   store factory; POS (main) and BO (back office) instances, money, reports
+  pos-app.js     the application, mounted against a store by counter.html / backoffice.html
+  pos-ui.js      shared modal / toast / print / PIN pad
+  pos.css        POS layout — counter, tablet, kitchen, reports dashboard
+  styles.css     brand tokens and base styles
+  av-icons.js    inline SVG icons — no emoji anywhere
+```
 
 ## Going live
 
-`assets/store.js` is the only file that touches storage. Everything is async and
-returns promises already. The four DRIVER functions at the bottom — read, write,
-broadcast, subscribe — are the swap point for Supabase or Firebase:
+`assets/pos-store.js` is the only file that touches storage and everything is already
+async. The DRIVER functions at the bottom of the factory (read / write / broadcast /
+subscribe) are the swap point. In production the two stores become two databases and the
+handover becomes an API call between them; no screen code changes.
 
-```
-read/write  ->  supabase.from('orders').select() / .upsert()
-broadcast   ->  handled server-side by Postgres replication
-subscribe   ->  supabase.channel('orders').on('postgres_changes', ...)
-```
+Until then, the stations sync via `BroadcastChannel` across tabs on one machine, with a
+`storage` event fallback.
 
-No screen code changes. Until then, orders sync between tabs on one machine via
-`BroadcastChannel`, with a `storage` event fallback.
+## Known gaps for a production build
 
-## QR codes
+Scoped out deliberately — worth pricing separately:
 
-`assets/qr-codes.js` holds 33 pre-generated matrices (18 Cedar Plaza tables, 12 Jolly
-Harbour, 2 pickup counters, 1 app card). Every one was generated with CoreImage and
-verified by decoding it back through Apple's Vision framework — 33/33 round-tripped.
-
-They encode `https://asianvoyage.ag/m?b=<branch>&t=<table>`. To repoint at the real
-production domain, regenerate them rather than editing by hand — an encoder that
-produces a subtly malformed symbol still *looks* like a QR code.
-
-## Notes
-
-- Prata (headings) is the same face as the printed menu; the cream and terracotta
-  palette is sampled from it directly. Inter is used for UI text.
-- No emoji anywhere — icons are inline SVG in `assets/av-icons.js`.
-- Kitchen tickets and receipts have print stylesheets sized for an 80 mm thermal roll;
-  the QR sheet prints 3-up on A4.
-- Payment is simulated. There is no gateway integration — Antigua is outside Stripe's
-  coverage, so a live build needs a local acquirer.
+- **Real printer integration.** Print layouts are sized for an 80 mm roll and print
+  through the browser. Driving network or USB thermal printers — and routing the back
+  office to a *different* printer — needs a local print bridge.
+- **Offline resilience.** A till that stops when the internet drops is unusable; needs a
+  local-first store with sync on reconnect.
+- **Payment processing.** Card payment is recorded, not processed. Antigua is outside
+  Stripe's coverage, so this needs a local acquirer.
+- **Split bill by item.** Split *payment* across methods works; splitting one table into
+  separate bills does not.
+- **Course firing.** Every line carries a `course` field, but nothing drives it yet.
+- **Cash reconciliation.** Shift open/close, float, drops and drawer variance were
+  removed at the client's request. If they later want end-of-day cash counting, that is
+  a small addition on top of the existing day summary.

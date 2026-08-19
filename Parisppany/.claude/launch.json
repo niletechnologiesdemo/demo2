@@ -6,6 +6,18 @@
       "runtimeExecutable": "node",
       "runtimeArgs": [".claude/serve.js"],
       "port": 8734
+    },
+    {
+      "name": "morris-app",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../MorrisFocus/.claude/serve.js"],
+      "port": 8735
+    },
+    {
+      "name": "focus-apps",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["../FocusApps/.claude/serve.js"],
+      "port": 8736
     }
   ]
 }

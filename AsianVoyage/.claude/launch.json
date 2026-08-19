@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "asian-voyage-pos",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [".claude/serve.js", "8177"],
+      "port": 8177
+    }
+  ]
+}

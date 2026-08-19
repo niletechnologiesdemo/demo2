@@ -3,107 +3,76 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Asian Voyage — Ordering & Loyalty Platform</title>
+<title>Asian Voyage — Restaurant POS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 22px; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px; }
+  .hero { position: relative; padding: 50px 0 34px; text-align: center; }
+  .hero img.logo { height: 70px; margin: 0 auto 20px; }
+  .hero h1 { font-size: clamp(28px, 4.6vw, 40px); line-height: 1.15; max-width: 16ch; margin: 0 auto; }
+  .hero p.lede { max-width: 54ch; margin: 15px auto 0; color: var(--ink-2); font-size: 16px; }
+  .hero .meta { margin-top: 18px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 
-  /* hero */
-  .hero { position: relative; padding: 54px 0 40px; text-align: center; overflow: hidden; }
-  .hero .bracket { opacity: .5; }
-  .hero img.logo { height: 76px; margin: 0 auto 22px; }
-  .hero h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.14; max-width: 15ch; margin: 0 auto; }
-  .hero p.lede { max-width: 56ch; margin: 16px auto 0; color: var(--ink-2); font-size: 16.5px; }
-  .hero .meta { margin-top: 20px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-
-  /* tier cards */
-  .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin: 12px 0 40px; align-items: start; }
-  .tier {
-    background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius-lg);
-    padding: 24px; display: flex; flex-direction: column; position: relative; overflow: hidden;
+  .screens { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 30px 0 42px; }
+  .scr {
+    display: block; text-align: left; padding: 20px; background: var(--paper-2);
+    border: 1px solid var(--line); border-radius: var(--radius-lg); transition: all .16s;
   }
-  .tier.feature { border-color: var(--clay); box-shadow: 0 6px 30px rgba(184,83,27,.14); }
-  .tier .ribbon {
-    position: absolute; top: 15px; right: -33px; transform: rotate(45deg); background: var(--clay);
-    color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .1em; padding: 4px 40px; text-transform: uppercase;
-  }
-  .tier-n {
-    width: 38px; height: 38px; border-radius: 11px; background: var(--clay-wash); color: var(--clay);
-    display: grid; place-items: center; font-family: var(--display); font-size: 18px; margin-bottom: 13px;
-  }
-  .tier h2 { font-size: 22px; }
-  .tier .sub { color: var(--ink-soft); font-size: 14px; margin: 5px 0 16px; }
-  .feat { list-style: none; margin: 0 0 6px; }
-  .feat li { display: flex; gap: 9px; padding: 6px 0; font-size: 14px; line-height: 1.45; }
-  .feat li .ic { color: var(--green); margin-top: 3px; }
-  .addons { border-top: 1px dashed var(--line); margin-top: 14px; padding-top: 12px; }
-  .addons h4 { font-family: var(--body); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 7px; }
-  .addons li .ic { color: var(--clay); }
-  .tier .launch { margin-top: auto; padding-top: 18px; display: flex; flex-direction: column; gap: 7px; }
+  .scr:hover { border-color: var(--clay); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .scr .ic-box { width: 42px; height: 42px; border-radius: 11px; background: var(--clay-wash); color: var(--clay); display: grid; place-items: center; margin-bottom: 11px; }
+  .scr b { font-size: 16.5px; display: block; }
+  .scr .who { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--clay); margin-top: 3px; }
+  .scr span.d { font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; display: block; margin-top: 7px; }
 
-  /* surface strip */
-  .surfaces { display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); gap: 14px; margin-bottom: 44px; }
-  .surface {
-    display: flex; gap: 13px; align-items: flex-start; padding: 17px; background: var(--paper-2);
-    border: 1px solid var(--line-soft); border-radius: var(--radius); text-align: left; transition: all .16s;
-  }
-  .surface:hover { border-color: var(--clay); transform: translateY(-2px); box-shadow: var(--shadow); }
-  .surface .sic { width: 40px; height: 40px; border-radius: 11px; background: var(--clay-wash); color: var(--clay); display: grid; place-items: center; flex: 0 0 auto; }
-  .surface b { font-size: 15px; display: block; }
-  .surface span { font-size: 13px; color: var(--ink-soft); line-height: 1.45; display: block; margin-top: 2px; }
-
-  .band { background: var(--paper-2); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); padding: 40px 0; margin-bottom: 44px; }
-  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 20px; text-align: center; }
-  .facts .n { font-family: var(--display); font-size: 30px; color: var(--clay); }
-  .facts .l { font-size: 12.5px; color: var(--ink-soft); margin-top: 3px; }
-
-  .flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; counter-reset: s; }
-  .flow div { padding: 15px 16px; background: var(--paper-2); border: 1px solid var(--line-soft); border-radius: var(--radius); font-size: 13.5px; position: relative; }
+  .band { background: var(--paper-2); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); padding: 34px 0; margin-bottom: 40px; }
+  .flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 13px; counter-reset: s; }
+  .flow div { padding: 15px 16px; background: var(--paper); border: 1px solid var(--line-soft); border-radius: var(--radius); font-size: 13px; position: relative; }
   .flow div::before {
     counter-increment: s; content: counter(s); position: absolute; top: -10px; left: 15px;
     background: var(--clay); color: #fff; width: 22px; height: 22px; border-radius: 50%;
     display: grid; place-items: center; font-size: 11.5px; font-weight: 700;
   }
-  .flow b { display: block; margin: 6px 0 3px; font-size: 14px; }
+  .flow b { display: block; margin: 5px 0 3px; font-size: 14px; }
 
-  footer { padding: 34px 0 50px; text-align: center; color: var(--ink-soft); font-size: 13px; line-height: 1.8; }
+  .feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px 26px; }
+  .feats li { display: flex; gap: 9px; padding: 5px 0; font-size: 14px; list-style: none; line-height: 1.45; }
+  .feats li .ic { color: var(--green); margin-top: 3px; flex: 0 0 auto; }
+
+  footer { padding: 32px 0 48px; text-align: center; color: var(--ink-soft); font-size: 13px; line-height: 1.8; }
 </style>
 </head>
 <body>
-
 <section class="hero">
   <span class="bracket tl" id="bkA"></span>
   <span class="bracket tr" id="bkB"></span>
   <div class="wrap">
     <img src="Logo.jpeg" alt="Asian Voyage" class="logo">
-    <h1>Ordering, loyalty and point of sale</h1>
-    <p class="lede">A working demo built on Asian Voyage's own menu — all 162 dishes, EC$ pricing, ABST-inclusive, with the 10% service charge handled properly. Three tiers, one upgrade path.</p>
+    <h1>Restaurant point of sale</h1>
+    <p class="lede">Counter billing, waiter tablets and kitchen tickets for Cedar Plaza — built on Asian Voyage's own menu, in EC$ with ABST-inclusive pricing and the 10% service charge handled properly.</p>
     <div class="meta" id="meta"></div>
   </div>
 </section>
 
 <div class="wrap">
-  <div class="tiers" id="tiers"></div>
+  <div class="screens" id="screens"></div>
 </div>
 
 <div class="band">
   <div class="wrap">
-    <div class="facts" id="facts"></div>
+    <h2 style="font-size:22px;margin-bottom:20px">A service, end to end</h2>
+    <div class="flow" id="flow"></div>
   </div>
 </div>
 
 <div class="wrap">
-  <h2 style="font-size:24px;margin-bottom:6px">Open any screen</h2>
-  <p class="muted" style="margin-bottom:18px;font-size:14.5px">Everything below shares one live data layer. Place an order on the QR menu, then watch it land on the console.</p>
-  <div class="surfaces" id="surfaces"></div>
+  <h2 style="font-size:22px;margin-bottom:6px">What's in it</h2>
+  <p class="muted" style="margin-bottom:18px;font-size:14.5px">Everything below is live in the demo, not a mockup screenshot.</p>
+  <ul class="feats" id="feats"></ul>
 
-  <h2 style="font-size:24px;margin-bottom:20px">Try the whole loop in two minutes</h2>
-  <div class="flow" id="flow"></div>
-
-  <div style="margin:40px 0 0;text-align:center">
+  <div style="margin:38px 0 0;text-align:center">
     <button class="btn btn-ghost btn-sm" id="reset"></button>
   </div>
 </div>
@@ -118,8 +87,7 @@
 
 <script src="assets/menu-data.js"></script>
 <script src="assets/av-icons.js"></script>
-<script src="assets/store.js"></script>
-<script src="assets/loyalty.js"></script>
+<script src="assets/pos-store.js"></script>
 <script>
 (function () {
   const $ = s => document.querySelector(s);
@@ -127,103 +95,51 @@
   $('#bkA').innerHTML = bracketSVG(); $('#bkB').innerHTML = bracketSVG();
 
   $('#meta').innerHTML = [
-    ['bowl', '162 menu items'], ['building', '2 branches'],
-    ['star', Loyalty.summaryLine()], ['percent', AV_CONFIG.serviceChargePct + '% service charge']
+    ['bowl', AV_MENU.length + ' menu items'],
+    ['table', AV_CONFIG.restaurant.tables + ' tables'],
+    ['percent', AV_CONFIG.serviceChargePct + '% service · ABST ' + AV_CONFIG.abstRate + '% inclusive'],
+    ['printer', 'KOT + bill printing']
   ].map(([i, t]) => `<span class="chip clay">${icon(i, 12)} ${esc(t)}</span>`).join('');
 
-  /* ------------------------------- tiers -------------------------------- */
-  const TIERS = [
-    {
-      n: '1', name: 'Simple Setup', sub: 'Get ordering off paper, today.',
-      feature: false,
-      feats: [
-        'Customer-facing QR menu — scan at the table and order',
-        'Admin console showing every order live, with guest name, mobile and table number',
-        'Order status flow: received → kitchen → ready → served'
-      ],
-      addons: [
-        'Two branches — admin filters by branch, each table QR is tied to its own',
-        'Wallet: the guest never sees points, but the admin sees their balance on arrival'
-      ],
-      links: [['menu.html?b=cedar&t=12', 'Open the QR menu', 'primary'], ['admin.html', 'Open the console', 'ghost']]
-    },
-    {
-      n: '2', name: 'Tech Setup', sub: 'Own the customer relationship.',
-      feature: true,
-      feats: [
-        'Customer app for iOS and Android',
-        'Order for pickup or dine-in',
-        'In-app wallet — balance, what points are worth, how to spend them',
-        'Orders from the app land on the same console'
-      ],
-      addons: [
-        'Full loyalty programme with configurable earn and burn rates',
-        'Apps plus the web QR menu, sharing one menu and one guest record',
-        'Login by phone number — no passwords',
-        'Multi-branch throughout'
-      ],
-      links: [['app.html', 'Open the app', 'primary'], ['qr.html', 'Print table QR codes', 'ghost']]
-    },
-    {
-      n: '3', name: 'Advanced Setup', sub: 'Replace the till as well.',
-      feature: false,
-      feats: [
-        'Everything in the customer apps',
-        'Admin console as a full POS — receive, manage and process orders',
-        'Kitchen tickets (KOT) that print to an 80 mm thermal roll',
-        'Billing built in: build a dine-in bill from the menu, add service charge and tip, take payment'
-      ],
-      addons: [],
-      links: [['admin.html#pos', 'Open the POS', 'primary'], ['admin.html', 'Kitchen tickets & billing', 'ghost']]
-    }
-  ];
+  $('#screens').innerHTML = [
+    ['receipt', 'Billing counter', 'Admin / cashier · source of truth', 'Punch counter orders, take table orders through to payment, fire KOTs and run reports. Every bill lives here.', 'counter.html'],
+    ['smartphone', 'Waiter tablet', 'Floor staff', 'Seat a table, take the order at the table, send it to the kitchen, then close it out for billing.', 'waiter.html'],
+    ['chef', 'Kitchen display', 'Kitchen', 'Live tickets with amendment flags and age timers. Bump when plated. Backup for the printer.', 'kitchen.html'],
+    ['layers', 'Back office', 'Station 2 · busy nights', 'Same software, second station. Prints bills the counter hands over, and takes extra orders when the queue backs up.', 'backoffice.html']
+  ].map(([ic, t, who, d, href]) => `<a class="scr" href="${href}">
+      <span class="ic-box">${icon(ic, 21)}</span>
+      <b>${esc(t)}</b><span class="who">${esc(who)}</span>
+      <span class="d">${esc(d)}</span></a>`).join('');
 
-  $('#tiers').innerHTML = TIERS.map(t => `
-    <article class="tier${t.feature ? ' feature' : ''}">
-      ${t.feature ? '<div class="ribbon">Best fit</div>' : ''}
-      <div class="tier-n">${t.n}</div>
-      <h2>${esc(t.name)}</h2>
-      <p class="sub">${esc(t.sub)}</p>
-      <ul class="feat">${t.feats.map(f => `<li>${icon('check', 15)}<span>${esc(f)}</span></li>`).join('')}</ul>
-      ${t.addons.length ? `<div class="addons"><h4>Add-ons</h4>
-        <ul class="feat">${t.addons.map(f => `<li>${icon('plus', 14)}<span>${esc(f)}</span></li>`).join('')}</ul></div>` : ''}
-      <div class="launch">
-        ${t.links.map(([href, label, kind]) =>
-          `<a class="btn btn-${kind} btn-sm" href="${href}">${esc(label)}</a>`).join('')}
-      </div>
-    </article>`).join('');
-
-  /* ------------------------------- facts -------------------------------- */
-  const cats = new Set(AV_MENU.map(i => i.cat));
-  $('#facts').innerHTML = [
-    [AV_MENU.length, 'dishes and drinks, transcribed from the printed menu'],
-    [cats.size, 'menu categories across four sections'],
-    [AV_CONFIG.branches.reduce((n, b) => n + b.tables, 0), 'table QR codes, pre-generated and verified'],
-    [AV_CONFIG.currency + ' ' + AV_CONFIG.serviceChargePct + '%', 'EC dollars, ABST-inclusive, service charge on top']
-  ].map(([n, l]) => `<div><div class="n">${esc(String(n))}</div><div class="l">${esc(l)}</div></div>`).join('');
-
-  /* ----------------------------- surfaces ------------------------------- */
-  $('#surfaces').innerHTML = [
-    ['qr', 'Customer QR menu', 'What the guest sees after scanning the table code. Tier 1.', 'menu.html?b=cedar&t=12'],
-    ['grid', 'Admin console & POS', 'Live orders, kitchen tickets, billing, customers, loyalty settings. Tiers 1 and 3.', 'admin.html'],
-    ['smartphone', 'Customer app', 'Wallet, loyalty, pickup and dine-in ordering. Tier 2.', 'app.html'],
-    ['printer', 'Table QR sheet', 'Printable table tents for both branches.', 'qr.html']
-  ].map(([i, t, d, href]) => `<a class="surface" href="${href}">
-      <span class="sic">${icon(i, 20)}</span>
-      <span><b>${esc(t)}</b><span>${esc(d)}</span></span>
-    </a>`).join('');
-
-  /* ------------------------------- flow --------------------------------- */
   $('#flow').innerHTML = [
-    ['Scan or open the menu', 'Open the QR menu — it already knows Cedar Plaza, table 12.'],
-    ['Order and check out', 'Add dishes, enter a name and mobile. Try <b>268 723 1188</b> — that guest has 340 points to spend.'],
-    ['Watch the console', 'Open the admin console in a second tab. The order appears instantly, with the guest\'s points balance.'],
-    ['Cook, bill and settle', 'Move it through the kitchen, print the ticket, add a tip, take payment — points post on settlement.']
-  ].map(([t, d]) => `<div><b>${esc(t)}</b><span class="muted">${d}</span></div>`).join('');
+    ['Seat the table', 'Waiter opens table 7 on the tablet and sets covers.'],
+    ['Take the order', 'Punched at the table with variants and kitchen notes.'],
+    ['Fire the kitchen', 'KOT prints at the pass. A later round prints as an ADDITION, not a reprint.'],
+    ['Close the table', 'Waiter marks it done. It lands on the counter as Ready for billing.'],
+    ['Bill and settle', 'Counter adds tip, takes cash or card, then either prints the bill or hands it to the back office to print.'],
+    ['Read the day', 'One reports dashboard: sales by hour, top sellers, category mix, payment split, servers, voids and comps.']
+  ].map(([t, d]) => `<div><b>${esc(t)}</b><span class="muted">${esc(d)}</span></div>`).join('');
+
+  $('#feats').innerHTML = [
+    'Counter and dine-in orders, priced differently — no service charge on takeaway',
+    'Per-item KOT batching, so second rounds print as amendments',
+    'Void before or after firing — the second needs a manager and prints a cancellation ticket',
+    'Comps and discounts, percentage or fixed, manager-approved',
+    'Split payments across cash, card and mobile on one bill',
+    'Table floor plan driven by live orders, with covers and elapsed time',
+    'Staff roles — waiter, cashier, manager — with PIN sign-in',
+    'Bills numbered 001, 002, 003 — each station keeps its own sequence',
+    'Print now at the counter, or hand the bill to the back office to print',
+    'Handed-over bills stay on the counter\'s books and in every report',
+    'Reports dashboard with date ranges, hourly trend and share bars',
+    'Voids and comps report showing who asked and which manager approved',
+    '80mm thermal print layouts for KOT tickets, bills and the sales summary',
+    'Kitchen display as a fallback when the printer jams'
+  ].map(f => `<li>${icon('check', 15)}<span>${esc(f)}</span></li>`).join('');
 
   $('#reset').innerHTML = icon('refresh', 14) + ' Reset demo data';
   $('#reset').onclick = async () => {
-    await AV.reset();
+    await POS.reset();
     const el = document.createElement('div');
     el.className = 'toast good';
     el.innerHTML = icon('check', 15) + '<span>Demo data reset</span>';

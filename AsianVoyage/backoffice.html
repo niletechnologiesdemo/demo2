@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asian Voyage — Back Office</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="stylesheet" href="assets/pos.css">
+<style>
+  /* Same software, second station — the amber rail is the only thing telling
+     staff which machine they are standing at. */
+  .side { border-right: 3px solid var(--gold); }
+  .side-brand .site { color: var(--gold); }
+</style>
+</head>
+<body class="pos">
+<div class="shell">
+  <aside class="side no-print">
+    <div class="side-brand">
+      <img src="Logo.jpeg" alt="Asian Voyage">
+      <div class="site">Back Office · Station 2</div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="side-user" id="who"></div>
+  </aside>
+  <div class="main">
+    <header class="bar no-print">
+      <h1 id="title">Bills to print</h1>
+      <div class="row" style="margin-left:auto;gap:9px" id="barActions"></div>
+    </header>
+    <div class="view" id="view"></div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="sheet-head"><h3 id="mTitle"></h3><button class="icon-btn no-print" id="mClose" aria-label="Close"></button></div>
+  <div class="sheet-body" id="mBody"></div>
+  <div class="sheet-foot no-print" id="mFoot"></div>
+</div>
+<div class="toasts" id="toasts"></div>
+
+<script src="assets/menu-data.js"></script>
+<script src="assets/av-icons.js"></script>
+<script src="assets/pos-store.js"></script>
+<script src="assets/pos-ui.js"></script>
+<script src="assets/pos-app.js"></script>
+<script>
+  /* Second station. Holds bills handed over from the counter plus anything
+     taken here on a busy night — those are copied back into main so the
+     audited books stay complete. Its own bill serial runs 001, 002, 003. */
+  POSApp.mount({ store: window.BO, isBackOffice: true });
+</script>
+</body>
+</html>

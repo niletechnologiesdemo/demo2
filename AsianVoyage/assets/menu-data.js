@@ -177,14 +177,22 @@ window.AV_CONFIG = {
   operator: 'Hospitality Guru Ltd',
   currency: 'EC$',
   taxNote: 'All prices are in EC Dollars, inclusive of ABST.',
+  /* Menu prices already include ABST, so the bill shows the tax as a memo line
+     rather than adding it. CONFIRM THE CURRENT RATE with the client's accountant
+     before go-live — it drives every tax figure on the Z report. */
+  abstRate: 15,
   serviceChargePct: 10,
   tipPresets: [0, 10, 15, 20],
+
+  /* Single site. */
+  restaurant: {
+    name: 'Cedar Plaza', area: 'St. John\'s, Antigua',
+    phone: '268-778-3514', tables: 18, hours: '11:30 - 22:30 daily'
+  },
+  /* Retained so the earlier concept demo keeps working. */
   branches: [
-    { id: 'cedar',  name: 'Cedar Plaza',    area: 'St. John\'s, Antigua',
-      phone: '268-778-3514', tables: 18, hours: '11:30 - 22:30 daily' },
-    /* Branch 2 is a PLACEHOLDER — swap name/area/phone once the client confirms. */
-    { id: 'jolly',  name: 'Jolly Harbour',  area: 'Jolly Harbour, Antigua',
-      phone: '268-778-3515', tables: 12, hours: '12:00 - 23:00 daily' }
+    { id: 'cedar', name: 'Cedar Plaza', area: 'St. John\'s, Antigua',
+      phone: '268-778-3514', tables: 18, hours: '11:30 - 22:30 daily' }
   ],
   email: 'Info@hospitalitygurus.org'
 };

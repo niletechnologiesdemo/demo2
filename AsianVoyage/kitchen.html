@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asian Voyage — Kitchen Display</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="stylesheet" href="assets/pos.css">
+<style>
+  /* Dark screen: it sits above a hot pass and gets read from three feet away. */
+  body.kds-body { background: #14100E; color: #F2EAE3; overflow-y: auto; }
+  .kbar {
+    display: flex; align-items: center; gap: 14px; padding: 13px 20px;
+    background: #1F1916; border-bottom: 1px solid #322925; position: sticky; top: 0; z-index: 10;
+  }
+  .kbar h1 { font-size: 19px; color: #F2EAE3; }
+  .kbar img { height: 26px; background: #fff; padding: 4px 6px; border-radius: 5px; }
+  .kwrap { padding: 18px 20px 40px; }
+  .kgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; align-items: start; }
+
+  .kt {
+    background: #241D19; border: 1px solid #3A302B; border-left: 5px solid var(--clay);
+    border-radius: 12px; padding: 14px; font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+  .kt.add  { border-left-color: var(--gold); }
+  .kt.late { border-left-color: var(--red); }
+  .kt-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .kt-h b { font-size: 19px; color: #fff; font-family: var(--display); }
+  .kt-age { font-size: 17px; font-weight: 700; }
+  .kt-age.warn { color: #F0B429; }
+  .kt-age.late { color: #FF6B6B; }
+  .kt-meta { font-size: 12px; color: #A2938A; margin-top: 3px; letter-spacing: .03em; }
+  .kt-dash { border-top: 1px dashed #453A34; margin: 11px 0; }
+  .kt-line { display: flex; gap: 10px; padding: 6px 0; font-size: 15px; }
+  .kt-q { font-weight: 700; color: var(--clay-light); min-width: 26px; font-size: 17px; }
+  .kt-nm { color: #F2EAE3; line-height: 1.3; }
+  .kt-var { display: block; font-size: 12.5px; color: #B9A99E; }
+  .kt-note { color: #F0B429; font-size: 12.5px; padding-left: 36px; font-weight: 700; }
+  .kt-badge {
+    display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .07em;
+    padding: 2px 7px; border-radius: 4px; background: var(--gold); color: #241D19; margin-left: 6px;
+  }
+  .bump {
+    width: 100%; margin-top: 12px; padding: 11px; border-radius: 8px; background: #35A853;
+    color: #fff; font-weight: 700; font-size: 14px; font-family: var(--body);
+  }
+  .bump:active { transform: scale(.98); }
+  .kempty { text-align: center; padding: 90px 20px; color: #6B5D55; }
+  .kempty h2 { color: #A2938A; font-size: 22px; margin-top: 12px; }
+</style>
+</head>
+<body class="kds-body">
+<header class="kbar">
+  <img src="Logo.jpeg" alt="Asian Voyage">
+  <h1>Kitchen</h1>
+  <span class="chip clay" id="count"></span>
+  <div style="margin-left:auto" class="row">
+    <span class="muted small" id="clock" style="color:#A2938A"></span>
+  </div>
+</header>
+<div class="kwrap"><div id="kds"></div></div>
+<div class="toasts" id="toasts"></div>
+
+<script src="assets/menu-data.js"></script>
+<script src="assets/av-icons.js"></script>
+<script src="assets/pos-store.js"></script>
+<script>
+(function () {
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  /* Tickets the kitchen has been sent and not yet bumped. A ticket disappears
+     when the pass bumps it or the counter settles the bill. */
+  async function render() {
+    const active = (await POS.orders.list())
+      .filter(o => ['placed', 'preparing', 'ready'].includes(o.status));
+
+    const tickets = [];
+    active.forEach(o => o.kotBatches.forEach(b => {
+      if ((o.bumped || []).includes(b.n)) return;
+      const lines = o.items.filter(i => i.kot === b.n && !i.voided);
+      if (lines.length) tickets.push({ o, b, lines });
+    }));
+    tickets.sort((a, x) => new Date(a.b.at) - new Date(x.b.at));
+
+    $('#count').textContent = tickets.length + (tickets.length === 1 ? ' ticket' : ' tickets');
+    $('#clock').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    $('#kds').innerHTML = tickets.length ? `<div class="kgrid">${tickets.map(({ o, b, lines }) => {
+      const mins = Math.floor((Date.now() - new Date(b.at)) / 60000);
+      const cls = mins >= 20 ? 'late' : b.kind === 'addition' ? 'add' : '';
+      const ageCls = mins >= 20 ? 'late' : mins >= 12 ? 'warn' : '';
+      return `<div class="kt ${cls}">
+        <div class="kt-h">
+          <b>${o.type === 'dine-in' ? 'T' + o.table : esc(o.code)}</b>
+          <span class="kt-age ${ageCls}">${mins}m</span>
+        </div>
+        <div class="kt-meta">${esc(o.code)} · KOT #${b.n}${b.kind === 'addition' ? '<span class="kt-badge">ADDITION</span>' : ''}</div>
+        <div class="kt-meta">${o.type === 'dine-in' ? o.guests + ' covers · ' + esc(POS.staff.name(b.by)) : 'COUNTER / TAKEAWAY'}</div>
+        <div class="kt-dash"></div>
+        ${lines.map(i => `<div class="kt-line">
+            <span class="kt-q">${i.qty}</span>
+            <span class="kt-nm">${esc(i.name.toUpperCase())}
+              ${i.variant ? `<span class="kt-var">&gt; ${esc(i.variant)}</span>` : ''}</span>
+          </div>
+          ${i.notes ? `<div class="kt-note">** ${esc(i.notes.toUpperCase())} **</div>` : ''}`).join('')}
+        <button class="bump" data-bump="${o.id}|${b.n}">Bump — ready at the pass</button>
+      </div>`;
+    }).join('')}</div>` : `<div class="kempty">${icon('chef', 46)}<h2>All clear</h2>
+      <p class="small">New tickets appear here the moment they are sent.</p></div>`;
+
+    $('#kds').onclick = async e => {
+      const b = e.target.closest('[data-bump]'); if (!b) return;
+      const [id, n] = b.dataset.bump.split('|');
+      await POS.orders.bumpKOT(id, +n);
+      render();
+    };
+  }
+
+  POS.subscribe(render);
+  setInterval(render, 20000);   // keep the age timers honest
+  render();
+})();
+</script>
+</body>
+</html>
