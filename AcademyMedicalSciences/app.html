@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Academy of Medical Science · Mobile Application</title>
+<link rel="icon" href="assets/img/ams-logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/ams.css?v=2" />
+<link rel="stylesheet" href="assets/app.css?v=2" />
+</head>
+<body>
+<script src="assets/icons.js"></script>
+<div class="page" id="page"></div>
+<script src="assets/data.js"></script>
+<script>
+/* =====================================================================
+   Mobile application mock-up — iOS/Android student app
+   ===================================================================== */
+const I  = (id,c='ic') => `<svg class="${c}" aria-hidden="true"><use href="#${id}"/></svg>`;
+const IMG = n => `assets/img/${n}.jpg`;
+const esc = s => String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+let CUR = 'home';
+
+/* ---------- phone chrome ---------- */
+function statusbar(dark){ return `
+  <div class="notch"></div>
+  <div class="statusbar ${dark?'dark':''}">
+    <span>9:41</span>
+    <span class="rgt">${I('i-pulse','ic-sm')}${I('i-globe','ic-sm')}<span class="bat"></span></span>
+  </div>`;
+}
+const TABS=[['home','Home','i-home'],['learn','Learn','i-cap'],['schedule','Schedule','i-cal'],
+            ['browse','Browse','i-search'],['profile','Profile','i-user']];
+function tabbar(active){ return `<nav class="tabs">
+  ${TABS.map(([id,l,ic])=>`<button class="${active===id?'on':''}" onclick="show('${id}')">${I(ic)}<span>${l}</span></button>`).join('')}
+</nav>`; }
+
+/* ---------- screens ---------- */
+const SCREENS=[
+{id:'home', name:'Home', sub:'Continue where you left off', tab:'home', render:()=>{
+  const e=STUDENT.enrolments[0], c=byId(e.course);
+  const nl=c.modules[e.nextLesson[0]].lessons[e.nextLesson[1]];
+  const s=STUDENT.schedule[0], sc=byId(s.course), d=new Date(s.date+'T12:00:00');
+  return statusbar()+`
+  <div class="sview">
+    <div class="abar"><h2>Good afternoon,<br/>${STUDENT.first}</h2>
+      <button class="rb">${I('i-bell','ic-sm')}<span class="d"></span></button>
+      <button class="rb">${I('i-user','ic-sm')}</button></div>
+    <div class="hero-card"><div class="in">
+      <div class="gr">Continue learning</div>
+      <h3>${esc(c.name)}</h3>
+      <div style="font-size:.74rem;color:rgba(255,255,255,.72);font-weight:600;margin-bottom:13px">
+        ${LESSON_LABEL[nl.type]} · ${esc(nl.title)}</div>
+      <div class="pr"><div class="bar"><i style="width:${e.progress}%"></i></div><b>${e.progress}%</b></div>
+    </div></div>
+    <div class="quick">
+      <button onclick="show('learn')"><span class="ic-w" style="background:var(--tint);color:var(--blue)">${I('i-play','ic-sm')}</span><span>Resume</span></button>
+      <button onclick="show('schedule')"><span class="ic-w" style="background:var(--teal-tint);color:var(--teal)">${I('i-cal','ic-sm')}</span><span>Sessions</span></button>
+      <button onclick="show('downloads')"><span class="ic-w" style="background:var(--violet-tint);color:var(--violet)">${I('i-download','ic-sm')}</span><span>Offline</span></button>
+      <button onclick="show('certs')"><span class="ic-w" style="background:var(--success-tint);color:var(--success)">${I('i-cert','ic-sm')}</span><span>Certs</span></button>
+    </div>
+    <div class="sec-h"><b>Next on campus</b><a onclick="show('schedule')">All</a></div>
+    <div class="mcard"><div class="sess-m">
+      <div class="dt"><b>${d.getDate()}</b><span>${d.toLocaleString('en-CA',{month:'short'})}</span></div>
+      <div class="tx"><b>${esc(s.title)}</b><span>${s.time} · ${s.room}</span></div>
+      <span class="badge b-green">Confirmed</span>
+    </div></div>
+    <div class="sec-h"><b>My programs</b><a onclick="show('learn')">All</a></div>
+    ${STUDENT.enrolments.filter(x=>x.status==='active').map(x=>{const cc=byId(x.course);return `
+      <div class="mcard" onclick="show('course')"><div class="mrow">
+        <img src="${IMG(cc.img)}" alt="" />
+        <div class="tx"><b>${esc(cc.name)}</b><span>${cc.modules.length} modules · ${lessonCount(cc)} lessons</span>
+          <div class="bar" style="margin-top:7px"><i style="width:${x.progress}%"></i></div></div>
+        <span class="pc">${x.progress}%</span></div></div>`;}).join('')}
+    <div class="sp-b"></div>
+  </div>`+tabbar('home');
+}},
+
+{id:'learn', name:'My Programs', sub:'Everything you are enrolled in', tab:'learn', render:()=>statusbar()+`
+  <div class="sview">
+    <div class="abar"><h2>My Programs</h2><button class="rb">${I('i-filter','ic-sm')}</button></div>
+    <div style="padding:0 18px 12px;display:flex;gap:8px;flex-wrap:wrap">
+      <span class="chip-m" style="background:var(--blue);color:#fff">All (4)</span>
+      <span class="chip-m">In progress (2)</span><span class="chip-m">Completed (2)</span></div>
+    ${STUDENT.enrolments.map(x=>{const c=byId(x.course);const dn=x.status==='completed';return `
+      <div class="mcard" onclick="show('course')">
+        <div style="position:relative;height:96px;overflow:hidden">
+          <img src="${IMG(c.img)}" alt="" style="width:100%;height:100%;object-fit:cover" />
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,42,87,.72),transparent 60%)"></div>
+          <span class="badge ${dn?'b-green':'b-violet'}" style="position:absolute;top:10px;left:10px">${dn?'Complete':c.format}</span>
+        </div>
+        <div style="padding:13px">
+          <b style="display:block;font-size:.88rem;font-weight:800;letter-spacing:-.02em;margin-bottom:8px">${esc(c.name)}</b>
+          <div class="bar ${dn?'teal':''}"><i style="width:${x.progress}%"></i></div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:.7rem;font-weight:700;color:var(--ink-3)">
+            <span>${x.progress}% complete</span><span>${dn?'Certificate ready':'Started '+x.started}</span></div>
+        </div></div>`;}).join('')}
+    <div class="sp-b"></div>
+  </div>`+tabbar('learn')},
+
+{id:'course', name:'Program overview', sub:'Modules, lessons and progress', tab:'learn', render:()=>{
+  const c=byId('phlebotomy'), e=STUDENT.enrolments[0];
+  let idx=0, cut=Math.round(lessonCount(c)*e.progress/100);
+  return statusbar(true)+`
+  <div class="sview">
+    <div class="phero">
+      <img src="${IMG(c.img)}" alt="" /><div class="ov"></div>
+      <button class="bk" onclick="show('learn')">${I('i-left','ic-sm')}</button>
+      <div class="ct"><span class="badge b-solid">${c.format}</span>
+        <h3>${esc(c.name)}</h3>
+        <div style="display:flex;gap:12px;font-size:.7rem;font-weight:700;color:rgba(255,255,255,.8)">
+          <span>${c.modules.length} modules</span><span>${lessonCount(c)} lessons</span><span>~${hours(c)} hrs</span></div></div>
+    </div>
+    <div style="padding:14px 18px 4px">
+      <div class="bar"><i style="width:${e.progress}%"></i></div>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:.72rem;font-weight:700;color:var(--ink-3)">
+        <span>${e.progress}% complete</span><span>${cut} of ${lessonCount(c)} lessons</span></div>
+    </div>
+    <button class="btn-m" style="margin-top:14px" onclick="show('lesson')">${I('i-play','ic-sm')}Continue — module 4</button>
+    ${c.modules.map((m,mi)=>`
+      <div class="mod-h"><span class="nb ${m.inPerson?'tl':''}">${m.inPerson?I('i-pin','ic-sm'):String(mi+1).padStart(2,'0')}</span>
+        <b>${esc(m.n)}</b><span style="font-size:.68rem;font-weight:700;color:var(--ink-3)">${m.lessons.length}</span></div>
+      ${m.lessons.map(l=>{const dn=idx++<cut;const cu=idx===cut+1;return `
+        <div class="les ${dn?'dn':''} ${cu?'cu':''}" onclick="show('${l.type==='quiz'?'quiz':l.type==='pdf'?'pdf':l.type==='session'?'schedule':'lesson'}')">
+          <span class="st">${I('i-check','ic-sm')}</span>
+          <span class="tx"><b>${esc(l.title)}</b>
+            <span>${I(LESSON_ICON[l.type],'ic-sm')}${LESSON_LABEL[l.type]} · ${lessonMeta(l)}</span></span>
+          ${I('i-right','ic-sm')}</div>`;}).join('')}`).join('')}
+    <div class="sp-b"></div>
+  </div>`+tabbar('learn');
+}},
+
+{id:'lesson', name:'Video lesson', sub:'Stream or download for offline', tab:'learn', render:()=>{
+  const c=byId('phlebotomy');
+  return statusbar(true)+`
+  <div class="sview">
+    <div class="vid">
+      <img src="${IMG(c.img)}" alt="" />
+      <button class="bk" onclick="show('course')">${I('i-left','ic-sm')}</button>
+      <div class="pb">${I('i-play-f','ic-lg')}</div>
+      <div class="tl"><span>12:04</span><div class="bar" style="height:4px"><i style="width:38%"></i></div><span>34:00</span></div>
+    </div>
+    <div style="padding:16px 18px 6px">
+      <span class="badge b-blue">Module 4 · Blood collection technique</span>
+      <h3 style="font-size:1.08rem;font-weight:800;letter-spacing:-.024em;margin:11px 0 9px">Venipuncture step by step</h3>
+      <p style="font-size:.82rem;color:var(--ink-2);line-height:1.65">Anchor the vein, enter at 15–30°, fill tubes in the correct order and release the tourniquet within one minute. Practise the sequence before your session on campus.</p>
+    </div>
+    <div style="display:flex;gap:8px;padding:14px 18px 4px;flex-wrap:wrap">
+      <span class="chip-m">${I('i-download','ic-sm')}Download</span>
+      <span class="chip-m">${I('i-bookmark','ic-sm')}Save</span>
+      <span class="chip-m">${I('i-chat','ic-sm')}Ask instructor</span>
+    </div>
+    <div class="sec-h"><b>Up next in this module</b></div>
+    ${[['Patient identification protocol','i-play','15 min'],['Blood collection in special populations','i-play','28 min'],
+       ['Recorded lecture — difficult draws','i-audio','38 min'],['Collection technique assessment','i-quiz','25 questions']]
+      .map(([t,ic,m])=>`<div class="les"><span class="st"></span><span class="tx"><b>${t}</b>
+        <span>${I(ic,'ic-sm')}${m}</span></span>${I('i-right','ic-sm')}</div>`).join('')}
+    <button class="btn-m" style="margin-top:14px" onclick="show('quiz')">Mark complete and continue ${I('i-right','ic-sm')}</button>
+    <div class="sp-b"></div>
+  </div>`+tabbar('learn');
+}},
+
+{id:'pdf', name:'PDF & materials', sub:'Downloadable reference documents', tab:'learn', render:()=>statusbar()+`
+  <div class="sview">
+    <div class="abar"><button class="rb" onclick="show('course')">${I('i-left','ic-sm')}</button>
+      <h2 style="font-size:1rem">Order of draw</h2><button class="rb">${I('i-download','ic-sm')}</button></div>
+    <div style="margin:0 18px 12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--sh-xs)">
+      <span class="badge b-blue">${I('i-pdf','ic-sm')}PDF · 2 pages</span>
+      <h3 style="font-family:var(--serif);font-weight:500;font-size:1.14rem;color:var(--navy);margin:12px 0 10px">Order of draw wall chart</h3>
+      <p style="font-size:.78rem;color:var(--ink-2);line-height:1.66;margin-bottom:14px">Tubes are drawn in a fixed sequence so additives cannot carry over. Carry-over is the most common cause of a rejected specimen.</p>
+      ${[['1','Blood culture','#F2D24B','SPS'],['2','Light blue','#8FC4E8','Sodium citrate'],['3','Red','#C0392B','Clot activator'],
+         ['4','Gold (SST)','#C8A951','Gel separator'],['5','Green','#2E9E63','Heparin'],['6','Lavender','#8E6BB8','EDTA'],
+         ['7','Grey','#9AA5AE','Fluoride / oxalate']]
+        .map(([n,t,col,ad])=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-2)">
+          <span style="width:19px;font-size:.72rem;font-weight:800;color:var(--ink-3)">${n}</span>
+          <span style="width:15px;height:15px;border-radius:4px;background:${col};border:1px solid rgba(0,0,0,.12);flex:0 0 auto"></span>
+          <b style="flex:1;font-size:.78rem;font-weight:700">${t}</b>
+          <span style="font-size:.7rem;color:var(--ink-3);font-weight:600">${ad}</span></div>`).join('')}
+    </div>
+    <button class="btn-m ghost">${I('i-download','ic-sm')}Save for offline</button>
+    <button class="btn-m" onclick="show('quiz')">Continue to quiz ${I('i-right','ic-sm')}</button>
+    <div class="sp-b"></div>
+  </div>`+tabbar('learn')},
+
+{id:'quiz', name:'Quiz', sub:'Checks before the practical', tab:'learn', render:()=>statusbar()+`
+  <div class="sview">
+    <div class="abar"><button class="rb" onclick="show('course')">${I('i-x','ic-sm')}</button>
+      <h2 style="font-size:1rem">Module 3 quiz</h2><span class="chip-m">1 / 15</span></div>
+    <div style="padding:0 18px 14px"><div class="bar"><i style="width:7%"></i></div></div>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px">Equipment and order of draw</div>
+      <h3 style="font-size:1.02rem;font-weight:800;letter-spacing:-.02em;line-height:1.42">Which tube is always drawn first in the standard order of draw?</h3>
+    </div>
+    <div class="qopt"><span class="k">A</span><span>Light blue — sodium citrate</span></div>
+    <div class="qopt ok"><span class="k">B</span><span>Blood culture bottle (yellow, SPS)</span>${I('i-check','ic-sm')}</div>
+    <div class="qopt"><span class="k">C</span><span>Lavender — EDTA</span></div>
+    <div class="qopt"><span class="k">D</span><span>Red — no additive</span></div>
+    <div style="margin:14px 18px 0;padding:14px;border-radius:14px;background:var(--success-tint);display:flex;gap:10px">
+      <span style="color:var(--success);flex:0 0 auto">${I('i-check-c','ic-sm')}</span>
+      <span style="font-size:.79rem;color:var(--success);line-height:1.6"><b>Correct.</b> Blood cultures are drawn first so the sample is not contaminated by additives or non-sterile stoppers from other tubes.</span></div>
+    <button class="btn-m" style="margin-top:16px">Next question ${I('i-right','ic-sm')}</button>
+    <div class="sp-b"></div>
+  </div>`+tabbar('learn')},
+
+{id:'schedule', name:'Practical schedule', sub:'Book and manage campus sessions', tab:'schedule', render:()=>statusbar()+`
+  <div class="sview">
+    <div class="abar"><h2>Schedule</h2><button class="rb">${I('i-cal','ic-sm')}</button></div>
+    <div style="padding:0 18px 12px;display:flex;gap:8px">
+      <span class="chip-m" style="background:var(--blue);color:#fff">Upcoming</span>
+      <span class="chip-m">Available</span><span class="chip-m">Past</span></div>
+    ${STUDENT.schedule.map(s=>{const c=byId(s.course);const d=new Date(s.date+'T12:00:00');return `
+      <div class="mcard"><div class="sess-m">
+        <div class="dt" style="${s.status==='pending'?'background:var(--amber-tint)':''}">
+          <b style="${s.status==='pending'?'color:var(--amber)':''}">${d.getDate()}</b>
+          <span style="${s.status==='pending'?'color:var(--amber)':''}">${d.toLocaleString('en-CA',{month:'short'})}</span></div>
+        <div class="tx"><b>${esc(s.title)}</b>
+          <span>${esc(c.name)}<br/>${s.time} · ${s.room} · ${s.instructor}</span></div>
+      </div>
+      <div style="padding:0 13px 12px;display:flex;gap:8px">
+        ${s.status==='confirmed'
+          ? `<span class="chip-m" style="background:var(--success-tint);color:var(--success)">${I('i-check','ic-sm')}Confirmed</span>
+             <span class="chip-m">${I('i-pin','ic-sm')}Directions</span><span class="chip-m">Reschedule</span>`
+          : `<span class="chip-m" style="background:var(--amber-tint);color:var(--amber)">${I('i-alert','ic-sm')}Not booked</span>
+             <span class="chip-m" style="background:var(--blue);color:#fff">Choose a date</span>`}
+      </div></div>`;}).join('')}
+    <div class="sec-h"><b>Where to come</b></div>
+    <div class="mcard"><div style="padding:14px">
+      <b style="display:block;font-size:.84rem;font-weight:800;margin-bottom:6px">${ACADEMY.name}</b>
+      <p style="font-size:.76rem;color:var(--ink-2);line-height:1.6">${ACADEMY.address}<br/>${ACADEMY.phone}</p>
+      <div style="display:flex;gap:8px;margin-top:11px"><span class="chip-m">${I('i-pin','ic-sm')}Open in Maps</span>
+        <span class="chip-m">${I('i-phone','ic-sm')}Call</span></div>
+    </div></div>
+    <div class="sp-b"></div>
+  </div>`+tabbar('schedule')},
+
+{id:'browse', name:'Browse programs', sub:'The full catalogue in the app', tab:'browse', render:()=>statusbar()+`
+  <div class="sview">
+    <div class="abar"><h2>Browse</h2><button class="rb">${I('i-filter','ic-sm')}</button></div>
+    <div style="padding:0 18px 12px">
+      <div style="position:relative"><span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--ink-4)">${I('i-search','ic-sm')}</span>
+        <input class="inp" style="padding-left:38px;font-size:.82rem" placeholder="Search programs or skills" /></div></div>
+    <div style="padding:0 18px 14px;display:flex;gap:7px;overflow-x:auto" class="noscroll">
+      <span class="chip-m" style="background:var(--blue);color:#fff;white-space:nowrap">All</span>
+      ${CATS.map(c=>`<span class="chip-m" style="white-space:nowrap">${c.name}</span>`).join('')}</div>
+    ${COURSES.filter(c=>c.featured).map(c=>`
+      <div class="mcard" onclick="show('detail')">
+        <div style="position:relative;height:110px;overflow:hidden">
+          <img src="${IMG(c.img)}" alt="" style="width:100%;height:100%;object-fit:cover" />
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,42,87,.78),transparent 55%)"></div>
+          <span class="badge b-solid" style="position:absolute;top:10px;left:10px">${c.format}</span>
+          ${c.accredited?`<span class="badge b-green" style="position:absolute;top:10px;left:76px">Accredited</span>`:''}
+          <span style="position:absolute;right:12px;bottom:9px;color:#fff;font-family:var(--serif);font-size:1.2rem;font-weight:500">${money(c.price)}</span>
+        </div>
+        <div style="padding:12px 13px">
+          <b style="display:block;font-size:.86rem;font-weight:800;letter-spacing:-.02em;margin-bottom:6px">${esc(c.name)}</b>
+          <div style="display:flex;gap:11px;font-size:.7rem;font-weight:700;color:var(--ink-3)">
+            <span>${I('i-clock','ic-sm')} ${c.weeks===1?'1 wk':c.weeks+' wks'}</span>
+            <span>${I('i-modules','ic-sm')} ${c.modules.length} modules</span>
+            <span style="color:#E0A93B">${I('i-star','ic-sm')} ${c.rating}</span></div>
+        </div></div>`).join('')}
+    <div class="sp-b"></div>
+  </div>`+tabbar('browse')},
+
+{id:'detail', name:'Program detail', sub:'Everything before you pay', tab:'browse', render:()=>{
+  const c=byId('ecg');
+  return statusbar(true)+`
+  <div class="sview">
+    <div class="phero"><img src="${IMG(c.img)}" alt="" /><div class="ov"></div>
+      <button class="bk" onclick="show('browse')">${I('i-left','ic-sm')}</button>
+      <div class="ct"><span class="badge b-solid">${c.format}</span><h3>${esc(c.name)}</h3>
+        <div style="font-size:.7rem;font-weight:700;color:rgba(255,255,255,.82)">${c.enrolled} enrolled · ${c.rating} ★ (${c.reviews})</div></div></div>
+    <div style="padding:16px 18px 8px">
+      <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:12px">
+        <span style="font-family:var(--serif);font-size:2rem;font-weight:500;letter-spacing:-.03em;color:var(--navy)">${money(c.price)}</span>
+        <span style="font-size:.72rem;font-weight:700;color:var(--ink-3)">CAD · or 3 × ${money(Math.ceil(c.price/3))}</span></div>
+      <p style="font-size:.82rem;color:var(--ink-2);line-height:1.66">${esc(c.blurb)}</p>
+    </div>
+    <div style="margin:12px 18px;padding:12px 14px;border-radius:13px;background:var(--amber-tint);color:var(--amber);
+      font-size:.76rem;font-weight:700;display:flex;gap:8px;align-items:center">
+      ${I('i-alert','ic-sm')}Only ${c.seats} seats left for the ${c.intake} intake</div>
+    <div class="sec-h"><b>What you will learn</b></div>
+    <div style="padding:0 18px">
+      ${c.outcomes.map(o=>`<div style="display:flex;gap:10px;padding:7px 0;font-size:.8rem;color:var(--ink-2);line-height:1.5">
+        <span style="color:var(--blue);flex:0 0 auto">${I('i-check-c','ic-sm')}</span>${esc(o)}</div>`).join('')}</div>
+    <div class="sec-h"><b>Programme content</b></div>
+    ${c.modules.map((m,i)=>`<div class="mod-h"><span class="nb ${m.inPerson?'tl':''}">${m.inPerson?I('i-pin','ic-sm'):String(i+1).padStart(2,'0')}</span>
+      <b>${esc(m.n)}</b><span style="font-size:.68rem;font-weight:700;color:var(--ink-3)">${m.lessons.length}</span>${I('i-down','ic-sm')}</div>`).join('')}
+    <button class="btn-m" style="margin-top:16px" onclick="show('pay')">Enrol now — ${money(c.price)}</button>
+    <button class="btn-m ghost">${I('i-chat','ic-sm')}Ask a question</button>
+    <div class="sp-b"></div>
+  </div>`;
+}},
+
+{id:'pay', name:'Payment', sub:'Apple Pay, card or e-Transfer', tab:'browse', render:()=>{
+  const c=byId('ecg'), hst=Math.round(c.price*0.13);
+  return statusbar()+`
+  <div class="sview">
+    <div class="abar"><button class="rb" onclick="show('detail')">${I('i-left','ic-sm')}</button><h2 style="font-size:1rem">Checkout</h2></div>
+    <div class="mcard"><div class="mrow">
+      <img src="${IMG(c.img)}" alt="" />
+      <div class="tx"><b>${esc(c.name)}</b><span>${c.format} · next intake ${c.intake}</span></div></div></div>
+    <div class="sec-h"><b>Payment plan</b></div>
+    <div class="pay-m on"><span class="rd"></span><div style="flex:1"><b>Pay in full — ${money(c.price)}</b><span>Immediate access to all content</span></div></div>
+    <div class="pay-m"><span class="rd"></span><div style="flex:1"><b>3 × ${money(Math.ceil(c.price/3))} monthly</b><span>No interest</span></div></div>
+    <div class="sec-h"><b>Payment method</b></div>
+    <div class="pay-m on"><span class="rd"></span>${I('i-card','ic-sm')}<div style="flex:1"><b>Visa •••• 4021</b><span>Expires 09/29</span></div></div>
+    <div class="pay-m"><span class="rd"></span>${I('i-mail','ic-sm')}<div style="flex:1"><b>Interac e-Transfer</b><span>${ACADEMY.payEmail}</span></div></div>
+    <div class="tot-m"><span>Total incl. HST</span><b>${money(c.price+hst)}</b></div>
+    <button class="btn-m">${I('i-lock','ic-sm')}Pay ${money(c.price+hst)}</button>
+    <p style="text-align:center;font-size:.7rem;color:var(--ink-3);padding:2px 24px 0;line-height:1.55">
+      30% of the total fee is deducted for office charges in the case of cancellation.</p>
+    <div class="sp-b"></div>
+  </div>`;
+}},
+
+{id:'certs', name:'Certificates', sub:'Download and share', tab:'profile', render:()=>statusbar()+`
+  <div class="sview">
+    <div class="abar"><h2>Certificates</h2><button class="rb">${I('i-download','ic-sm')}</button></div>
+    ${STUDENT.enrolments.filter(e=>e.status==='completed').map(e=>{const c=byId(e.course);return `
+      <div class="cert-m"><div class="in">
+        <img src="assets/img/ams-logo.png" alt="" />
+        <b>${esc(c.name)}</b><span>Awarded to ${STUDENT.name}</span>
+        <div class="rw"><span>Certificate no.</span><b>${e.cert}</b></div>
+        <div class="rw"><span>Completed</span><b>${e.completed}</b></div>
+        ${c.accredited?`<div class="rw"><span>Status</span><b style="color:var(--success)">Accredited</b></div>`:''}
+        <div style="display:flex;gap:8px;margin-top:14px">
+          <span class="chip-m" style="background:var(--blue);color:#fff">${I('i-download','ic-sm')}Download</span>
+          <span class="chip-m">${I('i-ext','ic-sm')}Share</span></div>
+      </div></div>`;}).join('')}
+    <div class="sec-h"><b>In progress</b></div>
+    ${STUDENT.enrolments.filter(e=>e.status==='active').map(e=>{const c=byId(e.course);return `
+      <div class="mcard"><div style="padding:13px">
+        <b style="display:block;font-size:.83rem;font-weight:800;margin-bottom:8px">${esc(c.name)}</b>
+        <div class="bar"><i style="width:${e.progress}%"></i></div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--ink-3);margin-top:7px">${e.progress}% — certificate unlocks at 100%</div>
+      </div></div>`;}).join('')}
+    <div class="sp-b"></div>
+  </div>`+tabbar('profile')},
+
+{id:'downloads', name:'Offline downloads', sub:'Study without a connection', tab:'learn', render:()=>statusbar()+`
+  <div class="sview">
+    <div class="abar"><button class="rb" onclick="show('home')">${I('i-left','ic-sm')}</button><h2 style="font-size:1rem">Downloads</h2>
+      <button class="rb">${I('i-cog','ic-sm')}</button></div>
+    <div style="margin:0 18px 14px;padding:14px;border-radius:15px;background:var(--tint);display:flex;gap:11px;align-items:center">
+      <span style="color:var(--blue)">${I('i-wifi-off','ic-lg')}</span>
+      <div><b style="display:block;font-size:.82rem;color:var(--blue)">Available offline</b>
+        <span style="font-size:.72rem;color:var(--blue);opacity:.8">6 lessons · 1.2 GB · downloads over wi-fi only</span></div></div>
+    ${[['Venipuncture step by step','Video · 34 min','420 MB','i-play'],
+       ['Recorded lecture — difficult draws','Audio · 38 min','52 MB','i-audio'],
+       ['Order of draw wall chart','PDF · 2 pages','1.1 MB','i-pdf'],
+       ['Blood collection in special populations','Video · 28 min','356 MB','i-play'],
+       ['Terminology reference workbook','PDF · 38 pages','8.4 MB','i-pdf'],
+       ['12-lead placement — chest and limb','Video · 30 min','388 MB','i-play']]
+      .map(([t,m,sz,ic])=>`<div class="mcard"><div class="mrow" style="padding:12px 13px">
+        <span style="width:34px;height:34px;border-radius:10px;background:var(--sunk);color:var(--ink-2);display:grid;place-items:center;flex:0 0 auto">${I(ic,'ic-sm')}</span>
+        <div class="tx"><b>${t}</b><span>${m} · ${sz}</span></div>
+        <span style="color:var(--success);flex:0 0 auto">${I('i-check-c','ic-sm')}</span></div></div>`).join('')}
+    <div class="sp-b"></div>
+  </div>`+tabbar('learn')},
+
+{id:'notifs', name:'Push notifications', sub:'Reach students instantly', tab:'home', render:()=>statusbar()+`
+  <div class="sview">
+    <div class="abar"><button class="rb" onclick="show('home')">${I('i-left','ic-sm')}</button><h2 style="font-size:1rem">Notifications</h2>
+      <button class="rb">${I('i-check','ic-sm')}</button></div>
+    ${[['Practical day 1 confirmed','Saturday 22 August, 09:00 — Skills Lab A. Bring photo ID.','2h ago','i-cal-check','var(--teal)',1],
+       ['New course: PRP Advanced','Now open for the 16 September intake — 4 seats.','Yesterday','i-spark','var(--blue)',1],
+       ['Module 4 quiz passed','Blood collection technique — 22 of 25.','2 days ago','i-check-c','var(--success)',0],
+       ['Certificate ready','Medical Terminology is available to download.','4 days ago','i-cert','var(--violet)',0],
+       ['Free exam prep session','MLPAO / CSMLS review this Thursday, 7pm. Zoom link inside.','5 days ago','i-video','var(--blue)',0]]
+      .map(([t,d,w,ic,col,unread])=>`<div style="display:flex;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line-2);
+          ${unread?'background:var(--tint)':''}">
+        <span style="width:34px;height:34px;border-radius:11px;background:${unread?'#fff':'var(--sunk)'};color:${col};display:grid;place-items:center;flex:0 0 auto">${I(ic,'ic-sm')}</span>
+        <div style="flex:1;min-width:0"><b style="display:block;font-size:.83rem;font-weight:800;margin-bottom:3px">${t}</b>
+          <span style="font-size:.76rem;color:var(--ink-2);line-height:1.5;display:block">${d}</span>
+          <span style="font-size:.68rem;color:var(--ink-4);font-weight:700;margin-top:4px;display:block">${w}</span></div>
+        ${unread?`<span style="width:7px;height:7px;border-radius:50%;background:var(--blue);flex:0 0 auto;margin-top:6px"></span>`:''}
+      </div>`).join('')}
+    <div class="sp-b"></div>
+  </div>`+tabbar('home')},
+
+{id:'profile', name:'Profile', sub:'Account, payments and settings', tab:'profile', render:()=>statusbar()+`
+  <div class="sview">
+    <div class="abar"><h2>Profile</h2><button class="rb">${I('i-cog','ic-sm')}</button></div>
+    <div class="prof-h">
+      <span class="av">${STUDENT.initials}</span>
+      <b>${STUDENT.name}</b><span>${STUDENT.background}</span>
+      <span style="font-size:.7rem;color:var(--ink-4);margin-top:5px">${STUDENT.id} · joined ${STUDENT.joined}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:0 18px 16px">
+      ${[['4','Programs'],['2','Certificates'],['$2,946','Invested']].map(([v,l])=>`
+        <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px 8px;text-align:center;box-shadow:var(--sh-xs)">
+          <b style="display:block;font-family:var(--serif);font-size:1.24rem;font-weight:500;color:var(--navy);letter-spacing:-.02em">${v}</b>
+          <span style="font-size:.66rem;font-weight:700;color:var(--ink-3)">${l}</span></div>`).join('')}
+    </div>
+    ${[['i-cert','Certificates','2 ready','certs'],['i-receipt','Payments & receipts','4 payments',''],
+       ['i-download','Offline downloads','6 lessons · 1.2 GB','downloads'],['i-bell','Notifications','','notifs'],
+       ['i-pin','Campus & directions',ACADEMY.address,''],['i-chat','Contact the academy',ACADEMY.phone,'']]
+      .map(([ic,t,s,go])=>`<div class="set-row" ${go?`onclick="show('${go}')"`:''}>
+        <span class="ic-w">${I(ic,'ic-sm')}</span><b>${t}</b><span>${s}</span>${I('i-right','ic-sm')}</div>`).join('')}
+    <div class="set-row"><span class="ic-w">${I('i-wifi-off','ic-sm')}</span><b>Download over wi-fi only</b><span class="sw-m"></span></div>
+    <div class="set-row"><span class="ic-w">${I('i-bell','ic-sm')}</span><b>Session reminders</b><span class="sw-m"></span></div>
+    <div class="set-row"><span class="ic-w">${I('i-mail','ic-sm')}</span><b>Marketing emails</b><span class="sw-m off"></span></div>
+    <button class="btn-m ghost" style="margin-top:16px">${I('i-logout','ic-sm')}Sign out</button>
+    <div class="sp-b"></div>
+  </div>`+tabbar('profile')}
+];
+
+const byScreen = id => SCREENS.find(s=>s.id===id) || SCREENS[0];
+
+/* ---------- rendering ---------- */
+function show(id){
+  CUR=id;
+  const s=byScreen(id);
+  document.getElementById('liveScreen').innerHTML=s.render();
+  document.querySelectorAll('.rail button').forEach(b=>b.classList.toggle('on',b.dataset.s===id));
+  const cap=document.getElementById('liveCap');
+  if(cap) cap.innerHTML=`<b>${s.name}</b><span>${s.sub}</span>`;
+}
+
+function page(){ return `
+  <div class="top">
+    <img src="assets/img/ams-logo-white.png" alt="Academy of Medical Science" />
+    <div class="ti"><b>Academy of Medical Science</b><span>Mobile application · iOS &amp; Android</span></div>
+    <div class="sp"></div>
+    <a class="back" href="index.html">${I('i-left','ic-sm')}All surfaces</a>
+    <a class="back" href="web.html">Web application ${I('i-right','ic-sm')}</a>
+  </div>
+
+  <div class="intro">
+    <h1>The same programme, <em>in your pocket</em></h1>
+    <p>Every screen below is live — tap the rail on the left or the tab bar inside the phone to move through the app exactly as a student would. Lessons download for offline study, and push notifications let the academy reach every student instantly.</p>
+  </div>
+
+  <div class="stage">
+    <div class="rail">
+      <h4>Screens</h4>
+      ${SCREENS.map((s,i)=>`<button data-s="${s.id}" class="${i===0?'on':''}" onclick="show('${s.id}')">
+        <span class="n">${String(i+1).padStart(2,'0')}</span>${s.name}</button>`).join('')}
+    </div>
+
+    <div class="device">
+      <div class="frame"><div class="screen" id="liveScreen"></div></div>
+      <div style="text-align:center;margin-top:16px;font-size:.82rem;font-weight:700;color:rgba(255,255,255,.8)" id="liveCap"></div>
+    </div>
+
+    <div class="notes">
+      <div class="note"><div class="ic-w">${I('i-download')}</div>
+        <b>Study offline, anywhere</b>
+        <p>Lessons and PDFs download over wi-fi and play with no connection — on the subway, between shifts, in a basement staff room. This is the single thing a mobile-responsive website cannot do.</p></div>
+      <div class="note"><div class="ic-w">${I('i-bell')}</div>
+        <b>Push notifications</b>
+        <p>Announce a new programme, a practical date or the free weekly exam session and it lands on every student's home screen — no waiting for them to visit the website.</p></div>
+      <div class="note"><div class="ic-w">${I('i-pin')}</div>
+        <b>Practical sessions in the pocket</b>
+        <p>Students book, reschedule and get directions to 10 George St N from the app, with a reminder 24 hours before. Fewer no-shows for a session with twelve seats.</p></div>
+      <div class="note"><div class="ic-w">${I('i-cap')}</div>
+        <b>A digital asset that compounds</b>
+        <p>Every download is counted on the App Store and Google Play. After two years of intakes that install base is an asset of the business, not just traffic that comes and goes.</p></div>
+    </div>
+  </div>
+
+  <div class="strip-h">
+    <h2>Every screen at a glance</h2>
+    <p>The complete student journey — discover a programme, pay, study the theory, book the practical and collect the certificate.</p>
+  </div>
+  <div class="strip">
+    ${SCREENS.map(s=>`<div class="mini">
+      <div class="fr"><div class="vp"><div class="inner">${s.render()}</div></div></div>
+      <div class="cap"><b>${s.name}</b><span>${s.sub}</span></div>
+    </div>`).join('')}
+  </div>
+
+  <div class="foot">
+    <span>© 2026 ${ACADEMY.name} · mobile application mock-up</span>
+    <span>Prepared by Nile Technologies</span>
+  </div>`;
+}
+
+function scaleMinis(){
+  document.querySelectorAll('.mini .vp').forEach(vp=>{
+    const s=vp.clientWidth/390;
+    vp.querySelector('.inner').style.transform='scale('+s+')';
+  });
+}
+document.getElementById('page').innerHTML=page();
+show('home');
+scaleMinis();
+window.addEventListener('resize',scaleMinis);
+</script>
+</body>
+</html>

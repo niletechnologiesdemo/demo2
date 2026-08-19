@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Academy of Medical Science · Web Application</title>
+<meta name="description" content="Enrol in accredited healthcare training, study the theory online and book your in-person practical sessions." />
+<link rel="icon" href="assets/img/ams-logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/ams.css?v=2" />
+<link rel="stylesheet" href="assets/web.css?v=2" />
+</head>
+<body>
+<script src="assets/icons.js"></script>
+<div id="app"></div>
+<div class="mask" id="mask" onclick="if(event.target===this)closeModal()"><div id="modalBox"></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/data.js"></script>
+<script>
+/* =====================================================================
+   Academy of Medical Science — web application demonstration
+   Single-file front end: marketing site, enrolment & payment, and the
+   signed-in student portal (content delivery, scheduling, certificates).
+   ===================================================================== */
+
+const I  = (id,c='ic') => `<svg class="${c}" aria-hidden="true"><use href="#${id}"/></svg>`;
+const IMG = n => `assets/img/${n}.jpg`;
+const esc = s => String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+/* ---------- application state ---------- */
+const APP = {
+  view:'home', id:null,
+  signedIn:false,
+  filter:{cat:'all', fmt:'all', q:''},
+  checkout:{step:1, plan:'full', method:'card'},
+  learn:{course:null, m:0, l:0, done:{}, quizPicked:null},
+  pendingEnrol:null,
+  enrolments:STUDENT.enrolments.map(e=>({...e}))
+};
+
+/* ---------- routing ---------- */
+function go(view,id){
+  APP.view=view; APP.id=id||null;
+  location.hash = '#/'+view+(id?'/'+id:'');
+  render(); window.scrollTo({top:0,behavior:'instant'});
+}
+function readHash(){
+  const p=(location.hash||'#/home').replace(/^#\//,'').split('/');
+  const v=p[0]||'home';
+  const guarded=['dash','learn','schedule','certs','billing','profile'];
+  if(guarded.includes(v) && !APP.signedIn){ APP.view='signin'; APP.id=null; return; }
+  APP.view=v; APP.id=p[1]||null;
+}
+window.addEventListener('hashchange',()=>{readHash();render();});
+
+/* ---------- small ui helpers ---------- */
+let toastT;
+function toast(msg,icon='i-check-c'){
+  const t=document.getElementById('toast');
+  t.innerHTML=I(icon)+'<span>'+esc(msg)+'</span>'; t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2600);
+}
+function openModal(html){
+  document.getElementById('modalBox').innerHTML=html;
+  document.getElementById('mask').classList.add('open');
+}
+function closeModal(){ document.getElementById('mask').classList.remove('open'); }
+function toggleMob(){ document.getElementById('mobnav').classList.toggle('open'); }
+
+const fmtBadge = f => f==='Online' ? `<span class="badge b-blue">${I('i-globe','ic-sm')}Online</span>`
+  : f==='In-person' ? `<span class="badge b-teal">${I('i-pin','ic-sm')}In-person</span>`
+  : `<span class="badge b-violet">${I('i-modules','ic-sm')}Hybrid</span>`;
+
+const starRow = (r,n) => `<span class="stars">${I('i-star')}${r.toFixed(1)}<em>(${n})</em></span>`;
+
+/* =====================================================================
+   PUBLIC CHROME
+   ===================================================================== */
+const NAVLINKS = [['Programs','catalogue'],['Hybrid Model','#hybrid'],['Instructors','#tutors'],['About','#about'],['Contact','#contact']];
+
+function header(active){
+  const link = ([label,to]) => to.startsWith('#')
+    ? `<a href="${to}" onclick="hashJump(event,'${to}')">${label}</a>`
+    : `<a href="#/${to}" class="${active===to?'on':''}">${label}</a>`;
+  return `
+  <header class="hdr" id="hdr"><div class="wrap in">
+    <a class="logo" href="#/home">
+      <img src="assets/img/ams-logo.png" alt="Academy of Medical Science" />
+      <span class="lt"><b>Academy of Medical Science</b><span>Helping you succeed</span></span>
+    </a>
+    <nav class="nav">${NAVLINKS.map(link).join('')}</nav>
+    <div class="hdr-cta">
+      ${APP.signedIn
+        ? `<a class="btn btn-primary btn-sm" href="#/dash">${I('i-home','ic-sm')}My Learning</a>`
+        : `<a class="btn btn-ghost btn-sm" href="#/signin">Sign in</a>
+           <a class="btn btn-primary btn-sm" href="#/catalogue">Enrol now</a>`}
+      <button class="burger" onclick="toggleMob()" aria-label="Menu">${I('i-menu','ic-lg')}</button>
+    </div>
+  </div></header>
+  <div class="mob" id="mobnav">
+    ${NAVLINKS.map(([l,t])=>t.startsWith('#')
+      ? `<a href="${t}" onclick="toggleMob();hashJump(event,'${t}')">${l}</a>`
+      : `<a href="#/${t}" onclick="toggleMob()">${l}</a>`).join('')}
+    ${APP.signedIn
+      ? `<a class="btn btn-primary btn-block" href="#/dash" onclick="toggleMob()">My Learning</a>`
+      : `<a class="btn btn-ghost btn-block" href="#/signin" onclick="toggleMob()">Sign in</a>
+         <a class="btn btn-primary btn-block" href="#/catalogue" onclick="toggleMob()">Enrol now</a>`}
+  </div>`;
+}
+function hashJump(e,sel){
+  const el=document.querySelector(sel);
+  if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+  else { e.preventDefault(); go('home'); setTimeout(()=>document.querySelector(sel)?.scrollIntoView({behavior:'smooth'}),80); }
+}
+
+function footer(){ return `
+<footer class="ftr" id="contact"><div class="wrap">
+  <div class="cols">
+    <div>
+      <img class="lg" src="assets/img/ams-logo-white.png" alt="Academy of Medical Science" />
+      <p style="font-size:.86rem;line-height:1.65;max-width:30ch">Job-ready short health professional courses for doctors, IMGs, nurses, technologists and all healthcare backgrounds.</p>
+    </div>
+    <div>
+      <h5>Programs</h5>
+      ${COURSES.filter(c=>c.featured).map(c=>`<a href="#/course/${c.id}" style="display:block">${esc(c.name)}</a>`).join('')}
+      <a href="#/catalogue" style="display:block">View all programs</a>
+    </div>
+    <div>
+      <h5>For Students</h5>
+      <a href="#/signin" style="display:block">Student sign in</a>
+      <a href="#/catalogue" style="display:block">Enrol in a program</a>
+      <a href="#hybrid" style="display:block">How the hybrid model works</a>
+      <a href="#tutors" style="display:block">Our instructors</a>
+    </div>
+    <div>
+      <h5>Contact</h5>
+      <div class="ct">${I('i-pin','ic-sm')}<span>${ACADEMY.address}</span></div>
+      <div class="ct">${I('i-phone','ic-sm')}<span>${ACADEMY.phone}<br/>${ACADEMY.cell}</span></div>
+      <div class="ct">${I('i-mail','ic-sm')}<span>${ACADEMY.email}</span></div>
+      <div class="ct">${I('i-globe','ic-sm')}<span>${ACADEMY.site}</span></div>
+    </div>
+  </div>
+  <div class="btm">
+    <span>© 2026 ${ACADEMY.name}. All rights reserved.</span>
+    <span>Design mock-up prepared by Nile Technologies</span>
+  </div>
+</div></footer>`; }
+
+/* =====================================================================
+   HOME
+   ===================================================================== */
+function viewHome(){
+  const featured = COURSES.filter(c=>c.featured);
+  return header('home') + `
+  <section class="hero"><div class="wrap in">
+    <div>
+      <span class="eyebrow">Brampton, Ontario · Est. 2019</span>
+      <h1>Job-ready health training that <em>fits around your shifts</em></h1>
+      <p class="lede">Study the theory online whenever it suits you — videos, PDFs and recorded lectures. Then come to campus for the hands-on practical you can only learn in person. One programme, two ways to learn.</p>
+      <div class="acts">
+        <a class="btn btn-primary btn-lg" href="#/catalogue">Browse programs ${I('i-right','ic-sm')}</a>
+        <a class="btn btn-ghost btn-lg" href="#hybrid">How it works</a>
+      </div>
+      <div class="facts">
+        <div><b>21</b><span>Programs running</span></div>
+        <div><b>1,284</b><span>Students trained</span></div>
+        <div><b>87%</b><span>Completion rate</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="shot"><img src="${IMG('hero-teaching')}" alt="Instructor teaching healthcare students" /></div>
+      <div class="float f-1">
+        <div class="ico" style="background:var(--teal-tint);color:var(--teal)">${I('i-pin')}</div>
+        <div><b>Practical day 1</b><span>Sat 22 Aug · Skills Lab A</span></div>
+      </div>
+      <div class="float f-2">
+        <div class="ico" style="background:var(--tint);color:var(--blue)">${I('i-cert')}</div>
+        <div><b>Accredited</b><span>Micro-credential</span></div>
+      </div>
+      <div class="float f-3">
+        <div class="ico" style="background:var(--success-tint);color:var(--success)">${I('i-check')}</div>
+        <div><b>Module 4 complete</b><span>Blood collection technique</span></div>
+      </div>
+    </div>
+  </div></section>
+
+  <div class="trust"><div class="wrap in">
+    <div class="t">${I('i-shield','ic-sm')}Accredited micro-credentials</div>
+    <div class="t">${I('i-teacher','ic-sm')}Industry-experienced instructors</div>
+    <div class="t">${I('i-dollar','ic-sm')}Competitive prices</div>
+    <div class="t">${I('i-cap','ic-sm')}Free MLPAO / CSMLS exam prep session every week</div>
+  </div></div>
+
+  <section class="pad"><div class="wrap">
+    <div class="shead mid rv">
+      <span class="eyebrow">What we teach</span>
+      <h2>Four routes into <em>Canadian healthcare</em></h2>
+      <p>Whether you are newly landed, changing career or already working and adding a skill, there is a programme sized to fit.</p>
+    </div>
+    <div class="cats">
+      ${CATS.map(c=>{
+        const n=COURSES.filter(x=>x.cat===c.id).length;
+        return `<button class="cat rv" onclick="APP.filter.cat='${c.id}';go('catalogue')">
+          <div class="ico">${I(c.icon,'ic-lg')}</div>
+          <h3>${c.name}</h3><p>${c.desc}</p>
+          <span class="n">${n} program${n>1?"s":""} ${I("i-right","ic-sm")}</span>
+        </button>`;
+      }).join('')}
+    </div>
+  </div></section>
+
+  <section class="pad-s"><div class="wrap">
+    <div class="shead rv" style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:20px;max-width:none">
+      <div style="flex:1;min-width:280px">
+        <span class="eyebrow">Most enrolled</span>
+        <h2>Popular <em>right now</em></h2>
+      </div>
+      <a class="btn btn-ghost" href="#/catalogue">All 21 programs ${I('i-right','ic-sm')}</a>
+    </div>
+    <div class="grid">${featured.map(courseCard).join('')}</div>
+  </div></section>
+
+  <section class="pad" id="hybrid" style="background:var(--surface);border-block:1px solid var(--line)"><div class="wrap">
+    <div class="split">
+      <div>
+        <span class="eyebrow">The hybrid model</span>
+        <h2 class="display" style="font-size:clamp(1.9rem,3.6vw,2.9rem);margin:13px 0 16px">Theory at home. <em>Hands-on here.</em></h2>
+        <p style="font-size:1rem;color:var(--ink-2);line-height:1.7;margin-bottom:22px">You cannot learn a venipuncture from a video, and you should not have to sit in a classroom to learn terminology. So we split every programme in two.</p>
+        <div class="tl">
+          <div class="r"><div class="ic-w" style="background:var(--tint);color:var(--blue)">${I('i-play')}</div>
+            <div><b>Study the theory online</b><p>Videos, downloadable PDFs and recorded lectures in your student portal — on your laptop or on the app, at 6am or after a night shift.</p></div></div>
+          <div class="r"><div class="ic-w" style="background:var(--tint);color:var(--blue)">${I('i-quiz')}</div>
+            <div><b>Check yourself as you go</b><p>Every module ends in a quiz. You cannot book your practical until the theory behind it is complete, so nobody arrives on campus unprepared.</p></div></div>
+          <div class="r"><div class="ic-w" style="background:var(--teal-tint);color:var(--teal)">${I('i-pin')}</div>
+            <div><b>Book your in-person practical</b><p>Choose a date that works from the sessions running at 10 George St N. Small groups, real equipment, an instructor watching every draw.</p></div></div>
+          <div class="r"><div class="ic-w" style="background:var(--success-tint);color:var(--success)">${I('i-cert')}</div>
+            <div><b>Get signed off and certified</b><p>Pass your competency assessment and your certificate lands in your portal the same day, ready to download and send to an employer.</p></div></div>
+        </div>
+      </div>
+      <div class="art rv"><img src="${IMG('course-phlebotomy')}" alt="Hands-on phlebotomy training" /></div>
+    </div>
+  </div></section>
+
+  <section class="pad"><div class="wrap">
+    <div class="shead mid rv">
+      <span class="eyebrow">Who it is for</span>
+      <h2>Designed for people who are <em>already qualified</em></h2>
+      <p>Our programmes assume a healthcare background and get you to a Canadian-employable skill quickly.</p>
+    </div>
+    <div class="chips" style="justify-content:center;max-width:840px;margin:0 auto">
+      ${['International Medical Graduates (IMG)','Nurses','Medical Laboratory Technicians','Medical Laboratory Technologists','Pharmacists','Medical Office Assistants','Physician Assistants','Dentists','Laboratory Assistants','Personal Support Workers','Career changers'].map(a=>`<span class="chip">${a}</span>`).join('')}
+    </div>
+  </div></section>
+
+  <section class="pad-s" id="tutors"><div class="wrap">
+    <div class="shead rv"><span class="eyebrow">Our instructors</span>
+      <h2>Highly qualified. <em>Industry experienced.</em></h2>
+      <p>Every practical session is supervised by someone who has done the job in a Canadian hospital, laboratory or clinic.</p></div>
+    <div class="tutors">
+      ${INSTRUCTORS.map(t=>`<div class="tutor rv">
+        <div class="ph"><img src="${IMG(t.img)}" alt="${esc(t.name)}" /></div>
+        <div class="bd"><h4>${esc(t.name)}</h4><div class="cr">${esc(t.cred)}</div>
+        <div class="rl">${esc(t.role)}</div><p>${esc(t.bio)}</p></div></div>`).join('')}
+    </div>
+  </div></section>
+
+  <section class="pad-s"><div class="wrap">
+    <div class="cta rv"><div class="in">
+      <div>
+        <span class="badge b-solid" style="background:rgba(255,255,255,.16);color:#fff">Free every week</span>
+        <h2 style="margin-top:14px">MLPAO &amp; CSMLS exam preparation session</h2>
+        <p>A live review session runs every week at no cost — open to any Medical Laboratory Technician or Technologist preparing for their Canadian licensing examination. Email us for registration and the Zoom link.</p>
+      </div>
+      <div class="acts">
+        <a class="btn btn-white btn-lg" href="#/course/exam-prep">See the programme ${I('i-right','ic-sm')}</a>
+        <a class="btn btn-outline-w btn-lg" href="mailto:${ACADEMY.email}">${I('i-mail','ic-sm')}Email us</a>
+      </div>
+    </div></div>
+  </div></section>
+
+  <section class="pad-s" id="about"><div class="wrap">
+    <div class="shead mid rv"><span class="eyebrow">Student outcomes</span>
+      <h2>Where our graduates <em>ended up</em></h2></div>
+    <div class="quotes">
+      ${TESTIMONIALS.map(t=>`<div class="quote rv"><div class="qm">&ldquo;</div>
+        <p>${esc(t.text)}</p>
+        <div class="who"><b>${esc(t.name)}</b><span>${esc(t.role)}</span></div>
+        <div class="cs">${esc(t.course)}</div></div>`).join('')}
+    </div>
+  </div></section>
+
+  <section class="pad-s"><div class="wrap">
+    <div class="split">
+      <div class="art rv"><img src="${IMG('hero-corridor')}" alt="Healthcare team" /></div>
+      <div>
+        <span class="eyebrow">About the academy</span>
+        <h2 class="display" style="font-size:clamp(1.8rem,3.2vw,2.6rem);margin:13px 0 16px">Helping you <em>succeed</em></h2>
+        <p style="font-size:.98rem;color:var(--ink-2);line-height:1.72;margin-bottom:16px">Academy of Medical Science trains doctors, international medical graduates, nurses, dentists, laboratory technicians, technologists and everyone else with a healthcare background to start work in their medical field in Canada.</p>
+        <p style="font-size:.98rem;color:var(--ink-2);line-height:1.72;margin-bottom:24px">We do not stop at the certificate. Our team helps refine your resume, develop a cover letter and prepare for interviews — because the point of the training is the job at the end of it.</p>
+        <div class="kpis" style="margin:0">
+          <div class="kpi"><div class="ic-w" style="background:var(--tint);color:var(--blue)">${I('i-cap')}</div><b>21</b><span>Programs running</span></div>
+          <div class="kpi"><div class="ic-w" style="background:var(--teal-tint);color:var(--teal)">${I('i-users')}</div><b>1,284</b><span>Students trained</span></div>
+          <div class="kpi"><div class="ic-w" style="background:var(--success-tint);color:var(--success)">${I('i-trend')}</div><b>87%</b><span>Completion rate</span></div>
+        </div>
+      </div>
+    </div>
+  </div></section>` + footer();
+}
+
+/* ---------- course card ---------- */
+function courseCard(c){
+  return `<button class="cc rv" onclick="go('course','${c.id}')">
+    <div class="ph">
+      <div class="tags">${fmtBadge(c.format)}${c.accredited?`<span class="badge b-green">${I('i-shield','ic-sm')}Accredited</span>`:''}</div>
+      <img src="${IMG(c.img)}" alt="${esc(c.name)}" loading="lazy" />
+      <span class="fee">${money(c.price)}</span>
+    </div>
+    <div class="bd">
+      <div class="sub">${esc(c.sub)}</div>
+      <h3>${esc(c.name)}</h3>
+      <p>${esc(c.blurb)}</p>
+      <div class="meta">
+        <i>${I('i-clock','ic-sm')}${c.weeks===1?'1 week':c.weeks+' weeks'}</i>
+        <i>${I('i-modules','ic-sm')}${c.modules.length} modules</i>
+        ${starRow(c.rating,c.reviews)}
+      </div>
+    </div>
+  </button>`;
+}
+
+/* =====================================================================
+   CATALOGUE
+   ===================================================================== */
+function viewCatalogue(){
+  const f=APP.filter;
+  let list=COURSES.filter(c=>
+    (f.cat==='all'||c.cat===f.cat) &&
+    (f.fmt==='all'||c.format===f.fmt) &&
+    (!f.q || (c.name+' '+c.sub+' '+c.blurb+' '+c.audience.join(' ')).toLowerCase().includes(f.q.toLowerCase()))
+  );
+  return header('catalogue') + `
+  <section style="background:var(--surface);border-bottom:1px solid var(--line)" class="pad-s"><div class="wrap">
+    <span class="eyebrow">Program catalogue</span>
+    <h1 class="display" style="font-size:clamp(2rem,4vw,3rem);margin:12px 0 14px">Job-ready short <em>health professional courses</em></h1>
+    <p style="font-size:1rem;color:var(--ink-2);max-width:60ch;line-height:1.66">Every programme below is open for enrolment. Fees are one-time and include all online content, materials and your in-person practical sessions.</p>
+  </div></section>
+
+  <section class="pad-s"><div class="wrap">
+    <div class="fbar">
+      <div class="srch">${I('i-search')}
+        <input class="inp" id="q" placeholder="Search programs, skills or audience…" value="${esc(f.q)}"
+          oninput="APP.filter.q=this.value;renderList()" />
+      </div>
+      <div class="sp"></div>
+      <button class="pill ${f.cat==='all'?'on':''}" onclick="APP.filter.cat='all';renderList()">All</button>
+      ${CATS.map(c=>`<button class="pill ${f.cat===c.id?'on':''}" onclick="APP.filter.cat='${c.id}';renderList()">${c.name}</button>`).join('')}
+      <select class="inp" style="width:auto;min-width:132px" onchange="APP.filter.fmt=this.value;renderList()">
+        ${['all','Hybrid','Online','In-person'].map(v=>`<option value="${v}" ${f.fmt===v?'selected':''}>${v==='all'?'Any format':v}</option>`).join('')}
+      </select>
+    </div>
+    <div id="list">${listBody(list)}</div>
+  </div></section>` + footer();
+}
+function listBody(list){
+  if(!list.length) return `<div class="empty"><div class="ic-w">${I('i-search','ic-lg')}</div>
+    <h3>No programs match that</h3><p>Try clearing the filters or searching for a broader term such as “phlebotomy” or “nurse”.</p>
+    <button class="btn btn-ghost" onclick="APP.filter={cat:'all',fmt:'all',q:''};go('catalogue')">Clear filters</button></div>`;
+  return `<p style="font-size:.83rem;font-weight:700;color:var(--ink-3);margin-bottom:18px">${list.length} program${list.length>1?'s':''}</p>
+    <div class="grid">${list.map(courseCard).join('')}</div>`;
+}
+function renderList(){
+  const f=APP.filter;
+  const list=COURSES.filter(c=>
+    (f.cat==='all'||c.cat===f.cat) &&
+    (f.fmt==='all'||c.format===f.fmt) &&
+    (!f.q || (c.name+' '+c.sub+' '+c.blurb+' '+c.audience.join(' ')).toLowerCase().includes(f.q.toLowerCase())));
+  document.getElementById('list').innerHTML=listBody(list);
+  document.querySelectorAll('.fbar .pill').forEach(p=>p.classList.remove('on'));
+  const pills=document.querySelectorAll('.fbar .pill');
+  const idx = f.cat==='all'?0:CATS.findIndex(c=>c.id===f.cat)+1;
+  if(pills[idx]) pills[idx].classList.add('on');
+  observe();
+}
+
+/* =====================================================================
+   COURSE DETAIL
+   ===================================================================== */
+function viewCourse(){
+  const c=byId(APP.id); if(!c) return viewCatalogue();
+  const enrolled = APP.signedIn && APP.enrolments.some(e=>e.course===c.id);
+  const online = c.modules.filter(m=>!m.inPerson), campus = c.modules.filter(m=>m.inPerson);
+  const campusHrs = campus.reduce((s,m)=>s+m.lessons.reduce((t,l)=>t+l.len,0),0);
+  return header('catalogue') + `
+  <section class="cdetail">
+    <div style="position:absolute;inset:0;opacity:.22"><img src="${IMG(c.img)}" alt="" style="width:100%;height:100%;object-fit:cover" /></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(100deg,var(--navy) 34%,rgba(6,42,87,.72))"></div>
+    <div class="wrap in">
+      <div class="crumb"><a href="#/home">Home</a>${I('i-right','ic-sm')}<a href="#/catalogue">Programs</a>${I('i-right','ic-sm')}<span style="color:#fff">${esc(c.name)}</span></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">${fmtBadge(c.format)}${c.accredited?`<span class="badge b-green">${I('i-shield','ic-sm')}Accredited</span>`:''}<span class="badge" style="background:rgba(255,255,255,.14);color:#fff">${esc(c.sub)}</span></div>
+      <h1>${esc(c.name)}</h1>
+      <p class="lede">${esc(c.blurb)}</p>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+        ${starRow(c.rating,c.reviews).replace('class="stars"','class="stars" style="color:#fff"')}
+        <span style="font-size:.85rem;color:rgba(255,255,255,.7);font-weight:600">${c.enrolled} students enrolled</span>
+      </div>
+      <div class="mrow">
+        <div><b>${c.weeks===1?'1 week':c.weeks+' weeks'}</b><span>Duration</span></div>
+        <div><b>${c.modules.length}</b><span>Modules</span></div>
+        <div><b>${lessonCount(c)}</b><span>Lessons</span></div>
+        <div><b>~${hours(c)} hrs</b><span>Total content</span></div>
+        <div><b>${esc(c.intake)}</b><span>Next intake</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad-s"><div class="wrap cbody">
+    <div>
+      <h2 style="font-size:1.32rem;font-weight:800;letter-spacing:-.024em;margin-bottom:16px">What you will be able to do</h2>
+      <ul class="olist" style="margin-bottom:34px">${c.outcomes.map(o=>`<li>${I('i-check-c')}<span>${esc(o)}</span></li>`).join('')}</ul>
+
+      <h2 style="font-size:1.32rem;font-weight:800;letter-spacing:-.024em;margin-bottom:8px">Programme content</h2>
+      <p style="font-size:.88rem;color:var(--ink-3);font-weight:600;margin-bottom:16px">
+        ${online.length} online module${online.length>1?'s':''} · ${campus.length? campus.length+' in-person block'+(campus.length>1?'s':'')+' ('+campusHrs+' hours on campus)' : 'fully online'}</p>
+      <div class="acc" style="margin-bottom:34px">
+        ${c.modules.map((m,i)=>`
+          <div class="m ${i===0?'open':''}">
+            <button class="mh" onclick="this.parentNode.classList.toggle('open')">
+              <span class="nb ${m.inPerson?'tl':''}">${m.inPerson?I('i-pin','ic-sm'):String(i+1).padStart(2,'0')}</span>
+              <b>${esc(m.n)}</b>
+              <span class="ct">${m.lessons.length} lesson${m.lessons.length>1?'s':''}</span>
+              ${I('i-down','ic ch')}
+            </button>
+            <div class="mb">${m.lessons.map(l=>`
+              <div class="ls ${l.type==='session'?'se':''}">
+                <span class="li">${I(LESSON_ICON[l.type],'ic-sm')}</span>
+                <span>${esc(l.title)}</span><em>${lessonMeta(l)}</em>
+              </div>`).join('')}</div>
+          </div>`).join('')}
+      </div>
+
+      <h2 style="font-size:1.32rem;font-weight:800;letter-spacing:-.024em;margin-bottom:14px">Who this is designed for</h2>
+      <div class="chips" style="margin-bottom:34px">${c.audience.map(a=>`<span class="chip">${esc(a)}</span>`).join('')}</div>
+
+      <h2 style="font-size:1.32rem;font-weight:800;letter-spacing:-.024em;margin-bottom:14px">Where graduates work</h2>
+      <div class="chips" style="margin-bottom:34px">${c.careers.map(a=>`<span class="chip">${I('i-pin','ic-sm')} ${esc(a)}</span>`).join('')}</div>
+
+      <div class="card card-p" style="display:flex;gap:16px;align-items:flex-start;background:var(--sunk);border-color:var(--line)">
+        ${I('i-info','ic-lg')}
+        <div><b style="display:block;font-size:.92rem;margin-bottom:6px">Refund policy</b>
+        <p style="font-size:.86rem;color:var(--ink-2);line-height:1.6">In the case of cancellation, 30% of the total fee is deducted for office charges. Payment may also be made by e-transfer to ${ACADEMY.payEmail}.</p></div>
+      </div>
+    </div>
+
+    <aside class="buy">
+      <div class="top">
+        <div class="pr">${money(c.price)}<small>CAD, one-time</small></div>
+        <div class="inst">or 3 monthly instalments of ${money(Math.ceil(c.price/3))}</div>
+      </div>
+      ${c.seats!==null && c.seats<=8 ? `<div class="seat">${I('i-alert','ic-sm')}Only ${c.seats} seats left for the ${esc(c.intake)} intake</div>`:''}
+      <ul>
+        <li>${I('i-check','ic-sm')}<span>Full online theory — ${lessonCount(c)} lessons, yours for 12 months</span></li>
+        ${campus.length?`<li>${I('i-check','ic-sm')}<span>${campusHrs} hours of in-person practical at 10 George St N</span></li>`:''}
+        <li>${I('i-check','ic-sm')}<span>Downloadable PDFs and recorded lectures</span></li>
+        <li>${I('i-check','ic-sm')}<span>Certificate on completion${c.accredited?' — accredited micro-credential':''}</span></li>
+        <li>${I('i-check','ic-sm')}<span>Resume, cover letter and interview support</span></li>
+        ${c.freeSession?`<li>${I('i-check','ic-sm')}<span>Free live review session every week</span></li>`:''}
+      </ul>
+      <div class="act">
+        ${enrolled
+          ? `<a class="btn btn-primary btn-block btn-lg" href="#/learn/${c.id}">${I('i-play','ic-sm')}Continue learning</a>`
+          : `<button class="btn btn-primary btn-block btn-lg" onclick="startEnrol('${c.id}')">Enrol now ${I('i-right','ic-sm')}</button>`}
+        <button class="btn btn-clear btn-block btn-sm" style="margin-top:8px" onclick="askQuestion('${c.id}')">${I('i-chat','ic-sm')}Ask a question first</button>
+      </div>
+    </aside>
+  </div></section>` + footer();
+}
+
+function askQuestion(id){
+  const c=byId(id);
+  openModal(`<div class="modal">
+    <div class="mh">${I('i-chat','ic-lg')}<h3>Ask about ${esc(c.name)}</h3>
+      <button class="icb" onclick="closeModal()">${I('i-x','ic-sm')}</button></div>
+    <div class="mb">
+      <div class="field"><label>Your name</label><input class="inp" placeholder="Full name" /></div>
+      <div class="field"><label>Email</label><input class="inp" type="email" placeholder="you@example.com" /></div>
+      <div class="field"><label>Your question</label><textarea class="inp" rows="3" placeholder="When is the next practical date?"></textarea></div>
+      <p style="font-size:.79rem;color:var(--ink-3);line-height:1.55">Our team replies within one business day, or call ${ACADEMY.phone}.</p>
+    </div>
+    <div class="mf"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="closeModal();toast('Question sent — we will reply by email')">Send question</button></div>
+  </div>`);
+}
+
+/* =====================================================================
+   ENROLMENT & PAYMENT
+   ===================================================================== */
+function startEnrol(id){ APP.checkout={step:1,plan:'full',method:'card'}; go('enrol',id); }
+
+function viewEnrol(){
+  const c=byId(APP.id); if(!c) return viewCatalogue();
+  const st=APP.checkout.step;
+  const total = APP.checkout.plan==='full' ? c.price : Math.ceil(c.price/3);
+  const hst = Math.round(total*0.13);
+  return header('catalogue') + `
+  <section class="pad-s"><div class="wrap">
+    <div class="crumb" style="color:var(--ink-3)"><a href="#/course/${c.id}">${esc(c.name)}</a>${I('i-right','ic-sm')}<span style="color:var(--ink)">Enrolment</span></div>
+    <div class="steps" style="max-width:560px">
+      ${[['Your details',1],['Payment',2],['Confirm',3]].map(([l,n],i)=>`
+        ${i?'<span class="ln"></span>':''}
+        <span class="s ${st===n?'on':st>n?'dn':''}"><span class="n">${st>n?I('i-check','ic-sm'):n}</span>${l}</span>`).join('')}
+    </div>
+    <div class="co">
+      <div>${st===1?stepDetails(c):st===2?stepPayment(c):stepConfirm(c)}</div>
+      <aside class="sum">
+        <div class="hd">
+          <img src="${IMG(c.img)}" alt="" />
+          <div><b>${esc(c.name)}</b>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">${fmtBadge(c.format)}</div></div>
+        </div>
+        <div class="rows">
+          <div class="r"><span>Programme fee</span><b>${money(c.price)}</b></div>
+          <div class="r"><span>Payment plan</span><b>${APP.checkout.plan==='full'?'Paid in full':'3 instalments'}</b></div>
+          <div class="r"><span>Next intake</span><b>${esc(c.intake)}</b></div>
+          <div class="r"><span>Duration</span><b>${c.weeks===1?'1 week':c.weeks+' weeks'}</b></div>
+          <div class="r"><span>HST (13%)</span><b>${money(hst)}</b></div>
+        </div>
+        <div class="tot"><span>${APP.checkout.plan==='full'?'Total today':'Due today'}</span><b>${money(total+hst)}</b></div>
+      </aside>
+    </div>
+  </div></section>` + footer();
+}
+
+function stepDetails(c){ return `
+  <div class="card card-p" style="padding:clamp(22px,3vw,30px)">
+    <h2 style="font-size:1.2rem;font-weight:800;letter-spacing:-.022em;margin-bottom:6px">Create your student account</h2>
+    <p style="font-size:.88rem;color:var(--ink-2);margin-bottom:24px;line-height:1.6">This is the account you will use to access your course content, book practical sessions and download your certificate.</p>
+    <div class="g2">
+      <div class="field"><label>First name</label><input class="inp" value="Priya" /></div>
+      <div class="field"><label>Last name</label><input class="inp" value="Nair" /></div>
+    </div>
+    <div class="field"><label>Email address</label><input class="inp" type="email" value="priya.nair@example.com" /></div>
+    <div class="g2">
+      <div class="field"><label>Mobile</label><input class="inp" value="416-555-0142" /></div>
+      <div class="field"><label>City</label><input class="inp" value="Mississauga, ON" /></div>
+    </div>
+    <div class="field"><label>Your healthcare background</label>
+      <select class="inp">
+        <option>Internationally trained physician (IMG)</option>
+        <option>Registered Nurse</option><option>Registered Practical Nurse</option>
+        <option>Medical Laboratory Technician</option><option>Medical Laboratory Technologist</option>
+        <option>Pharmacist</option><option>Dentist</option>
+        <option>Medical Office Assistant</option><option>Personal Support Worker</option>
+        <option>Career changer — no healthcare background yet</option>
+      </select></div>
+    <div class="field"><label>Create a password</label><input class="inp" type="password" value="demo1234" /></div>
+    <button class="btn btn-primary btn-lg" style="margin-top:8px" onclick="APP.checkout.step=2;render()">Continue to payment ${I('i-right','ic-sm')}</button>
+  </div>`;
+}
+
+function stepPayment(c){ const k=APP.checkout; return `
+  <div class="card card-p" style="padding:clamp(22px,3vw,30px)">
+    <h2 style="font-size:1.2rem;font-weight:800;letter-spacing:-.022em;margin-bottom:20px">How would you like to pay?</h2>
+    <div class="lbl">Payment plan</div>
+    <div class="pay-opt ${k.plan==='full'?'on':''}" onclick="APP.checkout.plan='full';render()">
+      <span class="rd"></span><div style="flex:1"><b>Pay in full — ${money(c.price)}</b><span>One payment, immediate access to all content</span></div></div>
+    <div class="pay-opt ${k.plan==='inst'?'on':''}" onclick="APP.checkout.plan='inst';render()">
+      <span class="rd"></span><div style="flex:1"><b>3 monthly instalments — ${money(Math.ceil(c.price/3))}/month</b><span>First payment today, then monthly. No interest.</span></div></div>
+
+    <div class="lbl" style="margin-top:24px">Payment method</div>
+    <div class="pay-opt ${k.method==='card'?'on':''}" onclick="APP.checkout.method='card';render()">
+      <span class="rd"></span>${I('i-card','ic-lg')}<div style="flex:1"><b>Credit or debit card</b><span>Visa, Mastercard, Amex — processed securely</span></div></div>
+    <div class="pay-opt ${k.method==='etr'?'on':''}" onclick="APP.checkout.method='etr';render()">
+      <span class="rd"></span>${I('i-mail','ic-lg')}<div style="flex:1"><b>Interac e-Transfer</b><span>Send to ${ACADEMY.payEmail}</span></div></div>
+
+    ${k.method==='card'?`
+    <div style="margin-top:22px;padding-top:22px;border-top:1px solid var(--line-2)">
+      <div class="field"><label>Card number</label><input class="inp" value="4242 4242 4242 4242" /></div>
+      <div class="g2">
+        <div class="field"><label>Expiry</label><input class="inp" value="09 / 29" /></div>
+        <div class="field"><label>CVC</label><input class="inp" value="•••" /></div>
+      </div>
+      <div class="field"><label>Name on card</label><input class="inp" value="PRIYA NAIR" /></div>
+    </div>`:`
+    <div style="margin-top:22px;padding:18px;background:var(--tint);border-radius:var(--r-md);font-size:.87rem;color:var(--blue);line-height:1.65;font-weight:600">
+      Send your e-Transfer to <b>${ACADEMY.payEmail}</b> using your full name as the message. Your enrolment is confirmed and your content unlocks as soon as we receive it — usually within a few hours.
+    </div>`}
+
+    <div style="display:flex;gap:10px;margin-top:26px;flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="APP.checkout.step=1;render()">${I('i-left','ic-sm')}Back</button>
+      <button class="btn btn-primary btn-lg" style="flex:1" onclick="APP.checkout.step=3;render()">Review enrolment ${I('i-right','ic-sm')}</button>
+    </div>
+    <p style="font-size:.76rem;color:var(--ink-3);text-align:center;margin-top:16px;display:flex;gap:7px;justify-content:center;align-items:center">
+      ${I('i-lock','ic-sm')}Payments are encrypted. The academy never stores your card details.</p>
+  </div>`;
+}
+
+function stepConfirm(c){
+  const total=APP.checkout.plan==='full'?c.price:Math.ceil(c.price/3);
+  const hst=Math.round(total*0.13);
+  return `<div class="card card-p" style="padding:clamp(22px,3vw,30px)">
+    <h2 style="font-size:1.2rem;font-weight:800;letter-spacing:-.022em;margin-bottom:20px">Confirm your enrolment</h2>
+    <div class="rcpt" style="margin:0 0 22px">
+      <div class="r"><span>Student</span><b>Priya Nair · priya.nair@example.com</b></div>
+      <div class="r"><span>Programme</span><b>${esc(c.name)}</b></div>
+      <div class="r"><span>Format</span><b>${c.format}${c.modules.some(m=>m.inPerson)?' — practical on campus':''}</b></div>
+      <div class="r"><span>Intake</span><b>${esc(c.intake)}</b></div>
+      <div class="r"><span>Payment</span><b>${APP.checkout.method==='card'?'Visa •••• 4242':'Interac e-Transfer'}</b></div>
+      <div class="r"><span>Charged today</span><b>${money(total+hst)} incl. HST</b></div>
+    </div>
+    <label style="display:flex;gap:11px;align-items:flex-start;font-size:.86rem;color:var(--ink-2);line-height:1.55;margin-bottom:22px">
+      <input type="checkbox" checked style="margin-top:3px;width:17px;height:17px;accent-color:var(--blue)" />
+      <span>I accept the academy's terms and the refund policy — 30% of the total fee is deducted for office charges in the case of cancellation.</span></label>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="APP.checkout.step=2;render()">${I('i-left','ic-sm')}Back</button>
+      <button class="btn btn-primary btn-lg" style="flex:1" onclick="completeEnrol('${c.id}')">${I('i-lock','ic-sm')}Pay ${money(total+hst)} and enrol</button>
+    </div>
+  </div>`;
+}
+
+function completeEnrol(id){
+  const c=byId(id);
+  if(!APP.enrolments.some(e=>e.course===id)){
+    APP.enrolments.unshift({course:id,progress:0,paid:c.price,status:'active',started:'Today',nextLesson:[0,0]});
+  }
+  APP.signedIn=true; APP.pendingEnrol=id; go('welcome',id);
+}
+
+function viewWelcome(){
+  const c=byId(APP.id)||byId(APP.pendingEnrol); if(!c) return viewHome();
+  const hst=Math.round(c.price*0.13);
+  return header() + `<section class="wrap"><div class="done">
+    <div class="tick">${I('i-check','ic-lg')}</div>
+    <h1>You're enrolled in ${esc(c.name)}</h1>
+    <p>A receipt is on its way to priya.nair@example.com. Your online content is unlocked now — the practical sessions are ready to book from your dashboard.</p>
+    <div class="rcpt">
+      <div class="r"><span>Receipt</span><b>AMS-INV-2104</b></div>
+      <div class="r"><span>Programme</span><b>${esc(c.name)}</b></div>
+      <div class="r"><span>Amount paid</span><b>${money(c.price+hst)} incl. HST</b></div>
+      <div class="r"><span>Student ID</span><b>${STUDENT.id}</b></div>
+      <div class="r"><span>Next intake</span><b>${esc(c.intake)}</b></div>
+    </div>
+    <div style="display:flex;gap:11px;flex-wrap:wrap;justify-content:center">
+      <a class="btn btn-primary btn-lg" href="#/learn/${c.id}">${I('i-play','ic-sm')}Start module 1</a>
+      <a class="btn btn-ghost btn-lg" href="#/dash">Go to my dashboard</a>
+    </div>
+  </div></section>` + footer();
+}
+
+/* =====================================================================
+   SIGN IN
+   ===================================================================== */
+function viewSignin(){ return header() + `
+  <div class="auth">
+    <div class="form"><div class="bx">
+      <span class="eyebrow">Student portal</span>
+      <h1>Welcome back</h1>
+      <p class="sb">Sign in to continue your programme, book a practical session or download a certificate.</p>
+      <div class="hint">${I('i-info','ic-sm')}<span>This is a demonstration — press <b>Sign in</b> to enter the portal as Priya Nair, a student part-way through two programmes.</span></div>
+      <div class="field"><label>Email address</label><input class="inp" value="priya.nair@example.com" /></div>
+      <div class="field"><label>Password</label><input class="inp" type="password" value="••••••••" /></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 22px">
+        <label style="display:flex;gap:8px;align-items:center;font-size:.83rem;font-weight:600;color:var(--ink-2)">
+          <input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--blue)" />Keep me signed in</label>
+        <a href="#" style="font-size:.83rem;font-weight:700;color:var(--blue)">Forgot password?</a>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" onclick="APP.signedIn=true;go('dash')">Sign in ${I('i-right','ic-sm')}</button>
+      <p style="text-align:center;font-size:.86rem;color:var(--ink-2);margin-top:20px">
+        No account yet? <a href="#/catalogue" style="font-weight:800;color:var(--blue)">Browse programs</a></p>
+    </div></div>
+    <div class="art">
+      <img src="${IMG('about-lab')}" alt="Laboratory" />
+      <div class="cap"><h3>Everything you need, in one place</h3>
+        <p>Your course content, practical schedule, payments and certificates — on the web and on the mobile app, kept in sync.</p></div>
+    </div>
+  </div>`;
+}
+
+/* =====================================================================
+   STUDENT PORTAL
+   ===================================================================== */
+const PNAV=[
+  ['dash','Dashboard','i-home'],['courses','My Programs','i-cap'],['schedule','Practical Schedule','i-cal'],
+  ['certs','Certificates','i-cert'],['billing','Payments','i-receipt'],['profile','Profile','i-user']
+];
+function portal(title,body,active,actions=''){
+  const upcoming=STUDENT.schedule.length;
+  return `<div class="portal">
+    <aside class="side scroll">
+      <a class="lg" href="#/home"><img src="assets/img/ams-logo-white.png" alt="" />
+        <span><b>Academy of<br/>Medical Science</b><span>Student portal</span></span></a>
+      <nav>
+        <div class="lb">Learning</div>
+        ${PNAV.slice(0,3).map(([v,l,ic])=>`<a href="#/${v}" class="${active===v?'on':''}">${I(ic)}${l}${v==='schedule'?`<span class="cnt">${upcoming}</span>`:''}</a>`).join('')}
+        <div class="lb">Account</div>
+        ${PNAV.slice(3).map(([v,l,ic])=>`<a href="#/${v}" class="${active===v?'on':''}">${I(ic)}${l}</a>`).join('')}
+        <div class="lb">Academy</div>
+        <a href="#/catalogue">${I('i-search')}Browse programs</a>
+        <a href="#/home" onclick="APP.signedIn=false">${I('i-logout')}Sign out</a>
+      </nav>
+      <div class="me"><span class="av">${STUDENT.initials}</span>
+        <div><b>${STUDENT.name}</b><span>${STUDENT.id}</span></div></div>
+    </aside>
+    <div class="pmain">
+      <div class="ptop">
+        <h1>${title}</h1>${actions}
+        <button class="icb" onclick="showNotifs()">${I('i-bell')}<span class="dot"></span></button>
+        <a class="icb" href="#/profile">${I('i-user')}</a>
+      </div>
+      <div class="pbody">${body}</div>
+      <nav class="pbar">
+        ${PNAV.slice(0,5).map(([v,l,ic])=>`<a href="#/${v}" class="${active===v?'on':''}">${I(ic)}<span>${l.split(' ')[l.split(' ').length-1]}</span></a>`).join('')}
+      </nav>
+    </div>
+  </div>`;
+}
+function showNotifs(){
+  openModal(`<div class="modal">
+    <div class="mh">${I('i-bell','ic-lg')}<h3>Notifications</h3><button class="icb" onclick="closeModal()">${I('i-x','ic-sm')}</button></div>
+    <div class="mb" style="padding:0">
+      ${[['Practical day 1 confirmed','Saturday 23 August, 09:00 — Skills Lab A. Bring your ID.','i-cal-check','var(--teal)'],
+         ['Module 4 quiz passed','Blood collection technique — 22 of 25. Well done.','i-check-c','var(--success)'],
+         ['New recorded lecture added','“Difficult draws” has been added to module 4.','i-audio','var(--blue)'],
+         ['Certificate ready','Medical Terminology — available to download.','i-cert','var(--violet)']
+        ].map(([t,d,ic,col])=>`<div style="display:flex;gap:13px;padding:15px 22px;border-bottom:1px solid var(--line-2)">
+          <span style="width:36px;height:36px;border-radius:10px;background:var(--sunk);color:${col};display:grid;place-items:center;flex:0 0 auto">${I(ic)}</span>
+          <div><b style="display:block;font-size:.87rem;margin-bottom:3px">${t}</b>
+          <span style="font-size:.8rem;color:var(--ink-2);line-height:1.5">${d}</span></div></div>`).join('')}
+    </div>
+    <div class="mf"><button class="btn btn-primary btn-sm" onclick="closeModal()">Close</button></div>
+  </div>`);
+}
+
+/* ---------- dashboard ---------- */
+function viewDash(){
+  const active=APP.enrolments.filter(e=>e.status==='active');
+  const done=APP.enrolments.filter(e=>e.status==='completed');
+  const overall=Math.round(APP.enrolments.reduce((s,e)=>s+e.progress,0)/APP.enrolments.length);
+  const next=STUDENT.schedule[0];
+  const cur=active[0], curC=cur?byId(cur.course):null;
+  const nextLesson = curC ? curC.modules[cur.nextLesson[0]].lessons[cur.nextLesson[1]] : null;
+
+  const body=`
+  <div class="hi"><div class="in">
+    <div>
+      <h2>Good afternoon, ${STUDENT.first}</h2>
+      <p>${nextLesson? `You're ${cur.progress}% through ${esc(curC.name)}. Next up: <b style="color:#fff">${esc(nextLesson.title)}</b>.` : 'Ready to start something new?'}</p>
+      <div style="display:flex;gap:11px;flex-wrap:wrap;margin-top:20px">
+        ${curC?`<a class="btn btn-white" href="#/learn/${curC.id}">${I('i-play','ic-sm')}Continue learning</a>`:''}
+        <a class="btn btn-outline-w" href="#/schedule">${I('i-cal','ic-sm')}My practical schedule</a>
+      </div>
+    </div>
+    <div class="ring" style="--v:${overall}"><div class="ins">${overall}%</div></div>
+  </div></div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="ic-w" style="background:var(--tint);color:var(--blue)">${I('i-cap')}</div>
+      <b>${active.length}</b><span>Active programs</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--success-tint);color:var(--success)">${I('i-cert')}</div>
+      <b>${done.length}</b><span>Certificates earned</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--teal-tint);color:var(--teal)">${I('i-pin')}</div>
+      <b>${STUDENT.schedule.length}</b><span>Practical sessions booked</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--violet-tint);color:var(--violet)">${I('i-clock')}</div>
+      <b>26h</b><span>Studied this month</span></div>
+  </div>
+
+  <div style="display:grid;gap:22px;grid-template-columns:1fr">
+    <div class="blk">
+      <div class="bh">${I('i-cap','ic-lg')}<h3>Continue learning</h3>
+        <a class="btn btn-quiet btn-sm" href="#/courses">All programs</a></div>
+      <div class="bc flush">${active.map(enrolRow).join('')}</div>
+    </div>
+
+    <div class="blk">
+      <div class="bh">${I('i-cal','ic-lg')}<h3>Upcoming in-person sessions</h3>
+        <a class="btn btn-quiet btn-sm" href="#/schedule">Full schedule</a></div>
+      <div class="bc flush">${STUDENT.schedule.slice(0,3).map(sessRow).join('')}</div>
+    </div>
+
+    ${done.length?`<div class="blk">
+      <div class="bh">${I('i-cert','ic-lg')}<h3>Your certificates</h3>
+        <a class="btn btn-quiet btn-sm" href="#/certs">View all</a></div>
+      <div class="bc"><div class="certs">${done.slice(0,2).map(certCard).join('')}</div></div>
+    </div>`:''}
+  </div>`;
+  return portal('Dashboard',body,'dash');
+}
+
+function enrolRow(e){
+  const c=byId(e.course);
+  const nl = e.nextLesson ? c.modules[e.nextLesson[0]].lessons[e.nextLesson[1]] : null;
+  return `<a class="enrol-row" href="#/learn/${c.id}">
+    <img src="${IMG(c.img)}" alt="" />
+    <div class="tx">
+      <b>${esc(c.name)}</b>
+      <div class="nx">${nl?`${LESSON_LABEL[nl.type]} · ${esc(nl.title)}`:'Ready to begin'}</div>
+      <div class="bar"><i style="width:${e.progress}%"></i></div>
+    </div>
+    <span class="pc">${e.progress}%</span>
+    ${I('i-right','ic-sm')}
+  </a>`;
+}
+function sessRow(s){
+  const c=byId(s.course); const d=new Date(s.date+'T12:00:00');
+  return `<div class="sess">
+    <div class="dt ${s.status==='confirmed'?'tl':''}">
+      <b>${d.getDate()}</b><span>${d.toLocaleString('en-CA',{month:'short'})}</span></div>
+    <div class="tx">
+      <b>${esc(s.title)}</b>
+      <span><i>${I('i-cap','ic-sm')}${esc(c.name)}</i><i>${I('i-clock','ic-sm')}${s.time}</i><i>${I('i-pin','ic-sm')}${s.room}</i></span>
+    </div>
+    <span class="badge ${s.status==='confirmed'?'b-green':'b-amber'}">${s.status==='confirmed'?'Confirmed':'To book'}</span>
+  </div>`;
+}
+function certCard(e){
+  const c=byId(e.course);
+  return `<div class="cert"><div class="in">
+    <img src="assets/img/ams-logo.png" alt="" />
+    <div class="ttl">${esc(c.name)}</div>
+    <div class="nm">Awarded to ${STUDENT.name}</div>
+    <div class="rw"><span>Certificate no.</span><b>${e.cert}</b></div>
+    <div class="rw"><span>Completed</span><b>${e.completed}</b></div>
+    ${c.accredited?`<div class="rw"><span>Status</span><b style="color:var(--success)">Accredited</b></div>`:''}
+    <div class="act">
+      <button class="btn btn-primary btn-sm" onclick="toast('Certificate downloaded as PDF','i-download')">${I('i-download','ic-sm')}Download</button>
+      <button class="btn btn-ghost btn-sm" onclick="toast('Verification link copied')">${I('i-ext','ic-sm')}Share</button>
+    </div>
+  </div></div>`;
+}
+
+/* ---------- my programs ---------- */
+function viewCourses(){
+  const body=`
+    <div class="grid" style="margin-bottom:28px">
+      ${APP.enrolments.map(e=>{
+        const c=byId(e.course);
+        return `<a class="cc" href="#/learn/${c.id}">
+          <div class="ph"><div class="tags">${e.status==='completed'?`<span class="badge b-green">${I('i-check','ic-sm')}Complete</span>`:fmtBadge(c.format)}</div>
+            <img src="${IMG(c.img)}" alt="" /></div>
+          <div class="bd"><div class="sub">${esc(c.sub)}</div><h3>${esc(c.name)}</h3>
+            <div style="margin:6px 0 14px"><div class="bar ${e.status==='completed'?'teal':''}"><i style="width:${e.progress}%"></i></div>
+              <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:.76rem;font-weight:700;color:var(--ink-3)">
+                <span>${e.progress}% complete</span><span>Started ${e.started}</span></div></div>
+            <div class="meta"><i>${I('i-modules','ic-sm')}${c.modules.length} modules</i><i>${I('i-play','ic-sm')}${lessonCount(c)} lessons</i></div>
+          </div></a>`;
+      }).join('')}
+    </div>
+    <div class="blk"><div class="bh">${I('i-spark','ic-lg')}<h3>Recommended next</h3></div>
+      <div class="bc"><div class="grid">${COURSES.filter(c=>['iv','injection','office'].includes(c.id)).map(courseCard).join('')}</div></div></div>`;
+  return portal('My Programs',body,'courses');
+}
+
+/* ---------- learning player ---------- */
+const QUIZ=[
+  {q:'Which tube is always drawn first in the standard order of draw?',
+   a:['Light blue — sodium citrate','Blood culture bottle (yellow, SPS)','Lavender — EDTA','Red — no additive'],ok:1,
+   why:'Blood cultures are drawn first so the sample is not contaminated by the additives or the non-sterile stoppers of other tubes.'},
+  {q:'A light blue sodium citrate tube must be filled…',
+   a:['Half full is acceptable','To at least a quarter','Completely, to the fill line','Only as far as the sample allows'],ok:2,
+   why:'Citrate tubes rely on an exact 9:1 blood-to-anticoagulant ratio. An underfilled tube gives falsely prolonged coagulation results and will be rejected.'},
+  {q:'A patient becomes pale and sweaty mid-draw. Your first action is to…',
+   a:['Complete the draw quickly','Remove the needle and lower the head','Ask them to breathe deeply and carry on','Apply the tourniquet more tightly'],ok:1,
+   why:'Presyncope means the draw stops. Remove the needle, apply pressure, lower the head, and document the incident before any repeat attempt.'}
+];
+
+function viewLearn(){
+  const c=byId(APP.id)||byId(APP.learn.course); if(!c) return viewDash();
+  if(APP.learn.course!==c.id){
+    const e=APP.enrolments.find(x=>x.course===c.id);
+    APP.learn={course:c.id, m:e&&e.nextLesson?e.nextLesson[0]:0, l:e&&e.nextLesson?e.nextLesson[1]:0, done:seedDone(c,e), quizPicked:null};
+  }
+  const L=APP.learn, mod=c.modules[L.m], les=mod.lessons[L.l];
+  const e=APP.enrolments.find(x=>x.course===c.id)||{progress:0};
+
+  const body=`<div class="learn">
+    <div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <a class="btn btn-ghost btn-sm" href="#/courses">${I('i-left','ic-sm')}My programs</a>
+        <span class="badge b-blue">Module ${L.m+1} of ${c.modules.length}</span>
+        <span class="badge ${mod.inPerson?'b-teal':'b-grey'}">${esc(mod.n)}</span>
+      </div>
+      ${les.type==='video'?playerVideo(c,les)
+        :les.type==='audio'?playerVideo(c,les,true)
+        :les.type==='pdf'?playerDoc(les)
+        :les.type==='quiz'?playerQuiz(les)
+        :playerSession(c,les)}
+      <div style="display:flex;gap:11px;margin-top:20px;flex-wrap:wrap">
+        <button class="btn btn-ghost" onclick="stepLesson(-1)" ${L.m===0&&L.l===0?'disabled':''}>${I('i-left','ic-sm')}Previous</button>
+        <button class="btn btn-primary" style="flex:1" onclick="markDone()">${I('i-check','ic-sm')}Mark complete and continue</button>
+      </div>
+    </div>
+
+    <aside class="curr">
+      <div class="ch">
+        <b>${esc(c.name)}</b>
+        <div class="bar"><i style="width:${e.progress}%"></i></div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:.74rem;font-weight:700;color:var(--ink-3)">
+          <span>${e.progress}% complete</span><span>${lessonCount(c)} lessons</span></div>
+      </div>
+      <div class="cl scroll">
+        ${c.modules.map((m,mi)=>`
+          <div class="mg">${mi+1}. ${esc(m.n)}${m.inPerson?`<span class="badge b-teal tg">On campus</span>`:''}</div>
+          ${m.lessons.map((l,li)=>{
+            const on = mi===L.m&&li===L.l, dn = APP.learn.done[mi+'-'+li];
+            return `<button class="li-row ${on?'on':''} ${dn?'dn':''}" onclick="jump(${mi},${li})">
+              <span class="st">${I('i-check','ic-sm')}</span>
+              <span class="tx"><b>${esc(l.title)}</b>
+                <span>${I(LESSON_ICON[l.type],'ic-sm')}${LESSON_LABEL[l.type]} · ${lessonMeta(l)}</span></span>
+            </button>`;
+          }).join('')}`).join('')}
+      </div>
+    </aside>
+  </div>`;
+  return portal('Learning',body,'courses');
+}
+function seedDone(c,e){
+  const d={}; if(!e) return d;
+  const total=lessonCount(c); let n=Math.round(total*e.progress/100), i=0;
+  c.modules.forEach((m,mi)=>m.lessons.forEach((l,li)=>{ if(i++<n) d[mi+'-'+li]=true; }));
+  return d;
+}
+function jump(m,l){ APP.learn.m=m; APP.learn.l=l; APP.learn.quizPicked=null; render(); }
+function stepLesson(dir){
+  const c=byId(APP.learn.course); let {m,l}=APP.learn;
+  l+=dir;
+  if(l<0){ m--; if(m<0){m=0;l=0;} else l=c.modules[m].lessons.length-1; }
+  if(l>=c.modules[m].lessons.length){ if(m<c.modules.length-1){m++;l=0;} else l=c.modules[m].lessons.length-1; }
+  APP.learn.m=m; APP.learn.l=l; APP.learn.quizPicked=null; render();
+}
+function markDone(){
+  const c=byId(APP.learn.course);
+  APP.learn.done[APP.learn.m+'-'+APP.learn.l]=true;
+  const e=APP.enrolments.find(x=>x.course===c.id);
+  if(e){ e.progress=Math.min(100,Math.round(Object.keys(APP.learn.done).length/lessonCount(c)*100)); }
+  toast('Lesson complete');
+  stepLesson(1);
+}
+
+function playerVideo(c,l,audio){ return `
+  <div class="stage">
+    <div class="scr">
+      <img src="${IMG(audio?'lesson-dna':c.img)}" alt="" />
+      <span class="lbl badge b-solid">${audio?'Recorded lecture':'Video lesson'}</span>
+      <button class="pb" onclick="toast('Playing — ${esc(l.title).replace(/'/g,'')}','i-play')">${I(audio?'i-audio':'i-play-f','ic-lg')}</button>
+    </div>
+    <div class="ctl">${I('i-play-f','ic-sm')}<span class="tm">04:12</span>
+      <div class="bar" style="height:5px"><i style="width:31%"></i></div>
+      <span class="tm">${l.len}:00</span>${I('i-download','ic-sm')}</div>
+    <div class="info">
+      <h2>${esc(l.title)}</h2>
+      <p>${audio
+        ? 'A full recorded lecture you can listen to on the move — it downloads for offline playback in the mobile app.'
+        : 'Watch the demonstration, then work through the checklist below before you attempt this in your practical session.'}</p>
+      <div class="acts">
+        <button class="btn btn-ghost btn-sm" onclick="toast('Saved for offline','i-download')">${I('i-download','ic-sm')}Download</button>
+        <button class="btn btn-ghost btn-sm" onclick="toast('Bookmarked')">${I('i-bookmark','ic-sm')}Bookmark</button>
+        <button class="btn btn-ghost btn-sm" onclick="toast('Question sent to your instructor','i-chat')">${I('i-chat','ic-sm')}Ask instructor</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function playerDoc(l){
+  const isChart=/order of draw/i.test(l.title);
+  return `<div class="doc">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+      <span class="badge b-blue">${I('i-pdf','ic-sm')}PDF · ${l.len} pages</span>
+      <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="toast('Downloaded to your device','i-download')">${I('i-download','ic-sm')}Download</button>
+    </div>
+    <h4>${esc(l.title)}</h4>
+    ${isChart?`
+    <p>Tubes are drawn in a fixed sequence so that additives cannot carry over from one tube to the next. Carry-over is the single most common cause of a rejected specimen.</p>
+    <table class="tbl">
+      <tr><th>Order</th><th>Tube</th><th>Additive</th><th>Tests</th></tr>
+      <tr><td>1</td><td><span class="sw" style="background:#F2D24B"></span>Blood culture</td><td>SPS</td><td>Microbiology</td></tr>
+      <tr><td>2</td><td><span class="sw" style="background:#8FC4E8"></span>Light blue</td><td>Sodium citrate</td><td>Coagulation — PT, INR, aPTT</td></tr>
+      <tr><td>3</td><td><span class="sw" style="background:#C0392B"></span>Red</td><td>None / clot activator</td><td>Serum chemistry, serology</td></tr>
+      <tr><td>4</td><td><span class="sw" style="background:#C8A951"></span>Gold (SST)</td><td>Gel separator</td><td>Most chemistry panels</td></tr>
+      <tr><td>5</td><td><span class="sw" style="background:#2E9E63"></span>Green</td><td>Heparin</td><td>Plasma chemistry, ammonia</td></tr>
+      <tr><td>6</td><td><span class="sw" style="background:#8E6BB8"></span>Lavender</td><td>EDTA</td><td>CBC, HbA1c, blood bank</td></tr>
+      <tr><td>7</td><td><span class="sw" style="background:#9AA5AE"></span>Grey</td><td>Fluoride / oxalate</td><td>Glucose, lactate, ethanol</td></tr>
+    </table>
+    <h4 style="font-size:1.15rem">Before you draw</h4>
+    <ul>
+      <li>${I('i-check-c','ic-sm')}<span>Confirm patient identity with two identifiers against the requisition.</span></li>
+      <li>${I('i-check-c','ic-sm')}<span>Check the tube expiry date and that the vacuum seal is intact.</span></li>
+      <li>${I('i-check-c','ic-sm')}<span>Release the tourniquet within one minute of application.</span></li>
+      <li>${I('i-check-c','ic-sm')}<span>Invert additive tubes gently the specified number of times — do not shake.</span></li>
+    </ul>`
+    :`<p>This workbook accompanies the video lessons in this module. Print it or annotate it on screen — it is yours to keep and forms part of the reference set you take into practice.</p>
+     <ul>
+      <li>${I('i-check-c','ic-sm')}<span>Key definitions and terminology used throughout the module</span></li>
+      <li>${I('i-check-c','ic-sm')}<span>Step-by-step procedure checklists you can take to your practical</span></li>
+      <li>${I('i-check-c','ic-sm')}<span>Worked examples with model answers</span></li>
+      <li>${I('i-check-c','ic-sm')}<span>Self-assessment questions to complete before the module quiz</span></li>
+     </ul>
+     <p style="color:var(--ink-3);font-size:.85rem">Pages 2–${l.len} continue in the downloadable file.</p>`}
+  </div>`;
+}
+
+function playerQuiz(l){
+  const qi=0, q=QUIZ[qi], picked=APP.learn.quizPicked;
+  return `<div class="qz">
+    <div class="qn">Quiz · question 1 of ${l.len}</div>
+    <h3>${q.q}</h3>
+    ${q.a.map((a,i)=>{
+      let cls=''; if(picked!==null){ if(i===q.ok)cls='ok'; else if(i===picked)cls='no'; }
+      return `<button class="opt ${cls}" onclick="pickAnswer(${i})" ${picked!==null?'disabled':''}>
+        <span class="k">${'ABCD'[i]}</span><span>${esc(a)}</span>
+        ${picked!==null&&i===q.ok?I('i-check','ic-sm'):''}</button>`;
+    }).join('')}
+    <div class="fb ${picked!==null?'show ':''}${picked===q.ok?'good':'bad'}">
+      ${picked!==null?I(picked===q.ok?'i-check-c':'i-info','ic-lg'):''}
+      <span><b>${picked===q.ok?'Correct.':'Not quite.'}</b> ${q.why}</span></div>
+    ${picked!==null?`<button class="btn btn-primary" style="margin-top:18px" onclick="APP.learn.quizPicked=null;toast('Next question')">Next question ${I('i-right','ic-sm')}</button>`:''}
+  </div>`;
+}
+function pickAnswer(i){ APP.learn.quizPicked=i; render(); }
+
+function playerSession(c,l){
+  const s=STUDENT.schedule.find(x=>x.title===l.title);
+  return `<div class="card" style="overflow:hidden">
+    <div style="position:relative;aspect-ratio:16/7;overflow:hidden">
+      <img src="${IMG(c.img)}" alt="" style="width:100%;height:100%;object-fit:cover" />
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(6,42,87,.85),rgba(6,42,87,.25))"></div>
+      <div style="position:absolute;left:24px;bottom:20px;color:#fff">
+        <span class="badge b-teal">${I('i-pin','ic-sm')}In-person · ${l.len} hours</span>
+        <h2 style="font-family:var(--serif);font-weight:400;font-size:1.7rem;letter-spacing:-.02em;margin-top:11px">${esc(l.title)}</h2>
+      </div>
+    </div>
+    <div style="padding:24px">
+      <p style="font-size:.92rem;color:var(--ink-2);line-height:1.68;margin-bottom:20px">This part of the programme cannot be completed online. You attend at ${ACADEMY.address}, work with real equipment in a small group and are assessed by an instructor.</p>
+      ${s?`<div class="card card-p" style="background:var(--teal-tint);border-color:rgba(14,140,128,.25);display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+          <div style="color:var(--teal)">${I('i-cal-check','ic-lg')}</div>
+          <div style="flex:1;min-width:180px"><b style="display:block;font-size:.92rem;color:var(--teal)">You are booked</b>
+            <span style="font-size:.84rem;color:var(--ink-2)">${new Date(s.date+'T12:00:00').toLocaleDateString('en-CA',{weekday:'long',day:'numeric',month:'long'})} · ${s.time} · ${s.room}</span></div>
+          <button class="btn btn-ghost btn-sm" onclick="go('schedule')">Manage booking</button>
+        </div>`
+       :`<button class="btn btn-primary btn-lg" onclick="go('schedule')">${I('i-cal','ic-sm')}Book your session</button>`}
+      <div style="margin-top:22px"><b style="display:block;font-size:.9rem;margin-bottom:12px">Bring with you</b>
+        <ul class="olist">
+          <li>${I('i-check-c','ic-sm')}<span>Photo identification and your student ID (${STUDENT.id})</span></li>
+          <li>${I('i-check-c','ic-sm')}<span>Closed-toe shoes and your own scrubs or lab coat</span></li>
+          <li>${I('i-check-c','ic-sm')}<span>The module checklist from your downloaded PDF</span></li>
+        </ul></div>
+    </div>
+  </div>`;
+}
+
+/* ---------- schedule ---------- */
+function viewSchedule(){
+  const slots=[
+    {date:'2026-09-05',time:'09:00 – 13:00',room:'Skills Lab A',left:3},
+    {date:'2026-09-12',time:'09:00 – 13:00',room:'Skills Lab A',left:7},
+    {date:'2026-09-19',time:'13:00 – 17:00',room:'Skills Lab A',left:9}
+  ];
+  const body=`
+  <div class="blk">
+    <div class="bh">${I('i-cal-check','ic-lg')}<h3>Your booked sessions</h3>
+      <span class="badge b-teal">${STUDENT.schedule.filter(s=>s.status==='confirmed').length} confirmed</span></div>
+    <div class="bc flush">${STUDENT.schedule.map(s=>{
+      const c=byId(s.course); const d=new Date(s.date+'T12:00:00');
+      return `<div class="sess">
+        <div class="dt ${s.status==='confirmed'?'tl':''}"><b>${d.getDate()}</b><span>${d.toLocaleString('en-CA',{month:'short'})}</span></div>
+        <div class="tx"><b>${esc(s.title)}</b>
+          <span><i>${I('i-cap','ic-sm')}${esc(c.name)}</i><i>${I('i-clock','ic-sm')}${s.time}</i>
+            <i>${I('i-pin','ic-sm')}${s.room}</i><i>${I('i-teacher','ic-sm')}${s.instructor}</i></span></div>
+        ${s.status==='confirmed'
+          ? `<button class="btn btn-ghost btn-sm" onclick="toast('Reschedule request sent')">Reschedule</button>`
+          : `<button class="btn btn-primary btn-sm" onclick="bookModal()">Book a date</button>`}
+      </div>`;
+    }).join('')}</div>
+  </div>
+
+  <div class="blk">
+    <div class="bh">${I('i-cal','ic-lg')}<h3>Available dates — Phlebotomy practical day 2</h3></div>
+    <div class="bc flush">${slots.map(s=>{
+      const d=new Date(s.date+'T12:00:00');
+      return `<div class="sess">
+        <div class="dt"><b>${d.getDate()}</b><span>${d.toLocaleString('en-CA',{month:'short'})}</span></div>
+        <div class="tx"><b>${d.toLocaleDateString('en-CA',{weekday:'long'})} · ${s.time}</b>
+          <span><i>${I('i-pin','ic-sm')}${s.room}</i><i>${I('i-users','ic-sm')}${s.left} of 12 seats left</i></span></div>
+        <button class="btn ${s.left<5?'btn-ghost':'btn-primary'} btn-sm" onclick="bookModal('${s.date}','${s.time}')">Book this date</button>
+      </div>`;
+    }).join('')}</div>
+  </div>
+
+  <div class="blk">
+    <div class="bh">${I('i-pin','ic-lg')}<h3>Where to come</h3></div>
+    <div class="bc" style="display:flex;gap:22px;flex-wrap:wrap;align-items:center">
+      <div style="flex:1;min-width:240px">
+        <b style="display:block;font-size:1rem;margin-bottom:8px">${ACADEMY.name}</b>
+        <p style="font-size:.9rem;color:var(--ink-2);line-height:1.7">${ACADEMY.address}<br/>${ACADEMY.phone} · ${ACADEMY.cell}</p>
+        <p style="font-size:.85rem;color:var(--ink-3);margin-top:12px;line-height:1.6">Free parking on site. Please arrive fifteen minutes early — sessions start on time and late arrivals cannot be admitted once a draw is in progress.</p>
+      </div>
+      <img src="${IMG('about-ward')}" alt="Campus skills lab" style="width:260px;border-radius:var(--r-md);object-fit:cover;aspect-ratio:4/3" />
+    </div>
+  </div>`;
+  return portal('Practical Schedule',body,'schedule');
+}
+function bookModal(date,time){
+  const d=date?new Date(date+'T12:00:00').toLocaleDateString('en-CA',{weekday:'long',day:'numeric',month:'long'}):'Saturday 5 September';
+  openModal(`<div class="modal">
+    <div class="mh">${I('i-cal-check','ic-lg')}<h3>Confirm your session</h3><button class="icb" onclick="closeModal()">${I('i-x','ic-sm')}</button></div>
+    <div class="mb">
+      <div class="rcpt" style="margin:0 0 18px">
+        <div class="r"><span>Session</span><b>Practical day 2 — supervised live draws</b></div>
+        <div class="r"><span>Date</span><b>${d}</b></div>
+        <div class="r"><span>Time</span><b>${time||'09:00 – 13:00'}</b></div>
+        <div class="r"><span>Location</span><b>Skills Lab A, ${ACADEMY.address}</b></div>
+        <div class="r"><span>Instructor</span><b>Dr. Anita Raghunath</b></div>
+      </div>
+      <p style="font-size:.83rem;color:var(--ink-2);line-height:1.6">You can reschedule free of charge up to 48 hours before the session.</p>
+    </div>
+    <div class="mf"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="closeModal();toast('Session booked — added to your calendar','i-cal-check')">Confirm booking</button></div>
+  </div>`);
+}
+
+/* ---------- certificates ---------- */
+function viewCerts(){
+  const done=APP.enrolments.filter(e=>e.status==='completed');
+  const active=APP.enrolments.filter(e=>e.status==='active');
+  const body=`
+    ${done.length?`<div class="certs" style="margin-bottom:26px">${done.map(certCard).join('')}</div>`
+      :`<div class="empty"><div class="ic-w">${I('i-cert','ic-lg')}</div><h3>No certificates yet</h3>
+        <p>Finish a programme and your certificate appears here the same day, ready to download and send to an employer.</p></div>`}
+    ${active.length?`<div class="blk"><div class="bh">${I('i-clock','ic-lg')}<h3>In progress</h3></div>
+      <div class="bc flush">${active.map(e=>{const c=byId(e.course);return `
+        <div class="sess"><div class="dt"><b>${e.progress}</b><span>%</span></div>
+        <div class="tx"><b>${esc(c.name)}</b><span><i>${I('i-modules','ic-sm')}${c.modules.length} modules</i>
+          <i>${I('i-clock','ic-sm')}Started ${e.started}</i></span>
+          <div class="bar" style="margin-top:9px"><i style="width:${e.progress}%"></i></div></div>
+        <a class="btn btn-quiet btn-sm" href="#/learn/${c.id}">Continue</a></div>`;}).join('')}</div></div>`:''}`;
+  return portal('Certificates',body,'certs');
+}
+
+/* ---------- billing ---------- */
+function viewBilling(){
+  const total=STUDENT.payments.reduce((s,p)=>s+p.amount,0);
+  const body=`
+  <div class="kpis">
+    <div class="kpi"><div class="ic-w" style="background:var(--tint);color:var(--blue)">${I('i-dollar')}</div>
+      <b>${money(total)}</b><span>Total invested in training</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--success-tint);color:var(--success)">${I('i-check-c')}</div>
+      <b>${STUDENT.payments.length}</b><span>Payments, all settled</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--amber-tint);color:var(--amber)">${I('i-clock')}</div>
+      <b>$0</b><span>Outstanding balance</span></div>
+  </div>
+  <div class="blk"><div class="bh">${I('i-receipt','ic-lg')}<h3>Payment history</h3>
+    <button class="btn btn-quiet btn-sm" onclick="toast('Statement downloaded','i-download')">${I('i-download','ic-sm')}Statement</button></div>
+    <div class="bc flush tscroll"><table class="tbl2">
+      <tr><th>Reference</th><th>Date</th><th>Programme</th><th>Method</th><th class="rt">Amount</th><th class="rt">Receipt</th></tr>
+      ${STUDENT.payments.map(p=>`<tr>
+        <td><b>${p.ref}</b></td><td>${p.date}</td><td>${esc(byId(p.course).name)}</td><td>${p.method}</td>
+        <td class="rt"><b>${money(p.amount)}</b></td>
+        <td class="rt"><button class="btn btn-clear btn-sm" onclick="toast('Receipt downloaded','i-download')">${I('i-download','ic-sm')}PDF</button></td>
+      </tr>`).join('')}
+    </table></div></div>
+  <div class="blk"><div class="bh">${I('i-card','ic-lg')}<h3>Payment methods</h3></div>
+    <div class="bc">
+      <div style="display:flex;align-items:center;gap:14px;padding:15px;border:1px solid var(--line);border-radius:var(--r-md)">
+        ${I('i-card','ic-lg')}<div style="flex:1"><b style="display:block;font-size:.9rem">Visa ending 4021</b>
+        <span style="font-size:.8rem;color:var(--ink-3)">Expires 09/29 · default</span></div>
+        <button class="btn btn-ghost btn-sm" onclick="toast('Card removed')">Remove</button></div>
+      <button class="btn btn-quiet btn-sm" style="margin-top:14px" onclick="toast('Add a card')">${I('i-plus','ic-sm')}Add payment method</button>
+      <p style="font-size:.82rem;color:var(--ink-3);margin-top:16px;line-height:1.6">You can also pay by Interac e-Transfer to ${ACADEMY.payEmail}. Cancellation: 30% of the total fee is deducted for office charges.</p>
+    </div></div>`;
+  return portal('Payments',body,'billing');
+}
+
+/* ---------- profile ---------- */
+function viewProfile(){
+  const body=`
+  <div style="display:grid;gap:22px;grid-template-columns:1fr">
+    <div class="blk"><div class="bc" style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+      <span style="width:76px;height:76px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;
+        font-size:1.6rem;font-weight:800;flex:0 0 auto">${STUDENT.initials}</span>
+      <div style="flex:1;min-width:200px">
+        <h2 style="font-size:1.3rem;font-weight:800;letter-spacing:-.024em;margin-bottom:5px">${STUDENT.name}</h2>
+        <p style="font-size:.88rem;color:var(--ink-2)">${STUDENT.background} · ${STUDENT.city}</p>
+        <p style="font-size:.8rem;color:var(--ink-3);margin-top:5px">Student ${STUDENT.id} · joined ${STUDENT.joined}</p>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="toast('Photo upload')">${I('i-upload','ic-sm')}Change photo</button>
+    </div></div>
+
+    <div class="blk"><div class="bh">${I('i-user','ic-lg')}<h3>Your details</h3></div>
+      <div class="bc">
+        <div class="g2">
+          <div class="field"><label>Full name</label><input class="inp" value="${STUDENT.name}" /></div>
+          <div class="field"><label>Email</label><input class="inp" value="${STUDENT.email}" /></div>
+          <div class="field"><label>Mobile</label><input class="inp" value="${STUDENT.phone}" /></div>
+          <div class="field"><label>City</label><input class="inp" value="${STUDENT.city}" /></div>
+        </div>
+        <div class="field"><label>Healthcare background</label><input class="inp" value="${STUDENT.background}" /></div>
+        <button class="btn btn-primary btn-sm" onclick="toast('Profile saved')">Save changes</button>
+      </div></div>
+
+    <div class="blk"><div class="bh">${I('i-bell','ic-lg')}<h3>Notifications</h3></div>
+      <div class="bc">
+        ${[['Practical session reminders','24 hours before every in-person session',true],
+           ['New content in my programs','When an instructor adds a video, PDF or lecture',true],
+           ['Quiz results and feedback','As soon as a quiz is marked',true],
+           ['New programs and offers','Occasional email about new courses',false]].map(([t,d,on])=>`
+          <div style="display:flex;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line-2)">
+            <div style="flex:1"><b style="display:block;font-size:.89rem">${t}</b>
+              <span style="font-size:.8rem;color:var(--ink-3)">${d}</span></div>
+            <label style="position:relative;display:inline-block;width:44px;height:25px;flex:0 0 auto">
+              <input type="checkbox" ${on?'checked':''} style="opacity:0;width:0;height:0" onchange="toast(this.checked?'Turned on':'Turned off')" />
+              <span style="position:absolute;inset:0;background:${on?'var(--blue)':'var(--sunk-2)'};border-radius:999px;transition:.2s"></span>
+              <span style="position:absolute;top:3px;left:${on?'22px':'3px'};width:19px;height:19px;background:#fff;border-radius:50%;transition:.2s;box-shadow:var(--sh-xs)"></span>
+            </label></div>`).join('')}
+      </div></div>
+
+    <div class="blk"><div class="bh">${I('i-download','ic-lg')}<h3>Get the mobile app</h3></div>
+      <div class="bc" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+        <div style="flex:1;min-width:220px">
+          <p style="font-size:.9rem;color:var(--ink-2);line-height:1.65">Your programmes, schedule and certificates travel with you. Download lessons over wi-fi and watch them on the subway.</p>
+          <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+            <button class="btn btn-navy btn-sm" onclick="toast('Opens the App Store')">App Store</button>
+            <button class="btn btn-navy btn-sm" onclick="toast('Opens Google Play')">Google Play</button>
+          </div>
+        </div>
+        <div style="width:120px;height:120px;border-radius:var(--r-md);background:var(--sunk);display:grid;place-items:center;color:var(--ink-4)">
+          ${I('i-modules','ic-lg')}</div>
+      </div></div>
+  </div>`;
+  return portal('Profile',body,'profile');
+}
+
+/* =====================================================================
+   RENDER
+   ===================================================================== */
+function render(){
+  const V={home:viewHome,catalogue:viewCatalogue,course:viewCourse,enrol:viewEnrol,welcome:viewWelcome,
+    signin:viewSignin,dash:viewDash,courses:viewCourses,learn:viewLearn,schedule:viewSchedule,
+    certs:viewCerts,billing:viewBilling,profile:viewProfile};
+  document.getElementById('app').innerHTML=(V[APP.view]||viewHome)();
+  observe(); stickyHeader();
+}
+let io;
+function observe(){
+  if(io) io.disconnect();
+  io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+}
+function stickyHeader(){
+  const h=document.getElementById('hdr'); if(!h) return;
+  const f=()=>h.classList.toggle('stuck',window.scrollY>10);
+  window.removeEventListener('scroll',window.__hf); window.__hf=f; window.addEventListener('scroll',f,{passive:true}); f();
+}
+readHash(); render();
+</script>
+</body>
+</html>

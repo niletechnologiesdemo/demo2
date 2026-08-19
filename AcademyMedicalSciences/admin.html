@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Academy of Medical Science · Administration Console</title>
+<link rel="icon" href="assets/img/ams-logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/ams.css?v=2" />
+<link rel="stylesheet" href="assets/web.css?v=2" />
+<style>
+  .side nav a{cursor:pointer}
+  .chart{width:100%;height:212px;display:block;overflow:visible}
+  .chart .gl{stroke:var(--line-2);stroke-width:1}
+  .chart .lb{font-size:10px;font-weight:700;fill:var(--ink-3);font-family:var(--sans)}
+  .bars rect{transition:opacity .16s}
+  .bars g:hover rect{opacity:.82}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:16px}
+  .legend i{display:flex;align-items:center;gap:7px;font-style:normal;font-size:.78rem;font-weight:700;color:var(--ink-2)}
+  .legend i s{width:11px;height:11px;border-radius:3px;text-decoration:none}
+  .g3{display:grid;gap:22px;grid-template-columns:1fr}
+  @media(min-width:1080px){.g3{grid-template-columns:1.5fr 1fr}}
+  .trend{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:800;padding:3px 8px;border-radius:6px}
+  .trend.up{background:var(--success-tint);color:var(--success)}
+  .trend.dn{background:var(--alert-tint);color:var(--alert)}
+  .row-act{display:flex;gap:6px;justify-content:flex-end}
+  .mini-b{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;color:var(--ink-3);
+    border:1px solid var(--line);background:var(--surface);transition:all .15s}
+  .mini-b:hover{color:var(--blue);border-color:var(--blue-3);background:var(--tint)}
+  .cap-bar{width:74px;height:6px;border-radius:99px;background:var(--sunk-2);overflow:hidden;display:inline-block;vertical-align:middle}
+  .cap-bar i{display:block;height:100%;border-radius:99px}
+  .drop{border:2px dashed var(--line);border-radius:var(--r-lg);padding:30px;text-align:center;background:var(--sunk);
+    transition:border-color .16s,background .16s}
+  .drop:hover{border-color:var(--blue-3);background:var(--tint)}
+  .drop .ic-w{width:52px;height:52px;border-radius:15px;background:var(--surface);color:var(--blue);
+    display:grid;place-items:center;margin:0 auto 14px;box-shadow:var(--sh-xs)}
+  .lesson-adm{display:flex;align-items:center;gap:12px;padding:11px 14px;border:1px solid var(--line);
+    border-radius:var(--r-sm);background:var(--surface);margin-bottom:8px}
+  .lesson-adm .gr{color:var(--ink-4);cursor:grab;flex:0 0 auto}
+  .lesson-adm .li{width:30px;height:30px;border-radius:8px;background:var(--sunk);color:var(--ink-2);
+    display:grid;place-items:center;flex:0 0 auto}
+  .lesson-adm .tx{flex:1;min-width:0}
+  .lesson-adm .tx b{display:block;font-size:.85rem;font-weight:700;line-height:1.35}
+  .lesson-adm .tx span{font-size:.72rem;color:var(--ink-3);font-weight:600}
+  .seg{display:inline-flex;background:var(--sunk);border-radius:999px;padding:4px;gap:2px}
+  .seg button{padding:7px 15px;border-radius:999px;font-size:.79rem;font-weight:700;color:var(--ink-2)}
+  .seg button.on{background:var(--surface);color:var(--blue);box-shadow:var(--sh-xs)}
+</style>
+</head>
+<body>
+<script src="assets/icons.js"></script>
+<div id="app"></div>
+<div class="mask" id="mask" onclick="if(event.target===this)closeModal()"><div id="modalBox"></div></div>
+<div class="toast" id="toast"></div>
+<script src="assets/data.js"></script>
+<script>
+/* =====================================================================
+   Administration console — what the academy sees
+   ===================================================================== */
+const I  = (id,c='ic') => `<svg class="${c}" aria-hidden="true"><use href="#${id}"/></svg>`;
+const IMG = n => `assets/img/${n}.jpg`;
+const esc = s => String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+let VIEW='overview', EDIT='phlebotomy';
+
+let toastT;
+function toast(msg,icon='i-check-c'){
+  const t=document.getElementById('toast');
+  t.innerHTML=I(icon)+'<span>'+esc(msg)+'</span>'; t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2600);
+}
+function openModal(h){document.getElementById('modalBox').innerHTML=h;document.getElementById('mask').classList.add('open');}
+function closeModal(){document.getElementById('mask').classList.remove('open');}
+function go(v){VIEW=v;render();window.scrollTo(0,0);}
+
+const NAV=[
+  ['overview','Overview','i-progress'],
+  ['programs','Programs','i-cap'],
+  ['content','Course Content','i-modules'],
+  ['students','Students','i-users'],
+  ['enrolments','Enrolments & Payments','i-receipt'],
+  ['sessions','Practical Sessions','i-cal'],
+  ['instructors','Instructors','i-teacher'],
+  ['settings','Settings','i-cog']
+];
+
+function shell(title,body,actions=''){
+  return `<div class="portal">
+    <aside class="side scroll">
+      <a class="lg" href="index.html"><img src="assets/img/ams-logo-white.png" alt="" />
+        <span><b>Academy of<br/>Medical Science</b><span>Admin console</span></span></a>
+      <nav>
+        <div class="lb">Operations</div>
+        ${NAV.slice(0,6).map(([v,l,ic])=>`<a onclick="go('${v}')" class="${VIEW===v?'on':''}">${I(ic)}${l}
+          ${v==='enrolments'?'<span class="cnt">2</span>':''}</a>`).join('')}
+        <div class="lb">Academy</div>
+        ${NAV.slice(6).map(([v,l,ic])=>`<a onclick="go('${v}')" class="${VIEW===v?'on':''}">${I(ic)}${l}</a>`).join('')}
+        <div class="lb">Surfaces</div>
+        <a href="web.html">${I('i-globe')}Student web app</a>
+        <a href="app.html">${I('i-modules')}Mobile app</a>
+        <a href="index.html">${I('i-logout')}All surfaces</a>
+      </nav>
+      <div class="me"><span class="av">SK</span>
+        <div><b>Suresh K.</b><span>Academy Director</span></div></div>
+    </aside>
+    <div class="pmain">
+      <div class="ptop"><h1>${title}</h1>${actions}
+        <button class="icb" onclick="toast('3 items need attention','i-bell')">${I('i-bell')}<span class="dot"></span></button>
+        <button class="icb">${I('i-user')}</button></div>
+      <div class="pbody">${body}</div>
+    </div>
+  </div>`;
+}
+
+/* ---------- overview ---------- */
+function chart(){
+  const d=ADMIN.revenue12, max=Math.max(...d), W=760, H=190, n=d.length, bw=W/n*0.56, gap=W/n;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H+26}" preserveAspectRatio="none" role="img" aria-label="Monthly revenue">
+    ${[0,.25,.5,.75,1].map(t=>`<line class="gl" x1="0" y1="${H-t*H}" x2="${W}" y2="${H-t*H}"/>`).join('')}
+    <g class="bars">
+      ${d.map((v,i)=>{const h=v/max*H, x=i*gap+(gap-bw)/2, last=i===n-1;
+        return `<g><title>${ADMIN.months[i]} — ${money(v)}</title>
+          <rect x="${x}" y="${H-h}" width="${bw}" height="${h}" rx="5"
+            fill="${last?'var(--blue)':'var(--tint-2)'}"/>
+          <text class="lb" x="${x+bw/2}" y="${H+16}" text-anchor="middle">${ADMIN.months[i]}</text></g>`;}).join('')}
+    </g>
+  </svg>`;
+}
+function donut(){
+  const tot=CATS.map(c=>({c,n:COURSES.filter(x=>x.cat===c.id).reduce((s,x)=>s+x.enrolled,0)}));
+  const sum=tot.reduce((s,t)=>s+t.n,0);
+  const cols=['var(--blue)','var(--teal)','var(--violet)','var(--amber)'];
+  let a=0;
+  const segs=tot.map((t,i)=>{
+    const frac=t.n/sum, r=54, C=2*Math.PI*r, len=frac*C;
+    const s=`<circle r="${r}" cx="70" cy="70" fill="none" stroke="${cols[i]}" stroke-width="24"
+      stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-a*C}" transform="rotate(-90 70 70)"/>`;
+    a+=frac; return s;
+  }).join('');
+  return `<div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+    <svg width="140" height="140" viewBox="0 0 140 140" style="flex:0 0 auto">${segs}
+      <text x="70" y="66" text-anchor="middle" style="font:800 22px var(--sans);fill:var(--navy)">${sum.toLocaleString()}</text>
+      <text x="70" y="84" text-anchor="middle" style="font:700 10px var(--sans);fill:var(--ink-3)">ENROLMENTS</text></svg>
+    <div class="legend" style="flex-direction:column;gap:11px;margin:0">
+      ${tot.map((t,i)=>`<i><s style="background:${cols[i]}"></s>${t.c.name}
+        <b style="margin-left:auto;color:var(--ink)">${t.n}</b></i>`).join('')}
+    </div></div>`;
+}
+
+function viewOverview(){
+  const k=ADMIN.kpis, up=Math.round((k.revenueMonth-k.revenuePrev)/k.revenuePrev*100);
+  const eu=Math.round((k.enrolments-k.enrolPrev)/k.enrolPrev*100);
+  const body=`
+  <div class="kpis">
+    <div class="kpi"><div class="ic-w" style="background:var(--tint);color:var(--blue)">${I('i-dollar')}</div>
+      <b>${money(k.revenueMonth)}</b><span>Revenue this month <span class="trend up">${I('i-up','ic-sm')}${up}%</span></span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--teal-tint);color:var(--teal)">${I('i-user-plus')}</div>
+      <b>${k.enrolments}</b><span>New enrolments <span class="trend up">${I('i-up','ic-sm')}${eu}%</span></span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--violet-tint);color:var(--violet)">${I('i-users')}</div>
+      <b>${k.students.toLocaleString()}</b><span>Students on the platform</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--success-tint);color:var(--success)">${I('i-check-c')}</div>
+      <b>${k.completion}%</b><span>Completion rate</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--amber-tint);color:var(--amber)">${I('i-cal')}</div>
+      <b>${k.upcomingSessions}</b><span>Practical sessions this month</span></div>
+  </div>
+
+  <div class="g3">
+    <div class="blk"><div class="bh">${I('i-trend','ic-lg')}<h3>Revenue — last 12 months</h3>
+      <div class="seg"><button class="on">Monthly</button><button onclick="toast('Quarterly view')">Quarterly</button></div></div>
+      <div class="bc">${chart()}
+        <div class="legend"><i><s style="background:var(--tint-2)"></s>Previous months</i>
+          <i><s style="background:var(--blue)"></s>August 2026 — ${money(k.revenueMonth)}</i></div></div></div>
+
+    <div class="blk"><div class="bh">${I('i-modules','ic-lg')}<h3>Enrolments by category</h3></div>
+      <div class="bc">${donut()}</div></div>
+  </div>
+
+  <div class="g3">
+    <div class="blk"><div class="bh">${I('i-receipt','ic-lg')}<h3>Recent enrolments</h3>
+      <button class="btn btn-quiet btn-sm" onclick="go('enrolments')">View all</button></div>
+      <div class="bc flush tscroll"><table class="tbl2">
+        <tr><th>Student</th><th>Programme</th><th>Method</th><th class="rt">Amount</th><th class="rt">Status</th></tr>
+        ${ADMIN.recent.map(r=>`<tr>
+          <td><b>${esc(r.name)}</b><br/><span style="font-size:.76rem;color:var(--ink-3)">${r.date}</span></td>
+          <td>${esc(byId(r.course).name)}</td><td>${r.method}</td>
+          <td class="rt"><b>${money(r.amount)}</b></td>
+          <td class="rt"><span class="badge ${r.status==='paid'?'b-green':r.status==='partial'?'b-amber':'b-red'}">${r.status}</span></td>
+        </tr>`).join('')}
+      </table></div></div>
+
+    <div class="blk"><div class="bh">${I('i-cap','ic-lg')}<h3>Top programmes this month</h3></div>
+      <div class="bc flush">
+        ${ADMIN.topCourses.map(t=>{const c=byId(t.id);return `
+          <div class="enrol-row" style="cursor:default">
+            <img src="${IMG(c.img)}" alt="" />
+            <div class="tx"><b>${esc(c.name)}</b>
+              <div class="nx">${t.enrol} enrolments · ${money(c.price)} each</div>
+              <div class="bar"><i style="width:${t.rev/ADMIN.topCourses[0].rev*100}%"></i></div></div>
+            <span class="pc" style="width:64px">${money(t.rev)}</span></div>`;}).join('')}
+      </div></div>
+  </div>
+
+  <div class="blk"><div class="bh">${I('i-cal-check','ic-lg')}<h3>Upcoming practical sessions</h3>
+    <button class="btn btn-quiet btn-sm" onclick="go('sessions')">Manage schedule</button></div>
+    <div class="bc flush tscroll"><table class="tbl2">
+      <tr><th>Date</th><th>Session</th><th>Programme</th><th>Room</th><th>Instructor</th><th>Capacity</th></tr>
+      ${ADMIN.sessions.slice(0,5).map(s=>{const full=s.booked>=s.cap;return `<tr>
+        <td><b>${s.date}</b><br/><span style="font-size:.76rem;color:var(--ink-3)">${s.time}</span></td>
+        <td>${esc(s.title)}</td><td>${esc(byId(s.course).name)}</td><td>${s.room}</td><td>${s.instructor}</td>
+        <td><span class="cap-bar"><i style="width:${s.booked/s.cap*100}%;background:${full?'var(--alert)':'var(--blue)'}"></i></span>
+          <span style="margin-left:9px;font-weight:800;font-size:.79rem;color:${full?'var(--alert)':'var(--ink)'}">${s.booked}/${s.cap}</span></td>
+      </tr>`;}).join('')}
+    </table></div></div>`;
+  return shell('Overview',body,`<button class="btn btn-primary btn-sm" onclick="toast('Report exported as PDF','i-download')">${I('i-download','ic-sm')}Export report</button>`);
+}
+
+/* ---------- programs ---------- */
+function viewPrograms(){
+  const body=`
+  <div class="fbar">
+    <div class="srch">${I('i-search')}<input class="inp" placeholder="Search programs…" oninput="filterRows(this.value)" /></div>
+    <div class="sp"></div>
+    <span class="badge b-blue">${COURSES.length} live</span>
+    <span class="badge b-grey">9 in development</span>
+  </div>
+  <div class="blk"><div class="bc flush tscroll"><table class="tbl2" id="progTable">
+    <tr><th>Programme</th><th>Category</th><th>Format</th><th class="rt">Fee</th><th class="rt">Enrolled</th>
+      <th>Next intake</th><th class="rt">Seats</th><th></th></tr>
+    ${COURSES.map(c=>`<tr data-n="${esc(c.name.toLowerCase())}">
+      <td><div style="display:flex;gap:11px;align-items:center">
+        <img src="${IMG(c.img)}" alt="" style="width:54px;height:40px;border-radius:8px;object-fit:cover" />
+        <div><b>${esc(c.name)}</b><br/><span style="font-size:.75rem;color:var(--ink-3)">${esc(c.sub)}</span></div></div></td>
+      <td>${CATS.find(x=>x.id===c.cat).name}</td>
+      <td><span class="badge ${c.format==='Hybrid'?'b-violet':c.format==='Online'?'b-blue':'b-teal'}">${c.format}</span></td>
+      <td class="rt"><b>${money(c.price)}</b></td>
+      <td class="rt">${c.enrolled}</td>
+      <td>${esc(c.intake)}</td>
+      <td class="rt">${c.seats===null?'<span style="color:var(--ink-4)">Unlimited</span>':
+        `<b style="color:${c.seats<=5?'var(--alert)':'var(--ink)'}">${c.seats} left</b>`}</td>
+      <td><div class="row-act">
+        <button class="mini-b" title="Edit content" onclick="EDIT='${c.id}';go('content')">${I('i-modules','ic-sm')}</button>
+        <button class="mini-b" title="Edit details" onclick="editProgram('${c.id}')">${I('i-edit','ic-sm')}</button>
+        <button class="mini-b" title="Preview" onclick="window.open('web.html#/course/${c.id}')">${I('i-eye','ic-sm')}</button>
+      </div></td></tr>`).join('')}
+  </table></div></div>`;
+  return shell('Programs',body,`<button class="btn btn-primary btn-sm" onclick="editProgram()">${I('i-plus','ic-sm')}New programme</button>`);
+}
+function filterRows(q){
+  q=q.toLowerCase();
+  document.querySelectorAll('#progTable tr[data-n]').forEach(r=>{
+    r.style.display = r.dataset.n.includes(q) ? '' : 'none';
+  });
+}
+function editProgram(id){
+  const c=id?byId(id):null;
+  openModal(`<div class="modal" style="max-width:560px">
+    <div class="mh">${I('i-cap','ic-lg')}<h3>${c?'Edit programme':'New programme'}</h3>
+      <button class="icb" onclick="closeModal()">${I('i-x','ic-sm')}</button></div>
+    <div class="mb" style="max-height:64vh;overflow:auto">
+      <div class="field"><label>Programme name</label><input class="inp" value="${c?esc(c.name):''}" placeholder="e.g. Micro-Credential Phlebotomy" /></div>
+      <div class="field"><label>Subtitle</label><input class="inp" value="${c?esc(c.sub):''}" placeholder="Accredited Certificate Course" /></div>
+      <div class="g2">
+        <div class="field"><label>Category</label><select class="inp">${CATS.map(x=>`<option ${c&&c.cat===x.id?'selected':''}>${x.name}</option>`).join('')}</select></div>
+        <div class="field"><label>Format</label><select class="inp">${['Hybrid','Online','In-person'].map(f=>`<option ${c&&c.format===f?'selected':''}>${f}</option>`).join('')}</select></div>
+      </div>
+      <div class="g2">
+        <div class="field"><label>Fee (CAD)</label><input class="inp" value="${c?c.price:''}" placeholder="1499" /></div>
+        <div class="field"><label>Duration (weeks)</label><input class="inp" value="${c?c.weeks:''}" placeholder="6" /></div>
+      </div>
+      <div class="g2">
+        <div class="field"><label>Next intake</label><input class="inp" value="${c?esc(c.intake):''}" placeholder="2 Sep 2026" /></div>
+        <div class="field"><label>Seats available</label><input class="inp" value="${c&&c.seats!==null?c.seats:''}" placeholder="12" /></div>
+      </div>
+      <div class="field"><label>Description</label><textarea class="inp" rows="3">${c?esc(c.blurb):''}</textarea></div>
+      <label style="display:flex;gap:10px;align-items:center;font-size:.86rem;font-weight:600;color:var(--ink-2)">
+        <input type="checkbox" ${c&&c.accredited?'checked':''} style="width:17px;height:17px;accent-color:var(--blue)" />
+        Accredited micro-credential</label>
+    </div>
+    <div class="mf"><button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="closeModal();toast('Programme saved')">Save programme</button></div>
+  </div>`);
+}
+
+/* ---------- content manager ---------- */
+function viewContent(){
+  const c=byId(EDIT);
+  const body=`
+  <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:22px">
+    <select class="inp" style="width:auto;min-width:280px" onchange="EDIT=this.value;render()">
+      ${COURSES.map(x=>`<option value="${x.id}" ${x.id===EDIT?'selected':''}>${esc(x.name)}</option>`).join('')}
+    </select>
+    <span class="badge b-blue">${c.modules.length} modules</span>
+    <span class="badge b-grey">${lessonCount(c)} lessons</span>
+    <span class="badge b-teal">${c.modules.filter(m=>m.inPerson).length} in-person blocks</span>
+    <div style="flex:1"></div>
+    <button class="btn btn-ghost btn-sm" onclick="window.open('web.html#/course/${c.id}')">${I('i-eye','ic-sm')}Preview as student</button>
+  </div>
+
+  <div class="drop" style="margin-bottom:22px" onclick="toast('File picker — videos, PDFs, audio','i-upload')">
+    <div class="ic-w">${I('i-upload','ic-lg')}</div>
+    <b style="display:block;font-size:1rem;margin-bottom:6px">Drop videos, PDFs or recorded lectures here</b>
+    <p style="font-size:.86rem;color:var(--ink-2);line-height:1.6;max-width:52ch;margin:0 auto">
+      MP4, MOV, PDF, MP3 and M4A up to 4 GB each. Uploads are transcoded automatically and appear on the web app
+      and the mobile app at the same time.</p>
+  </div>
+
+  ${c.modules.map((m,mi)=>`
+  <div class="blk">
+    <div class="bh">
+      <span style="width:32px;height:32px;border-radius:9px;background:${m.inPerson?'var(--teal-tint)':'var(--tint)'};
+        color:${m.inPerson?'var(--teal)':'var(--blue)'};display:grid;place-items:center;font-size:.78rem;font-weight:800">
+        ${m.inPerson?I('i-pin','ic-sm'):String(mi+1).padStart(2,'0')}</span>
+      <h3>${esc(m.n)}</h3>
+      ${m.inPerson?`<span class="badge b-teal">On campus</span>`:''}
+      <span class="badge b-grey">${m.lessons.length} lessons</span>
+      <button class="mini-b" onclick="toast('Module renamed')">${I('i-edit','ic-sm')}</button>
+      <button class="mini-b" onclick="toast('Module removed')">${I('i-trash','ic-sm')}</button>
+    </div>
+    <div class="bc">
+      ${m.lessons.map(l=>`<div class="lesson-adm">
+        <span class="gr">${I('i-menu','ic-sm')}</span>
+        <span class="li">${I(LESSON_ICON[l.type],'ic-sm')}</span>
+        <span class="tx"><b>${esc(l.title)}</b><span>${LESSON_LABEL[l.type]} · ${lessonMeta(l)}</span></span>
+        <span class="badge ${l.type==='session'?'b-teal':l.type==='quiz'?'b-violet':'b-blue'}">${LESSON_LABEL[l.type]}</span>
+        <button class="mini-b" onclick="toast('Opens the lesson editor')">${I('i-edit','ic-sm')}</button>
+        <button class="mini-b" onclick="toast('Lesson hidden from students','i-eye')">${I('i-eye','ic-sm')}</button>
+      </div>`).join('')}
+      <button class="btn btn-quiet btn-sm" onclick="toast('Add a video, PDF, lecture, quiz or in-person session')">
+        ${I('i-plus','ic-sm')}Add lesson to this module</button>
+    </div>
+  </div>`).join('')}
+  <button class="btn btn-ghost" onclick="toast('New module added')">${I('i-plus','ic-sm')}Add module</button>`;
+  return shell('Course Content',body,`<button class="btn btn-primary btn-sm" onclick="toast('Changes published to web and mobile')">${I('i-upload','ic-sm')}Publish changes</button>`);
+}
+
+/* ---------- students ---------- */
+function viewStudents(){
+  const body=`
+  <div class="kpis">
+    <div class="kpi"><div class="ic-w" style="background:var(--tint);color:var(--blue)">${I('i-users')}</div>
+      <b>1,284</b><span>Total students</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--teal-tint);color:var(--teal)">${I('i-play')}</div>
+      <b>317</b><span>Currently studying</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--success-tint);color:var(--success)">${I('i-cert')}</div>
+      <b>1,118</b><span>Certificates issued</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--amber-tint);color:var(--amber)">${I('i-alert')}</div>
+      <b>2</b><span>Awaiting payment</span></div>
+  </div>
+  <div class="fbar">
+    <div class="srch">${I('i-search')}<input class="inp" placeholder="Search students by name or email…" /></div>
+    <div class="sp"></div>
+    <button class="pill on">All</button><button class="pill">Active</button>
+    <button class="pill">Completed</button><button class="pill">Awaiting payment</button>
+  </div>
+  <div class="blk"><div class="bc flush tscroll"><table class="tbl2">
+    <tr><th>Student</th><th class="rt">Programs</th><th class="rt">Active</th><th class="rt">Lifetime value</th>
+      <th>Last active</th><th>Status</th><th></th></tr>
+    ${ADMIN.students.map(s=>`<tr>
+      <td><div style="display:flex;gap:11px;align-items:center">
+        <span style="width:36px;height:36px;border-radius:50%;background:var(--tint);color:var(--blue);display:grid;
+          place-items:center;font-size:.76rem;font-weight:800;flex:0 0 auto">${s.name.split(' ').map(p=>p[0]).join('')}</span>
+        <div><b>${esc(s.name)}</b><br/><span style="font-size:.75rem;color:var(--ink-3)">${esc(s.email)}</span></div></div></td>
+      <td class="rt">${s.courses}</td><td class="rt">${s.active}</td>
+      <td class="rt"><b>${money(s.spend)}</b></td><td>${s.last}</td>
+      <td><span class="badge ${s.status==='active'?'b-green':s.status==='completed'?'b-blue':s.status==='instalment'?'b-violet':'b-amber'}">${s.status}</span></td>
+      <td><div class="row-act">
+        <button class="mini-b" onclick="toast('Opens the student record')">${I('i-eye','ic-sm')}</button>
+        <button class="mini-b" onclick="toast('Email composed to ${esc(s.name)}')">${I('i-mail','ic-sm')}</button>
+      </div></td></tr>`).join('')}
+  </table></div></div>`;
+  return shell('Students',body,`<button class="btn btn-ghost btn-sm" onclick="toast('Student list exported as CSV','i-download')">${I('i-download','ic-sm')}Export</button>
+    <button class="btn btn-primary btn-sm" onclick="toast('Manual enrolment form')">${I('i-user-plus','ic-sm')}Enrol manually</button>`);
+}
+
+/* ---------- enrolments & payments ---------- */
+function viewEnrolments(){
+  const gross=ADMIN.recent.reduce((s,r)=>s+r.amount,0);
+  const body=`
+  <div class="kpis">
+    <div class="kpi"><div class="ic-w" style="background:var(--tint);color:var(--blue)">${I('i-dollar')}</div>
+      <b>${money(ADMIN.kpis.revenueMonth)}</b><span>Collected this month</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--violet-tint);color:var(--violet)">${I('i-card')}</div>
+      <b>${money(4998)}</b><span>On instalment plans</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--amber-tint);color:var(--amber)">${I('i-clock')}</div>
+      <b>${money(2899)}</b><span>Awaiting e-Transfer</span></div>
+    <div class="kpi"><div class="ic-w" style="background:var(--success-tint);color:var(--success)">${I('i-receipt')}</div>
+      <b>${money(gross)}</b><span>Last 8 transactions</span></div>
+  </div>
+  <div class="blk"><div class="bh">${I('i-alert','ic-lg')}<h3>Needs attention</h3><span class="badge b-amber">2 items</span></div>
+    <div class="bc flush">
+      <div class="sess"><div class="dt" style="background:var(--amber-tint)"><b>!</b><span>Pay</span></div>
+        <div class="tx"><b>David Chen — Basic Ultrasound</b>
+          <span><i>${I('i-mail','ic-sm')}e-Transfer of ${money(2899)} not yet received</i><i>${I('i-clock','ic-sm')}Sent 1 Aug 2026</i></span></div>
+        <button class="btn btn-primary btn-sm" onclick="toast('Marked as received — access unlocked')">Mark received</button></div>
+      <div class="sess"><div class="dt" style="background:var(--violet-tint)"><b>2</b><span>of 3</span></div>
+        <div class="tx"><b>Harpreet Singh — Clinical Research Assistant</b>
+          <span><i>${I('i-card','ic-sm')}Instalment 2 of 3 due 2 Sep</i><i>${I('i-dollar','ic-sm')}${money(833)}</i></span></div>
+        <button class="btn btn-ghost btn-sm" onclick="toast('Payment reminder sent')">Send reminder</button></div>
+    </div></div>
+  <div class="blk"><div class="bh">${I('i-receipt','ic-lg')}<h3>All transactions</h3>
+    <div class="seg"><button class="on">August</button><button onclick="toast('July view')">July</button>
+      <button onclick="toast('Year to date')">Year to date</button></div></div>
+    <div class="bc flush tscroll"><table class="tbl2">
+      <tr><th>Date</th><th>Student</th><th>Programme</th><th>Method</th><th class="rt">Amount</th><th>Status</th><th></th></tr>
+      ${ADMIN.recent.map(r=>`<tr>
+        <td>${r.date}</td><td><b>${esc(r.name)}</b></td><td>${esc(byId(r.course).name)}</td><td>${r.method}</td>
+        <td class="rt"><b>${money(r.amount)}</b></td>
+        <td><span class="badge ${r.status==='paid'?'b-green':r.status==='partial'?'b-violet':'b-amber'}">${r.status}</span></td>
+        <td><div class="row-act"><button class="mini-b" onclick="toast('Receipt downloaded')">${I('i-download','ic-sm')}</button>
+          <button class="mini-b" onclick="toast('Refund — 30% office charge applies')">${I('i-more','ic-sm')}</button></div></td>
+      </tr>`).join('')}
+    </table></div></div>`;
+  return shell('Enrolments & Payments',body,`<button class="btn btn-primary btn-sm" onclick="toast('Statement exported','i-download')">${I('i-download','ic-sm')}Export statement</button>`);
+}
+
+/* ---------- sessions ---------- */
+function viewSessions(){
+  const body=`
+  <div class="fbar">
+    <div class="seg"><button class="on">Upcoming</button><button onclick="toast('Past sessions')">Past</button>
+      <button onclick="toast('Calendar view')">Calendar</button></div>
+    <div class="sp"></div>
+    <span class="badge b-teal">${ADMIN.sessions.length} scheduled</span>
+    <span class="badge b-amber">1 full</span>
+  </div>
+  <div class="blk"><div class="bc flush">
+    ${ADMIN.sessions.map(s=>{const c=byId(s.course);const full=s.booked>=s.cap;return `
+      <div class="sess">
+        <div class="dt ${full?'':'tl'}" style="${full?'background:var(--alert-tint)':''}">
+          <b style="${full?'color:var(--alert)':''}">${s.date.split(' ')[0]}</b>
+          <span style="${full?'color:var(--alert)':''}">${s.date.split(' ')[1]}</span></div>
+        <div class="tx"><b>${esc(s.title)}</b>
+          <span><i>${I('i-cap','ic-sm')}${esc(c.name)}</i><i>${I('i-clock','ic-sm')}${s.time}</i>
+            <i>${I('i-pin','ic-sm')}${s.room}</i><i>${I('i-teacher','ic-sm')}${s.instructor}</i></span></div>
+        <div style="text-align:right;flex:0 0 auto">
+          <span class="cap-bar"><i style="width:${s.booked/s.cap*100}%;background:${full?'var(--alert)':'var(--teal)'}"></i></span>
+          <div style="font-size:.76rem;font-weight:800;margin-top:5px;color:${full?'var(--alert)':'var(--ink-2)'}">${s.booked} / ${s.cap} booked</div></div>
+        <div class="row-act">
+          <button class="mini-b" onclick="toast('Attendance sheet opened')">${I('i-users','ic-sm')}</button>
+          <button class="mini-b" onclick="toast('Session edited')">${I('i-edit','ic-sm')}</button>
+          <button class="mini-b" onclick="toast('All ${s.booked} attendees notified','i-bell')">${I('i-bell','ic-sm')}</button>
+        </div></div>`;}).join('')}
+  </div></div>
+  <div class="g3">
+    <div class="blk"><div class="bh">${I('i-pin','ic-lg')}<h3>Rooms</h3></div>
+      <div class="bc flush tscroll"><table class="tbl2">
+        <tr><th>Room</th><th class="rt">Capacity</th><th class="rt">Utilisation</th><th>Equipment</th></tr>
+        ${[['Skills Lab A',12,86,'Phlebotomy chairs, training arms, centrifuge'],
+           ['Skills Lab B',14,64,'ECG machines, Holter monitors, IV trainers'],
+           ['Classroom 2',24,41,'Projector, whiteboard, 24 desks']].map(([r,cap,u,eq])=>`<tr>
+          <td><b>${r}</b></td><td class="rt">${cap}</td>
+          <td class="rt"><span class="cap-bar"><i style="width:${u}%;background:var(--blue)"></i></span>
+            <span style="margin-left:8px;font-weight:800;font-size:.79rem">${u}%</span></td>
+          <td style="font-size:.8rem">${eq}</td></tr>`).join('')}
+      </table></div></div>
+    <div class="blk"><div class="bh">${I('i-bell','ic-lg')}<h3>Automatic reminders</h3></div>
+      <div class="bc">
+        ${[['24 hours before','Push notification and email to every booked student',true],
+           ['2 hours before','Push notification only',true],
+           ['After the session','Attendance recorded, competency sign-off prompt to instructor',true],
+           ['No-show follow-up','Email offering a rebooking link',false]].map(([t,d,on])=>`
+          <div style="display:flex;gap:13px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line-2)">
+            <div style="flex:1"><b style="display:block;font-size:.87rem">${t}</b>
+              <span style="font-size:.79rem;color:var(--ink-3);line-height:1.5">${d}</span></div>
+            <span class="badge ${on?'b-green':'b-grey'}">${on?'On':'Off'}</span></div>`).join('')}
+      </div></div>
+  </div>`;
+  return shell('Practical Sessions',body,`<button class="btn btn-primary btn-sm" onclick="toast('New session scheduled')">${I('i-plus','ic-sm')}Schedule session</button>`);
+}
+
+/* ---------- instructors ---------- */
+function viewInstructors(){
+  const load=[7,9,4,5,3];
+  const body=`
+  <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(270px,1fr))">
+    ${INSTRUCTORS.map((t,i)=>`<div class="card" style="overflow:hidden">
+      <div style="display:flex;gap:14px;padding:18px">
+        <img src="${IMG(t.img)}" alt="" style="width:66px;height:66px;border-radius:50%;object-fit:cover;flex:0 0 auto" />
+        <div style="flex:1;min-width:0">
+          <b style="display:block;font-size:.96rem;font-weight:800;letter-spacing:-.02em">${esc(t.name)}</b>
+          <span style="font-size:.72rem;font-weight:800;color:var(--blue);display:block;margin:3px 0 5px">${esc(t.cred)}</span>
+          <span style="font-size:.78rem;color:var(--ink-3);font-weight:600;line-height:1.4;display:block">${esc(t.role)}</span></div>
+      </div>
+      <div style="padding:0 18px 16px">
+        <p style="font-size:.81rem;color:var(--ink-2);line-height:1.6;margin-bottom:14px">${esc(t.bio)}</p>
+        <div style="display:flex;justify-content:space-between;padding-top:13px;border-top:1px solid var(--line-2);font-size:.78rem">
+          <span style="color:var(--ink-3);font-weight:600">Sessions this month</span><b>${load[i]}</b></div>
+      </div>
+      <div style="padding:12px 18px;background:var(--sunk);display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="toast('Instructor profile')">${I('i-edit','ic-sm')}Edit</button>
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="toast('Assigned to a session')">${I('i-cal','ic-sm')}Assign</button>
+      </div></div>`).join('')}
+  </div>`;
+  return shell('Instructors',body,`<button class="btn btn-primary btn-sm" onclick="toast('Invite sent')">${I('i-user-plus','ic-sm')}Add instructor</button>`);
+}
+
+/* ---------- settings ---------- */
+function viewSettings(){
+  const body=`
+  <div class="g3">
+    <div>
+      <div class="blk"><div class="bh">${I('i-building','ic-lg')}<h3>Academy details</h3></div>
+        <div class="bc">
+          <div class="field"><label>Academy name</label><input class="inp" value="${ACADEMY.name}" /></div>
+          <div class="field"><label>Tagline</label><input class="inp" value="${ACADEMY.tagline}" /></div>
+          <div class="field"><label>Address</label><input class="inp" value="${ACADEMY.address}" /></div>
+          <div class="g2">
+            <div class="field"><label>Phone</label><input class="inp" value="${ACADEMY.phone}" /></div>
+            <div class="field"><label>Cell</label><input class="inp" value="${ACADEMY.cell}" /></div>
+          </div>
+          <div class="field"><label>Enquiries email</label><input class="inp" value="${ACADEMY.email}" /></div>
+          <div class="field"><label>Website</label><input class="inp" value="${ACADEMY.site}" /></div>
+          <button class="btn btn-primary btn-sm" onclick="toast('Academy details saved')">Save details</button>
+        </div></div>
+
+      <div class="blk"><div class="bh">${I('i-card','ic-lg')}<h3>Payments</h3></div>
+        <div class="bc">
+          <div class="field"><label>e-Transfer address</label><input class="inp" value="${ACADEMY.payEmail}" /></div>
+          <div class="g2">
+            <div class="field"><label>Tax rate (HST)</label><input class="inp" value="13%" /></div>
+            <div class="field"><label>Currency</label><select class="inp"><option>CAD — Canadian Dollar</option><option>USD</option></select></div>
+          </div>
+          <div class="field"><label>Cancellation charge</label><input class="inp" value="30% of total fee" /></div>
+          <div style="display:flex;gap:13px;align-items:center;padding:14px 0;border-top:1px solid var(--line-2)">
+            <div style="flex:1"><b style="display:block;font-size:.88rem">Allow 3-month instalment plans</b>
+              <span style="font-size:.79rem;color:var(--ink-3)">Students pay a third today, then monthly</span></div>
+            <span class="badge b-green">On</span></div>
+          <div style="display:flex;gap:13px;align-items:center;padding:14px 0;border-top:1px solid var(--line-2)">
+            <div style="flex:1"><b style="display:block;font-size:.88rem">Unlock content on e-Transfer confirmation</b>
+              <span style="font-size:.79rem;color:var(--ink-3)">Manual confirmation from this console</span></div>
+            <span class="badge b-green">On</span></div>
+          <button class="btn btn-primary btn-sm" style="margin-top:12px" onclick="toast('Payment settings saved')">Save payment settings</button>
+        </div></div>
+    </div>
+
+    <div>
+      <div class="blk"><div class="bh">${I('i-bell','ic-lg')}<h3>Push notification broadcast</h3></div>
+        <div class="bc">
+          <p style="font-size:.85rem;color:var(--ink-2);line-height:1.62;margin-bottom:16px">
+            Send a notification to every student with the mobile app installed — a new programme, a practical date
+            or the free weekly exam session.</p>
+          <div class="field"><label>Title</label><input class="inp" placeholder="New: PRP Advanced Course" /></div>
+          <div class="field"><label>Message</label><textarea class="inp" rows="3" placeholder="Now open for the 16 September intake — only 4 seats."></textarea></div>
+          <div class="field"><label>Audience</label><select class="inp">
+            <option>All app users (1,284)</option><option>Currently studying (317)</option>
+            <option>Completed a programme (1,118)</option><option>By programme…</option></select></div>
+          <button class="btn btn-primary btn-block" onclick="toast('Notification sent to 1,284 devices','i-bell')">${I('i-bell','ic-sm')}Send notification</button>
+        </div></div>
+
+      <div class="blk"><div class="bh">${I('i-users','ic-lg')}<h3>Console users</h3></div>
+        <div class="bc flush">
+          ${[['Suresh K.','Academy Director','Full access','SK'],
+             ['Veena R.','Operations','Students, sessions, payments','VR'],
+             ['Marisa Delgado','Instructor','Own sessions and attendance','MD']].map(([n,r,p,ini])=>`
+            <div style="display:flex;gap:13px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line-2)">
+              <span style="width:36px;height:36px;border-radius:50%;background:var(--tint);color:var(--blue);
+                display:grid;place-items:center;font-size:.76rem;font-weight:800;flex:0 0 auto">${ini}</span>
+              <div style="flex:1;min-width:0"><b style="display:block;font-size:.87rem">${n}</b>
+                <span style="font-size:.77rem;color:var(--ink-3)">${r} · ${p}</span></div>
+              <button class="mini-b" onclick="toast('Permissions')">${I('i-cog','ic-sm')}</button></div>`).join('')}
+          <div style="padding:16px 20px"><button class="btn btn-quiet btn-sm" onclick="toast('Invite sent')">${I('i-plus','ic-sm')}Invite a user</button></div>
+        </div></div>
+
+      <div class="blk"><div class="bh">${I('i-shield','ic-lg')}<h3>Hosting &amp; security</h3></div>
+        <div class="bc">
+          ${[['Cloud hosting','Google Cloud / AWS — enterprise-grade',I('i-globe')],
+             ['Automatic backups','Nightly, retained 30 days',I('i-download')],
+             ['SSL certificate','Active, auto-renewing',I('i-lock')],
+             ['Payment data','Never stored on the platform',I('i-card')]].map(([t,d,ic])=>`
+            <div style="display:flex;gap:13px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line-2)">
+              <span style="width:34px;height:34px;border-radius:10px;background:var(--success-tint);color:var(--success);
+                display:grid;place-items:center;flex:0 0 auto">${ic}</span>
+              <div style="flex:1"><b style="display:block;font-size:.87rem">${t}</b>
+                <span style="font-size:.79rem;color:var(--ink-3)">${d}</span></div>
+              ${I('i-check-c','ic-sm')}</div>`).join('')}
+        </div></div>
+    </div>
+  </div>`;
+  return shell('Settings',body);
+}
+
+/* ---------- render ---------- */
+function render(){
+  const V={overview:viewOverview,programs:viewPrograms,content:viewContent,students:viewStudents,
+    enrolments:viewEnrolments,sessions:viewSessions,instructors:viewInstructors,settings:viewSettings};
+  document.getElementById('app').innerHTML=(V[VIEW]||viewOverview)();
+}
+render();
+</script>
+</body>
+</html>

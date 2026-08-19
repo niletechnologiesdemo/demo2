@@ -436,10 +436,10 @@ const STUDENT = {
     {course:'whmis',             progress:100,paid:199,  status:'completed', started:'15 May 2026', completed:'18 May 2026', cert:'AMS-WH-3902'}
   ],
   schedule:[
-    {course:'phlebotomy', title:'Practical day 1 — equipment handling and mannequin draws', date:'2026-08-23', time:'09:00 – 13:00', room:'Skills Lab A', instructor:'Marisa Delgado', status:'confirmed'},
+    {course:'phlebotomy', title:'Practical day 1 — equipment handling and mannequin draws', date:'2026-08-22', time:'09:00 – 13:00', room:'Skills Lab A', instructor:'Marisa Delgado', status:'confirmed'},
     {course:'ecg',        title:'12-lead placement practice on volunteers',                 date:'2026-08-29', time:'10:00 – 14:00', room:'Skills Lab B', instructor:'Marisa Delgado', status:'confirmed'},
-    {course:'phlebotomy', title:'Practical day 2 — supervised live draws and vitals',       date:'2026-09-06', time:'09:00 – 13:00', room:'Skills Lab A', instructor:'Dr. Anita Raghunath', status:'pending'},
-    {course:'phlebotomy', title:'Competency assessment and sign-off',                       date:'2026-09-13', time:'09:00 – 12:00', room:'Skills Lab A', instructor:'Dr. Anita Raghunath', status:'pending'}
+    {course:'phlebotomy', title:'Practical day 2 — supervised live draws and vitals',       date:'2026-09-05', time:'09:00 – 13:00', room:'Skills Lab A', instructor:'Dr. Anita Raghunath', status:'pending'},
+    {course:'phlebotomy', title:'Competency assessment and sign-off',                       date:'2026-09-12', time:'09:00 – 12:00', room:'Skills Lab A', instructor:'Dr. Anita Raghunath', status:'pending'}
   ],
   payments:[
     {ref:'AMS-INV-2091', date:'4 Aug 2026',  course:'ecg',         amount:899,  method:'Visa •••• 4021', status:'paid'},
@@ -472,7 +472,7 @@ const ADMIN = {
     {name:'David Chen',       course:'ultrasound',         amount:2899, date:'1 Aug 2026',  method:'e-Transfer',     status:'pending'}
   ],
   sessions:[
-    {course:'phlebotomy', title:'Practical day 1 — equipment handling',   date:'23 Aug', time:'09:00', room:'Skills Lab A', booked:12, cap:12, instructor:'Marisa Delgado'},
+    {course:'phlebotomy', title:'Practical day 1 — equipment handling',   date:'22 Aug', time:'09:00', room:'Skills Lab A', booked:12, cap:12, instructor:'Marisa Delgado'},
     {course:'phleb-workshop', title:'Phlebotomy Workshop — full day',     date:'24 Aug', time:'09:00', room:'Skills Lab A', booked:15, cap:18, instructor:'Dr. Anita Raghunath'},
     {course:'injection', title:'Mannequin practice — deltoid',            date:'26 Aug', time:'13:00', room:'Skills Lab B', booked:8,  cap:14, instructor:'Marisa Delgado'},
     {course:'ecg',       title:'12-lead placement practice',              date:'29 Aug', time:'10:00', room:'Skills Lab B', booked:11, cap:12, instructor:'Marisa Delgado'},

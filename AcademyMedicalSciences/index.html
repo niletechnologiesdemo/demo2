@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Academy of Medical Science · Design Mock-up</title>
+<link rel="icon" href="assets/img/ams-logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/ams.css?v=2" />
+<style>
+body{background:
+  radial-gradient(85% 60% at 88% -8%, #DCEAFC 0%, transparent 58%),
+  radial-gradient(65% 50% at -5% 105%, #E4EDFA 0%, transparent 55%), var(--paper);
+  min-height:100vh;padding:clamp(26px,5vw,68px) clamp(18px,4vw,44px)}
+.wrap{max-width:1180px;margin:0 auto}
+
+.brand{display:flex;align-items:center;gap:16px;margin-bottom:clamp(30px,5vw,52px);flex-wrap:wrap}
+.brand img{height:62px}
+.brand .t b{display:block;font-size:1.06rem;font-weight:800;letter-spacing:-.022em;color:var(--navy)}
+.brand .t span{font-size:.64rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3)}
+.brand .sp{flex:1}
+.brand .tag{font-size:.63rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);
+  background:var(--tint);padding:7px 14px;border-radius:999px}
+
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,4.8vw,3.4rem);letter-spacing:-.026em;
+  line-height:1.07;max-width:20ch;margin-bottom:16px}
+h1 em{font-style:italic;color:var(--blue)}
+.lede{font-size:1.02rem;color:var(--ink-2);max-width:66ch;line-height:1.7;margin-bottom:clamp(30px,4vw,48px)}
+
+.cards{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-bottom:clamp(32px,4vw,50px)}
+.c{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;
+  box-shadow:var(--sh-sm);display:flex;flex-direction:column;position:relative;
+  transition:transform .24s var(--ease),box-shadow .24s,border-color .24s}
+.c:hover{transform:translateY(-5px);box-shadow:var(--sh-lg);border-color:var(--blue-3)}
+/* a live, scaled preview of the real mock-up rather than a stock screenshot */
+.c .shot{height:206px;overflow:hidden;position:relative;background:var(--sunk);border-bottom:1px solid var(--line)}
+.c .shot iframe{position:absolute;top:0;left:0;width:1380px;height:920px;border:0;
+  transform:scale(.252);transform-origin:top left;pointer-events:none}
+.c .shot .sc{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,42,87,.6),rgba(6,42,87,0) 58%)}
+.c .shot .n{position:absolute;left:17px;bottom:12px;color:#fff;font-size:.6rem;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+.c .shot .num{position:absolute;right:14px;top:13px;width:30px;height:30px;border-radius:9px;
+  background:rgba(255,255,255,.92);color:var(--blue);display:grid;place-items:center;font-size:.75rem;font-weight:800}
+.c .bd{padding:22px;display:flex;flex-direction:column;flex:1}
+.c h3{font-size:1.12rem;font-weight:800;letter-spacing:-.024em;margin-bottom:8px}
+.c p{font-size:.86rem;color:var(--ink-2);line-height:1.62;flex:1;margin-bottom:17px}
+.c ul{display:grid;gap:8px;margin-bottom:20px}
+.c li{font-size:.8rem;color:var(--ink-2);font-weight:600;display:flex;gap:9px;align-items:flex-start;line-height:1.45}
+.c li svg{flex:0 0 auto;margin-top:2px;color:var(--blue)}
+.c .go{display:flex;align-items:center;justify-content:center;gap:9px}
+.c .go svg{transition:transform .2s var(--ease)}
+.c:hover .go svg{transform:translateX(4px)}
+
+.note{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:26px;
+  box-shadow:var(--sh-xs);display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  margin-bottom:22px}
+.note .ic-w{width:38px;height:38px;border-radius:11px;background:var(--tint);color:var(--blue);
+  display:grid;place-items:center;margin-bottom:12px}
+.note .t{font-size:.9rem;font-weight:800;margin-bottom:7px;letter-spacing:-.02em}
+.note p{font-size:.83rem;color:var(--ink-2);line-height:1.65}
+.note code{background:var(--tint);color:var(--blue);padding:2px 7px;border-radius:5px;font-weight:800;
+  font-family:var(--sans);font-size:.79rem}
+
+.src{background:var(--navy);color:rgba(255,255,255,.76);border-radius:var(--r-lg);padding:26px;margin-bottom:22px}
+.src h4{font-size:.66rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#fff;margin-bottom:14px}
+.src ul{display:grid;gap:9px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.src li{font-size:.84rem;line-height:1.55;display:flex;gap:9px;align-items:flex-start}
+.src li svg{flex:0 0 auto;margin-top:3px;color:var(--blue-3)}
+
+footer{margin-top:34px;padding-top:24px;border-top:1px solid var(--line);font-size:.78rem;color:var(--ink-3);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<script src="assets/icons.js"></script>
+<div class="wrap">
+
+  <div class="brand">
+    <img src="assets/img/ams-logo.png" alt="Academy of Medical Science" />
+    <div class="t"><b>Academy of Medical Science</b><span>Helping you succeed</span></div>
+    <div class="sp"></div>
+    <span class="tag">Design mock-up · Nile Technologies</span>
+  </div>
+
+  <h1>A platform for <em>enrolling, paying and learning</em> — on the web and in the pocket</h1>
+  <p class="lede">Three connected surfaces built around the academy's hybrid model: students discover a programme,
+  pay online and study the theory wherever they are, then book the in-person practical at 10 George St N. Everything
+  the academy publishes appears on the web app and the mobile app at the same time. The content, programme names,
+  audiences, contact details and branding are the academy's own, taken from the flyer and website.</p>
+
+  <div class="cards">
+    <a class="c" href="web.html">
+      <div class="shot"><iframe src="web.html" title="Web application preview" scrolling="no" loading="lazy"></iframe>
+        <div class="sc"></div><div class="num">01</div><div class="n">Student web application</div></div>
+      <div class="bd">
+        <h3>Web Application</h3>
+        <p>The public site and the signed-in student portal in one. Browse 21 programmes, enrol, pay, then study
+        the theory and track progress from any browser.</p>
+        <ul>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Programme catalogue with search and filters</span></li>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Enrolment, checkout and instalment plans</span></li>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Video, PDF, recorded lecture and quiz player</span></li>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Practical booking, certificates and receipts</span></li>
+        </ul>
+        <span class="btn btn-primary btn-block go">Open the web app <svg class="ic-sm"><use href="#i-right"/></svg></span>
+      </div>
+    </a>
+
+    <a class="c" href="app.html">
+      <div class="shot"><iframe src="app.html" title="Mobile application preview" scrolling="no" loading="lazy"></iframe>
+        <div class="sc"></div><div class="num">02</div><div class="n">Mobile application</div></div>
+      <div class="bd">
+        <h3>Mobile App</h3>
+        <p>Fourteen live screens of the iOS and Android student app — the same programme, with offline downloads
+        and push notifications a browser cannot offer.</p>
+        <ul>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Interactive — tap the rail or the tab bar</span></li>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Download lessons for offline study</span></li>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Push notifications to every student</span></li>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Book practicals and get directions</span></li>
+        </ul>
+        <span class="btn btn-primary btn-block go">Open the mobile app <svg class="ic-sm"><use href="#i-right"/></svg></span>
+      </div>
+    </a>
+
+    <a class="c" href="admin.html">
+      <div class="shot"><iframe src="admin.html" title="Administration console preview" scrolling="no" loading="lazy"></iframe>
+        <div class="sc"></div><div class="num">03</div><div class="n">Administration console</div></div>
+      <div class="bd">
+        <h3>Admin Console</h3>
+        <p>What the academy sees. Upload content, set fees, schedule practicals, confirm e-Transfers and watch
+        revenue — no developer needed after handover.</p>
+        <ul>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Revenue, enrolments and completion reporting</span></li>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Drag-and-drop content manager per programme</span></li>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Sessions, rooms, capacity and attendance</span></li>
+          <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Push-notification broadcast to all students</span></li>
+        </ul>
+        <span class="btn btn-primary btn-block go">Open the admin console <svg class="ic-sm"><use href="#i-right"/></svg></span>
+      </div>
+    </a>
+  </div>
+
+  <div class="note">
+    <div>
+      <div class="ic-w"><svg class="ic"><use href="#i-modules"/></svg></div>
+      <div class="t">Try the full journey</div>
+      <p>In the web app, open a programme, press <code>Enrol now</code> and complete the three-step checkout.
+      You land in the student portal with the programme unlocked and its practical ready to book.</p>
+    </div>
+    <div>
+      <div class="ic-w"><svg class="ic"><use href="#i-user"/></svg></div>
+      <div class="t">Or sign in directly</div>
+      <p>Press <code>Sign in</code> to enter as Priya Nair — an IMG part-way through Phlebotomy and ECG, with two
+      certificates already earned and four practical sessions in her schedule.</p>
+    </div>
+    <div>
+      <div class="ic-w"><svg class="ic"><use href="#i-info"/></svg></div>
+      <div class="t">What is real and what is sample</div>
+      <p>Programme names, module topics, audiences, logo, colours and contact details are the academy's own.
+      Fees, dates, student records and revenue figures are illustrative sample data for the mock-up.</p>
+    </div>
+  </div>
+
+  <div class="src">
+    <h4>Taken from the academy's own material</h4>
+    <ul>
+      <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Logo and brand blue <b style="color:#fff">#004AAD</b> lifted from the flyer artwork</span></li>
+      <li><svg class="ic-sm"><use href="#i-check"/></svg><span>21 programmes named on the flyer and website</span></li>
+      <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Real Phlebotomy module topics — order of draw, vacutainer tubes, Canadian protocol, legal issues, vitals</span></li>
+      <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Medical Assistant at its advertised <b style="color:#fff">$1,999</b>, two-month hybrid</span></li>
+      <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Free weekly MLPAO / CSMLS exam preparation session</span></li>
+      <li><svg class="ic-sm"><use href="#i-check"/></svg><span>Address, phone numbers, e-Transfer address and the 30% cancellation policy</span></li>
+    </ul>
+  </div>
+
+  <footer>
+    <span>© 2026 Academy of Medical Science · design mock-up, no obligation</span>
+    <span>Prepared by Nile Technologies · niletechnologies.com</span>
+  </footer>
+</div>
+</body>
+</html>
