@@ -1,0 +1,24 @@
+{
+  "name": "apex-promo",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "@remotion/bundler": "^4.0.517",
+    "@remotion/cli": "^4.0.517",
+    "@remotion/google-fonts": "^4.0.517",
+    "@remotion/renderer": "^4.0.517",
+    "puppeteer-core": "^23.11.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "remotion": "^4.0.517"
+  },
+  "scripts": {
+    "preview": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts ApexPromo out/apex-promo.mp4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "typescript": "^7.0.2"
+  }
+}
