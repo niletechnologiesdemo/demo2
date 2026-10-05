@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Merit · Business Console</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/merit.css" />
+<link rel="stylesheet" href="assets/web.css" />
+</head>
+<body class="web">
+<script src="assets/icons.js"></script>
+
+<div class="demobar">
+  <img src="assets/img/logo-app.png" alt=""><span>Merit Business Console &middot; interactive mockup</span><span class="sep">|</span>
+  <span>Signed in as <b id="dbname">Ìyálọja by Merit</b></span>
+  <span class="grow"></span>
+  <span class="tradeswitch" id="tradeswitch">
+    <button data-trade="restaurant" class="on"><svg width="13" height="13"><use href="#i-fork"/></svg>Restaurant</button>
+    <button data-trade="designer"><svg width="13" height="13"><use href="#i-hanger"/></svg>Designer store</button>
+  </span>
+  <a href="app.html">Open the consumer app &rarr;</a>
+</div>
+
+<div class="shell">
+  <aside class="side" id="side"></aside>
+  <main class="main">
+    <div class="topbar" id="topbar"></div>
+    <div class="content" id="content"></div>
+  </main>
+</div>
+<div class="drawerwrap" id="drawer"></div>
+
+<script src="assets/data.js"></script>
+<script src="assets/business.js"></script>
+</body>
+</html>

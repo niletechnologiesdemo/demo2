@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jamie Doxey · Three businesses, one digital platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{--paper:#0E1620;--ink:#F3F1EC;--ink-2:rgba(243,241,236,.72);--ink-3:rgba(243,241,236,.45);--line:rgba(255,255,255,.1);
+  --op:#1C8FA2;--mt:#E0641E;--rh:#2E8B4F;--serif:'Fraunces',Georgia,serif;--sans:'Inter',Arial,sans-serif;--ease:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.top{display:flex;align-items:center;gap:14px;padding:18px 40px;border-bottom:1px solid var(--line);font-size:.78rem;font-weight:600;color:var(--ink-2)}
+.top b{color:var(--ink);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.72rem}
+.top .grow{flex:1}
+.top span.tag{border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+.head{padding:72px 0 44px}
+.head .k{font-size:.66rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3)}
+.head h1{font-family:var(--serif);font-weight:400;font-size:3.8rem;line-height:1.02;letter-spacing:-.02em;margin-top:14px;max-width:18ch}
+.head h1 em{font-style:italic;color:#9AD6AE}
+.head p{margin-top:18px;font-size:1.05rem;line-height:1.6;color:var(--ink-2);max-width:60ch}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding-bottom:60px}
+.tile{position:relative;border-radius:28px;overflow:hidden;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line);transition:transform .35s var(--ease),box-shadow .35s;box-shadow:0 30px 60px -40px rgba(0,0,0,.8)}
+.tile:hover{transform:translateY(-6px);box-shadow:0 50px 90px -40px rgba(0,0,0,.9)}
+.tile img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.tile:hover img.bg{transform:scale(1.05)}
+.tile .sc{position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,22,32,.1) 0%,rgba(14,22,32,.55) 45%,rgba(14,22,32,.96) 100%)}
+.tile .in{position:relative;padding:28px}
+.tile .logo{width:56px;height:56px;border-radius:50%;box-shadow:0 6px 20px rgba(0,0,0,.4);margin-bottom:16px;border:2px solid rgba(255,255,255,.6)}
+.tile .k{font-size:.62rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
+.tile h2{font-family:var(--serif);font-weight:400;font-size:1.9rem;line-height:1.08;margin-top:8px;letter-spacing:-.01em}
+.tile p{font-size:.86rem;line-height:1.55;color:var(--ink-2);margin-top:10px}
+.tile .feat{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tile .feat span{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 9px;border-radius:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14)}
+.tile .acts{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-size:.8rem;font-weight:700;border:1px solid transparent;transition:filter .15s,background .15s}
+.btn:hover{filter:brightness(1.1)}
+.btn-light{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff;backdrop-filter:blur(8px)}
+.op .btn-main{background:var(--op);color:#fff}.mt .btn-main{background:var(--mt);color:#fff}.rh .btn-main{background:var(--rh);color:#fff}
+.op .k{color:#5FBCCB}.mt .k{color:#F08A3C}.rh .k{color:#9AD6AE}
+.phase{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding-bottom:80px}
+.card{border:1px solid var(--line);border-radius:22px;padding:26px;background:rgba(255,255,255,.03)}
+.card .k{font-size:.62rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3)}
+.card h3{font-family:var(--serif);font-weight:400;font-size:1.6rem;margin-top:8px}
+.card p{font-size:.86rem;line-height:1.6;color:var(--ink-2);margin-top:8px}
+.card ul{list-style:none;margin-top:14px;display:grid;gap:8px}
+.card li{font-size:.84rem;color:var(--ink-2);display:block;position:relative;padding-left:18px;line-height:1.5}
+.card li b{color:var(--ink)}
+.card li:before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:#9AD6AE}
+.foot{border-top:1px solid var(--line);padding:22px 40px;font-size:.72rem;color:var(--ink-3);display:flex;gap:20px}
+.foot .grow{flex:1}
+kbd{background:rgba(255,255,255,.1);padding:2px 7px;border-radius:5px;font-family:inherit;font-size:.7rem}
+</style>
+</head>
+<body>
+<div class="top"><b>Nile Technologies</b><span>·</span><span>Prepared for Jamie Doxey</span><span class="grow"></span><span class="tag">Interactive mockups</span><span class="tag">Desktop web</span><span>Press <kbd>P</kbd> inside any demo to hide the presenter bar</span></div>
+<div class="wrap">
+  <div class="head"><span class="k">Three businesses · one digital platform</span><h1>Forestry pays. Handyman keeps busy. <em>Poseidon heals.</em></h1><p>Three click-through mockups built from your Instagram pages and our call on 8 September. Every button works, every flow goes end to end, and each business has a public site plus the back office Jamie would actually run it from. The two trade businesses share one back office.</p></div>
+  <div class="grid">
+    <a class="tile op" href="opposeidon/index.html"><img class="bg" src="assets/img/surf4.jpg" alt=""><div class="sc"></div><div class="in"><img class="logo" src="assets/logo/opposeidon.png" alt=""><span class="k">Phase 2 · Platform</span><h2>Operation Poseidon</h2><p>Surf therapy retreats, free for those who need them. Booking, e-learning with free and member tiers, community, merch shop, and a funding dashboard that shows where every pound goes.</p><div class="feat"><span>Sea to Summit Club · coming soon</span><span>Retreat booking</span><span>Free-place applications</span><span>Course library</span><span>Membership</span><span>Community</span><span>Shop</span><span>Admin</span></div><div class="acts"><span class="btn btn-main">Open the platform →</span><span class="btn btn-light">Admin console inside</span></div></div></a>
+    <a class="tile mt" href="militree/index.html"><img class="bg" src="assets/img/forest5.jpg" alt=""><div class="sc"></div><div class="in"><img class="logo" src="assets/logo/militree.png" alt=""><span class="k">Phase 1 · Revenue business</span><h2>Militree Operators Forestry</h2><p>A storefront that replaces the recruiter. Site survey requests, itemised quotes accepted online with a deposit, a crew register of ticketed climbers, and a pipeline from enquiry to crew on site.</p><div class="feat"><span>Survey request</span><span>Quote &amp; deposit</span><span>Crew register</span><span>Pipeline</span><span>Crew calendar</span><span>Invoices</span></div><div class="acts"><span class="btn btn-main">Open the site →</span><span class="btn btn-light">Militree Ops inside</span></div></div></a>
+    <a class="tile rh" href="royal/index.html"><img class="bg" src="assets/img/hs2.jpg" alt=""><div class="sc"></div><div class="in"><img class="logo" src="assets/logo/royal.png" alt=""><span class="k">Phase 1 · Local trade</span><h2>Royal Home &amp; Garden</h2><p>Book a slot like a barber. Fixed price list, photo quotes, over-65 rate built in, fortnightly care plans on direct debit, on-my-way texts and a job tracker for the customer.</p><div class="feat"><span>Price list</span><span>Slot booking</span><span>Photo quote</span><span>Care plans</span><span>Job tracker</span><span>Today view</span></div><div class="acts"><span class="btn btn-main">Open the site →</span><span class="btn btn-light">Back office inside</span></div></div></a>
+  </div>
+  <div class="phase">
+    <div class="card"><span class="k">How the demo is built</span><h3>What you are looking at</h3><p>Static HTML, CSS and JavaScript. No backend, no real payments, no database. Bookings, quotes and orders are seeded in the page and reset with the presenter bar. It exists to agree what gets built before anything is priced.</p><ul><li>Presenter bar at the top of every demo jumps straight to any screen, public or admin.</li><li>The two trade sites share one design system and one back office shell, with a business switcher in the sidebar.</li><li>Photos are licence-free placeholders. Logos are Jamie’s own from Instagram. People and figures are fictional.</li></ul></div>
+    <div class="card"><span class="k">Suggested order on Monday</span><h3>Twenty minutes, three stories</h3><ul><li><b>Militree first</b>, five minutes. Home → survey request → client quote with deposit → Militree Ops pipeline and crew register. The recruiter line lands here.</li><li><b>Royal second</b>, four minutes. Price list → book a slot with the over-65 toggle → Today view with the on-my-way button. Then the business switcher to show it is one back office.</li><li><b>Poseidon last</b>, ten minutes. Home → retreat → free-place application → locked course → membership → shop → admin funding dashboard. Finish on the Sea to Summit Club page: Poseidon, Thor, Pegasus, and corporate team-building funding the therapy.</li></ul></div>
+  </div>
+</div>
+<div class="foot"><span>Nile Technologies · New Delhi · London · Interactive mockups, September 2026</span><span class="grow"></span><span>Confidential · prepared for Jamie Doxey</span></div>
+</body>
+</html>

@@ -24,6 +24,18 @@ h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem,4.6vw,3.1rem)
   line-height:1.13;max-width:19ch;margin-bottom:14px}
 h1 em{font-style:italic;color:var(--forest-2)}
 .lede{font-size:1rem;color:var(--ink-2);max-width:60ch;line-height:1.62;margin-bottom:clamp(28px,4vw,44px)}
+.v2strip{display:flex;align-items:center;gap:18px;margin-bottom:clamp(30px,4vw,46px);padding:18px 22px;
+  border-radius:var(--r-xl);text-decoration:none;flex-wrap:wrap;
+  background:linear-gradient(140deg,#FEFCF8,#FBF2E1);border:1px solid rgba(169,122,49,.4);
+  box-shadow:var(--sh-sm);transition:transform .2s var(--ease),box-shadow .2s}
+.v2strip:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+.v2strip .tag{font-size:.58rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#fff;
+  background:var(--gold);padding:6px 11px;border-radius:999px;flex:0 0 auto}
+.v2strip .g{flex:1;min-width:240px}
+.v2strip .t{display:block;font-size:1rem;font-weight:800;letter-spacing:-.018em;color:var(--ink)}
+.v2strip .s{display:block;font-size:.83rem;color:var(--ink-2);line-height:1.55;margin-top:3px}
+.v2strip .cta{display:inline-flex;align-items:center;gap:8px;font-size:.83rem;font-weight:800;color:var(--forest);
+  white-space:nowrap;flex:0 0 auto}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(292px,1fr));gap:18px;margin-bottom:clamp(30px,4vw,46px)}
 .c{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;
   box-shadow:var(--sh-sm);display:flex;flex-direction:column;position:relative;
@@ -117,6 +129,17 @@ footer{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);font-si
       </div>
     </a>
   </div>
+
+  <a href="app-v2.html" class="v2strip">
+    <span class="tag">Optional &middot; V2.0</span>
+    <span class="g">
+      <span class="t">The offer wheel</span>
+      <span class="s">The member home screen with a turnable wheel for choosing what you want to see. Everything else is identical to V1.</span>
+    </span>
+    <span class="cta">Open V2.0
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+    </span>
+  </a>
 
   <div class="note">
     <div>

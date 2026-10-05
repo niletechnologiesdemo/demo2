@@ -1,0 +1,76 @@
+/* ============================================================
+   APEX · V2.0 — the offer wheel
+   Additive only. Loads after app.css and changes nothing in it.
+   ============================================================ */
+
+.wheelsec{padding:26px 0 4px;position:relative}
+.wheelsec .wheelcard{margin:0 16px;border-radius:var(--r-xl);padding:18px 14px 20px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#FEFCF8 0%,#FBF4E6 58%,#F7EEDA 100%);
+  border:1px solid rgba(169,122,49,.34);
+  box-shadow:0 22px 46px -26px rgba(24,20,14,.34), inset 0 1px 0 rgba(255,255,255,.8)}
+.wheelsec .wheelcard:before{content:'';position:absolute;right:-70px;top:-90px;width:250px;height:250px;border-radius:50%;
+  background:radial-gradient(circle,rgba(210,162,84,.22),transparent 68%);pointer-events:none}
+
+.wheelhead{text-align:center;position:relative;margin-bottom:4px}
+.wheelhead .k{font-size:.58rem;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.wheelhead h3{font-family:var(--serif);font-weight:400;font-size:1.58rem;line-height:1.14;margin-top:6px;letter-spacing:-.012em}
+.wheelhead h3 em{font-style:italic;color:var(--forest-2)}
+
+/* ---------------- the dial ---------------- */
+.wheelwrap{position:relative;width:300px;height:300px;margin:10px auto 0;user-select:none}
+.wheel{position:absolute;inset:0;transition:transform .72s cubic-bezier(.22,.9,.3,1)}
+.wheel svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 18px 30px rgba(24,20,14,.22))}
+.wseg{cursor:pointer}
+.wseg path.fill{fill:#FFFFFF;stroke:rgba(169,122,49,.28);stroke-width:1;
+  transition:fill .42s var(--ease),stroke .42s var(--ease)}
+.wseg.on path.fill{fill:url(#apexSeg);stroke:rgba(255,255,255,.55)}
+.wheel .wring{fill:none;stroke:rgba(169,122,49,.3);stroke-width:1}
+.wheel .wringo{fill:none;stroke:var(--gold-2);stroke-width:1.1;opacity:.75;stroke-dasharray:3 7}
+
+/* labels ride the dial but stay upright */
+.wlabel{position:absolute;left:50%;top:50%;width:88px;margin-left:-44px;margin-top:-32px;text-align:center;
+  pointer-events:none;color:var(--forest);
+  transition:transform .72s cubic-bezier(.22,.9,.3,1),color .42s var(--ease)}
+.wlabel .ic{width:34px;height:34px;border-radius:50%;margin:0 auto 5px;display:grid;place-items:center;
+  background:var(--forest-tint);color:var(--forest);transition:all .42s var(--ease)}
+.wlabel .n{font-size:.69rem;font-weight:800;letter-spacing:-.01em;line-height:1.16}
+.wlabel .s{font-size:.55rem;font-weight:800;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.wlabel.on{color:#fff}
+.wlabel.on .ic{background:rgba(255,255,255,.22);color:#fff;transform:scale(1.1)}
+.wlabel.on .s{color:var(--gold-2)}
+
+.wpointer{position:absolute;left:50%;top:-5px;transform:translateX(-50%);width:0;height:0;z-index:4;
+  border-left:9px solid transparent;border-right:9px solid transparent;border-top:13px solid var(--gold-2);
+  filter:drop-shadow(0 3px 5px rgba(24,20,14,.35))}
+
+/* ---------------- centre button ---------------- */
+.wcore{position:absolute;left:50%;top:50%;width:112px;height:112px;margin:-56px 0 0 -56px;border-radius:50%;z-index:5;
+  background:radial-gradient(circle at 34% 28%,#1B6152 0%,var(--forest-2) 42%,var(--forest) 100%);
+  border:3px solid var(--gold-2);
+  box-shadow:0 0 0 7px rgba(255,255,255,.9), 0 20px 40px -16px rgba(9,39,32,.72), inset 0 1px 0 rgba(255,255,255,.2);
+  color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  transition:transform .18s var(--ease), box-shadow .32s var(--ease)}
+.wcore:active{transform:scale(.94)}
+.wcore img{width:40px;height:40px;margin-bottom:2px}
+.wcore .cnt{font-family:var(--serif);font-size:1.24rem;line-height:1}
+.wcore .go{font-size:.5rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;opacity:.82}
+.wcore .halo{position:absolute;inset:-13px;border-radius:50%;border:1.5px solid rgba(210,162,84,.55);
+  animation:whalo 2.6s ease-out infinite;pointer-events:none}
+.wcore .halo.h2{animation-delay:1.3s}
+@keyframes whalo{0%{transform:scale(.88);opacity:.85}100%{transform:scale(1.3);opacity:0}}
+
+/* ---------------- sub-chips ---------------- */
+.wsubs{padding:18px 6px 0;min-height:86px;position:relative}
+.wsubs .k{font-size:.6rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);
+  text-align:center;margin-bottom:11px}
+.wchips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.wchip{display:inline-flex;align-items:center;gap:7px;font-size:.77rem;font-weight:700;padding:9px 14px;
+  border-radius:999px;background:var(--surface);color:var(--ink-2);border:1px solid var(--line);
+  box-shadow:var(--sh-sm);transition:all .18s var(--ease);animation:wrise .42s var(--ease) both}
+.wchip:nth-child(2){animation-delay:.05s}
+.wchip:nth-child(3){animation-delay:.1s}
+.wchip:nth-child(4){animation-delay:.15s}
+.wchip svg{color:var(--forest)}
+.wchip .ct{font-size:.66rem;font-weight:800;color:var(--gold)}
+.wchip:active{transform:scale(.97)}
+@keyframes wrise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}

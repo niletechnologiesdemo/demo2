@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "niletech", "url": "http://localhost:8765" }
+  ]
+}
